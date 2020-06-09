@@ -21,7 +21,6 @@ public class OrderTabActivity extends DealerMelaBaseActivity {
 
     @Override
     public void init() {
-
     }
 
     @Override
@@ -40,11 +39,9 @@ public class OrderTabActivity extends DealerMelaBaseActivity {
 
     @Override
     public void addListener() {
-
     }
 
     @Override
     public void loadData() {
-
     }
 }

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +29,7 @@ import com.dealermela.cart.model.OrderSummaryItem;
 import com.dealermela.ccavenue.activity.WebViewActivity;
 import com.dealermela.ccavenue.utility.AvenuesParams;
 import com.dealermela.ccavenue.utility.ServiceUtility;
+import com.dealermela.order.activity.OrderTabActivity;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
@@ -79,7 +82,6 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
         tvShippingCharge = findViewById(R.id.tvShippingCharge);
         tvTax = findViewById(R.id.tvTax);
         tvGrandTotal = findViewById(R.id.tvGrandTotal);
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -90,7 +92,6 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(OrderSummaryAct.this);
         recycleViewOrderSummary.setLayoutManager(linearLayoutManager);
-
     }
 
     @Override
@@ -108,6 +109,7 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<OrderSummaryItem> callApi = apiInterface.orderSummary(customerId);
         callApi.enqueue(new Callback<OrderSummaryItem>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NonNull Call<OrderSummaryItem> call, @NonNull Response<OrderSummaryItem> response) {
@@ -119,32 +121,27 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
 
                     tvPaymentMethod.setText(response.body().getPayment());
 
-
                     float subtotal = response.body().getSubtotal();
                     float grand_total = response.body().getGrandTotal();
                     float tax_ammount = response.body().getTaxAmmount();
                     float shipping_charges = response.body().getShippingCharges();
 
-                    tvSubTotal.setText(CommonUtils.priceFormat(subtotal));
-                    tvGrandTotal.setText(CommonUtils.priceFormat(grand_total));
+                    tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subtotal));
+                    tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(grand_total));
                     total=String.valueOf(response.body().getGrandTotal());
 
-                    tvTax.setText(CommonUtils.priceFormat(tax_ammount));
-                    tvShippingCharge.setText(CommonUtils.priceFormat(shipping_charges));
+                    tvTax.setText(AppConstants.RS + CommonUtils.priceFormat(tax_ammount));
+                    tvShippingCharge.setText(AppConstants.RS + CommonUtils.priceFormat(shipping_charges));
 
                     OrderSummaryAdapter orderSummaryAdapter = new OrderSummaryAdapter(OrderSummaryAct.this, response.body().getData());
                     recycleViewOrderSummary.setAdapter(orderSummaryAdapter);
-
-
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<OrderSummaryItem> call, @NonNull Throwable t) {
                 hideProgressDialog();
             }
-
         });
     }
 
@@ -170,23 +167,20 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
                         Objects.requireNonNull(successDialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                         cartCount = 0;
-
+                        Intent intent = new Intent(OrderSummaryAct.this, OrderTabActivity.class);
+                        startActivity(intent);
                     } else {
-
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 hideProgressDialog();
             }
-
         });
     }
 
@@ -197,12 +191,10 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
                 if (tvPaymentMethod.getText().toString().equalsIgnoreCase("NEFT OR RTGS")){
                     placeOrder();
                 }else{
-
                     String vAccessCode = ServiceUtility.chkNull(AppConstants.ACCESS_CODE).toString().trim();
                     String vMerchantId = ServiceUtility.chkNull(AppConstants.MERCHANT_ID).toString().trim();
                     String vCurrency = ServiceUtility.chkNull(AppConstants.CURRENCY).toString().trim();
                     String vAmount = ServiceUtility.chkNull(total).toString().trim();
-
                     if(!vAccessCode.equals("") && !vMerchantId.equals("") && !vCurrency.equals("") && !vAmount.equals("")){
                         Intent intent = new Intent(this, WebViewActivity.class);
                         intent.putExtra(AvenuesParams.ACCESS_CODE, ServiceUtility.chkNull(AppConstants.ACCESS_CODE).toString().trim());
@@ -210,13 +202,13 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
                         intent.putExtra(AvenuesParams.ORDER_ID, ServiceUtility.chkNull(orderId).toString().trim());
                         intent.putExtra(AvenuesParams.CURRENCY, ServiceUtility.chkNull(AppConstants.CURRENCY).toString().trim());
                         intent.putExtra(AvenuesParams.AMOUNT, ServiceUtility.chkNull(total).toString().trim());
+//                        intent.putExtra(AvenuesParams.RecipientsName);
 
                         intent.putExtra(AvenuesParams.REDIRECT_URL, ServiceUtility.chkNull(AppConstants.redirectUrl).toString().trim());
                         intent.putExtra(AvenuesParams.CANCEL_URL, ServiceUtility.chkNull(AppConstants.cancelUrl).toString().trim());
                         intent.putExtra(AvenuesParams.RSA_KEY_URL, ServiceUtility.chkNull(AppConstants.rsaKeyUrl).toString().trim());
                         startActivity(intent);
                     }
-
                 }
 
                 break;

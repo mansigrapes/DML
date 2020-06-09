@@ -59,7 +59,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
     protected static final String TAG = DealerMelaBaseActivity.class.getSimpleName();
     protected ProgressDialog mProgressDialog;
     private KProgressHUD hud;
-    TextView textCartItemCount;
+    public static TextView textCartItemCount ;
     Switch switchAB;
     public static int cartCount = 0;
 
@@ -108,9 +108,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
         postInitView();
         addListener();
         loadData();
-
         //mProgressDialog = new ProgressDialog(this , R.style.MyProgressDialogStyle);
-
     }
 
     protected abstract int getLayoutResourceId();
@@ -129,9 +127,9 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
         // toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(headerTitle);
-        if (headerTitle.equalsIgnoreCase("")){
+        if (headerTitle.equalsIgnoreCase("")) {
 
-        }else {
+        } else {
             Typeface fromAsset = Typeface.createFromAsset(getAssets(), "fonts/montserrat_semibold.ttf");
             ((TextView) toolbar.getChildAt(1)).setTypeface(fromAsset);
         }
@@ -169,8 +167,6 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
                 startNewActivity(CartAct.class);
             }
         });*/
-
-
     }
 
     private void overridePendingTransitionEnter() {
@@ -254,9 +250,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainwithcart, menu);
 
-
         final MenuItem menuItem = menu.findItem(R.id.action_cart);
-
 
         View actionView = MenuItemCompat.getActionView(menuItem);
         textCartItemCount = actionView.findViewById(R.id.cart_badge);
@@ -299,7 +293,6 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
             }
         });*/
 
-
         return true;
 
     }
@@ -318,12 +311,11 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
                 startNewActivity(SearchAct.class);
                 return true;
             }
-
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void setupBadge() {
+    public static void setupBadge() {
 
         if (textCartItemCount != null) {
             if (cartCount == 0) {
@@ -353,10 +345,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
         } else {
             getCartCount();
         }
-
-
     }
-
 
     public void getCartCount() {
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
@@ -381,14 +370,11 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
                         if (jsonObject.getInt("download_count") != 0) {
                         } else {
                         }
-
                     } else {
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -398,6 +384,5 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
 
         });
     }
-
 
 }

@@ -43,7 +43,6 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
     private LoginResponse loginResponse;
     private Spinner spinnerDiscount;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +81,7 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
             List<String> spinnerArray = new ArrayList<>();
             for (int i = 0; i <= length; i++) {
                 if (i == 0) {
-                    spinnerArray.add("Select Discount");
+                    spinnerArray.add("Select Discount in %");
                     spinnerArray.add(String.valueOf(i));
                 } else {
                     spinnerArray.add(String.valueOf(i));
@@ -101,12 +100,11 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
             List<String> spinnerArray = new ArrayList<>();
             for (int i = 0; i <= length; i++) {
                 if (i == 0) {
-                    spinnerArray.add("Select Discount");
+                    spinnerArray.add("Select Discount in %");
                     spinnerArray.add(String.valueOf(i));
                 } else {
                     spinnerArray.add(String.valueOf(i));
                 }
-
             }
 
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -119,12 +117,11 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
             List<String> spinnerArray = new ArrayList<>();
             for (int i = 0; i <= length; i++) {
                 if (i == 0) {
-                    spinnerArray.add("Select Discount");
+                    spinnerArray.add("Select Discount in %");
                     spinnerArray.add(String.valueOf(i));
                 } else {
                     spinnerArray.add(String.valueOf(i));
                 }
-
             }
 
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -141,7 +138,6 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
 
         }
 
-
     }
 
     @Override
@@ -152,7 +148,6 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
 
     @Override
     public void loadData() {
-
     }
 
     private boolean validateCreateReferral() {
@@ -181,7 +176,7 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
                 String password = CommonUtils.getRandomString(15);
                 boolean valid = validateCreateReferral();
                 if (valid) {
-                    if (spinnerDiscount.getSelectedItem() == "Select Discount") {
+                    if (spinnerDiscount.getSelectedItem() == "Select Discount in %") {
                         CommonUtils.showWarningToast(CreateReferralAct.this, "Please select discount.");
                     } else {
                         addReferral("0", Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), "5", password, spinnerDiscount.getSelectedItem().toString(), loginResponse.getData().getEntityId(), Objects.requireNonNull(edTelephone.getText()).toString(), "customer", "0");

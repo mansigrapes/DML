@@ -45,7 +45,6 @@ public class OrderPrintAct extends AppCompatActivity {
 
     }
 
-
     private void createWebPrintJob(WebView webView) {
 
         PrintManager printManager = (PrintManager) this
@@ -86,10 +85,7 @@ public class OrderPrintAct extends AppCompatActivity {
 //                webView = null;
             }
         });
-
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
     }
-
-
 }

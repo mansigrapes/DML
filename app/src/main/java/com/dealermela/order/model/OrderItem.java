@@ -124,6 +124,12 @@ public class OrderItem {
         @SerializedName("product_metalquality")
         @Expose
         private String productMetalquality;
+        @SerializedName("bangleSize")
+        @Expose
+        private String bangleSize;
+        @SerializedName("CertificateNo")
+        @Expose
+        private String certificateNo;
 
         public String getImage() {
             return image;
@@ -181,7 +187,21 @@ public class OrderItem {
             this.productMetalquality = productMetalquality;
         }
 
-    }
+        public String getBangleSize() {
+            return bangleSize;
+        }
 
+        public void setBangleSize(String bangleSize) {
+            this.bangleSize = bangleSize;
+        }
+
+        public String getCertificateNo() {
+            return certificateNo;
+        }
+
+        public void setCertificateNo(String certificateNo) {
+            this.certificateNo = certificateNo;
+        }
+    }
 
 }

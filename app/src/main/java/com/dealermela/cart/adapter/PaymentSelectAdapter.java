@@ -85,13 +85,17 @@ public class PaymentSelectAdapter extends RecyclerView.Adapter<PaymentSelectAdap
             holder.tvInfo.setVisibility(View.VISIBLE);
             holder.imgPaymentLogo.setVisibility(View.GONE);
             holder.tvInfo.setText(String.valueOf(itemArrayList.get(i).getInfo()));
-        } else {
+        } else if (i == 1){
+            holder.tvInfo.setVisibility(View.GONE);
+            holder.imgPaymentLogo.setVisibility(View.GONE);
+            holder.radioButton.setVisibility(View.GONE);
+            holder.defaulttxt.setVisibility(View.GONE);
+        }
+        else  {
             holder.tvInfo.setVisibility(View.GONE);
             holder.imgPaymentLogo.setVisibility(View.VISIBLE);
             holder.imgPaymentLogo.setImageURI(itemArrayList.get(i).getImage());
         }
-
-
     }
 
     @Override
@@ -101,7 +105,7 @@ public class PaymentSelectAdapter extends RecyclerView.Adapter<PaymentSelectAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        final TextView tvInfo;
+        final TextView tvInfo,defaulttxt;
         final SimpleDraweeView imgPaymentLogo;
         final RadioButton radioButton;
 
@@ -109,6 +113,7 @@ public class PaymentSelectAdapter extends RecyclerView.Adapter<PaymentSelectAdap
             super(itemView);
             radioButton = itemView.findViewById(R.id.radioButton);
             tvInfo = itemView.findViewById(R.id.tvInfo);
+            defaulttxt = itemView.findViewById(R.id.defaulttxt);
             imgPaymentLogo = itemView.findViewById(R.id.imgPaymentLogo);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -127,7 +132,6 @@ public class PaymentSelectAdapter extends RecyclerView.Adapter<PaymentSelectAdap
                 }
             }
             paymentFrg.getSelectPayment(itemArrayList.get(getAdapterPosition()).getValue());
-
             notifyDataSetChanged();
         }
 
@@ -135,9 +139,5 @@ public class PaymentSelectAdapter extends RecyclerView.Adapter<PaymentSelectAdap
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
-
-
 }

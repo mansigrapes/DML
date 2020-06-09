@@ -3,7 +3,9 @@ package com.dealermela.home.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -34,7 +36,6 @@ public class MostSellingAdapter extends RecyclerView.Adapter<MostSellingAdapter.
         this.itemArrayList = itemArrayList;
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -49,6 +50,7 @@ public class MostSellingAdapter extends RecyclerView.Adapter<MostSellingAdapter.
         return new ViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int i) {
@@ -58,14 +60,13 @@ public class MostSellingAdapter extends RecyclerView.Adapter<MostSellingAdapter.
 //        int index = itemArrayList.get(i).getPrice().indexOf(".");
         float price=Float.parseFloat(itemArrayList.get(i).getCustomPrice());
 
-        holder.tvPrice.setText(CommonUtils.priceFormat(price));
+        holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
         holder.tvProductName.setText(itemArrayList.get(i).getName());
 
         Glide.with(activity)
                 .load(AppConstants.IMAGE_URL+"catalog/product"+itemArrayList.get(i).getSmallImage())
                 .apply(new RequestOptions().placeholder(R.drawable.dml_logo).error(R.drawable.dml_logo))
                 .into(holder.imgMostSelling);
-
     }
 
     @Override
@@ -95,15 +96,12 @@ public class MostSellingAdapter extends RecyclerView.Adapter<MostSellingAdapter.
             intent.putExtra(AppConstants.NAME, itemArrayList.get(getAdapterPosition()).getEntityId());
             activity.startActivity(intent);
             activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-
         }
 
         @Override
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
 
 

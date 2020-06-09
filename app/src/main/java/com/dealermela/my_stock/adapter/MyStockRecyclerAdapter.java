@@ -3,7 +3,9 @@ package com.dealermela.my_stock.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +59,7 @@ public class MyStockRecyclerAdapter extends RecyclerView.Adapter<MyStockRecycler
         return new ViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
@@ -66,7 +69,7 @@ public class MyStockRecyclerAdapter extends RecyclerView.Adapter<MyStockRecycler
 
 //        float price = itemArrayList.get(i).getPrice();
         holder.tvSku.setText(itemArrayList.get(i).getSku());
-        holder.tvPrice.setText(CommonUtils.priceFormat(itemArrayList.get(i).getPrice()));
+        holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(itemArrayList.get(i).getPrice()));
         holder.tvGold.setText(itemArrayList.get(i).getMetalQuality());
 
         Glide.with(activity)

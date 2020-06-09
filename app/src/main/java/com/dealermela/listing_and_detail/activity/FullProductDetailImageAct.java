@@ -91,13 +91,11 @@ public class FullProductDetailImageAct extends DealerMelaBaseActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
             }
-
         });
     }
 
     @Override
     public void loadData() {
-
     }
 
     //add horizontal slide image

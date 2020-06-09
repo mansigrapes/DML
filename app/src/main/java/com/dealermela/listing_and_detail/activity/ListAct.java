@@ -10,7 +10,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -50,12 +53,11 @@ import static com.dealermela.home.activity.MainActivity.customerId;
 import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
 import static com.dealermela.listing_and_detail.activity.FilterAct.selectFilter;
 
-
 public class ListAct extends DealerMelaBaseActivity implements View.OnClickListener {
     private RecyclerView recycleViewListing;
     private LinearLayout linSortBy, linFilter;
     private ListingRecyclerAdapter listingRecyclerAdapter;
-    private List<ListingItem.ProductImg> itemArrayList;
+    private List<ListingItem.Datum> itemArrayList;
     public static List<FilterItem.Datum> filterSelectItems = new ArrayList<>();
     //    public static List<FilterItem.Datum> filterItems = new ArrayList<>();
     //page count
@@ -72,7 +74,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     private GridLayoutManager gridLayoutManager;
     private ProgressBar progressCenter, progressBottom;
     private LinearLayout linNoData;
-    private TextView tvCount;
+    private TextView tvCount,tvListCartCount;
     private List<FilterItem.SortBy> sortByList = new ArrayList<>();
     private BottomSheetDialog mBottomSheetDialog;
     private SharedPreferences sharedPreferences;
@@ -87,12 +89,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     private StringBuilder availability = new StringBuilder();
     private StringBuilder sort_by = new StringBuilder();
 
-
     private String id, name;
     private SwipeRefreshLayout swipeRefreshData;
     private ShimmerFrameLayout parentShimmerLayout;
     private FloatingActionButton fabDownload;
-
 
     @Override
     protected int getLayoutResourceId() {
@@ -101,6 +101,8 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
     @Override
     public void init() {
+
+//        closeOptionsMenu();        //Add for check cart count update or not 8/06/20
 
         id = getIntent().getStringExtra(AppConstants.ID);
         name = getIntent().getStringExtra(AppConstants.NAME);
@@ -140,6 +142,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     public void initView() {
         bindToolBar(CommonUtils.capitalizeString(name));
 
+        tvListCartCount = findViewById(R.id.cart_badge);
         linSortBy = findViewById(R.id.linSortBy);
         linFilter = findViewById(R.id.linFilterOrder);
         progressCenter = findViewById(R.id.progressCenter);
@@ -165,7 +168,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
     @Override
     public void postInitView() {
-
     }
 
     @Override
@@ -179,8 +181,8 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
                 final StringBuilder stringBuilder = new StringBuilder();
                 int count = 0;
-                for (ListingItem.ProductImg productImg : listingRecyclerAdapter.itemArrayList) {
-                    if (productImg.getDownload_flag() == 0) {
+                for (ListingItem.Datum productImg : listingRecyclerAdapter.itemArrayList) {
+                    if (productImg.getDownloadFlag() == 0) {
                         stringBuilder.append(productImg.getEntityId()).append(",");
                         count++;
                     }
@@ -190,7 +192,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 } else {
                     new IOSDialog.Builder(ListAct.this)
                             .setTitle("Download Product")
-                            .setMessage("Are you sure want to  add " + count + " products in cart.?")
+                            .setMessage("Are you sure want to add " + count + " products in download list?")
                             .setCancelable(false)
                             .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                                 @Override
@@ -198,7 +200,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                     dialog.dismiss();
                                     AppLogger.e("stringBuilder ids", "---------" + stringBuilder);
                                     addToDownloadProduct(stringBuilder.toString(), customerId);
-
 
                                 }
                             })
@@ -208,8 +209,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                     dialog.dismiss();
                                 }
                             }).show();
-
-
                 }
 
                 /*if (downloadItemArrayList.isEmpty()){
@@ -234,7 +233,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                     AppLogger.e("stringBuilder ids","---------"+stringBuilder);
                                     addToDownloadProduct(stringBuilder.toString(),customerId);
 
-
                                 }
                             })
                             .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -244,7 +242,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                 }
                             }).show();
                 }*/
-
 
             }
         });
@@ -258,9 +255,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                                            {
                                                                fabDownload.hide();
                                                            }
-
                                                        }
-
 
                                                        visibleItemCount = recyclerView.getChildCount();
                                                        totalItemCount = gridLayoutManager.getItemCount();
@@ -285,7 +280,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                                                    Log.e("total count", "--------------------" + page_count);
                                                                    page_count++;
 
-
                                                                    if (id.equalsIgnoreCase("search")) {
                                                                        linSortBy.setVisibility(View.GONE);
                                                                        linFilter.setVisibility(View.GONE);
@@ -305,7 +299,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                                                }
                                                                loading = true;
                                                            }
-
                                                        }
                                                    }
 
@@ -316,14 +309,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                                                fabDownload.show();
                                                            }
                                                        }
-
                                                        super.onScrollStateChanged(recyclerView, newState);
-
                                                    }
                                                }
-
         );
-
 
         swipeRefreshData.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -331,12 +320,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 refreshData();
             }
         });
-
     }
 
     private void refreshData() {
         swipeRefreshData.setRefreshing(false);
-
     }
 
     @Override
@@ -348,6 +335,8 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             linSortBy.setVisibility(View.GONE);
             linFilter.setVisibility(View.GONE);
             searchProduct(name, String.valueOf(page_count));
+            AppLogger.e("NameInSearch","------"+name);
+            AppLogger.e("Page","---------"+String.valueOf(page_count));
         } else {
             if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                 getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
@@ -356,7 +345,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             }
             getSortFilter();
         }
-
     }
 
     @Override
@@ -410,18 +398,24 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                     if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
 //                        parentShimmerLayout.stopShimmerAnimation();
 
+                        linNoData.setVisibility(View.GONE);         //added for coming back from Reset filter & data display back
+                        linSortBy.setVisibility(View.VISIBLE);
                         parentShimmerLayout.setVisibility(View.GONE);
                         recycleViewListing.setVisibility(View.VISIBLE);
-                        itemArrayList.addAll(response.body().getProductImg());
-
-
+                        itemArrayList.addAll(response.body().getData());
                         listingRecyclerAdapter.notifyDataSetChanged();
 
                     } else {
 
                         if (itemArrayList.isEmpty()) {
                             linNoData.setVisibility(View.VISIBLE);
+                            linSortBy.setVisibility(View.GONE);
+                            linFilter.setVisibility(View.GONE);
                             parentShimmerLayout.setVisibility(View.GONE);
+                            fabDownload.hide();
+                            if(filterFlag == 1){
+                                linFilter.setVisibility(View.VISIBLE);
+                            }
                         } else {
                             linNoData.setVisibility(View.GONE);
                         }
@@ -433,7 +427,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             public void onFailure(@NonNull Call<ListingItem> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
                 linNoData.setVisibility(View.VISIBLE);
+                linSortBy.setVisibility(View.GONE);
+                linFilter.setVisibility(View.GONE);
                 parentShimmerLayout.setVisibility(View.GONE);
+
                 if (page_count == 1) {
                     progressCenter.setVisibility(View.GONE);
                 } else {
@@ -462,17 +459,13 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                     linSortBy.setVisibility(View.VISIBLE);
                     linFilter.setVisibility(View.VISIBLE);
                 } else {
-
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<FilterItem> call, @NonNull Throwable t) {
-
             }
-
         });
-
     }
 
     public void sortValueGetAndDialogClose(String value,int position) {
@@ -518,7 +511,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             tvCount.setVisibility(View.GONE);
         }
 
+//        getCount();
+
         if (filterFlag == 1) {
+            tvCount.setVisibility(View.VISIBLE);
             parentShimmerLayout.setVisibility(View.VISIBLE);
             linNoData.setVisibility(View.GONE);
             itemArrayList.clear();
@@ -563,7 +559,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 }
             }
 
-
             if (price.length() != 0) {
                 price.setLength(price.length() - 1);
             }
@@ -604,7 +599,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             }
             AppLogger.e(" full string data", "--------" + price + gold_purity + diamond_quality + diamond_shape + sku + availability);
 
-
 /*
             for (Object key : mapFilter.keySet()) {
                 String value = mapFilter.get(key);
@@ -637,8 +631,58 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 AppLogger.e(" full string data", "--------" + price + gold_purity + diamond_quality + diamond_shape + sku + availability);
 a
             }*/
+        }else {
+            tvCount.setVisibility(View.GONE);
+
+            price.setLength(0);
+            gold_purity.setLength(0);
+            diamond_quality.setLength(0);
+            diamond_shape.setLength(0);
+            sku.setLength(0);
+            availability.setLength(0);
+            sort_by.setLength(0);
+
+            if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+            } else {
+                getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+            }
         }
     }
+
+//    private void getCount() {
+//        ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+//        Call<JsonObject> callApi = apiInterface.getCartDownloadCount(customerId);
+//        callApi.enqueue(new Callback<JsonObject>() {
+//            @Override
+//            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+//                assert response.body() != null;
+//                Log.e(AppConstants.RESPONSE, "-----------------" + response.body());
+//                try {
+//                    JSONObject jsonObject = new JSONObject(response.body().toString());
+//                    if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+//
+//                        if (jsonObject.getInt("total_qty") != 0) {
+//                            tvListCartCount.setVisibility(View.VISIBLE);
+//                            cartCount = jsonObject.getInt("total_qty");
+//                            tvListCartCount.setText(String.valueOf(jsonObject.getInt("total_qty")));
+//                        } else {
+//                            tvListCartCount.setVisibility(View.GONE);
+//                        }
+//
+//                    } else {
+//                        tvListCartCount.setVisibility(View.GONE);
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            @Override
+//            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+//                AppLogger.e("error", "------------" + t.getMessage());
+//            }
+//        });
+//    }
 
     private void searchProduct(String searchTerm, String page) {
         if (page_count == 1) {
@@ -646,6 +690,9 @@ a
         } else {
             progressBottom.setVisibility(View.VISIBLE);
         }
+        AppLogger.e("SearchTerm","----------"+searchTerm);
+        AppLogger.e("Page","----------"+page);
+
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<ListingItem> callApi = apiInterface.searchProduct(searchTerm, page);
         callApi.enqueue(new Callback<ListingItem>() {
@@ -661,12 +708,15 @@ a
                 }
                 if (response.isSuccessful()) {
                     if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
-                        itemArrayList.addAll(response.body().getProductImg());
+                        itemArrayList.addAll(response.body().getData());
                         listingRecyclerAdapter.notifyDataSetChanged();
+                        linNoData.setVisibility(View.GONE);
                     } else {
                         linNoData.setVisibility(View.GONE);
                         if (itemArrayList.isEmpty()) {
                             linNoData.setVisibility(View.VISIBLE);
+                            progressCenter.setVisibility(View.GONE);
+                            progressBottom.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -700,6 +750,7 @@ a
                         JSONObject jsonObject = new JSONObject(String.valueOf(response.body()));
                         if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                             listingRecyclerAdapter.updateDownloadFlag();
+                            CommonUtils.showSuccessToast(ListAct.this,"All products successfully added into download list");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -714,5 +765,27 @@ a
             }
         });
     }
+//
+//    //Option menu
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.detail_menu, menu);
+//        return false;
+//    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.action_search) {
+//            return true;
+//        }
+//        if (id == R.id.action_cart) {
+//            return true;
+//        }
+//        if(id == R.id.cart_badge){
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
 }

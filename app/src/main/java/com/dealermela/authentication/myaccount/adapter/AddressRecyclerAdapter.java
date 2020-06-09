@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.activity.EditAddressAct;
+import com.dealermela.authentication.myaccount.activity.ManageAddressAct;
 import com.dealermela.authentication.myaccount.model.AddressManageResponse;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
@@ -55,6 +56,7 @@ public class AddressRecyclerAdapter extends RecyclerView.Adapter<AddressRecycler
     public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
         holder.tvBName.setText(itemArrayList.get(i).getFirstname() + " " + itemArrayList.get(i).getLastname());
         holder.tvBAddress1.setText(itemArrayList.get(i).getStreet());
+//        holder.tvBAddress2.setText(itemArrayList.get(i).getStreet1());
         holder.tvBCity.setText(itemArrayList.get(i).getCity()+","+itemArrayList.get(i).getRegion()+","+itemArrayList.get(i).getPostcode());
         holder.tvBCountry.setText(itemArrayList.get(i).getCountry());
         holder.tvBTelephone.setText("T: "+itemArrayList.get(i).getTelephone());
@@ -91,6 +93,9 @@ public class AddressRecyclerAdapter extends RecyclerView.Adapter<AddressRecycler
                                 itemArrayList.remove(i);
                                 notifyItemRemoved(i);
                                 notifyItemRangeChanged(i, itemArrayList.size());
+                                if(itemArrayList.size() == 0){
+                                    ManageAddressAct.tvNoAddress.setVisibility(View.VISIBLE);
+                                }
                             }
                         })
                         .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -99,14 +104,6 @@ public class AddressRecyclerAdapter extends RecyclerView.Adapter<AddressRecycler
                                 dialog.dismiss();
                             }
                         }).show();
-
-
-
-
-
-
-
-
 
               /*  AlertDialog.Builder alert = new AlertDialog.Builder(activity,R.style.AppCompatAlertDialogStyle);
                 alert.setTitle(activity.getString(R.string.delete));
@@ -131,7 +128,6 @@ public class AddressRecyclerAdapter extends RecyclerView.Adapter<AddressRecycler
                 alert.show();*/
             }
         });
-
     }
 
     @Override
@@ -172,7 +168,6 @@ public class AddressRecyclerAdapter extends RecyclerView.Adapter<AddressRecycler
         public boolean onLongClick(View v) {
             return false;
         }
-
     }
 
     private void deleteAddress(String address_id, String customer_id) {
@@ -183,15 +178,12 @@ public class AddressRecyclerAdapter extends RecyclerView.Adapter<AddressRecycler
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 AppLogger.e(AppConstants.RESPONSE, "-----------------" + response.body());
                 assert response.body() != null;
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("", "------------" + t.getMessage());
             }
-
         });
     }
-
 }

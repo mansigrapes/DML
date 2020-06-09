@@ -3,7 +3,9 @@ package com.dealermela.order.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dealermela.R;
@@ -29,7 +32,6 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     private final Activity activity;
     private final List<OrderDetailItem.OrderItem> itemArrayList;
 
-
     public OrderDetailAdapter(Activity activity, List<OrderDetailItem.OrderItem> itemArrayList) {
         super();
         this.activity = activity;
@@ -44,18 +46,51 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         return new ViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
         holder.tvProductName.setText(itemArrayList.get(i).getProductName());
-        holder.tvSku.setText(Html.fromHtml("<b>" + "SKU : " + "</b> " + itemArrayList.get(i).getProductSku()));
-        holder.tvMetalWeight.setText(Html.fromHtml("<b>" + "Metal Detail : " + "</b> " + itemArrayList.get(i).getProductMetalweight()));
-        holder.tvStoneWeight.setText(Html.fromHtml("<b>" + "Stone Weight : " + "</b> " + itemArrayList.get(i).getProductStoneweight()));
+        holder.tvSku.setText(Html.fromHtml("<b>" + "Sku : " + "</b> " + itemArrayList.get(i).getProductSku()));
+        holder.tvMetalWeight.setText(Html.fromHtml("<b>" + "Metal Detail : " + "</b> " + itemArrayList.get(i).getProductMetalquality() + "<b>" + " | "+ "</b>" + itemArrayList.get(i).getProductMetalweight()));
+
+//        if(itemArrayList.get(i).getProductStoneweight() != null){
+//            holder.tvStoneWeight.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getProductStonequality() + "<b>" + " | "+ "</b>" + itemArrayList.get(i).getProductStoneweight()));
+//        }else{
+//            holder.tvStoneWeight.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + " - "));
+//        }
+
+        if(itemArrayList.get(i).getProductStonequality() != null && itemArrayList.get(i).getProductStoneweight() != null){
+            holder.tvStoneWeight.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getProductStonequality() + "<b>" + " | "+ "</b>" + itemArrayList.get(i).getProductStoneweight()));
+        }else if(itemArrayList.get(i).getProductStonequality() != null && itemArrayList.get(i).getProductStoneweight() == null){
+            holder.tvStoneWeight.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getProductStonequality() + "<b>" + " | "+ "</b>" + " N/A "));
+        }else if(itemArrayList.get(i).getProductStonequality() == null && itemArrayList.get(i).getProductStoneweight() != null){
+            holder.tvStoneWeight.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + " N/A " + "<b>" + " | "+ "</b>" + itemArrayList.get(i).getProductStoneweight()));
+        }else {
+            holder.tvStoneWeight.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + " N/A " + "<b>" + " | "+ "</b>" + " N/A "));
+        }
+
         holder.tvStoneQuality.setText(Html.fromHtml("<b>" + "Product Type : " + "</b> " + itemArrayList.get(i).getProductType()));
+
+        if(!itemArrayList.get(i).getCertificateNo().isEmpty()){
+            holder.tvcertificate.setText(Html.fromHtml("<b>" + "Certificate : " + "</b> " + itemArrayList.get(i).getCertificateNo()));
+        }else {
+            holder.tvcertificate.setText(Html.fromHtml("<b>" + "Certificate : " + " N/A " + "</b>"));
+        }
+
         holder.tvQty.setText(Html.fromHtml("<b>" + "QTY : " + "</b> " + Math.round(Float.parseFloat(itemArrayList.get(i).getProduct_qty()))));
-        holder.tvSubPrice.setText(CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getProductPrice())));
-        holder.tvPrice.setText(CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getProductRawtotal())));
+//        holder.tvSubPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getProductPrice())));
+        holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getProductRawtotal())));
         holder.imgProduct.setImageURI(itemArrayList.get(i).getProductImg());
+//        int height = holder.linProductContent.getMeasuredHeight();
+//        AppLogger.e("height","-------"+height);
+//        ViewGroup.LayoutParams layoutParams = holder.viewHori.getLayoutParams();
+//        layoutParams.width = 1;
+//        layoutParams.height = height;
+//        holder.viewHori.setLayoutParams(layoutParams);
+
+//        holder.viewHori.setLayoutParams(new ViewGroup.LayoutParams(1, height));
+
     }
 
     @Override
@@ -66,11 +101,15 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        final TextView tvProductName, tvSku, tvMetalWeight, tvStoneWeight, tvStoneQuality, tvQty, tvSubPrice, tvPrice;
+        final TextView tvProductName, tvSku, tvMetalWeight, tvStoneWeight, tvStoneQuality, tvQty, tvSubPrice, tvPrice, tvcertificate;
         final SimpleDraweeView imgProduct;
+        LinearLayout linProductContent;
+        View viewHori;
 
         ViewHolder(View itemView) {
             super(itemView);
+            viewHori = itemView.findViewById(R.id.viewHori);
+            linProductContent = itemView.findViewById(R.id.linProductContent);
             tvProductName = itemView.findViewById(R.id.tvProductName);
             tvSku = itemView.findViewById(R.id.tvSku);
             tvMetalWeight = itemView.findViewById(R.id.tvMetalWeight);
@@ -79,7 +118,9 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             tvQty = itemView.findViewById(R.id.tvQty);
             tvSubPrice = itemView.findViewById(R.id.tvSubPrice);
             tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvcertificate = itemView.findViewById(R.id.tvCertificateno);
             imgProduct = itemView.findViewById(R.id.imgProduct);
+
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
@@ -94,8 +135,6 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             return false;
         }
 
-
     }
-
 
 }

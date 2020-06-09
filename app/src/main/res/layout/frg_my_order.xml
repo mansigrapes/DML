@@ -14,7 +14,6 @@
         android:paddingEnd="@dimen/eight_sp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/list_sort_filter_back_border"
-        android:gravity="center"
         android:padding="@dimen/three_sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,15 +21,22 @@
         <com.dealermela.utility.DmlImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:src="@drawable/ic_filter" />
 
         <com.dealermela.utility.DmlTextView
             style="@style/listing_sort_filter_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/filter_order"
+            android:layout_gravity="center"
+            android:text="Status" />
 
-            />
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvstatuscount"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/filter_round_icon"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -38,7 +44,7 @@
         android:id="@+id/recycleViewMyOrder"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,6 +88,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/linFilterOrder" />
 
 </android.support.constraint.ConstraintLayout>

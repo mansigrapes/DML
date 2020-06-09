@@ -24,117 +24,118 @@
         <activity android:name=".inventary.activity.InvoiceListAct"></activity>
         <activity
             android:name=".inventary.activity.InventoryListAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
+        <activity android:name=".inventary.activity.InventoryFilterAct"></activity>
         <activity
             android:name=".order.activity.OrderPrintAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".other.activity.ContactUsAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".home.activity.PopularProductAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".other.activity.SearchAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="stateVisible"/>
         <activity
             android:name=".cart.activity.SelectAddressAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".order.activity.OrderDetailAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".my_stock.activity.MyStockAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".cart.activity.OrderSummaryAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".cart.activity.ShippingChargeAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".order.activity.OrderTabActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".listing_and_detail.activity.FullProductDetailImageAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".download.activity.DownloadAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".cart.activity.CartAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".transaction.activity.TransactionAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".listing_and_detail.activity.FilterAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".listing_and_detail.activity.ProductDetailAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".listing_and_detail.activity.ListAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".other.activity.PolicyAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".referral.activity.CreateReferralAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".referral.activity.ManageReferralAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".authentication.myaccount.activity.ManageBankAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".authentication.myaccount.activity.ManageAddressAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".authentication.myaccount.activity.TermsConditionAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".authentication.myaccount.activity.EditAddressAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".authentication.myaccount.activity.EditContactInfoAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".other.activity.SplashAct"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".authentication.myaccount.activity.LoginAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".home.activity.MainActivity"
             android:label=""
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".authentication.myaccount.activity.ForgotPasswordAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".authentication.myaccount.activity.EditProfileAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".authentication.myaccount.activity.SignUpAct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ccavenue.activity.InitialScreenActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ccavenue.activity.WebViewActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ccavenue.activity.StatusActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity android:name=".inventary.activity.PaymentListAct" />
         <activity android:name=".inventary.activity.ProductListAct" />
         <activity android:name=".inventary.activity.QuotationListAct" />

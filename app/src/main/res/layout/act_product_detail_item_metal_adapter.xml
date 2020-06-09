@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linMetal"
-    android:layout_width="wrap_content"
+    android:layout_width="110dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="8sp"
     android:background="@drawable/ten_size_black_round_border"
     android:layout_marginLeft="5dp"
     android:gravity="center"
-    android:orientation="horizontal"
     android:layout_marginRight="5dp">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardMetalColor"
         android:layout_width="30sp"
         android:layout_height="30sp"
         app:cardBackgroundColor="@color/gold"
-        app:cardCornerRadius="@dimen/ten_padding_margin"
-        />
+        app:cardCornerRadius="@dimen/ten_padding_margin" />
+
     <com.dealermela.utility.DmlTextView
         style="@style/product_full_detail_text"
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Yellow Gold"
-        android:layout_marginStart="@dimen/ten_padding_margin"
-        />
+        android:layout_marginStart="@dimen/ten_padding_margin" />
 
 </LinearLayout>

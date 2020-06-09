@@ -1,5 +1,6 @@
 package com.dealermela.inventary.activity;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
@@ -24,6 +27,7 @@ import com.dealermela.R;
 import com.dealermela.interfaces.RecyclerViewClickListener;
 import com.dealermela.inventary.adapter.InventoryAdapter;
 import com.dealermela.inventary.model.InventoryActionItem;
+import com.dealermela.inventary.model.InventoryFilterItem;
 import com.dealermela.inventary.model.InventoryItem;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.APIClientLaravel;
@@ -33,9 +37,13 @@ import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -43,6 +51,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.dealermela.home.activity.MainActivity.customerId;
+import static com.dealermela.inventary.activity.InventoryFilterAct.filterFlag;
 
 public class InventoryListAct extends DealerMelaBaseActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     //page count
@@ -55,7 +64,10 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
 //    private int visibleItemCount;
 //    private int totalItemCount;
     private RecyclerView recycleViewInventory;
+    private ConstraintLayout constraintP;
+    private LinearLayout linnodata,linearLayout10;
     private ArrayList<InventoryItem.Datum> list = new ArrayList<>();
+    public static List<InventoryFilterItem.Datum> InvfilterSelectItems = new ArrayList<>();
     private InventoryAdapter inventoryListAdapter;
     //    private GridLayoutManager gridLayoutManager;
     boolean isLoading = false;
@@ -63,8 +75,17 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
     private Spinner spinnerInventoryAction;
     private String[] inventoryActionArray = {"Select action", "with price and with logo", "with price and without logo", "without price and with logo", "without price and without logo"};
     private String[] inventoryActionValue = {"", "wpwl", "wpwol", "wopwl", "wopwol"};
-    private Button btnDownload;
+    private Button btnDownload, btnTryProduct;
     private ArrayList<String> selectedItem = new ArrayList<>();
+
+    private List<InventoryFilterItem.SortBy> sortByList = new ArrayList<>();
+
+    private FloatingActionButton fabFilter;
+    private LinearLayout linNoData;
+    private StringBuilder price = new StringBuilder();
+    private StringBuilder gold_purity = new StringBuilder();
+    private StringBuilder diamond_quality = new StringBuilder();
+    private StringBuilder diamond_shape = new StringBuilder();
 
     private long downloadID;
 
@@ -94,12 +115,15 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
 
     @Override
     public void initView() {
+        constraintP = findViewById(R.id.constraintP);
+        linnodata = findViewById(R.id.linNoData);
+        linearLayout10 = findViewById(R.id.linearLayout10);
         recycleViewInventory = findViewById(R.id.recycleViewInventory);
         spinnerInventoryAction = findViewById(R.id.spinnerInventoryAction);
         btnDownload = findViewById(R.id.btnDownload);
+        btnTryProduct = findViewById(R.id.btnTryProduct);
         progressBar = findViewById(R.id.progressBar);
-
-
+        fabFilter = findViewById(R.id.fabFilter);
     }
 
     @Override
@@ -140,9 +164,10 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
 
     @Override
     public void addListener() {
-        FloatingActionButton fabFilter = findViewById(R.id.fabFilter);
+//        FloatingActionButton fabFilter = findViewById(R.id.fabFilter);
         fabFilter.setOnClickListener(this);
         btnDownload.setOnClickListener(this);
+        btnTryProduct.setOnClickListener(this);
         spinnerInventoryAction.setOnItemSelectedListener(this);
         /*
         recycleViewInventory.addOnItemTouchListener(new RecyclerTouchListener(InventoryListAct.this, recycleViewInventory, new RecyclerTouchListener.OnTouchActionListener() {
@@ -168,18 +193,18 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
         }));*/
 
         recycleViewInventory.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                                                     @Override
-                                                     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                                                         super.onScrolled(recyclerView, dx, dy);
-                                                         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                                                         if (!isLoading) {
-                                                             if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == list.size() - 1) {
-                                                                 //bottom of list!
-                                                                 page_count++;
-                                                                 getManageInventory();
-                                                                 isLoading = true;
-                                                             }
-                                                         }
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (!isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == list.size() - 1) {
+                        //bottom of list!
+                        page_count++;
+                        getManageInventory(String.valueOf(page_count),price.toString(),gold_purity.toString(),diamond_quality.toString(),diamond_shape.toString());
+                        isLoading = true;
+                    }
+                }
                                                          /*
                                                          visibleItemCount = recyclerView.getChildCount();
                                                          totalItemCount = gridLayoutManager.getItemCount();
@@ -214,9 +239,8 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
                                                          }
 
                                                          */
-                                                     }
-                                                 });
-
+            }
+        });
     }
 
     @Override
@@ -226,16 +250,17 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         spinnerInventoryAction.setAdapter(aa);
-        getManageInventory();
+        getManageInventory(String.valueOf(page_count),price.toString(),gold_purity.toString(),diamond_quality.toString(),diamond_shape.toString());
+        getSortFilter();
     }
 
-    private void getManageInventory() {
+    private void getManageInventory(String page,String price,String gold_purity,String diamond_quality,String diamond_shape) {
         if (page_count != 1) {
             list.add(null);
             inventoryListAdapter.notifyItemInserted(list.size() - 1);
         }
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<InventoryItem> callApi = apiInterface.getManageInventory(String.valueOf(page_count));
+        Call<InventoryItem> callApi = apiInterface.getManageInventory(page,price,gold_purity,diamond_quality,diamond_shape);
         callApi.enqueue(new Callback<InventoryItem>() {
             @Override
             public void onResponse(@NonNull Call<InventoryItem> call, @NonNull Response<InventoryItem> response) {
@@ -255,34 +280,74 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
                         progressBar.setVisibility(View.INVISIBLE);
 
                     } else {
+                        if(list.isEmpty()){
+                            linnodata.setVisibility(View.VISIBLE);
+                            constraintP.setVisibility(View.GONE);
+                            btnTryProduct.setVisibility(View.GONE);
+                            fabFilter.hide();
+                            linearLayout10.setVisibility(View.GONE);
+                        }else
+                        {
+                            linnodata.setVisibility(View.GONE);
+                        }
+                    }
+                } else {
+                    if(list.isEmpty()){
+                        linnodata.setVisibility(View.VISIBLE);
+                        constraintP.setVisibility(View.GONE);
+                        btnTryProduct.setVisibility(View.GONE);
+                        fabFilter.hide();
+                        linearLayout10.setVisibility(View.GONE);
+                    }else
+                    {
+                        linnodata.setVisibility(View.GONE);
                     }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<InventoryItem> call, @NonNull Throwable t) {
-
+                AppLogger.e("error", "------------" + t.getMessage());
+                linnodata.setVisibility(View.VISIBLE);
+                constraintP.setVisibility(View.GONE);
+                btnTryProduct.setVisibility(View.GONE);
+                linearLayout10.setVisibility(View.GONE);
+//                if (page_count == 1) {
+//                    progressBar.setVisibility(View.GONE);
+//                } else {
+//                    progressBar.setVisibility(View.GONE);
+//                }
             }
         });
     }
 
-    private void tryProduct(String productIds){
+    private void tryProduct(String productIds) {
+        showProgressDialog(getString(R.string.please_wait));
         ApiInterface apiInterface = APIClientLaravel.getClient().create(ApiInterface.class);
-        Call<JsonObject> callApi = apiInterface.storeTryProduct(productIds,customerId);
+        Call<JsonObject> callApi = apiInterface.storeTryProduct(productIds, customerId);
         callApi.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
-
+                AppLogger.e("response", "------------" + response.body().toString());
+                if (response.isSuccessful()) {
+                    hideProgressDialog();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                            CommonUtils.showSuccessToast(InventoryListAct.this, jsonObject.getString("message"));
+                            refreshAdapter();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
-
             }
         });
     }
-
-
 
     private void inventoryAction(String productsIds, String action) {
         showProgressDialog(AppConstants.PLEASE_WAIT);
@@ -325,12 +390,108 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
 
+    public void getSortFilter() {
+        //  fabFilter.setVisibility(View.GONE);
+        ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+        Call<InventoryFilterItem> callApi = apiInterface.setInvFilter();
+        callApi.enqueue(new Callback<InventoryFilterItem>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(@NonNull Call<InventoryFilterItem> call, @NonNull Response<InventoryFilterItem> response) {
+                AppLogger.e(AppConstants.RESPONSE, "--------------" + response.body());
+                assert response.body() != null;
+
+                if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                    InvfilterSelectItems.addAll(response.body().getData());
+                    sortByList.addAll(response.body().getSortBy());
+                    //linSortBy.setVisibility(View.VISIBLE);
+                    //  linFilter.setVisibility(View.VISIBLE);
+                } else {
+                    linNoData.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<InventoryFilterItem> call, @NonNull Throwable t) {
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(filterFlag == 1){
+            list.clear();
+            price.setLength(0);
+            gold_purity.setLength(0);
+            diamond_quality.setLength(0);
+            diamond_shape.setLength(0);
+
+            for(int i = 0; i<InvfilterSelectItems.size(); i++){
+                if(InvfilterSelectItems.get(i).getOptionName().equalsIgnoreCase("price")){
+                    for(int j=0; j < InvfilterSelectItems.get(i).getOptionData().size(); j++){
+                        if(InvfilterSelectItems.get(i).getOptionData().get(j).isSelected()){
+                            price.append(InvfilterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
+                        }
+                    }
+                } else if(InvfilterSelectItems.get(i).getOptionName().equalsIgnoreCase("gold_purity")){
+                    for(int j=0; j < InvfilterSelectItems.get(i).getOptionData().size(); j++){
+                        if(InvfilterSelectItems.get(i).getOptionData().get(j).isSelected()){
+                            gold_purity.append(InvfilterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
+                        }
+                    }
+                } else if(InvfilterSelectItems.get(i).getOptionName().equalsIgnoreCase("diamond_quality")){
+                    for(int j=0; j < InvfilterSelectItems.get(i).getOptionData().size(); j++){
+                        if(InvfilterSelectItems.get(i).getOptionData().get(j).isSelected()){
+                            diamond_quality.append(InvfilterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
+                        }
+                    }
+                } else if(InvfilterSelectItems.get(i).getOptionName().equalsIgnoreCase("diamond_shape")){
+                    for(int j=0; j < InvfilterSelectItems.get(i).getOptionData().size(); j++){
+                        if(InvfilterSelectItems.get(i).getOptionData().get(j).isSelected()){
+                            diamond_shape.append(InvfilterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
+                        }
+                    }
+                }
+            }
+
+            if(price.length() != 0){
+                price.setLength(price.length() - 1);
+            }
+            if(gold_purity.length() != 0){
+                gold_purity.setLength(gold_purity.length() - 1);
+            }
+            if(diamond_quality.length() != 0){
+                diamond_quality.setLength(diamond_quality.length() - 1);
+            }
+            if(diamond_shape.length() != 0){
+                diamond_shape.setLength(diamond_shape.length() -1);
+            }
+
+            inventoryListAdapter = new InventoryAdapter(InventoryListAct.this, list, new RecyclerViewClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+                }
+                @Override
+                public void onLongClick(View view, int position) {
+                }
+                @Override
+                public void onItemCheck(View view, int position) {
+                }
+                @Override
+                public void onItemUnCheck(View view, int position) {
+                }
+            });
+
+            recycleViewInventory.setAdapter(inventoryListAdapter);
+            getManageInventory(String.valueOf(page_count),price.toString(),gold_purity.toString(),diamond_quality.toString(),diamond_shape.toString());
+        }
     }
 
     @Override
@@ -364,7 +525,33 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
                 }
                 break;
 
+            case R.id.btnTryProduct:
+                if (selectedItem.isEmpty()) {
+                    CommonUtils.showErrorToast(InventoryListAct.this, "Please select item. ");
+                } else {
+                    StringBuilder sb = new StringBuilder();
+                    for (String s : selectedItem) {
+                        sb.append(s);
+                        sb.append(",");
+                    }
+                    AppLogger.e("product id", "--------" + sb);
+                    sb.deleteCharAt(sb.length() - 1);
+                    AppLogger.e("product id", "--------" + sb);
+                    String action = spinnerInventoryAction.getSelectedItem().toString();
+                    for (int i = 0; i < inventoryActionArray.length; i++) {
+                        if (action.equalsIgnoreCase(inventoryActionArray[i])) {
+                            action = inventoryActionValue[i];
+                            break;
+                        }
+                    }
+                    AppLogger.e("action", "--------" + action);
+                    tryProduct(sb.toString());
+                }
+                break;
+
             case R.id.fabFilter:
+                Intent intent=new Intent(InventoryListAct.this,InventoryFilterAct.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -398,7 +585,5 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
                 break;
         }
         return super.onOptionsItemSelected(item);
-
     }
-
 }

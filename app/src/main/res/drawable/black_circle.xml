@@ -5,7 +5,10 @@
         android:width="25dp"
         android:height="25dp" />
 
-    <solid android:color="?toolbarTextColor" />
+    <stroke android:width="1dp"
+        android:color="?toolbarTextColor"/>
+
+<!--    <solid android:color="?toolbarTextColor" />-->
 
     <padding
         android:bottom="2dip"

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.dealermela.inventary.activity.InventoryListAct.InvfilterSelectItems;
 import static com.dealermela.listing_and_detail.activity.ListAct.filterSelectItems;
 
 
@@ -51,8 +52,8 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     public static String paramKey;
     public static int filterFlag = 0;
     private ProgressBar progressBarFilter;
-    private HorizontalScrollView hsView;
-    private GridLayout linContainer;
+//    private HorizontalScrollView hsView;
+//    private GridLayout linContainer;
     private int pos = 0;
     public static int filterCurrentPosition = 0;
     private ArrayList<FilterItem.OptionDatum> selectFilterArray = new ArrayList<>();
@@ -80,8 +81,8 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         edText = findViewById(R.id.edText);
         btnApply = findViewById(R.id.btnApply);
         progressBarFilter = findViewById(R.id.progressBarFilter);
-        linContainer = findViewById(R.id.linContainer);
-        hsView = findViewById(R.id.hsView);
+//        linContainer = findViewById(R.id.linContainer);
+//        hsView = findViewById(R.id.hsView);
         btnApply.setEnabled(false);
         progressBarFilter.setVisibility(View.GONE);
     }
@@ -91,13 +92,12 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         linearLayoutManager = new LinearLayoutManager(FilterAct.this);
         recycleViewFilterData.setLayoutManager(linearLayoutManager);
 
-
         if (mapFilter.isEmpty()) {
 
         } else {
-            bindSelectFilter();
+//            bindSelectFilter();
+            countFilter();
         }
-
     }
 
     @Override
@@ -146,26 +146,21 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
             }
         });
 
+        countFilter();
+
         edText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 mapFilter.put(paramKey, edText.getText().toString());
                 selectFilter.put(paramKey, edText.getText().toString());
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
-
-
     }
 
     @Override
@@ -176,28 +171,36 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, filterSelectItems.get(0).getOptionData());
         recycleViewFilterData.setAdapter(filterRecyclerAdapter);
         btnApply.setEnabled(true);
-
+        countFilter();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvReset:
+
                 resetFilter();
                 adapter = new FilterTitleListAdapter(FilterAct.this, filterSelectItems);
                 listViewFilter.setAdapter(adapter);
                 filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, filterSelectItems.get(0).getOptionData());
                 recycleViewFilterData.setAdapter(filterRecyclerAdapter);
                 edText.setText("");
-                bindSelectFilter();
+//                bindSelectFilter();
+                countFilter();
                 break;
 
             case R.id.imgBack:
+
                 filterFlag = 0;
                 finish();
                 break;
 
             case R.id.btnApply:
+//                if(selectFilterArray.size()!=0){
+//                    filterFlag = 1;
+//                }else{
+//                    filterFlag = 0;
+//                }
                 filterFlag = 1;
                 finish();
                 break;
@@ -205,6 +208,7 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     }
 
     public void resetFilter() {
+        filterFlag = 0;
         for (int i = 0; i < filterSelectItems.size(); i++) {
             if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("price")) {
                 for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {
@@ -229,13 +233,23 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        filterFlag = 0;
+//        filterFlag = 0;
 //        finish();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        if(filterFlag == 0){
+            resetFilter();
+            countFilter();
+        }
+    }
+
     //add horizontal slide image
-    public void bindSelectFilter() {
-        linContainer.removeAllViews();
+/*    public void bindSelectFilter() {
+//        linContainer.removeAllViews();
         View imageLayout;
         TextView tvSelectFilterName;
         ImageView imgClose;
@@ -269,8 +283,8 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 }
             }
         }
-
-        for (int k = 0; k < selectFilterArray.size(); k++) {
+////  }  //method closing braket
+ /*       for (int k = 0; k < selectFilterArray.size(); k++) {
             imageLayout = getLayoutInflater().inflate(R.layout.item_bind_select_filter, null);
             imgClose = imageLayout.findViewById(R.id.imgClose);
             tvSelectFilterName = imageLayout.findViewById(R.id.tvSelectFilterName);
@@ -316,13 +330,53 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
 
                 }
             });
-            linContainer.addView(imageLayout);
+//            linContainer.addView(imageLayout);
         }
 
+    } */
+
+    public void countFilter(){
+
+        selectFilterArray.clear();
+
+        for(int i = 0; i< filterSelectItems.size(); i++){
+            if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("price")){
+                for(int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++ ){
+                    if(filterSelectItems.get(i).getOptionData().get(j).isSelected()){
+                        selectFilterArray.add(filterSelectItems.get(i).getOptionData().get(j));
+                    }
+                }
+                filterSelectItems.get(i).setFiltercount(selectFilterArray.size());
+                selectFilterArray.clear();
+            } else if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("gold_purity")){
+                for(int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++ ){
+                    if(filterSelectItems.get(i).getOptionData().get(j).isSelected()){
+                        selectFilterArray.add(filterSelectItems.get(i).getOptionData().get(j));
+                    }
+                }
+                filterSelectItems.get(i).setFiltercount(selectFilterArray.size());
+                selectFilterArray.clear();
+            } else if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("diamond_quality")){
+                for(int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++ ){
+                    if(filterSelectItems.get(i).getOptionData().get(j).isSelected()){
+                        selectFilterArray.add(filterSelectItems.get(i).getOptionData().get(j));
+                    }
+                }
+                filterSelectItems.get(i).setFiltercount(selectFilterArray.size());
+                selectFilterArray.clear();
+            } else if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("diamond_shape")){
+                for(int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++ ){
+                    if(filterSelectItems.get(i).getOptionData().get(j).isSelected()){
+                        selectFilterArray.add(filterSelectItems.get(i).getOptionData().get(j));
+                    }
+                }
+                filterSelectItems.get(i).setFiltercount(selectFilterArray.size());
+                selectFilterArray.clear();
+            }
+        }
     }
 
     public void updateFilterData(int position, boolean selectFlag) {
         filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).setSelected(selectFlag);
     }
-
 }

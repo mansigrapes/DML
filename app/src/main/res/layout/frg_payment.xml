@@ -70,12 +70,14 @@
         app:layout_constraintTop_toTopOf="@+id/recycleViewPayment" />
 
     <com.dealermela.utility.DmlButton
+        style="@style/All_Dmlbutton"
         android:id="@+id/btnContinue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Continue"
-        style="@style/btnBankManage"
         android:enabled="false"
+        android:background="@color/dml_logo_color"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

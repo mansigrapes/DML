@@ -38,7 +38,6 @@
     <attr name="order_menu_color" format="color"/>
     <attr name="order_tab_back_color" format="color"/>
 
-
     <!--Product Detail-->
 
     <attr name="dml_logo_color" format="color"/>
@@ -47,6 +46,5 @@
     <attr name="btn_select_border_color" format="color"/>
     
     <attr name="lbl_dml_logo_with_black" format="color"/>
-
 
 </resources>

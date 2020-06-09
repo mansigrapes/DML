@@ -46,9 +46,7 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
         } else {
             holder.radioFilter.setChecked(false);
         }
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -83,8 +81,8 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
 //                filterSelectItems.get(filterCurrentPosition).getOptionData().get(getAdapterPosition()).setSelected(false);
                 notifyItemChanged(getAdapterPosition());
             }
-
-            ((FilterAct) activity).bindSelectFilter();
+            ((FilterAct) activity).countFilter();
+//            ((FilterAct) activity).bindSelectFilter();
 
         }
 

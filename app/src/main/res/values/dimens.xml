@@ -45,7 +45,7 @@
     <dimen name="fifty_dp">50dp</dimen>
     <dimen name="rts_item_padding">20sp</dimen>
     <dimen name="drawer_margin_bottom">60dp</dimen>
-    <dimen name="drawer_user_icon_height_width">53sp</dimen>
+    <dimen name="drawer_user_icon_height_width">40sp</dimen>
     <dimen name="logout_btn_width">100dp</dimen>
     <dimen name="logout_btn_height">30dp</dimen>
     <dimen name="logout_card_height">150dp</dimen>

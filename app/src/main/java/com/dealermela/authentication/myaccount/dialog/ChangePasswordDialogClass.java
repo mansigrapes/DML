@@ -51,16 +51,14 @@ public class ChangePasswordDialogClass extends Dialog implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        d= new Dialog(activity);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_change_password);
-
         edCurrentPassword = findViewById(R.id.edCurrentPassword);
         edNewPassword = findViewById(R.id.edNewPassword);
         edConfirmPassword = findViewById(R.id.edConfirmPassword);
-
         Button btnChangePassword = findViewById(R.id.btnChangePassword);
         btnChangePassword.setOnClickListener(this);
-
     }
 
     @Override
@@ -72,7 +70,6 @@ public class ChangePasswordDialogClass extends Dialog implements View.OnClickLis
                     changePassword(customerId, Objects.requireNonNull(edCurrentPassword.getText()).toString(), Objects.requireNonNull(edNewPassword.getText()).toString());
                 }
                 break;
-
             default:
                 break;
         }
@@ -81,7 +78,7 @@ public class ChangePasswordDialogClass extends Dialog implements View.OnClickLis
     private void changePassword(String customerId, String currentPassword, String newPassword) {
         final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setTitle("Change Password");
-        progressDialog.setMessage("PLease wait..");
+        progressDialog.setMessage("Please wait..");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
@@ -106,7 +103,6 @@ public class ChangePasswordDialogClass extends Dialog implements View.OnClickLis
 
                     assert status != null;
                     if (status.equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
-
                         new IOSDialog.Builder(activity)
                                 .setTitle("Thank You!")
                                 .setMessage(message)
@@ -114,18 +110,16 @@ public class ChangePasswordDialogClass extends Dialog implements View.OnClickLis
                                 .setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
                                         // continue with delete
                                         dialog.dismiss();
-                                        SharedPreferences sharedPreferences=new SharedPreferences(activity);
-                                        sharedPreferences.saveLoginData("");
-                                        activity.startActivity(new Intent(activity, LoginAct.class));
-                                        activity.finishAffinity();
+                                        dismiss();
+//                                        SharedPreferences sharedPreferences = new SharedPreferences(activity);
+//                                        sharedPreferences.saveLoginData("");
+//                                        activity.startActivity(new Intent(activity, LoginAct.class));
+//                                        activity.finishAffinity();
                                     }
                                 })
-                               .show();
-
-
+                                .show();
 
                        /* AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
                         alertDialog.setTitle("Thank You!");
@@ -148,42 +142,34 @@ public class ChangePasswordDialogClass extends Dialog implements View.OnClickLis
                                 });
                         alertDialog.show();*/
 
-
                     } else {
                         CommonUtils.showErrorToast(activity, message);
                     }
-
-
                 }
-
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("", "------------" + t.getMessage());
             }
-
         });
     }
 
     private boolean validateChangePassword() {
         if (!Validator.checkEmptyInputLayout(edCurrentPassword, "Please enter current password.")) {
             return false;
-        } else if (!Validator.checkPasswordLength(edNewPassword)) {
-            return false;
         } else if (!Validator.checkEmptyInputLayout(edNewPassword, "Please enter new password.")) {
+            return false;
+        } else if (!Validator.checkPasswordLength(edNewPassword)) {
             return false;
         } else if (!Validator.checkEmptyInputLayout(edConfirmPassword, "Please enter confirm password.")) {
             return false;
         } else if (!Objects.requireNonNull(edNewPassword.getText()).toString().equals(Objects.requireNonNull(edConfirmPassword.getText()).toString())) {
             //are equal
-            edConfirmPassword.setError("Confirm password is invalid.");
+            edConfirmPassword.setError("Not matched with new password.");
             edConfirmPassword.requestFocus();
             return false;
         }
         return true;
     }
-
-
 }

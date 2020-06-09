@@ -6,7 +6,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.activity.ForgotPasswordAct;
 import com.dealermela.cart.activity.CartAct;
@@ -26,6 +29,7 @@ import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import java.util.List;
 
@@ -50,15 +54,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return new ViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
-
+        holder.imgMinus.setVisibility(View.GONE);
+        holder.imgPlus.setVisibility(View.GONE);
         holder.tvSku.setText(Html.fromHtml("<b>" + "SKU : " + "</b> " + itemArrayList.get(i).getSku()));
 
         holder.tvMetalDetail.setText(Html.fromHtml("<b>" + "Metal Detail : " + "</b> " + itemArrayList.get(i).getMetal_detail()));
-        holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getStone_detail()));
-        holder.tvPrice.setText(Html.fromHtml("<b>" + CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getPrice())) + "</b> "));
+
+        if(itemArrayList.get(i).getStone_detail() != null){
+            holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getStone_detail()));
+        }
+        else {
+            holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + " - "));
+        }
+
+        holder.tvPrice.setText(Html.fromHtml("<b>" + AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getPrice())) + "</b> "));
         holder.tvQuantity.setText(itemArrayList.get(i).getQty());
 
         String sourceString = "";
@@ -91,7 +104,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         holder.imgProduct.setImageURI(itemArrayList.get(i).getProImage());
 
-
         holder.imgPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +115,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 notifyItemChanged(i);
                 notifyItemRangeChanged(i, itemArrayList.size());
                 shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty));
+                DealerMelaBaseActivity.cartCount++;           //Added this line to update cartcount for every item
             }
         });
 
@@ -118,6 +131,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     notifyItemChanged(i);
                     notifyItemRangeChanged(i, itemArrayList.size());
                     shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty));
+                    DealerMelaBaseActivity.cartCount++;              //Added this line to update cartcount for every item
 
                 } else {
                     qty--;
@@ -129,6 +143,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     notifyItemChanged(i);
                     notifyItemRangeChanged(i, itemArrayList.size());
                     shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty));
+                    DealerMelaBaseActivity.cartCount++;            //Added this line to update cartcount for every item
                 }
             }
         });
@@ -136,8 +151,35 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.tvRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(activity,R.style.AppCompatAlertDialogStyle)
-                        .setTitle(CommonUtils.capitalizeString(activity.getString(R.string.delete)))
+//                new AlertDialog.Builder(activity,R.style.AppCompatAlertDialogStyle)
+//                        .setTitle(CommonUtils.capitalizeString(activity.getString(R.string.delete)))
+//                        .setMessage(activity.getString(R.string.delete_msg))
+//                        .setCancelable(false)
+//                        .setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                                notifyItemRemoved(i);
+//                                notifyItemRangeChanged(i, itemArrayList.size());
+//                                shoppingFrg.deleteItem(String.valueOf(itemArrayList.get(i).getId()));
+//                                itemArrayList.remove(i);
+//                                if (itemArrayList.isEmpty()) {
+//                                    activity.finish();
+//                                }
+//                            }
+//                        })
+//
+//                        .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        })
+//                        .show();
+
+
+                new IOSDialog.Builder(activity)
+                        .setTitle(activity.getString(R.string.delete))
                         .setMessage(activity.getString(R.string.delete_msg))
                         .setCancelable(false)
                         .setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -153,16 +195,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                                 }
                             }
                         })
-
                         .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
-                        })
-                        .show();
-
-
+                        }).show();
             }
         });
     }
@@ -195,15 +233,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-
         }
 
         @Override
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
-
 }

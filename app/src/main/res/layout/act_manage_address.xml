@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/ten_padding_margin"
                     android:layout_weight="1"
-                    android:text="@string/default_billing_address" />
+                    android:text="@string/billing_address" />
 
                 <com.dealermela.utility.DmlTextView
                     style="@style/manage_address_header_text"
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/ten_padding_margin"
                     android:layout_weight="1"
-                    android:text="@string/default_shipping_address" />
+                    android:text="@string/shipping_address" />
 
             </LinearLayout>
 
@@ -74,7 +74,6 @@
                     android:layout_marginEnd="@dimen/ten_padding_margin"
                     android:layout_weight="1"
                     android:orientation="vertical">
-
 
                     <com.dealermela.utility.DmlTextView
                         android:id="@+id/tvBName"
@@ -129,7 +128,6 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-
                     <com.dealermela.utility.DmlTextView
                         android:id="@+id/tvSName"
                         style="@style/edit_profile_text"
@@ -176,11 +174,10 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
-
             <com.dealermela.utility.DmlButton
+                style="@style/All_Dmlbutton"
                 android:id="@+id/btnAddNewAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_height"
@@ -201,10 +198,25 @@
                 android:padding="@dimen/ten_padding_margin"
                 android:text="@string/additional_address" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycleViewAdditionalAddress"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycleViewAdditionalAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.dealermela.utility.DmlTextView
+                    android:id="@+id/tvNoAddress"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/you_have_not_added_any_additional_address"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:textAlignment="center" />
+            </RelativeLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

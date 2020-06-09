@@ -40,7 +40,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Metal Quality"
-
                 />
 
             <com.dealermela.utility.DmlTextView
@@ -48,7 +47,6 @@
                 style="@style/order_table_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 />
 
             <LinearLayout
@@ -70,7 +68,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Rs. 7,508" />
+                    android:text="Rs. 7,508"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 

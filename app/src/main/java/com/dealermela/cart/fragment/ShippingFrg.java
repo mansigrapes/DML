@@ -68,16 +68,10 @@ public class ShippingFrg extends DealerMelaBaseFragment implements View.OnClickL
         tvDefaultShippingAddress = rootView.findViewById(R.id.tvDefaultShippingAddress);
         tvChangeShipping = rootView.findViewById(R.id.tvChangeShipping);
         tvChangeBilling = rootView.findViewById(R.id.tvChangeBilling);
-
-
-
-
-
     }
 
     @Override
     public void postInitView() {
-
     }
 
     @Override
@@ -89,9 +83,7 @@ public class ShippingFrg extends DealerMelaBaseFragment implements View.OnClickL
 
     @Override
     public void loadData() {
-
     }
-
 
     @Override
     public void onClick(View v) {

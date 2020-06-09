@@ -52,6 +52,8 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
     private int totalItemCount;
     private List<OrderItem.Datum> detailList;
     private String orderFilter="all";
+    private LinearLayout linFilterOrder;
+    private TextView tvstatuscount;
 
     public MyOrderFrg() {
         // Required empty public constructor
@@ -72,12 +74,9 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
     @Override
     public void init() {
         detailList = new ArrayList<>();
-
         SharedPreferences sharedPreferences = new SharedPreferences(Objects.requireNonNull(getActivity()));
         Gson gson = new Gson();
         loginResponse = gson.fromJson(sharedPreferences.getLoginData(), LoginResponse.class);
-
-
     }
 
     @Override
@@ -86,8 +85,9 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
         progressBarBottom = rootView.findViewById(R.id.progressBarBottom);
         progressBarCenter = rootView.findViewById(R.id.progressBarCenter);
         linNoData = rootView.findViewById(R.id.linNoData);
+        linFilterOrder=rootView.findViewById(R.id.linFilterOrder);
         progressBarCenter.setVisibility(View.VISIBLE);
-
+        tvstatuscount = rootView.findViewById(R.id.tvstatuscount);
     }
 
     @Override
@@ -99,7 +99,6 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
     @Override
     public void addListener() {
 
-        LinearLayout linFilterOrder=rootView.findViewById(R.id.linFilterOrder);
         linFilterOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +110,33 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                 LinearLayout com =  sheetView.findViewById(R.id.linComp);
                 LinearLayout can =  sheetView.findViewById(R.id.linCancel);
                 LinearLayout pen =  sheetView.findViewById(R.id.linPen);
+                LinearLayout all = sheetView.findViewById(R.id.linAll);
+
+                TextView tvcom = sheetView.findViewById(R.id.tvcomp);
+                TextView tvcan = sheetView.findViewById(R.id.tvcan);
+                TextView tvpen = sheetView.findViewById(R.id.tvpen);
+                TextView tvall = sheetView.findViewById(R.id.tvall);
+
+                if (orderFilter == "complete"){
+//                    tvstatuscount.setVisibility(View.VISIBLE);
+                    tvcom.setTextColor(getResources().getColor(R.color.dml_logo_color));
+                } else if (orderFilter == "canceled") {
+                    tvcan.setTextColor(getResources().getColor(R.color.dml_logo_color));
+//                    tvstatuscount.setVisibility(View.VISIBLE);
+                } else if(orderFilter == "pending"){
+                    tvpen.setTextColor(getResources().getColor(R.color.dml_logo_color));
+//                    tvstatuscount.setVisibility(View.VISIBLE);
+                } else if(orderFilter == "all") {
+//                    tvall.setTextColor(getResources().getColor(R.color.black));
+                    tvall.setTextColor(getResources().getColor(R.color.dml_logo_color));
+//                    tvstatuscount.setVisibility(View.GONE);
+                } else {
+                    tvcom.setTextColor(getResources().getColor(R.color.black));
+                    tvcan.setTextColor(getResources().getColor(R.color.black));
+                    tvpen.setTextColor(getResources().getColor(R.color.black));
+                    tvall.setTextColor(getResources().getColor(R.color.black));
+//                    tvstatuscount.setVisibility(View.GONE);
+                }
 
                 com.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -127,6 +153,7 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                         AppLogger.e("order", "----------" + orderType);
                         AppLogger.e("page", "----------" + page_count);
 //        getOrderList("984", loginResponse.getData().getGroupId(), orderType, String.valueOf(page_count));
+                        linNoData.setVisibility(View.GONE);
                         getOrderList(customerId, loginResponse.getData().getGroupId(), orderType, String.valueOf(page_count));
                     }
                 });
@@ -169,6 +196,24 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                     }
                 });
 
+                all.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mBottomSheetDialog.dismiss();
+                        orderFilter="all";
+                        page_count=1;
+                        detailList.clear();
+
+                        myOrderAdapter = new MyOrderAdapter(getActivity(), detailList);
+                        recycleViewMyOrder.setAdapter(myOrderAdapter);
+                        AppLogger.e("customerId", "----------" + customerId);
+                        AppLogger.e("groupId", "----------" + loginResponse.getData().getGroupId());
+                        AppLogger.e("order", "----------" + orderType);
+                        AppLogger.e("page", "----------" + page_count);
+//        getOrderList("984", loginResponse.getData().getGroupId(), orderType, String.valueOf(page_count));
+                        getOrderList(customerId, loginResponse.getData().getGroupId(), orderType, String.valueOf(page_count));
+                    }
+                });
             }
         });
 
@@ -206,12 +251,9 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                                                                }
                                                                loading = true;
                                                            }
-
                                                        }
                                                    }
-
                                                }
-
         );
     }
 
@@ -225,6 +267,7 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
         AppLogger.e("page", "----------" + page_count);
 //        getOrderList("984", loginResponse.getData().getGroupId(), orderType, String.valueOf(page_count));
         getOrderList(customerId, loginResponse.getData().getGroupId(), orderType, String.valueOf(page_count));*/
+
     }
 
     private void getOrderList(String customerId, String groupId, String order, String page) {
@@ -233,6 +276,19 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
         } else {
             progressBarBottom.setVisibility(View.VISIBLE);
         }
+
+        if (orderFilter == "complete"){
+            tvstatuscount.setVisibility(View.VISIBLE);
+        } else if (orderFilter == "canceled") {
+            tvstatuscount.setVisibility(View.VISIBLE);
+        } else if(orderFilter == "pending"){
+            tvstatuscount.setVisibility(View.VISIBLE);
+        } else if(orderFilter == "all") {
+            tvstatuscount.setVisibility(View.GONE);
+        } else {
+            tvstatuscount.setVisibility(View.GONE);
+        }
+
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<OrderItem> callApi = apiInterface.orderList(customerId, groupId, order, page,orderFilter);
         callApi.enqueue(new Callback<OrderItem>() {
@@ -249,11 +305,13 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                 }
                 if (response.isSuccessful()) {
                     if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                        linNoData.setVisibility(View.GONE);
                         detailList.addAll(response.body().getData());
                         myOrderAdapter.notifyDataSetChanged();
                     } else {
                         if (detailList.isEmpty()) {
                             linNoData.setVisibility(View.VISIBLE);
+//                            linFilterOrder.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -263,6 +321,7 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
             public void onFailure(@NonNull Call<OrderItem> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
                 linNoData.setVisibility(View.VISIBLE);
+                linFilterOrder.setVisibility(View.GONE);
                 if (page_count == 1) {
                     progressBarCenter.setVisibility(View.GONE);
                 } else {
@@ -276,6 +335,7 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
     public void onResume() {
         super.onResume();
         page_count=1;
+
         detailList.clear();
 
         myOrderAdapter = new MyOrderAdapter(getActivity(), detailList);
@@ -286,5 +346,6 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
         AppLogger.e("page", "----------" + page_count);
 //        getOrderList("984", loginResponse.getData().getGroupId(), orderType, String.valueOf(page_count));
         getOrderList(customerId, loginResponse.getData().getGroupId(), orderType, String.valueOf(page_count));
+
     }
 }

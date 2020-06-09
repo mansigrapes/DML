@@ -36,26 +36,79 @@
                 app:placeholderImage="@drawable/dml_logo"
                  />
 
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                ><TextView android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"></LinearLayout>-->
+
+            <com.dealermela.utility.DmlTextViewBold
+                android:id="@+id/txtsku"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/thirty_dp"
+                style="@style/download_popup_label"
+                android:text="@string/sku"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/imgProductImage"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"/>
+
             <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvSku"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="12sp"
+                android:textColor="?login_signup_text_color"
+                app:layout_constraintStart_toEndOf="@+id/txtsku"
+                app:layout_constraintEnd_toStartOf="@+id/tvSkuDialog"
+                app:layout_constraintTop_toTopOf="@+id/txtsku"
+                app:layout_constraintBottom_toBottomOf="@+id/txtsku"
+                />
+
+            <com.dealermela.utility.DmlTextView
+                android:id="@+id/tvSkuDialog"
                 style="@style/download_popup_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/thirty_dp"
-
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toBottomOf="@+id/imgProductImage" />
 
             <com.dealermela.utility.DmlTextView
+                android:visibility="gone"
                 android:id="@+id/tvGoldType"
                 style="@style/download_popup_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/eight_sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toBottomOf="@+id/tvSkuDialog" />
+
+            <com.dealermela.utility.DmlTextViewBold
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/eight_sp"
+                android:id="@+id/txtMetal"
+                android:text="@string/metal_details"
+                style="@style/download_popup_label"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toBottomOf="@+id/tvSku" />
+                app:layout_constraintTop_toBottomOf="@+id/tvGoldType"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"/>
+
+            <com.dealermela.utility.DmlTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="12sp"
+                android:textColor="?login_signup_text_color"
+                app:layout_constraintStart_toEndOf="@+id/txtMetal"
+                app:layout_constraintEnd_toStartOf="@+id/tvMetalDetail"
+                app:layout_constraintTop_toTopOf="@+id/tvMetalDetail"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMetalDetail"
+                />
 
             <com.dealermela.utility.DmlTextView
                 android:id="@+id/tvMetalDetail"
@@ -64,8 +117,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/eight_sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toBottomOf="@+id/tvGoldType" />
+
+            <com.dealermela.utility.DmlTextViewBold
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/eight_sp"
+                android:layout_marginBottom="8dp"
+                android:id="@+id/txtStone"
+                android:text="@string/stone_details"
+                style="@style/download_popup_label"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtMetal"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"/>
+
+            <com.dealermela.utility.DmlTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="12sp"
+                android:textColor="?login_signup_text_color"
+                app:layout_constraintStart_toEndOf="@+id/txtStone"
+                app:layout_constraintEnd_toStartOf="@+id/tvStoneDetail"
+                app:layout_constraintTop_toTopOf="@+id/tvStoneDetail"
+                app:layout_constraintBottom_toBottomOf="@+id/tvStoneDetail"
+                />
 
             <com.dealermela.utility.DmlTextView
                 android:id="@+id/tvStoneDetail"
@@ -76,7 +154,7 @@
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toBottomOf="@+id/tvMetalDetail" />
 
             <com.dealermela.utility.DmlButton
@@ -105,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/twenty_sp" />
+                app:layout_constraintGuide_begin="15sp" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/guideline3"
@@ -113,6 +191,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="@dimen/twenty_sp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.41" />
 
             <com.dealermela.utility.DmlImageView
                 android:id="@+id/imgClose"

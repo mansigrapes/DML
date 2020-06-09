@@ -18,46 +18,161 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:padding="@dimen/eight_sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/eight_sp">
 
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvInvoiceNo"
-                style="@style/tvInventoryItemTextStyle"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Invoice No: 15454"
-                />
+                android:orientation="horizontal">
 
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvCustomerName"
-                style="@style/tvInventoryItemTextStyle"
+                <com.dealermela.utility.DmlTextViewSemiBold
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:text="Invoice No" />
+
+                <com.dealermela.utility.DmlTextViewSemiBold
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="0.1"
+                    android:gravity="center"
+                    android:text=":" />
+
+                <com.dealermela.utility.DmlTextView
+                    android:id="@+id/tvInvoiceNo"
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:text="15454" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Customer Name: Pradip Radadiya" />
+                android:orientation="horizontal">
 
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvInvoiceDate"
-                style="@style/tvInventoryItemTextStyle"
+                <com.dealermela.utility.DmlTextViewSemiBold
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:text="Customer Name" />
+
+                <com.dealermela.utility.DmlTextViewSemiBold
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="0.1"
+                    android:gravity="center"
+                    android:text=":" />
+
+                <com.dealermela.utility.DmlTextView
+                    android:id="@+id/tvCustomerName"
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:text="Pradip Radadiya" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Invoice Date: 10/02/2020" />
+                android:orientation="horizontal">
 
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvAmount"
-                style="@style/tvInventoryItemTextStyle"
+                <com.dealermela.utility.DmlTextViewSemiBold
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:text="Invoice Date" />
+
+                <com.dealermela.utility.DmlTextViewSemiBold
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="0.1"
+                    android:gravity="center"
+                    android:text=":" />
+
+                <com.dealermela.utility.DmlTextView
+                    android:id="@+id/tvInvoiceDate"
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:text="10/02/2020" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Amount: Rs.25,120" />
+                android:orientation="horizontal">
 
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvStatus"
-                style="@style/tvInventoryItemTextStyle"
+                <com.dealermela.utility.DmlTextViewSemiBold
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:text="Amount" />
+
+                <com.dealermela.utility.DmlTextViewSemiBold
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="0.1"
+                    android:gravity="center"
+                    android:text=":" />
+
+                <com.dealermela.utility.DmlTextView
+                    android:id="@+id/tvAmount"
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="wrap_content"
+                    android:text="Rs.25,120" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Status: Complete" />
+                android:orientation="horizontal">
+
+                <com.dealermela.utility.DmlTextViewSemiBold
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:text="Status" />
+
+                <com.dealermela.utility.DmlTextViewSemiBold
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="0.1"
+                    android:gravity="center"
+                    android:text=":" />
+
+                <com.dealermela.utility.DmlTextView
+                    android:id="@+id/tvStatus"
+                    style="@style/tvInventoryItemTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/green"
+                    android:text="Complete" />
+            </LinearLayout>
 
         </LinearLayout>
 

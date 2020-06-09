@@ -12,13 +12,26 @@ public class SharedPreferences {
     private static final String REMEMBER_PWD = AppConstants.REMEMBER_PWD;
     private static final String BILLING = AppConstants.PREF_BILLING_ADDRESS;
     private static final String SHIPPING = AppConstants.PREF_SHIPPING_ADDRESS;
+    private static final String PASSWORD = AppConstants.PREF_PASSWORD;
+    private static final String EMAIL = AppConstants.PREF_EMAILS;
     private static final String POPULAR_PRODUCTS = "POPULAR_PRODUCTS";
+    private static final String Download_Flag = "DOWNLOAD_FLAG";
 
 
     public SharedPreferences(Context mContext) {
         sharedPreferences = mContext.getSharedPreferences(SHARED, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.apply();
+    }
+
+    //Get and Save User email
+    public String getEmail() {
+        return sharedPreferences.getString(EMAIL, "");
+    }
+
+    public void saveEmail(String data) {
+        editor.putString(EMAIL, data);
+        editor.commit();
     }
 
     //Get and Save User Id
@@ -31,6 +44,15 @@ public class SharedPreferences {
         editor.commit();
     }
 
+    //Get and Save password
+    public String getPassword() {
+        return sharedPreferences.getString(PASSWORD, "");
+    }
+
+    public void savePassword(String data) {
+        editor.putString(PASSWORD, data);
+        editor.commit();
+    }
 
   //Get and Save User Id
     public String getLoginData() {
@@ -41,7 +63,6 @@ public class SharedPreferences {
         editor.putString(LOGIN, data);
         editor.commit();
     }
-
 
     //Get and Save Billing Address
     public String getBillingAddress() {
@@ -74,7 +95,13 @@ public class SharedPreferences {
         editor.commit();
     }
 
+    //Get and Save Download Flag
+    public String getDownloadFlag(){
+        return sharedPreferences.getString(Download_Flag,"");
+    }
 
-
-
+    public void saveDownloadFlag(String data){
+        editor.putString(Download_Flag, data);
+        editor.commit();
+    }
 }

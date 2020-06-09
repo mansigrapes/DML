@@ -53,7 +53,7 @@ public class TabOrderAdapter extends FragmentPagerAdapter {
         } else if (position == 1) {
             title = "My Order";
         } else if (position == 2) {
-            title = "Customer order";
+            title = "Customer Order";
         }
         return title;
     }

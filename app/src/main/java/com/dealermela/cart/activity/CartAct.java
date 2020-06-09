@@ -15,6 +15,7 @@ import com.dealermela.R;
 import com.dealermela.cart.fragment.ShippingFrg;
 import com.dealermela.cart.fragment.ShoppingFrg;
 
+import static com.dealermela.authentication.myaccount.activity.LoginAct.cartbackFlag;
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.cartCheckBugNowFlag;
 import static com.dealermela.other.activity.SplashAct.loginFlag;
 
@@ -42,9 +43,7 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
         // add back arrow to toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         }
 
         toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
@@ -62,13 +61,10 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
         imgMyCart = findViewById(R.id.imgMyCart);
         imgShipping = findViewById(R.id.imgShipping);
         imgPayment = findViewById(R.id.imgPayment);
-
-
     }
 
     @Override
     public void postInitView() {
-
 
         Fragment fragment = null;
         if (cartCheckBugNowFlag == 0) {
@@ -78,8 +74,6 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
             fragment = new ShippingFrg();
             replaceCartFragment(fragment);
         }
-
-
 //        imgMyCart.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
     }
 
@@ -92,11 +86,9 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
 
     @Override
     public void loadData() {
-
     }
 
     public void replaceCartFragment(Fragment fragment) {
-
         hideUnSelectFragment();
         FragmentManager fm = getSupportFragmentManager();
         assert fm != null;
@@ -104,7 +96,6 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
         fragmentTransaction.replace(R.id.frameCart, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
     }
 
     @Override
@@ -140,13 +131,30 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
     public void onBackPressed() {
         loginFlag = 0;
         cartCheckBugNowFlag=0;
-        int fragments = getSupportFragmentManager().getBackStackEntryCount();
-        if (fragments == 1) {
+
+        if(cartbackFlag == 1){
+            cartbackFlag = 0;
             finish();
-        } else if (getFragmentManager().getBackStackEntryCount() > 1) {
-            getFragmentManager().popBackStack();
-        } else {
+
+            int fragments = getSupportFragmentManager().getBackStackEntryCount();
+            if (fragments == 1) {
+                super.onBackPressed();
+            } else if (getFragmentManager().getBackStackEntryCount() > 1) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
             super.onBackPressed();
+        } else {
+            finish();
+            int fragments = getSupportFragmentManager().getBackStackEntryCount();
+            if (fragments == 1) {
+                finish();
+            } else if (getFragmentManager().getBackStackEntryCount() > 1) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -167,10 +175,6 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
         if (id == R.id.action_cart) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
-
 }

@@ -50,11 +50,19 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
 
-        holder.tvOrderId.setText(itemArrayList.get(i).getIncrementId());
-        holder.tvCrDr.setText(itemArrayList.get(i).getDescription());
-        float price=itemArrayList.get(i).getTransctionPrice();
-        holder.tvAmount.setText(CommonUtils.priceFormat(price));
+//        holder.tvOrderId.setText(itemArrayList.get(i).getIncrementId());
+//        holder.tvCrDr.setText(itemArrayList.get(i).getDescription());
+//        float price=itemArrayList.get(i).getTransctionPrice();
+//        holder.tvAmount.setText(AppConstants.RS + CommonUtils.priceFormat(price));
 
+        holder.tvOrderId.setText(itemArrayList.get(i).getOrderId());
+        holder.tvCrDr.setText(itemArrayList.get(i).getCrDr());
+        if(String.valueOf(itemArrayList.get(i).getAmount())=="null"){
+            holder.tvAmount.setText("\u20B9 " + 0);
+        }else
+        {
+            holder.tvAmount.setText("\u20B9 " + CommonUtils.rupeeFormat(String.valueOf(itemArrayList.get(i).getAmount())));
+        }
     }
 
     @Override
@@ -107,7 +115,10 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
                 Objects.requireNonNull(dialog.getWindow()).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
-
+            else
+            {
+                CommonUtils.showInfoToastShort(activity,  "No Transaction Detail");
+            }
         }
 
         @Override

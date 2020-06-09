@@ -1,6 +1,7 @@
 package com.dealermela.inventary.adapter;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -20,11 +21,22 @@ import com.dealermela.interfaces.RecyclerViewClickListener;
 import com.dealermela.inventary.model.InventoryItem;
 import com.dealermela.inventary.model.InventoryPaymentItem;
 import com.dealermela.inventary.model.InventoryProductItem;
+import com.dealermela.retrofit.APIClientLaravel;
+import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
+import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.JsonObject;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.dealermela.home.activity.MainActivity.customerId;
 
 public class InventoryProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Activity activity;
@@ -74,12 +86,14 @@ public class InventoryProductAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private LinearLayout linHideShow;
-        private ImageView imgHideShowToggle;
+        private ImageView imgHideShowToggle, imgDelete;
         private CheckBox checkBoxInventory;
         private SimpleDraweeView imgInventoryProduct;
-        private TextView tvSku, tvCertificate, tvCategory, tvPrice, tvDiamondQuality, tvVirtualProductPosition, tvStatus, tvName,tvMoreLess;
+        private TextView tvSku, tvCertificate, tvCategory, tvPrice, tvDiamondQuality, tvVirtualProductPosition, tvStatus, tvName, tvMoreLess;
+
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
+            imgDelete = itemView.findViewById(R.id.imgDelete);
             linHideShow = itemView.findViewById(R.id.linHideShow);
             imgHideShowToggle = itemView.findViewById(R.id.imgHideShowToggle);
             checkBoxInventory = itemView.findViewById(R.id.checkBoxInventory);
@@ -108,7 +122,8 @@ public class InventoryProductAdapter extends RecyclerView.Adapter<RecyclerView.V
             tvVirtualProductPosition.setText(Html.fromHtml("<b>Virtual Product Position :</b>" + datum.getVirtualProductManager()));
             tvStatus.setText(Html.fromHtml("<b>Status :</b>" + datum.getInventoryStatusValue()));
             tvName.setText(Html.fromHtml("<b>Name :</b>" + datum.getPrName()));
-            imgInventoryProduct.setImageURI(AppConstants.INVENTORY_IMAGE+datum.getProductImage());
+            imgInventoryProduct.setImageURI(AppConstants.INVENTORY_IMAGE + datum.getProductImage());
+            imgDelete.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -142,6 +157,35 @@ public class InventoryProductAdapter extends RecyclerView.Adapter<RecyclerView.V
         final InventoryProductItem.Datum datum = itemArrayList.get(position);
         holder.setData(datum);
 
+        holder.imgDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new IOSDialog.Builder(activity)
+                        .setTitle(activity.getString(R.string.delete))
+                        .setMessage(activity.getString(R.string.delete_msg))
+                        .setCancelable(false)
+                        .setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                deleteProductFromTry(datum.getEntityId().toString());
+                                itemArrayList.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, itemArrayList.size());
+
+                            }
+                        })
+                        .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
+
+            }
+        });
 
         if (datum.isOpen()) {
             Animation slideUp = AnimationUtils.loadAnimation(activity, R.anim.slide_up);
@@ -193,8 +237,21 @@ public class InventoryProductAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
 
 
+    }
 
+    private void deleteProductFromTry(String productIds){
+        ApiInterface apiInterface = APIClientLaravel.getClient().create(ApiInterface.class);
+        Call<JsonObject> callApi = apiInterface.deleteProductFromTry(productIds,customerId);
+        callApi.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+                AppLogger.e("response","---------------"+response.body());
+            }
 
+            @Override
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
 
+            }
+        });
     }
 }

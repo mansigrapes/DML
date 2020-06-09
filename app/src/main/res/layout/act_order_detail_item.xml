@@ -11,12 +11,10 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        >
-
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/linProductContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -28,44 +26,38 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 app:placeholderImage="@drawable/dml_logo"
-                app:roundedCornerRadius="@dimen/ten_sp"
-                />
+                app:roundedCornerRadius="@dimen/ten_sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginStart="@dimen/eight_sp"
-                >
+                android:orientation="vertical">
 
                 <com.dealermela.utility.DmlTextViewBold
                     android:id="@+id/tvProductName"
                     style="@style/order_table_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                     />
+                    android:layout_height="wrap_content" />
 
 
                 <com.dealermela.utility.DmlTextView
                     android:id="@+id/tvSku"
                     style="@style/order_table_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                     />
+                    android:layout_height="wrap_content" />
 
                 <com.dealermela.utility.DmlTextView
                     android:id="@+id/tvMetalWeight"
                     style="@style/order_table_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                     />
+                    android:layout_height="wrap_content" />
 
                 <com.dealermela.utility.DmlTextView
                     android:id="@+id/tvStoneWeight"
                     style="@style/order_table_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                     />
+                    android:layout_height="wrap_content" />
 
                 <com.dealermela.utility.DmlTextView
                     android:id="@+id/tvStoneQuality"
@@ -73,6 +65,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                      />
+
+                <com.dealermela.utility.DmlTextView
+                    android:id="@+id/tvCertificateno"
+                    style="@style/order_table_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -84,8 +82,7 @@
                         style="@style/order_table_text"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                         />
+                        android:layout_weight="1" />
 
                     <com.dealermela.utility.DmlTextView
                         android:id="@+id/tvSubPrice"
@@ -94,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/eight_sp"
                         android:layout_weight="1"
-
+                        android:visibility="gone"
                         android:textAlignment="textEnd" />
 
                 </LinearLayout>
@@ -105,8 +102,9 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/viewHori"
             android:layout_width="@dimen/one_sp_view"
-            android:layout_height="160dp"
+            android:layout_height="170dp"
             android:background="?transaction_line_color" />
 
         <com.dealermela.utility.DmlTextView
@@ -115,9 +113,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
-            android:gravity="center"
-             />
-
+            android:gravity="center" />
 
     </LinearLayout>
 

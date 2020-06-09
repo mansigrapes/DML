@@ -63,47 +63,44 @@ public class FilterTitleListAdapter extends BaseAdapter {
 
         // get the TextView for item name and item description
         final LinearLayout linLayout = convertView.findViewById(R.id.linLayout);
-        ImageView imgIcon = convertView.findViewById(R.id.imgIcon);
+//        ImageView imgIcon = convertView.findViewById(R.id.imgIcon);
 
         final TextView tvTitle = convertView.findViewById(R.id.tvTitle);
+        final TextView tvinvcount = convertView.findViewById(R.id.tvinvcount);
 
         final RelativeLayout relArrow = convertView.findViewById(R.id.relArrow);
 
-
-       /* paramKey = items.get(position).getOptionName();
-        if (mapFilter.containsKey(paramKey)) {
-            //key exists
-        } else {
-            //key does not exists
-            mapFilter.put(paramKey, "");
-        }*/
-
-
         AppLogger.e("svg url", "-------"+items.get(position).getIcon());
-        Utils.fetchSvg(context, items.get(position).getIcon(), imgIcon);
-
+//        Utils.fetchSvg(context, items.get(position).getIcon(), imgIcon);
 
         if (selectedPosition == position) {
             linLayout.setBackgroundColor(context.getResources().getColor(R.color.filter_select_item_color));
             tvTitle.setTextColor(context.getResources().getColor(R.color.white));
             relArrow.setVisibility(View.VISIBLE);
-            imgIcon.setColorFilter(context.getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+//            imgIcon.setColorFilter(context.getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
 
         } else {
             if (themePreferences.getTheme().equalsIgnoreCase("black")) {
                 linLayout.setBackgroundColor(context.getResources().getColor(R.color.transaction_round_back_black));
                 tvTitle.setTextColor(context.getResources().getColor(R.color.white));
                 relArrow.setVisibility(View.GONE);
-                imgIcon.setColorFilter(context.getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+//                imgIcon.setColorFilter(context.getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
             } else {
                 linLayout.setBackgroundColor(context.getResources().getColor(R.color.filter_un_select_item_color));
                 tvTitle.setTextColor(context.getResources().getColor(R.color.black));
                 relArrow.setVisibility(View.GONE);
-                imgIcon.setColorFilter(context.getResources().getColor(R.color.black), PorterDuff.Mode.SRC_IN);
+//                imgIcon.setColorFilter(context.getResources().getColor(R.color.black), PorterDuff.Mode.SRC_IN);
             }
         }
 
         tvTitle.setText(items.get(position).getLabel());
+
+        if (items.get(position).getFiltercount() == 0) {
+            tvinvcount.setVisibility(View.GONE);
+        } else {
+            tvinvcount.setVisibility(View.VISIBLE);
+            tvinvcount.setText(String.valueOf(items.get(position).getFiltercount()));
+        }
 
         return convertView;
     }

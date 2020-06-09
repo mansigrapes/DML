@@ -1,11 +1,17 @@
 package com.dealermela.inventary.activity;
 
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
@@ -16,6 +22,7 @@ import com.dealermela.retrofit.APIClientLaravel;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.ThemePreferences;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -35,6 +42,8 @@ public class InvoiceListAct extends DealerMelaBaseActivity {
     boolean isLoading = false;
     private ProgressBar progressBar;
     private ConstraintLayout constraintNoData;
+    private android.support.v7.widget.SearchView searchViewInvoice;
+    private String action = "complete";
 
     @Override
     protected int getLayoutResourceId() {
@@ -48,9 +57,25 @@ public class InvoiceListAct extends DealerMelaBaseActivity {
 
     @Override
     public void initView() {
+        searchViewInvoice = findViewById(R.id.searchViewInvoice);
         constraintNoData = findViewById(R.id.constraintNoData);
         recycleViewInvoiceList = findViewById(R.id.recycleViewInvoiceList);
         progressBar = findViewById(R.id.progressBar);
+        ThemePreferences themePreferences = new ThemePreferences(InvoiceListAct.this);
+        TextView searchText = searchViewInvoice.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        ImageView searchIcon = searchViewInvoice.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
+        if (themePreferences.getTheme().equalsIgnoreCase("black")) {
+            searchText.setTextColor(getResources().getColor(R.color.white));
+            searchIcon.setImageDrawable(ContextCompat.getDrawable(InvoiceListAct.this, R.drawable.ic_search_new));
+            searchIcon.setColorFilter(ContextCompat.getColor(InvoiceListAct.this, R.color.white), PorterDuff.Mode.SRC_IN);
+        } else {
+            searchText.setTextColor(getResources().getColor(R.color.black));
+            searchIcon.setImageDrawable(ContextCompat.getDrawable(InvoiceListAct.this, R.drawable.ic_search_new));
+            searchIcon.setColorFilter(ContextCompat.getColor(InvoiceListAct.this, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+        Typeface myCustomFont = Typeface.createFromAsset(getAssets(), "fonts/montserrat_regular.ttf");
+        searchText.setTypeface(myCustomFont);
+
     }
 
     @Override
@@ -80,6 +105,53 @@ public class InvoiceListAct extends DealerMelaBaseActivity {
 
     @Override
     public void addListener() {
+        searchViewInvoice.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                AppLogger.e("text submit", "" + s);
+                if (s.equalsIgnoreCase("")) {
+                    page_count = 1;
+                    invoiceList.clear();
+                    getInvoiceList(action, s);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                AppLogger.e("text change", "" + s);
+                page_count = 1;
+                invoiceList.clear();
+                getInvoiceList(action, s);
+                return false;
+            }
+        });
+
+        searchViewInvoice.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                page_count = 1;
+                invoiceList.clear();
+                getInvoiceList(action, "");
+                return false;
+            }
+        });
+
+//        searchViewInvoice.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                AppLogger.e("text submit",""+s);
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                AppLogger.e("text change",""+s);
+//                return true;
+//            }
+//        });
+
+
         recycleViewInvoiceList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -89,7 +161,7 @@ public class InvoiceListAct extends DealerMelaBaseActivity {
                     if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == invoiceList.size() - 1) {
                         //bottom of list!
                         page_count++;
-                        getInvoiceList("complete", "");
+                        getInvoiceList(action, "");
                         isLoading = true;
                     }
                 }
@@ -99,13 +171,15 @@ public class InvoiceListAct extends DealerMelaBaseActivity {
 
     @Override
     public void loadData() {
-        getInvoiceList("complete", "");
+        getInvoiceList(action, "");
     }
 
     private void getInvoiceList(String invoiceStatus, String searchValue) {
         if (page_count != 1) {
             invoiceList.add(null);
             inventoryInvoiceAdapter.notifyItemInserted(invoiceList.size() - 1);
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
         }
         ApiInterface apiInterface = APIClientLaravel.getClient().create(ApiInterface.class);
         AppLogger.e("customerId", "-------" + customerId);
@@ -124,20 +198,24 @@ public class InvoiceListAct extends DealerMelaBaseActivity {
                         invoiceList.addAll(response.body().getData());
                         inventoryInvoiceAdapter.notifyDataSetChanged();
                         isLoading = false;
-                        progressBar.setVisibility(View.INVISIBLE);
+                        progressBar.setVisibility(View.GONE);
                         constraintNoData.setVisibility(View.GONE);
+                        recycleViewInvoiceList.setVisibility(View.VISIBLE);
                     } else if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_FAIL)) {
+                        progressBar.setVisibility(View.GONE);
                         if (page_count != 1) {
                             invoiceList.remove(invoiceList.size() - 1);
                             int scrollPosition = invoiceList.size();
                             inventoryInvoiceAdapter.notifyItemRemoved(scrollPosition);
-                        }else{
+                        } else {
+                            recycleViewInvoiceList.setVisibility(View.GONE);
                             constraintNoData.setVisibility(View.VISIBLE);
                         }
                     } else {
-                        progressBar.setVisibility(View.INVISIBLE);
+                        progressBar.setVisibility(View.GONE);
                         if (!invoiceList.isEmpty()) {
                             constraintNoData.setVisibility(View.VISIBLE);
+                            recycleViewInvoiceList.setVisibility(View.GONE);
                         }
                     }
                 }

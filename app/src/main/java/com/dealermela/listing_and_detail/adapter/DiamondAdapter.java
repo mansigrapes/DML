@@ -25,7 +25,6 @@ public class DiamondAdapter extends RecyclerView.Adapter<DiamondAdapter.ViewHold
     private final Activity activity;
     private final List<ProductDetailItem.StoneClarity> itemArrayList;
 
-
     public String stoneOptionId="",stoneOptionTypeId="";
     private ThemePreferences themePreferences;
 
@@ -79,7 +78,6 @@ public class DiamondAdapter extends RecyclerView.Adapter<DiamondAdapter.ViewHold
             }
         }
 
-
     }
 
     @Override
@@ -120,8 +118,5 @@ public class DiamondAdapter extends RecyclerView.Adapter<DiamondAdapter.ViewHold
 //            Toast.makeText(activity, "long Click" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
             return false;
         }
-
-
     }
-
 }

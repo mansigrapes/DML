@@ -15,7 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <com.dealermela.utility.DmlImageView
             android:id="@+id/imgMyCart"
             android:layout_width="0dp"
@@ -153,6 +152,7 @@
         android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/btnContinue"
         app:layout_constraintEnd_toEndOf="parent"
@@ -171,7 +171,7 @@
                 style="@style/imgTint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/gift_ic" />
+                android:src="@drawable/ic_three_day_return" />
 
             <com.dealermela.utility.DmlTextView
                 android:layout_width="wrap_content"
@@ -196,7 +196,7 @@
                 style="@style/imgTint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/gift_ic" />
+                android:src="@drawable/ic_hundred_refund" />
 
             <com.dealermela.utility.DmlTextView
                 android:layout_width="wrap_content"
@@ -221,7 +221,7 @@
                 style="@style/imgTint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/gift_ic" />
+                android:src="@drawable/ic_free_shipping" />
 
             <com.dealermela.utility.DmlTextView
                 android:layout_width="wrap_content"
@@ -246,7 +246,7 @@
                 style="@style/imgTint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/gift_ic" />
+                android:src="@drawable/ic_lifetime_exchange" />
 
             <com.dealermela.utility.DmlTextView
                 android:layout_width="wrap_content"
@@ -271,7 +271,7 @@
                 style="@style/imgTint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/gift_ic" />
+                android:src="@drawable/ic_certified_jwelery" />
 
             <com.dealermela.utility.DmlTextView
                 android:layout_width="wrap_content"
@@ -287,6 +287,7 @@
     </LinearLayout>
 
     <com.dealermela.utility.DmlButton
+        style="@style/All_Dmlbutton"
         android:id="@+id/btnContinue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

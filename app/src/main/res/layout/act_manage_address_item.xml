@@ -21,7 +21,6 @@
             android:padding="@dimen/activity_horizontal_margin"
             android:orientation="vertical">
 
-
             <com.dealermela.utility.DmlTextView
                 android:id="@+id/tvBName"
                 style="@style/edit_profile_text"
@@ -82,21 +81,23 @@
             android:orientation="horizontal">
 
             <com.dealermela.utility.DmlButton
+                style="@style/All_Dmlbutton"
                 android:id="@+id/btnEdit"
                 android:layout_width="0sp"
                 android:layout_height="@dimen/btn_height"
                 android:layout_weight="1"
-                android:background="?lbl_dml_logo_with_black"
+                android:background="@color/dml_logo_color"
                 android:text="@string/edit"
                 android:textColor="@color/white" />
 
             <com.dealermela.utility.DmlButton
+                style="@style/All_Dmlbutton"
                 android:id="@+id/btnDelete"
                 android:layout_width="0sp"
                 android:layout_height="@dimen/btn_height"
                 android:layout_marginStart="@dimen/one_sp_view"
                 android:layout_weight="1"
-                android:background="?lbl_dml_logo_with_black"
+                android:background="@color/dml_logo_color"
                 android:text="@string/delete"
                 android:textColor="@color/white" />
 

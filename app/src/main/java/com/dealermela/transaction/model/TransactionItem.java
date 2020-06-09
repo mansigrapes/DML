@@ -3,30 +3,19 @@ package com.dealermela.transaction.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionItem {
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("total_deposite")
+    @SerializedName("totalPaid")
     @Expose
-    private Integer totalDeposite;
-    @SerializedName("total_credit")
+    private Integer totalPaid;
+    @SerializedName("totalRemaing")
     @Expose
-    private Integer totalCredit;
-    @SerializedName("total_debit")
-    @Expose
-    private Integer totalDebit;
-    @SerializedName("final_totalamount")
-    @Expose
-    private Integer finalTotalamount;
-    @SerializedName("total_tds")
-    @Expose
-    private Integer totalTds;
-    @SerializedName("customer_id")
-    @Expose
-    private String customerId;
+    private Integer totalRemaing;
     @SerializedName("data")
     @Expose
     private List<Datum> data = null;
@@ -39,52 +28,20 @@ public class TransactionItem {
         this.status = status;
     }
 
-    public Integer getTotalDeposite() {
-        return totalDeposite;
+    public Integer getTotalPaid() {
+        return totalPaid;
     }
 
-    public void setTotalDeposite(Integer totalDeposite) {
-        this.totalDeposite = totalDeposite;
+    public void setTotalPaid(Integer totalPaid) {
+        this.totalPaid = totalPaid;
     }
 
-    public Integer getTotalCredit() {
-        return totalCredit;
+    public Integer getTotalRemaing() {
+        return totalRemaing;
     }
 
-    public void setTotalCredit(Integer totalCredit) {
-        this.totalCredit = totalCredit;
-    }
-
-    public Integer getTotalDebit() {
-        return totalDebit;
-    }
-
-    public void setTotalDebit(Integer totalDebit) {
-        this.totalDebit = totalDebit;
-    }
-
-    public Integer getFinalTotalamount() {
-        return finalTotalamount;
-    }
-
-    public void setFinalTotalamount(Integer finalTotalamount) {
-        this.finalTotalamount = finalTotalamount;
-    }
-
-    public Integer getTotalTds() {
-        return totalTds;
-    }
-
-    public void setTotalTds(Integer totalTds) {
-        this.totalTds = totalTds;
-    }
-
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setTotalRemaing(Integer totalRemaing) {
+        this.totalRemaing = totalRemaing;
     }
 
     public List<Datum> getData() {
@@ -98,59 +55,61 @@ public class TransactionItem {
 
     public class Datum {
 
-        @SerializedName("increment_id")
+        @SerializedName("order_id")
         @Expose
-        private String incrementId;
-        @SerializedName("create_date")
+        private String orderId;
+        @SerializedName("id")
         @Expose
-        private String createDate;
-        @SerializedName("description")
+        private String id;
+
+        @SerializedName("amount")
         @Expose
-        private String description;
-        @SerializedName("transction_price")
+        private Integer amount;
+        @SerializedName("cr/dr")
         @Expose
-        private Integer transctionPrice;
-        @SerializedName("order_item")
+        private String crDr;
+
+        @SerializedName("transaction_item")
         @Expose
-        private List<OrderItem> orderItem = null;
+        private ArrayList<OrderItem> orderItem = null;
 
-        public String getIncrementId() {
-            return incrementId;
+        public String getOrderId() {
+            return orderId;
         }
 
-        public void setIncrementId(String incrementId) {
-            this.incrementId = incrementId;
+        public void setOrderId(String orderId) {
+            this.orderId = orderId;
         }
 
-        public String getCreateDate() {
-            return createDate;
+        public String getId() {
+            return id;
         }
 
-        public void setCreateDate(String createDate) {
-            this.createDate = createDate;
+        public void setId(String id) {
+            this.id = id;
         }
 
-        public String getDescription() {
-            return description;
+        public Integer getAmount() {
+            return amount;
         }
 
-        public void setDescription(String description) {
-            this.description = description;
+        public void setAmount(Integer amount) {
+            this.amount = amount;
         }
 
-        public Integer getTransctionPrice() {
-            return transctionPrice;
+        public String getCrDr() {
+            return crDr;
         }
 
-        public void setTransctionPrice(Integer transctionPrice) {
-            this.transctionPrice = transctionPrice;
+        public void setCrDr(String crDr) {
+            this.crDr = crDr;
         }
 
-        public List<OrderItem> getOrderItem() {
+        public ArrayList<OrderItem> getOrderItem() {
             return orderItem;
         }
 
-        public void setOrderItem(List<OrderItem> orderItem) {
+        public void setOrderItem(ArrayList<OrderItem> orderItem) {
             this.orderItem = orderItem;
         }
 
@@ -159,82 +118,49 @@ public class TransactionItem {
 
     public class OrderItem {
 
-        @SerializedName("product_increment_id")
+        @SerializedName("customer_name")
         @Expose
-        private String productIncrementId;
-        @SerializedName("product_name")
+        private String customerName;
+        @SerializedName("amount")
         @Expose
-        private String productName;
-        @SerializedName("product_sku")
+        private Integer amount;
+        @SerializedName("remaing_amount")
         @Expose
-        private String productSku;
-        @SerializedName("product_stonequality")
+        private Integer remaingAmount;
+        @SerializedName("paid_date")
         @Expose
-        private String productStonequality;
-        @SerializedName("product_stoneweight")
-        @Expose
-        private String productStoneweight;
-        @SerializedName("product_price")
-        @Expose
-        private String productPrice;
-        @SerializedName("product_metalweight")
-        @Expose
-        private String productMetalweight;
+        private String paidDate;
 
-        public String getProductIncrementId() {
-            return productIncrementId;
+        public String getCustomerName() {
+            return customerName;
         }
 
-        public void setProductIncrementId(String productIncrementId) {
-            this.productIncrementId = productIncrementId;
+        public void setCustomerName(String customerName) {
+            this.customerName = customerName;
         }
 
-        public String getProductName() {
-            return productName;
+        public Integer getAmount() {
+            return amount;
         }
 
-        public void setProductName(String productName) {
-            this.productName = productName;
+        public void setAmount(Integer amount) {
+            this.amount = amount;
         }
 
-        public String getProductSku() {
-            return productSku;
+        public Integer getRemaingAmount() {
+            return remaingAmount;
         }
 
-        public void setProductSku(String productSku) {
-            this.productSku = productSku;
+        public void setRemaingAmount(Integer remaingAmount) {
+            this.remaingAmount = remaingAmount;
         }
 
-        public String getProductStonequality() {
-            return productStonequality;
+        public String getPaidDate() {
+            return paidDate;
         }
 
-        public void setProductStonequality(String productStonequality) {
-            this.productStonequality = productStonequality;
-        }
-
-        public String getProductStoneweight() {
-            return productStoneweight;
-        }
-
-        public void setProductStoneweight(String productStoneweight) {
-            this.productStoneweight = productStoneweight;
-        }
-
-        public String getProductPrice() {
-            return productPrice;
-        }
-
-        public void setProductPrice(String productPrice) {
-            this.productPrice = productPrice;
-        }
-
-        public String getProductMetalweight() {
-            return productMetalweight;
-        }
-
-        public void setProductMetalweight(String productMetalweight) {
-            this.productMetalweight = productMetalweight;
+        public void setPaidDate(String paidDate) {
+            this.paidDate = paidDate;
         }
 
     }

@@ -39,44 +39,46 @@
             <com.dealermela.utility.DmlImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_sort" />
+                android:src="@drawable/ic_new_sort" />
 
             <com.dealermela.utility.DmlTextView
                 style="@style/listing_sort_filter_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sort_by"
-                />
+                android:text="@string/sort_by" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linFilterOrder"
-            android:layout_width="@dimen/sort_by_filter_width"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:background="@drawable/list_sort_filter_back_border"
-            android:gravity="center"
             android:padding="@dimen/three_sp">
 
             <com.dealermela.utility.DmlImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_filter" />
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:src="@drawable/ic_new_filter" />
 
             <com.dealermela.utility.DmlTextView
                 style="@style/listing_sort_filter_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/filter"
-                />
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/filter" />
 
             <com.dealermela.utility.DmlTextView
                 android:id="@+id/tvCount"
-                style="@style/circle_text_drawer"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:textSize="8sp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/filter_round_icon"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -96,7 +98,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +109,6 @@
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"

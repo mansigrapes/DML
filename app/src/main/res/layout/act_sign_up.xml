@@ -158,7 +158,7 @@
                 />
             <com.dealermela.utility.SearchableSpinner
                 android:id="@+id/spinnerCountry"
-                style="@style/SpinnerTheme"
+                style="@style/NewSpinnerTheme"
                 android:layout_width="match_parent"
                 android:layout_height="40sp"
                 android:layout_marginStart="20sp"
@@ -179,7 +179,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
 
                 <com.dealermela.utility.SearchableSpinner
                     android:id="@+id/spinnerState"
@@ -319,7 +318,6 @@
 
             </android.support.design.widget.TextInputLayout>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -340,32 +338,33 @@
                     android:paddingStart="@dimen/eight_sp"
                     android:paddingBottom="@dimen/eight_sp"
                     android:paddingTop="@dimen/eight_sp"
-                    android:text="T&amp;C and "
-                    android:textColor="@color/white"
+                    android:text="Terms and Conditions &amp; "
+                    android:textColorHighlight="@color/red"
+                    android:textColor="@color/green"
                     android:textSize="12sp" />
-
+                <!--   android:text="T&amp;C and "-->
                 <com.dealermela.utility.DmlTextView
                     android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/amp"
                     android:padding="8sp"
-                    android:textColor="?login_signup_text_color"
+                    android:textColor="@color/green"
                     android:textSize="12sp" />
 
                 <com.dealermela.utility.DmlTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dealership_guideline"
-                    android:textColor="?login_signup_text_color"
+                    android:textColor="@color/green"
                     android:paddingBottom="@dimen/eight_sp"
                     android:paddingTop="@dimen/eight_sp"
                     android:textSize="12sp" />
 
             </LinearLayout>
 
-
             <com.dealermela.utility.DmlButton
+                style="@style/All_Dmlbutton"
                 android:id="@+id/btnSignUp"
                 android:layout_width="@dimen/sign_up_btn_width"
                 android:layout_height="wrap_content"

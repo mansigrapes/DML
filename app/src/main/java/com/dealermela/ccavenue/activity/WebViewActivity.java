@@ -38,7 +38,6 @@ public class WebViewActivity extends AppCompatActivity {
     String encVal;
     String vResponse;
 
-
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -49,11 +48,8 @@ public class WebViewActivity extends AppCompatActivity {
         AppLogger.e("access code", "------------" + mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE));
         AppLogger.e("ORDER_ID", "------------" + mainIntent.getStringExtra(AvenuesParams.ORDER_ID));
 
-
         get_RSA_key(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), mainIntent.getStringExtra(AvenuesParams.ORDER_ID));
-
     }
-
 
     private class RenderView extends AsyncTask<Void, Void, Void> {
         @Override
@@ -61,7 +57,6 @@ public class WebViewActivity extends AppCompatActivity {
             super.onPreExecute();
             // Showing progress dialog
             LoadingDialog.showLoadingDialog(WebViewActivity.this, "Loading...");
-
         }
 
         @Override
@@ -107,7 +102,6 @@ public class WebViewActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), StatusActivity.class);
                     intent.putExtra("transStatus", status);
                     startActivity(intent);
-
                 }
             }
 
@@ -132,7 +126,6 @@ public class WebViewActivity extends AppCompatActivity {
                 }
             });
 
-
             try {
                 AppLogger.e(AvenuesParams.ACCESS_CODE, "-----------" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE)));
                 AppLogger.e(AvenuesParams.MERCHANT_ID, "-----------" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.MERCHANT_ID)));
@@ -148,7 +141,6 @@ public class WebViewActivity extends AppCompatActivity {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -172,7 +164,6 @@ public class WebViewActivity extends AppCompatActivity {
                                 new RenderView().execute();   // Calling async task to get display content
                             }
 
-
                         } else {
                             show_alert("No response");
                         }
@@ -192,7 +183,6 @@ public class WebViewActivity extends AppCompatActivity {
                 params.put(AvenuesParams.ORDER_ID, od);
                 return params;
             }
-
         };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 30000,
@@ -212,7 +202,6 @@ public class WebViewActivity extends AppCompatActivity {
 
         alertDialog.setMessage(msg);
 
-
         alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 
             @Override
@@ -220,8 +209,6 @@ public class WebViewActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
         alertDialog.show();
     }
 }

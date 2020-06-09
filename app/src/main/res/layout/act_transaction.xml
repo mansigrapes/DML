@@ -27,7 +27,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
                 <android.support.v7.widget.CardView
                     android:id="@+id/cardView2"
                     style="@style/transaction_card"
@@ -56,13 +55,13 @@
                             style="@style/transaction_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/total_debit" />
+                            android:text="@string/total_paid" />
 
-                        <com.dealermela.utility.DmlTextView
-                            style="@style/transaction_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/dml_receivable" />
+<!--                        <com.dealermela.utility.DmlTextView-->
+<!--                            style="@style/transaction_text"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/dml_receivable" />-->
 
                         <com.dealermela.utility.DmlTextView
                             android:id="@+id/tvTotalDebit"
@@ -102,7 +101,7 @@
                             style="@style/transaction_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/total_deposit" />
+                            android:text="@string/total_remaining" />
 
 
                         <com.dealermela.utility.DmlTextView
@@ -115,98 +114,98 @@
 
                 </android.support.v7.widget.CardView>
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardView4"
-                    style="@style/transaction_card"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/transaction_card_height"
-                    android:layout_marginTop="@dimen/transaction_card_margin_top"
-                    app:layout_constraintEnd_toStartOf="@+id/cardView3"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView2">
+<!--                <android.support.v7.widget.CardView-->
+<!--                    android:id="@+id/cardView4"-->
+<!--                    style="@style/transaction_card"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="@dimen/transaction_card_height"-->
+<!--                    android:layout_marginTop="@dimen/transaction_card_margin_top"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/cardView3"-->
+<!--                    app:layout_constraintHorizontal_bias="0.5"-->
+<!--                    app:layout_constraintHorizontal_chainStyle="spread"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/cardView2">-->
 
-                    <LinearLayout
-                        style="@style/transaction_lin_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+<!--                    <LinearLayout-->
+<!--                        style="@style/transaction_lin_layout"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent">-->
 
-                        <ImageView
-                            style="@style/transaction_img"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/credit_ic"
-                            tools:ignore="ContentDescription" />
+<!--                        <ImageView-->
+<!--                            style="@style/transaction_img"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:srcCompat="@drawable/credit_ic"-->
+<!--                            tools:ignore="ContentDescription" />-->
 
-                        <com.dealermela.utility.DmlTextView
-                            style="@style/transaction_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/total_credit" />
+<!--                        <com.dealermela.utility.DmlTextView-->
+<!--                            style="@style/transaction_text"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/total_credit" />-->
 
-                        <com.dealermela.utility.DmlTextView
-                            style="@style/transaction_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/payable" />
+<!--                        <com.dealermela.utility.DmlTextView-->
+<!--                            style="@style/transaction_text"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/payable" />-->
 
-                        <com.dealermela.utility.DmlTextView
-                            android:id="@+id/tvTotalCredit"
-                            style="@style/transaction_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+<!--                        <com.dealermela.utility.DmlTextView-->
+<!--                            android:id="@+id/tvTotalCredit"-->
+<!--                            style="@style/transaction_text"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content" />-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
 
-                </android.support.v7.widget.CardView>
+<!--                </android.support.v7.widget.CardView>-->
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardView3"
-                    style="@style/transaction_card"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/transaction_card_height"
-                    android:layout_marginEnd="@dimen/transaction_card_margin_top"
-                    app:layout_constraintBottom_toBottomOf="@+id/cardView4"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/cardView4"
-                    app:layout_constraintTop_toTopOf="@+id/cardView4">
+<!--                <android.support.v7.widget.CardView-->
+<!--                    android:id="@+id/cardView3"-->
+<!--                    style="@style/transaction_card"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="@dimen/transaction_card_height"-->
+<!--                    android:layout_marginEnd="@dimen/transaction_card_margin_top"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@+id/cardView4"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.5"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/cardView4"-->
+<!--                    app:layout_constraintTop_toTopOf="@+id/cardView4">-->
 
-                    <LinearLayout
-                        style="@style/transaction_lin_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+<!--                    <LinearLayout-->
+<!--                        style="@style/transaction_lin_layout"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent">-->
 
 
-                        <ImageView
-                            style="@style/transaction_img"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/debit_ic"
-                            tools:ignore="ContentDescription" />
+<!--                        <ImageView-->
+<!--                            style="@style/transaction_img"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:srcCompat="@drawable/debit_ic"-->
+<!--                            tools:ignore="ContentDescription" />-->
 
-                        <com.dealermela.utility.DmlTextView
-                            style="@style/transaction_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/total_debit" />
+<!--                        <com.dealermela.utility.DmlTextView-->
+<!--                            style="@style/transaction_text"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/total_debit" />-->
 
-                        <com.dealermela.utility.DmlTextView
-                            style="@style/transaction_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/dml_receivable" />
+<!--                        <com.dealermela.utility.DmlTextView-->
+<!--                            style="@style/transaction_text"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/dml_receivable" />-->
 
-                        <com.dealermela.utility.DmlTextView
-                            android:id="@+id/tvFinalTotalDebit"
-                            style="@style/transaction_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+<!--                        <com.dealermela.utility.DmlTextView-->
+<!--                            android:id="@+id/tvFinalTotalDebit"-->
+<!--                            style="@style/transaction_text"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content" />-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
 
-                </android.support.v7.widget.CardView>
+<!--                </android.support.v7.widget.CardView>-->
 
                 <LinearLayout
                     android:id="@+id/linearLayout2"
@@ -220,7 +219,7 @@
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView4">
+                    app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
                     <View
                         android:layout_width="0dp"
@@ -283,7 +282,7 @@
                     android:background="?transaction_line_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView4" />
+                    app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
                 <View
                     android:id="@+id/view6"

@@ -84,7 +84,6 @@ public class SearchableSpinner extends android.support.v7.widget.AppCompatSpinne
         if (event.getAction() == MotionEvent.ACTION_UP) {
 
             if (null != _arrayAdapter) {
-
                 // Refresh content #6
                 // Change Start
                 // Description: The items were only set initially, not reloading the data in the

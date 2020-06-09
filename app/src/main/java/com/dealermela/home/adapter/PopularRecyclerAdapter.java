@@ -3,7 +3,10 @@ package com.dealermela.home.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dealermela.R;
+import com.dealermela.download.adapter.DownloadProductAdapter;
+import com.dealermela.download.model.DownloadItem;
 import com.dealermela.home.model.PopularProductItem;
 import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.listing_and_detail.model.ListingItem;
@@ -22,6 +27,7 @@ import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
+import com.dealermela.util.SharedPreferences;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
@@ -42,6 +48,8 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
     private final Activity activity;
     private final List<PopularProductItem.ProductImg> itemArrayList;
     private KProgressHUD hud;
+    private SharedPreferences sharedPreferences;
+    public List<DownloadItem.Detail> itemArrayDownloadList;
 
     public PopularRecyclerAdapter(Activity activity, List<PopularProductItem.ProductImg> itemArrayList) {
         super();
@@ -56,6 +64,7 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
         return new ViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
@@ -70,6 +79,14 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
             holder.tvQty.setVisibility(View.GONE);
         }
 
+        sharedPreferences = new SharedPreferences(activity);
+        if(sharedPreferences.getLoginData().equalsIgnoreCase("")){
+            holder.imgDownload.setVisibility(View.GONE);
+        }else
+        {
+            AppLogger.e("DownloadFlag_Sharedpreference","---" + sharedPreferences.getDownloadFlag());
+            holder.imgDownload.setVisibility(View.VISIBLE);
+        }
 
         if (itemArrayList.get(i).getStock().equalsIgnoreCase("0")) {
 //            holder.tvSoldOut.setVisibility(View.VISIBLE);
@@ -94,14 +111,13 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
                 stringBuilder.append(sku[j]);
                 stringBuilder.append(" ");
             }
-
             /*if (j > 1) {
                 stringBuilder.append(sku[j].charAt(0));
             }*/
         }
 
         float price = itemArrayList.get(i).getCustomPrice();
-        holder.tvPrice.setText(CommonUtils.priceFormat(price));
+        holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
         holder.tvSku.setText(sku[0]);
 
         holder.tvGold.setText(stringBuilder);
@@ -111,22 +127,35 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
                 .apply(new RequestOptions().placeholder(R.drawable.dml_logo).error(R.drawable.dml_logo))
                 .into(holder.imgProduct);
 
+        //Set Download Flag for disable Download Arrow if product is already download
+//        AppLogger.e("DownloadArraysize ","--" + itemArrayDownloadList.size());
+//        for(int k = 0; k <= itemArrayDownloadList.size(); k++){
+//            if(itemArrayList.get(k).getEntityId() != itemArrayDownloadList.get(k).getProductId()){
+//
+//                holder.imgDownload.setEnabled(false);
+//                holder.imgDownload.setColorFilter(ContextCompat.getColor(activity, R.color.download_disabled), android.graphics.PorterDuff.Mode.SRC_IN);
+//            }
+//        }
 
         if (itemArrayList.get(i).getDownload_flag() == 1) {
             holder.imgDownload.setEnabled(false);
+            holder.imgDownload.setColorFilter(ContextCompat.getColor(activity, R.color.download_disabled), android.graphics.PorterDuff.Mode.SRC_IN);
+//            holder.imgDownload.setVisibility(View.GONE);
         } else if (itemArrayList.get(i).getDownload_flag() == 0) {
+            AppLogger.e("Download_Flag","--"+itemArrayList.get(i).getDownload_flag());
             holder.imgDownload.setEnabled(true);
+            holder.imgDownload.setColorFilter(ContextCompat.getColor(activity, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
+//            holder.imgDownload.setVisibility(View.VISIBLE);
         }
+
         holder.imgDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 downloadProduct(customerId, itemArrayList.get(i).getEntityId());
                 itemArrayList.get(i).setDownload_flag(1);
                 notifyItemChanged(i);
-
             }
         });
-
     }
 
     @Override
@@ -159,7 +188,6 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
             imgProduct = itemView.findViewById(R.id.imgProduct);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
-
         }
 
         @Override
@@ -168,18 +196,15 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
             intent.putExtra(AppConstants.NAME, itemArrayList.get(getAdapterPosition()).getEntityId());
             activity.startActivity(intent);
             activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-
         }
 
         @Override
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
 
-    private void downloadProduct(String customerId, String productId) {
+    private void downloadProduct(String customerId, final String productId) {
         //show progress
         hud = KProgressHUD.create(activity)
                 .setCancellable(false)
@@ -199,12 +224,14 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+
+                        sharedPreferences.saveDownloadFlag("1");
+
                         CommonUtils.showSuccessToast(activity, "Product added in download list");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -212,9 +239,9 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
                 AppLogger.e("error", "-----------" + t.getMessage());
                 hud.dismiss();
             }
-
         });
-
     }
 
+    public void onResume(){
+    }
 }

@@ -44,11 +44,10 @@
                 android:id="@+id/imgDeleteFlag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/five_sp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-5dp"
+                android:padding="@dimen/five_sp"
                 app:srcCompat="@drawable/ic_new_black_24dp" />
-
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/imgDownloadProduct"
@@ -70,17 +69,11 @@
                 android:padding="@dimen/two_dp"
                 android:textSize="@dimen/ten_sp" />
 
-
             <CheckBox
                 android:id="@+id/checkDownloadProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/check_selecter"
-                android:layout_marginStart="@dimen/two_dp"
-
-                />
-
-
+                android:layout_marginStart="@dimen/two_dp" />
 
         </RelativeLayout>
 
@@ -127,6 +120,7 @@
                 android:src="@drawable/ic_download" />
 
         </LinearLayout>
+
         <View
             android:id="@+id/view5"
             style="@style/download_view"
@@ -137,9 +131,9 @@
 
     <View
         android:id="@+id/view7"
+        style="@style/download_view"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        style="@style/download_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />

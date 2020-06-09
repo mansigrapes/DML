@@ -7,8 +7,10 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
 import com.dealermela.cart.fragment.ShoppingFrg;
 import com.dealermela.cart.model.CartLocalDataItem;
@@ -69,6 +72,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
         return new ViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
@@ -76,7 +80,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
         holder.tvSku.setText(Html.fromHtml("<b>" + "SKU : " + "</b> " + itemArrayList.get(i).getSku()));
         holder.tvMetalDetail.setText(Html.fromHtml("<b>" + "Metal Detail : " + "</b> " + itemArrayList.get(i).getMetaldetails()));
         holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getStonedetails()));
-        holder.tvPrice.setText(Html.fromHtml("<b>" + CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getPrice())) + "</b> "));
+        holder.tvPrice.setText(Html.fromHtml("<b>" + AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getPrice())) + "</b> "));
         holder.tvQuantity.setText(itemArrayList.get(i).getQty());
 
         String sourceString = "";
@@ -116,13 +120,13 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
                 qty++;
                 holder.tvQuantity.setText(String.valueOf(qty));
                 itemArrayList.get(i).setQty(String.valueOf(qty));
+                cartCount++;             //Added this line to update cartcount for every item  But count not updated from API SIDE.
+                AppLogger.e("CountUpdated ","-----"+cartCount);
                 notifyItemChanged(i);
                 notifyItemRangeChanged(i, itemArrayList.size());
                 updateProductQty(customerId, itemArrayList.get(i).getItemid(), String.valueOf(qty));
-
             }
         });
-
 
         holder.imgMinus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +139,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
                     notifyItemChanged(i);
                     notifyItemRangeChanged(i, itemArrayList.size());
 //                    updateProductQty(customerId, itemArrayList.get(i).getItemid(), String.valueOf(qty));
+                    cartCount--;         //Added this line to update cartcount for every item
                 } else {
                     qty--;
                     holder.tvQuantity.setText(String.valueOf(qty));
@@ -145,6 +150,8 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
                     notifyItemChanged(i);
                     notifyItemRangeChanged(i, itemArrayList.size());
                     updateProductQty(customerId, itemArrayList.get(i).getItemid(), String.valueOf(qty));
+                    cartCount--;   //Added this line to update cartcount for every item
+                    AppLogger.e("CountUpdated ","-----"+cartCount);
                 }
             }
         });
@@ -178,16 +185,9 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
                             }
                         }).show();
 
-
-
-
-
-
               /* new AlertDialog.Builder(activity, R.style.AppCompatAlertDialogStyle)
 
-
                         .setTitle(CommonUtils.capitalizeString(activity.getString(R.string.delete)))
-
 
                         .setMessage(activity.getString(R.string.delete_msg))
                         .setCancelable(false)
@@ -212,11 +212,8 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
                             }
                         })
                         .show();*/
-
-
             }
         });
-
     }
 
     @Override
@@ -248,15 +245,12 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
 
         @Override
         public void onClick(View v) {
-
         }
 
         @Override
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
 
     private void deleteProduct(String itemId) {
@@ -285,22 +279,16 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
 
                             hud.dismiss();
                             shoppingFrg.updateCart(customerId);
-
                         }
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
-
                     }
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
-
             }
         });
     }
@@ -327,16 +315,13 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 hud.dismiss();
                 AppLogger.e("error", "------------" + t.getMessage());
-
             }
         });
     }
-
 }

@@ -12,7 +12,7 @@ public class ListingItem {
     private String status;
     @SerializedName("data")
     @Expose
-    private List<ProductImg> productImg = null;
+    private List<Datum> data = null;
 
     public String getStatus() {
         return status;
@@ -22,16 +22,16 @@ public class ListingItem {
         this.status = status;
     }
 
-    public List<ProductImg> getProductImg() {
-        return productImg;
+    public List<Datum> getData() {
+        return data;
     }
 
-    public void setProductImg(List<ProductImg> productImg) {
-        this.productImg = productImg;
+    public void setData(List<Datum> data) {
+        this.data = data;
     }
 
 
-    public class ProductImg implements Serializable {
+    public class Datum {
 
         @SerializedName("entity_id")
         @Expose
@@ -48,6 +48,9 @@ public class ListingItem {
         @SerializedName("url_path")
         @Expose
         private String urlPath;
+        @SerializedName("is_sold")
+        @Expose
+        private String isSold;
         @SerializedName("thumbnail")
         @Expose
         private String thumbnail;
@@ -57,36 +60,42 @@ public class ListingItem {
         @SerializedName("sku")
         @Expose
         private String sku;
-        @SerializedName("rts_stone_quality")
-        @Expose
-        private String rtsStoneQuality;
-        @SerializedName("is_sold")
-        @Expose
-        private String isSold;
         @SerializedName("status")
         @Expose
         private String status;
-        @SerializedName("franch_product_id")
+        @SerializedName("isreadytoship")
         @Expose
-        private String franchProductId;
-        @SerializedName("qty")
+        private String isreadytoship;
+        @SerializedName("custom_price")
         @Expose
-        private String qty;
+        private Integer customPrice;
+        @SerializedName("rts_stone_quality")
+        @Expose
+        private Object rtsStoneQuality;
+        @SerializedName("metal_quality_value")
+        @Expose
+        private String metalQualityValue;
         @SerializedName("dml_only")
         @Expose
         private String dmlOnly;
+        @SerializedName("qty")
+        @Expose
+        private String qty;
         @SerializedName("is_salable")
         @Expose
         private String isSalable;
-        @SerializedName("custom_price")
+        @SerializedName("stock_item")
         @Expose
-        private Float customPrice;
+        private StockItem stockItem;
         @SerializedName("stock")
         @Expose
         private String stock;
+//        @SerializedName("images")
+//        @Expose
+//        private List<String> images = null;
         @SerializedName("download_flag")
         @Expose
-        private Integer download_flag;
+        private Integer downloadFlag;
 
         public String getEntityId() {
             return entityId;
@@ -128,6 +137,14 @@ public class ListingItem {
             this.urlPath = urlPath;
         }
 
+        public String getIsSold() {
+            return isSold;
+        }
+
+        public void setIsSold(String isSold) {
+            this.isSold = isSold;
+        }
+
         public String getThumbnail() {
             return thumbnail;
         }
@@ -152,22 +169,6 @@ public class ListingItem {
             this.sku = sku;
         }
 
-        public String getRtsStoneQuality() {
-            return rtsStoneQuality;
-        }
-
-        public void setRtsStoneQuality(String rtsStoneQuality) {
-            this.rtsStoneQuality = rtsStoneQuality;
-        }
-
-        public String getIsSold() {
-            return isSold;
-        }
-
-        public void setIsSold(String isSold) {
-            this.isSold = isSold;
-        }
-
         public String getStatus() {
             return status;
         }
@@ -176,20 +177,36 @@ public class ListingItem {
             this.status = status;
         }
 
-        public String getFranchProductId() {
-            return franchProductId;
+        public String getIsreadytoship() {
+            return isreadytoship;
         }
 
-        public void setFranchProductId(String franchProductId) {
-            this.franchProductId = franchProductId;
+        public void setIsreadytoship(String isreadytoship) {
+            this.isreadytoship = isreadytoship;
         }
 
-        public String getQty() {
-            return qty;
+        public Integer getCustomPrice() {
+            return customPrice;
         }
 
-        public void setQty(String qty) {
-            this.qty = qty;
+        public void setCustomPrice(Integer customPrice) {
+            this.customPrice = customPrice;
+        }
+
+        public Object getRtsStoneQuality() {
+            return rtsStoneQuality;
+        }
+
+        public void setRtsStoneQuality(Object rtsStoneQuality) {
+            this.rtsStoneQuality = rtsStoneQuality;
+        }
+
+        public String getMetalQualityValue() {
+            return metalQualityValue;
+        }
+
+        public void setMetalQualityValue(String metalQualityValue) {
+            this.metalQualityValue = metalQualityValue;
         }
 
         public String getDmlOnly() {
@@ -200,6 +217,14 @@ public class ListingItem {
             this.dmlOnly = dmlOnly;
         }
 
+        public String getQty() {
+            return qty;
+        }
+
+        public void setQty(String qty) {
+            this.qty = qty;
+        }
+
         public String getIsSalable() {
             return isSalable;
         }
@@ -208,13 +233,12 @@ public class ListingItem {
             this.isSalable = isSalable;
         }
 
-
-        public Float getCustomPrice() {
-            return customPrice;
+        public StockItem getStockItem() {
+            return stockItem;
         }
 
-        public void setCustomPrice(Float customPrice) {
-            this.customPrice = customPrice;
+        public void setStockItem(StockItem stockItem) {
+            this.stockItem = stockItem;
         }
 
         public String getStock() {
@@ -225,12 +249,26 @@ public class ListingItem {
             this.stock = stock;
         }
 
-        public Integer getDownload_flag() {
-            return download_flag;
+//        public List<String> getImages() {
+//            return images;
+//        }
+//
+//        public void setImages(List<String> images) {
+//            this.images = images;
+//        }
+
+        public Integer getDownloadFlag() {
+            return downloadFlag;
         }
 
-        public void setDownload_flag(Integer download_flag) {
-            this.download_flag = download_flag;
+        public void setDownloadFlag(Integer downloadFlag) {
+            this.downloadFlag = downloadFlag;
         }
+
+    }
+
+    public class StockItem {
+
+
     }
 }

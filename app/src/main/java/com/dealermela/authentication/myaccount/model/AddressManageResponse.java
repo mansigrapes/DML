@@ -105,6 +105,9 @@ public class AddressManageResponse {
         @SerializedName("street")
         @Expose
         private String street;
+//        @SerializedName("street1")
+//        @Expose
+//        private String street1;
         @SerializedName("customer_id")
         @Expose
         private String customerId;
@@ -251,6 +254,14 @@ public class AddressManageResponse {
             this.street = street;
         }
 
+//        public String getStreet1() {
+//            return street1;
+//        }
+//
+//        public void setStreet1(String street1) {
+//            this.street1 = street1;
+//        }
+
         public String getCustomerId() {
             return customerId;
         }
@@ -332,6 +343,9 @@ public class AddressManageResponse {
         @SerializedName("street")
         @Expose
         private String street;
+//        @SerializedName("street1")
+//        @Expose
+//        private String street1;
 
         public String getEntityId() {
             return entityId;
@@ -468,6 +482,14 @@ public class AddressManageResponse {
         public void setStreet(String street) {
             this.street = street;
         }
+
+//        public String getStreet1() {
+//            return street1;
+//        }
+//
+//        public void setStreet1(String street1) {
+//            this.street1 = street1;
+//        }
 
         public String getCountry() {
             return country;
@@ -534,6 +556,9 @@ public class AddressManageResponse {
         @SerializedName("street")
         @Expose
         private String street;
+//        @SerializedName("street1")
+//        @Expose
+//        private String street1;
 
         public String getEntityId() {
             return entityId;
@@ -670,6 +695,14 @@ public class AddressManageResponse {
         public void setStreet(String street) {
             this.street = street;
         }
+
+//        public String getStreet1() {
+//            return street1;
+//        }
+//
+//        public void setStreet1(String street1) {
+//            this.street1 = street1;
+//        }
 
         public String getCountry() {
             return country;

@@ -3,6 +3,8 @@ package com.dealermela.home.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,7 @@ public class PopularProductCoverFlowAdapter extends BaseAdapter {
         return position;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -70,8 +73,7 @@ public class PopularProductCoverFlowAdapter extends BaseAdapter {
         convertView.setOnClickListener(onClickListener(position));
 
         float price = data.get(position).getCustomPrice();
-        viewHolder.tvPrice.setText(CommonUtils.priceFormat(price));
-
+        viewHolder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
 
         return convertView;
     }

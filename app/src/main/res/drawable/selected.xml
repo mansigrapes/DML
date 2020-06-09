@@ -22,7 +22,7 @@
                 </shape>
             </item>
 
-            <item android:bottom="5px">
+            <item android:bottom="0px">
                 <shape>
                     <padding android:bottom="5dp" />
                     <solid android:color="?login_signup_text_color" />

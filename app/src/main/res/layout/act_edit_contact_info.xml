@@ -22,9 +22,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
-
-        >
+        app:layout_constraintTop_toBottomOf="@+id/include">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -118,9 +116,16 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <com.dealermela.utility.DmlTextView
+                style="@style/common_text_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sixteen_sp"
+                android:text="Country" />
+
             <com.dealermela.utility.SearchableSpinner
                 android:id="@+id/spinnerCountry"
-                style="@style/SpinnerEditTheme"
+                style="@style/NewSpinnerGray"
                 android:layout_width="match_parent"
                 android:layout_height="40sp" />
 
@@ -133,20 +138,6 @@
                 style="@style/edit_contact_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <com.dealermela.utility.SearchableSpinner
-                    android:id="@+id/spinnerState"
-                    android:layout_width="match_parent"
-                    style="@style/SpinnerEditTheme"
-                    android:layout_height="40sp" />
-
-                <View
-                    android:visibility="gone"
-                    android:id="@+id/view_state"
-                    android:layout_below="@id/spinnerState"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/one_sp_view"
-                    android:background="?toolbarViewColor" />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/tilState"
@@ -163,6 +154,30 @@
 
                 </android.support.design.widget.TextInputLayout>
 
+                <com.dealermela.utility.DmlTextView
+                    android:id="@+id/lblState"
+                    style="@style/common_text_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="State"
+                    android:visibility="gone" />
+
+                <com.dealermela.utility.SearchableSpinner
+                    android:id="@+id/spinnerState"
+                    android:layout_width="match_parent"
+                    style="@style/SpinnerEditTheme2"
+                    android:layout_below="@id/lblState"
+                    android:layout_height="40sp" />
+
+                <View
+                    android:visibility="gone"
+                    android:id="@+id/view_state"
+                    android:layout_below="@id/spinnerState"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_sp_view"
+                    android:background="?toolbarViewColor" />
+
+
             </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -171,14 +186,6 @@
                 android:theme="@style/MyCustomTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <com.dealermela.utility.DmlTextInputEditText
-                    style="@style/common_text_color"
-                    android:id="@+id/edCity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/city"
-                    android:inputType="text" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -212,7 +219,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/pancard_no"
-                    android:inputType="text" />
+                    android:maxLength="10"
+                    android:inputType="text"
+                    android:textAllCaps="true"
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -229,15 +239,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/gstin"
+                    android:textAllCaps="true"
                     android:inputType="text" />
 
             </android.support.design.widget.TextInputLayout>
+
+            <com.dealermela.utility.DmlTextInputEditText
+                android:id="@+id/edCity"
+                style="@style/common_text_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/city"
+                android:inputType="text" />
 
         </LinearLayout>
 
     </ScrollView>
 
     <com.dealermela.utility.DmlButton
+        style="@style/All_Dmlbutton"
         android:id="@+id/btnSave"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -63,6 +63,16 @@ public class FilterItem {
         @Expose
         private String icon;
 
+        public int getFiltercount() {
+            return filtercount;
+        }
+
+        public void setFiltercount(int filtercount) {
+            this.filtercount = filtercount;
+        }
+
+        private int filtercount=0;
+
         public String getOptionName() {
             return optionName;
         }

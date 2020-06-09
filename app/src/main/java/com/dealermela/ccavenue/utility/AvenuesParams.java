@@ -12,7 +12,6 @@ public class AvenuesParams {
     public static final String CANCEL_URL = "cancel_url";
     public static final String RSA_KEY_URL = "rsa_key_url";
 
-
     public static final String billing_name = "billing_name";
     public static final String product_id = "product_id";
     public static final String billing_address = "billing_address";
@@ -30,6 +29,5 @@ public class AvenuesParams {
     public static final String delivery_countr = "delivery_countr";
     public static final String delivery_tel = "delivery_tel";
     public static final String promo_code = "promo_code";
-
 
 }

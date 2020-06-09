@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +29,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-
             <com.dealermela.utility.DmlTextView
                 android:id="@+id/tvBankName"
                 style="@style/textBankManage"
@@ -52,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/bank_account_holder_name" />
+
             <com.dealermela.utility.DmlTextView
                 style="@style/textColon"
                 android:layout_width="wrap_content"
@@ -158,8 +157,9 @@
             android:layout_width="0sp"
             android:layout_height="@dimen/btn_height"
             android:layout_weight="1"
-            android:text="@string/edit" />
-
+            android:text="@string/edit"
+            android:background="@color/dml_logo_color"
+            android:textColor="@color/white"/>
 
         <com.dealermela.utility.DmlButton
             android:id="@+id/btnDelete"
@@ -168,7 +168,9 @@
             android:layout_height="@dimen/btn_height"
             android:layout_marginStart="@dimen/one_sp_view"
             android:layout_weight="1"
-            android:text="@string/delete" />
+            android:text="@string/delete"
+            android:background="@color/dml_logo_color"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 
@@ -177,6 +179,5 @@
         android:layout_height="@dimen/one_sp_view"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:background="?transaction_line_color" />
-
 
 </LinearLayout>

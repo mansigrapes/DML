@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -27,10 +28,15 @@ import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.CommonUtils;
 import com.dealermela.util.SharedPreferences;
 import com.dealermela.util.ThemePreferences;
 import com.dealermela.util.Validator;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +61,7 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
     private LoginResponse loginResponse;
     private SharedPreferences sharedPreferences;
     private ThemePreferences themePreferences;
+    private TextView lblState;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,8 +84,9 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
 
     @Override
     public void initView() {
-        bindToolBar("Edit Contact Information");
+        bindToolBar("Edit Contact");
 
+        lblState = findViewById(R.id.lblState);
         view_state = findViewById(R.id.view_state);
         tilState = findViewById(R.id.tilState);
         spinnerCountry = findViewById(R.id.spinnerCountry);
@@ -94,8 +102,6 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
         edPanCard = findViewById(R.id.edPanCard);
         edGstIn = findViewById(R.id.edGstIn);
         btnSave = findViewById(R.id.btnSave);
-
-
     }
 
     @Override
@@ -104,13 +110,13 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
         edFnm.setText(loginResponse.getData().getFirstname());
         edLnm.setText(loginResponse.getData().getLastname());
         edEmail.setText(loginResponse.getData().getEmail());
-        edContact.setText(loginResponse.getData().getTelephone());
+        edContact.setText(loginResponse.getData().getContactNumber());
+//        edContact.setText(loginResponse.getData().getTelephone());
         edAddress.setText(loginResponse.getData().getStreet());
         edCity.setText(loginResponse.getData().getCity());
         edZipCode.setText(loginResponse.getData().getPostcode());
         edPanCard.setText(loginResponse.getData().getPancardno());
         edGstIn.setText(loginResponse.getData().getGstin());
-
 
         String compareValue = loginResponse.getData().getCountryId();
         List<String> spinnerArray = new ArrayList<>();
@@ -129,13 +135,14 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                     this, android.R.layout.simple_spinner_item, countryA);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerCountry.setSelection(99);
+            spinnerCountry.setEnabled(false);
             spinnerCountry.setAdapter(adapter);
 
             if (compareValue != null) {
                 int spinnerPosition = adapter1.getPosition(compareValue);
                 spinnerCountry.setSelection(spinnerPosition);
             }
-
         }
     }
 
@@ -150,30 +157,30 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                 } else {
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                 }
-
-
+                spinnerCountry.setSelection(99);
                 AppLogger.e("item", "---------" + countryArray.get(position).getName());
                 countryId = countryArray.get(position).getCountryId();
                 if (countryArray.get(position).getCountryId().equalsIgnoreCase("IN")) {
                     getStateList(countryArray.get(position).getCountryId());
                     tilState.setVisibility(View.GONE);
                     edState.setText("");
+                    lblState.setVisibility(View.VISIBLE);
                     spinnerState.setVisibility(View.VISIBLE);
                     view_state.setVisibility(View.VISIBLE);
                 } else {
                     tilState.setVisibility(View.VISIBLE);
                     edState.setText(loginResponse.getData().getRegion());
+                    lblState.setVisibility(View.GONE);
                     spinnerState.setVisibility(View.GONE);
                     view_state.setVisibility(View.GONE);
                 }
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
+
         spinnerState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -183,8 +190,6 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                 } else {
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                 }
-
-
             }
 
             @Override
@@ -206,9 +211,18 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
             case R.id.btnSave:
                 boolean valid = validateContactInfo();
                 if (valid) {
-                    editContactInfo("abc", customerId, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), Objects.requireNonNull(edPanCard.getText()).toString(), Objects.requireNonNull(edGstIn.getText()).toString());
+                    if (countryId.equalsIgnoreCase("IN")) {
+                        editContactInfo("abc", customerId, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), Objects.requireNonNull(edPanCard.getText()).toString(), Objects.requireNonNull(edGstIn.getText()).toString());
+                    }else{
+                        if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
+                            edState.setError("Please enter state name.");
+                            edState.requestFocus();
+                        } else {
+                            editContactInfo("abc", customerId, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, edState.getText().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), Objects.requireNonNull(edPanCard.getText()).toString(), Objects.requireNonNull(edGstIn.getText()).toString());
+                        }
+                    }
                 }
-                break;
+            break;
         }
     }
 
@@ -219,40 +233,70 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
             return false;
         } else if (!Validator.checkEmptyInputLayout(edEmail, getString(R.string.sign_up_please_enter_email))) {
             return false;
+        }else if(!Validator.checkEmail(edEmail)){
+            edEmail.requestFocus();
+            edEmail.setError(getString(R.string.login_please_enter_valid_email));
+            return false;
         } else if (!Validator.checkEmptyInputLayout(edContact, getString(R.string.sign_up_please_enter_contact_no))) {
             return false;
-        } else if (!Validator.checkEmptyInputLayout(edAddress, getString(R.string.sign_up_please_enter_address))) {
+        } else if(!Validator.isValidPhoneNumber(Objects.requireNonNull(edContact.getText().toString()))){
+            edContact.requestFocus();
+            edContact.setError(getString(R.string.login_please_enter_valid_mobile));
+            return false;
+        }else if (!Validator.checkEmptyInputLayout(edAddress, getString(R.string.sign_up_please_enter_address))) {
             return false;
         } else if (!Validator.checkEmptyInputLayout(edCity, getString(R.string.sign_up_please_enter_city))) {
             return false;
         } else if (!Validator.checkEmptyInputLayout(edZipCode, getString(R.string.sign_up_please_enter_zip_code))) {
             return false;
-        } /*else if (!Validator.checkEmptyInputLayout(edPanCard, getString(R.string.please_enter_pan_card_no))) {
+        } else if (!Validator.isValidZip(Objects.requireNonNull(edZipCode.getText().toString()))){
+            edZipCode.requestFocus();
+            edZipCode.setError(getString(R.string.login_please_enter_valid_zip));
+            return false;
+        }
+        /*else if (!Validator.checkEmptyInputLayout(edPanCard, getString(R.string.please_enter_pan_card_no))) {
             return false;
         } else
             return Validator.checkEmptyInputLayout(edGstIn, getString(R.string.please_enter_gstin_no));*/
         return true;
-
     }
 
     private void editContactInfo(String token, String customerId, String firstName, String lastName, String email, String contactNumber, String street, String countryId, String region, String city, String postCode, String panCardNo, String gstIn) {
 
         showProgressDialog(AppConstants.PLEASE_WAIT);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<LoginResponse> callApi = apiInterface.editContactInfo(token, customerId, firstName, lastName, email, contactNumber, street, countryId, region, city, postCode, panCardNo, gstIn);
-        callApi.enqueue(new Callback<LoginResponse>() {
+        Call<JsonObject> callApi = apiInterface.editContactInfo(token, customerId, firstName, lastName, email, contactNumber, street, countryId, region, city, postCode, panCardNo, gstIn);
+        callApi.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 Log.e(AppConstants.RESPONSE, "-----------------" + response.body());
                 assert response.body() != null;
                 hideProgressDialog();
+                String status = null;
+                String message = null;
+                if (response.isSuccessful())
+                {
+                    try {
+                        JSONObject jsonObject = new JSONObject(String.valueOf(response.body()));
+                        message = jsonObject.getString("message");
+                        status = jsonObject.getString("status");
 
-//                Save data to session
-                Gson gson = new Gson();
-                String json = gson.toJson(response.body());
-                sharedPreferences.saveLoginData(json);
-                finish();
+                        if(status.equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)){
+        //                 Save data to session
+                            Gson gson = new Gson();
+                            String json = gson.toJson(response.body());
+                            AppLogger.e("login json","----------------"+json);
+                            sharedPreferences.saveLoginData(json);
+                            finish();
 
+                        }else if(status.equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)){
+                            CommonUtils.showErrorToast(EditContactInfoAct.this,message);
+    //                        finish();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
 //                String status, message = null;
                /* if (response.isSuccessful()) {
                     try {
@@ -262,7 +306,6 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     AlertDialog alertDialog = new AlertDialog.Builder(EditContactInfoAct.this).create();
                     alertDialog.setTitle("Thank You!");
                     alertDialog.setMessage(message);
@@ -277,16 +320,14 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                             });
                     alertDialog.show();
                 }*/
-
             }
 
             @Override
-            public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 hideProgressDialog();
             }
         });
-
     }
 
     private void getCountryList() {
@@ -307,7 +348,6 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                 } else if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)) {
                     Log.e(AppConstants.RESPONSE, "-----------------" + response.body().getStatus());
                 }
-
             }
 
             @Override
@@ -315,7 +355,6 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 hideProgressDialog();
             }
-
         });
     }
 
@@ -408,10 +447,7 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                     dialog.cancel();
                 }
             });
-
             dialog.show();
         }
     }
-
-
 }

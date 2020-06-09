@@ -16,7 +16,8 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayout8"
-        app:placeholderImage="@drawable/dml_logo"
+        app:placeholderImage="@mipmap/ic_launcher"
+        app:placeholderImageScaleType="fitCenter"
         app:roundAsCircle="true" />
 
     <android.support.constraint.Guideline
@@ -75,7 +76,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvcertificate"
+            style="@style/order_item_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <android.support.v7.widget.CardView
+            android:visibility="gone"
             android:id="@+id/cardViewMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -140,7 +148,7 @@
             style="@style/order_item_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_cancel" />
+            app:srcCompat="@drawable/ic_delete" />
 
     </LinearLayout>
 

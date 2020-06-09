@@ -7,6 +7,7 @@
     tools:context=".authentication.myaccount.activity.EditAddressAct">
 
     <com.dealermela.utility.DmlButton
+        style="@style/All_Dmlbutton"
         android:id="@+id/btnSave"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -35,10 +36,10 @@
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
-                android:theme="@style/MyCustomTextInputStyle"
                 style="@style/edit_contact_top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/MyCustomTextInputStyle">
 
                 <com.dealermela.utility.DmlTextInputEditText
                     android:id="@+id/edFnm"
@@ -51,10 +52,10 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:theme="@style/MyCustomTextInputStyle"
                 style="@style/edit_contact_top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/MyCustomTextInputStyle">
 
                 <com.dealermela.utility.DmlTextInputEditText
                     android:id="@+id/edLnm"
@@ -67,10 +68,10 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:theme="@style/MyCustomTextInputStyle"
                 style="@style/edit_contact_top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/MyCustomTextInputStyle">
 
                 <com.dealermela.utility.DmlTextInputEditText
                     android:id="@+id/edTelephone"
@@ -84,10 +85,10 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:theme="@style/MyCustomTextInputStyle"
                 style="@style/edit_contact_top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/MyCustomTextInputStyle">
 
                 <com.dealermela.utility.DmlTextInputEditText
                     android:id="@+id/edAddress1"
@@ -99,27 +100,27 @@
 
             </android.support.design.widget.TextInputLayout>
 
+<!--            <android.support.design.widget.TextInputLayout-->
+<!--                style="@style/edit_contact_top"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:theme="@style/MyCustomTextInputStyle">-->
+
+<!--                <com.dealermela.utility.DmlTextInputEditText-->
+<!--                    android:id="@+id/edAddress2"-->
+<!--                    style="@style/common_text_color"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="@string/street_address2"-->
+<!--                    android:inputType="text" />-->
+
+<!--            </android.support.design.widget.TextInputLayout>-->
+
             <android.support.design.widget.TextInputLayout
-                android:theme="@style/MyCustomTextInputStyle"
                 style="@style/edit_contact_top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.dealermela.utility.DmlTextInputEditText
-                    android:id="@+id/edAddress2"
-                    style="@style/common_text_color"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/street_address2"
-                    android:inputType="text" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:theme="@style/MyCustomTextInputStyle"
-                style="@style/edit_contact_top"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/MyCustomTextInputStyle">
 
                 <com.dealermela.utility.DmlTextInputEditText
                     android:id="@+id/edZipCode"
@@ -132,20 +133,43 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <!-- Country-->
+            <com.dealermela.utility.DmlTextView
+                style="@style/common_text_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sixteen_sp"
+                android:text="Country" />
+
+            <com.dealermela.utility.SearchableSpinner
+                android:id="@+id/spinnerCountry"
+                style="@style/NewSpinnerEditTheme"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:layout_marginTop="@dimen/five_dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/one_sp_view"
+                android:background="?toolbarViewColor" />
+
+            <!--end country-->
+
             <RelativeLayout
                 style="@style/edit_contact_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:theme="@style/MyCustomTextInputStyle"
                     android:id="@+id/tilState"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:theme="@style/MyCustomTextInputStyle">
 
                     <com.dealermela.utility.DmlTextInputEditText
-                        style="@style/common_text_color"
                         android:id="@+id/edState"
+                        style="@style/common_text_color"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/state"
@@ -153,12 +177,22 @@
 
                 </android.support.design.widget.TextInputLayout>
 
+                <com.dealermela.utility.DmlTextView
+                    android:id="@+id/lblState"
+                    style="@style/common_text_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="State"
+                    android:visibility="gone" />
+
                 <com.dealermela.utility.SearchableSpinner
                     android:id="@+id/spinnerState"
                     style="@style/SpinnerEditTheme"
                     android:layout_width="match_parent"
                     android:layout_height="40sp"
-                    android:layout_marginTop="@dimen/sixteen_sp" />
+                    android:layout_below="@+id/lblState"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:visibility="gone" />
 
                 <View
                     android:id="@+id/viewState"
@@ -171,10 +205,10 @@
             </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:theme="@style/MyCustomTextInputStyle"
                 style="@style/edit_contact_top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/MyCustomTextInputStyle">
 
                 <com.dealermela.utility.DmlTextInputEditText
                     android:id="@+id/edCity"
@@ -186,19 +220,6 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <com.dealermela.utility.SearchableSpinner
-                android:id="@+id/spinnerCountry"
-                style="@style/SpinnerEditTheme"
-                android:layout_width="match_parent"
-                android:layout_height="40sp"
-                android:layout_marginTop="@dimen/sixteen_sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/one_sp_view"
-                android:background="?toolbarViewColor" />
-
-
             <CheckBox
                 android:id="@+id/checkBoxDefaultBilling"
                 style="@style/check_box_radio"
@@ -206,7 +227,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="@string/use_as_my_default_billing_address"
-
                 />
 
             <CheckBox

@@ -13,26 +13,28 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <com.dealermela.utility.DmlTextViewBold
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            tools:textAllCaps="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:gravity="center"
             android:text="@string/customise_your_jewellery"
             android:textAllCaps="true"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:textAllCaps="true" />
 
         <com.dealermela.utility.DmlTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:text="@string/create_your_own_customized_jwellery"
             android:textColor="?dml_logo_color"
-            android:textSize="12sp"
-            android:text="@string/create_your_own_customized_jwellery" />
+            android:textSize="12sp" />
 
         <com.dealermela.utility.DmlTextView
             android:id="@+id/tvRingSizeHeading"

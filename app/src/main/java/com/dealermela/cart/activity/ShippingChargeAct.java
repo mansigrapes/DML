@@ -53,7 +53,7 @@ public class ShippingChargeAct extends DealerMelaBaseActivity implements View.On
 
         paymentType = getIntent().getStringExtra(AppConstants.PAYMENT_TYPE);
 
-        AppLogger.e("data", "-----------" + myList.get(0).getPrice());
+//        AppLogger.e("data", "-----------" + myList.get(0).getPrice());
         AppLogger.e("paymentType", "-----------" + paymentType);
 
         recycleViewShippingCharge = findViewById(R.id.recycleViewShippingCharge);
@@ -62,7 +62,6 @@ public class ShippingChargeAct extends DealerMelaBaseActivity implements View.On
 
         ShippingChargeAdapter shippingChargeAdapter = new ShippingChargeAdapter(ShippingChargeAct.this, myList);
         recycleViewShippingCharge.setAdapter(shippingChargeAdapter);
-
 
     }
 
@@ -123,23 +122,17 @@ public class ShippingChargeAct extends DealerMelaBaseActivity implements View.On
                     } else {
                         btnContinue.setEnabled(false);
                     }
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 hideProgressDialog();
             }
-
         });
     }
-
 
     //Option menu
     @Override
@@ -158,8 +151,6 @@ public class ShippingChargeAct extends DealerMelaBaseActivity implements View.On
         if (id == R.id.action_cart) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
 }

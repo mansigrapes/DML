@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -47,12 +49,12 @@ import static com.dealermela.other.activity.SplashAct.loginFlag;
 public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecyclerAdapter.ViewHolder> {
 
     private final Activity activity;
-    public final List<ListingItem.ProductImg> itemArrayList;
+    public final List<ListingItem.Datum> itemArrayList;
 
     private KProgressHUD hud;
     private SharedPreferences sharedPreferences;
 
-    public ListingRecyclerAdapter(Activity activity, List<ListingItem.ProductImg> itemArrayList) {
+    public ListingRecyclerAdapter(Activity activity, List<ListingItem.Datum> itemArrayList) {
         super();
         this.activity = activity;
         this.itemArrayList = itemArrayList;
@@ -66,6 +68,7 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
         return new ViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
@@ -81,6 +84,14 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
             holder.tvQty.setVisibility(View.GONE);
         }
 
+        sharedPreferences = new SharedPreferences(activity);
+        if(sharedPreferences.getLoginData().equalsIgnoreCase("")){
+            holder.imgDownload.setVisibility(View.GONE);
+        }else
+        {
+            AppLogger.e("DownloadFlag_Sharedpreference","---" + sharedPreferences.getDownloadFlag());
+            holder.imgDownload.setVisibility(View.VISIBLE);
+        }
 
         if (itemArrayList.get(i).getStock().equalsIgnoreCase("0")) {
 //            holder.tvSoldOut.setVisibility(View.VISIBLE);
@@ -100,12 +111,10 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int j = 0; j <= sku.length - 1; j++) {
-
             if (j == 1) {
                 stringBuilder.append(sku[j]);
                 stringBuilder.append(" ");
             }
-
             /*if (j > 1) {
                 stringBuilder.append(sku[j].charAt(0));
             }*/
@@ -113,25 +122,24 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
 
         float price = itemArrayList.get(i).getCustomPrice();
         holder.tvSku.setText(sku[0]);
-        holder.tvPrice.setText(CommonUtils.priceFormat(price));
+        holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
         holder.tvGold.setText(stringBuilder);
 
         Glide.with(activity)
                 .load(AppConstants.IMAGE_URL + "catalog/product" + itemArrayList.get(i).getThumbnail())
-                .apply(new RequestOptions().placeholder(R.drawable.dml_logo).error(R.drawable.dml_logo))
+//                .load(itemArrayList.get(i).getImages())
+                .apply(new RequestOptions().placeholder(R.drawable.diamondmela_logo).error(R.drawable.diamondmela_logo))
                 .into(holder.imgProduct);
 
+        AppLogger.e("getDownload_flag()","-----------"+itemArrayList.get(i).getDownloadFlag());
 
-        AppLogger.e("getDownload_flag()","-----------"+itemArrayList.get(i).getDownload_flag());
-
-        if (itemArrayList.get(i).getDownload_flag() == 1) {
+        if (itemArrayList.get(i).getDownloadFlag() == 1) {
             holder.imgDownload.setEnabled(false);
             holder.imgDownload.setColorFilter(ContextCompat.getColor(activity, R.color.download_disabled), android.graphics.PorterDuff.Mode.SRC_IN);
-        } else if (itemArrayList.get(i).getDownload_flag() == 0) {
+        } else if (itemArrayList.get(i).getDownloadFlag() == 0) {
             holder.imgDownload.setEnabled(true);
             holder.imgDownload.setColorFilter(ContextCompat.getColor(activity, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
         }
-
 
         holder.imgDownload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,13 +164,11 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
 
                 }else {
                     downloadProduct(customerId, itemArrayList.get(i).getEntityId());
-                    itemArrayList.get(i).setDownload_flag(1);
+                    itemArrayList.get(i).setDownloadFlag(1);
                     notifyItemChanged(i);
                 }
-
             }
         });
-
     }
 
     @Override
@@ -195,26 +201,21 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
             imgProduct = itemView.findViewById(R.id.imgProduct);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
-
         }
 
         @Override
         public void onClick(View v) {
-
             filterFlag = 0;
             Intent intent = new Intent(activity, ProductDetailAct.class);
             intent.putExtra(AppConstants.NAME, itemArrayList.get(getAdapterPosition()).getEntityId());
             activity.startActivity(intent);
             activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-
         }
 
         @Override
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
 
     private void downloadProduct(String customerId, String productId) {
@@ -245,7 +246,6 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -253,17 +253,13 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
                 AppLogger.e("error", "-----------" + t.getMessage());
                 hud.dismiss();
             }
-
         });
-
     }
 
     public void updateDownloadFlag(){
         for (int i=0;i<=itemArrayList.size()-1;i++){
-            itemArrayList.get(i).setDownload_flag(1);
+            itemArrayList.get(i).setDownloadFlag(1);
             notifyItemChanged(i);
         }
-
     }
-
 }

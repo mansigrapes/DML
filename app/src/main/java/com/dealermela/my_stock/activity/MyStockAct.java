@@ -77,8 +77,6 @@ public class MyStockAct extends DealerMelaBaseActivity implements View.OnClickLi
         Gson gson = new Gson();
         loginResponse = gson.fromJson(sharedPreferences.getLoginData(), LoginResponse.class);
         itemArrayList = new ArrayList<>();
-
-
     }
 
     @Override
@@ -211,6 +209,7 @@ public class MyStockAct extends DealerMelaBaseActivity implements View.OnClickLi
                     } else {
                         linNoData.setVisibility(View.GONE);
                         if (itemArrayList.isEmpty()) {
+                            linFilter.setVisibility(View.GONE);
                             linNoData.setVisibility(View.VISIBLE);
                         }
                     }

@@ -2,7 +2,9 @@ package com.dealermela.cart.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import com.dealermela.R;
 import com.dealermela.cart.fragment.PaymentFrg;
 import com.dealermela.cart.model.OrderSummaryItem;
 import com.dealermela.cart.model.SelectPaymentItem;
+import com.dealermela.util.AppConstants;
 import com.dealermela.util.CommonUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -43,17 +46,24 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
         return new ViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
         holder.tvProductName.setText(itemArrayList.get(i).getName());
 
         float price = itemArrayList.get(i).getPrice();
-        holder.tvPrice.setText(CommonUtils.priceFormat(price));
-        holder.tvStoneQuality.setText(Html.fromHtml("<b>" + "Stone Quality : " + "</b> " + itemArrayList.get(i).getStonequality()));
+        holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
+        if(itemArrayList.get(i).getStonequality() != null){
+            holder.tvStoneQuality.setText(Html.fromHtml("<b>" + "Stone Quality : " + "</b> " + itemArrayList.get(i).getStonequality()));
+        }
+        else{
+            holder.tvStoneQuality.setText(Html.fromHtml("<b>" + "Stone Quality : " + "</b> " + " - "));
+        }
+
         holder.tvMetalQuality.setText(Html.fromHtml("<b>" + "Metal Quality : " + "</b> " + itemArrayList.get(i).getMetaldetails()));
         holder.tvQty.setText(Html.fromHtml("<b>" + "Qty : " + "</b> " + String.valueOf(itemArrayList.get(i).getQty())));
-        holder.tvSubPrice.setText(CommonUtils.priceFormat(price));
+        holder.tvSubPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
         if (itemArrayList.get(i).getRingsize() != null) {
             holder.tvSize.setText(Html.fromHtml("<b>" + "Ring Size : " + "</b> " + String.valueOf(itemArrayList.get(i).getRingsize())));
         } else if (itemArrayList.get(i).getPendents() != null) {
@@ -91,16 +101,12 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
 
         @Override
         public void onClick(View v) {
-
         }
 
         @Override
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
-
 
 }

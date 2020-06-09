@@ -22,9 +22,6 @@ public class APIClient {
     private static Retrofit retrofit = null;
 //    private static Map<String, String> queryParams = new HashMap<>();
 
-
-
-
     public static Retrofit getClient() {
 //        queryParams.put("api key","djkfbhsjdbfsdfmkdmfksdmfk");
         if (retrofit == null) {
@@ -59,17 +56,12 @@ public class APIClient {
                         requestBuilder.header(pairs.getKey(), pairs.getValue());
                     }
                 }
-
                 requestBuilder.method(original.method(), original.body());
                 Request request = requestBuilder.build();
                 return chain.proceed(request);
-
             }
         });
 
         return httpClient.build();
-
     }
-
-
 }

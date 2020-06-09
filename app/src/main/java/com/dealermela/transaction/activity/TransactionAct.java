@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
 import com.dealermela.retrofit.APIClient;
+import com.dealermela.retrofit.APIClientLaravel;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.transaction.adapter.TransactionListAdapter;
 import com.dealermela.transaction.model.TransactionItem;
@@ -60,7 +61,6 @@ public class TransactionAct extends DealerMelaBaseActivity {
     @Override
     public void init() {
         dataList = new ArrayList<>();
-
     }
 
     @Override
@@ -73,8 +73,8 @@ public class TransactionAct extends DealerMelaBaseActivity {
         nestedScrollView = findViewById(R.id.nestedScrollView);
         tvTotalDebit = findViewById(R.id.tvTotalDebit);
         tvTotalDeposit = findViewById(R.id.tvTotalDeposit);
-        tvTotalCredit = findViewById(R.id.tvTotalCredit);
-        tvFinalTotalDebit = findViewById(R.id.tvFinalTotalDebit);
+//        tvTotalCredit = findViewById(R.id.tvTotalCredit);
+//        tvFinalTotalDebit = findViewById(R.id.tvFinalTotalDebit);
         progressBarBottom.setVisibility(View.GONE);
     }
 
@@ -130,9 +130,7 @@ public class TransactionAct extends DealerMelaBaseActivity {
 
                                                            }
                                                        }
-
                                                    }
-
         );
     }
 
@@ -149,27 +147,29 @@ public class TransactionAct extends DealerMelaBaseActivity {
         } else {
             progressBarBottom.setVisibility(View.VISIBLE);
         }
-        ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+        ApiInterface apiInterface = APIClientLaravel.getClient().create(ApiInterface.class);
         Call<TransactionItem> callApi = apiInterface.transactionList(customerId, page);
         callApi.enqueue(new Callback<TransactionItem>() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NonNull Call<TransactionItem> call, @NonNull Response<TransactionItem> response) {
                 assert response.body() != null;
-
-                AppLogger.e("response", "-------------" + response.body().getStatus());
+                AppLogger.e("response", "-------------" + response.body());
+//                AppLogger.e("response", "-------------" + response.body().getStatus());
                 if (page_count == 1) {
                     progressBarCenter.setVisibility(View.GONE);
-                    if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
-                        tvTotalDebit.setText(AppConstants.RS + CommonUtils.rupeeFormat(String.valueOf(response.body().getTotalDebit())));
-                        tvTotalDeposit.setText(AppConstants.RS + CommonUtils.rupeeFormat(String.valueOf(response.body().getTotalDeposite())));
-                        tvTotalCredit.setText(AppConstants.RS + CommonUtils.rupeeFormat(String.valueOf(response.body().getTotalCredit())));
-                        tvFinalTotalDebit.setText(AppConstants.RS + CommonUtils.rupeeFormat(String.valueOf(response.body().getFinalTotalamount())));
-                    } else {
+                    if(response.body() != null) {
+                        if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                            tvTotalDebit.setText(AppConstants.RS + CommonUtils.rupeeFormat(String.valueOf(response.body().getTotalPaid())));
+                            tvTotalDeposit.setText(AppConstants.RS + CommonUtils.rupeeFormat(String.valueOf(response.body().getTotalRemaing())));
+//                        tvTotalCredit.setText(AppConstants.RS + CommonUtils.rupeeFormat(String.valueOf(response.body().getTotalCredit())));
+//                        tvFinalTotalDebit.setText(AppConstants.RS + CommonUtils.rupeeFormat(String.valueOf(response.body().getFinalTotalamount())));
+                        } else {
+                            linNoData.setVisibility(View.VISIBLE);
+                        }
+                    }else{
                         linNoData.setVisibility(View.VISIBLE);
                     }
-
-
                 } else {
                     progressBarBottom.setVisibility(View.GONE);
                 }
@@ -183,7 +183,6 @@ public class TransactionAct extends DealerMelaBaseActivity {
 //                            linNoData.setVisibility(View.VISIBLE);
                         }
                     }
-
                 }
             }
 
@@ -199,5 +198,4 @@ public class TransactionAct extends DealerMelaBaseActivity {
             }
         });
     }
-
 }

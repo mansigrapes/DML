@@ -13,11 +13,12 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/imgProduct"
-        android:layout_width="0dp"
-        android:layout_height="111dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="@dimen/sixteen_sp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/sixteen_sp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout6"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRatio"
         app:layout_constraintStart_toStartOf="parent"

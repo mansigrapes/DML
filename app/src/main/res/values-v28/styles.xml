@@ -58,8 +58,6 @@
         <item name="list_item_qty_round">#D9D9D9</item>
 
 
-
-
         <item name="active_item_color">@color/black</item>
         <item name="in_active_item_color">@color/in_active_item_color</item>
         <item name="bottom_navigation_background_color">#FFF3F2F2</item>
@@ -158,6 +156,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -226,6 +225,7 @@
         <item name="android:textColor">?textViewTextColor</item>
         <item name="android:textAlignment">center</item>
         <item name="android:gravity">center</item>
+        <item name="android:textSize">12dp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
@@ -238,6 +238,10 @@
         <item name="android:textColorPrimaryDisableOnly">?login_signup_text_color</item>
     </style>
 
+    <style name="NewSpinnerTheme" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/new_bg_spinner</item>
+    </style>
+
     <style name="SpinnerTheme" parent="android:Widget.Spinner">
         <item name="android:background">@drawable/bg_spinner</item>
     </style>
@@ -247,6 +251,20 @@
         <item name="android:background">@drawable/spinner_drawable</item>
     </style>
 
+    <style name="NewSpinnerEditTheme" parent="android:Widget.Spinner">
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+        <item name="android:background">@drawable/new_gray_spinner_drawable</item>
+    </style>
+
+    <style name="SpinnerEditTheme2" parent="android:Widget.Spinner">
+        <item name="android:layout_marginTop">@dimen/five_dp</item>
+        <item name="android:background">@drawable/spinner_drawable</item>
+    </style>
+
+    <style name="NewSpinnerGray" parent="android:Widget.Spinner">
+        <item name="android:layout_marginTop">@dimen/five_dp</item>
+        <item name="android:background">@drawable/new_gray_spinner_drawable</item>
+    </style>
 
     <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">?toolbarTextColor</item>
@@ -293,8 +311,8 @@
     </style>
 
     <style name="manage_address_header_text">
-        <item name="android:textSize">@dimen/ten_sp</item>
-        <item name="android:textColor">?dml_logo_color</item>
+        <item name="android:textSize">@dimen/edit_profile_text_header_size</item>
+        <item name="android:textColor">?btn_select_border_color</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
@@ -334,11 +352,12 @@
     </style>
 
     <style name="btnBankManage">
-        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/twelve_sp</item>
         <item name="android:lineSpacingExtra">@dimen/eight_sp</item>
         <item name="android:padding">@dimen/eight_sp</item>
         <item name="android:background">?lbl_dml_logo_with_black</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <!--Referral-->
@@ -379,9 +398,6 @@
         <item name="android:textColor">?toolbarTextColor</item>
         <!--<item name="android:visibility">gone</item>-->
     </style>
-
-
-
 
 
     <style name="list_item_text">
@@ -473,10 +489,17 @@
 
     <style name="download_popup_text">
         <item name="android:textColor">?login_signup_text_color</item>
+<!--        <item name="android:layout_marginStart">@dimen/eight_sp</item>-->
+        <item name="android:layout_marginEnd">@dimen/eight_sp</item>
+        <item name="android:lineSpacingExtra">@dimen/eight_sp</item>
+<!--        <item name="android:textAlignment">center</item>-->
+    </style>
+
+    <style name="download_popup_label">
+        <item name="android:textColor">?login_signup_text_color</item>
         <item name="android:layout_marginStart">@dimen/eight_sp</item>
         <item name="android:layout_marginEnd">@dimen/eight_sp</item>
         <item name="android:lineSpacingExtra">@dimen/eight_sp</item>
-        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="AppCompatAlertDialogStyle" parent="Theme.MaterialComponents.Light.Dialog.Alert">
@@ -517,6 +540,7 @@
     <style name="OrderCustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">12sp</item>
         <item name="android:textAllCaps">false</item>
+        <item name="textAllCaps">false</item>
     </style>
 
     <style name="order_item_textView">
@@ -550,8 +574,9 @@
 
     <style name="circle_text_drawer">
         <item name="android:gravity">center</item>
-        <item name="android:textColor">?login_signup_text_color</item>
+        <item name="android:textColor">?toolbarTextColor</item>
         <item name="android:background">@drawable/black_circle</item>
+        <item name="android:textSize">10dp</item>
     </style>
 
 
@@ -664,7 +689,7 @@
 
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
         <!-- Gets rid of the search icon -->
-        <item name="searchIcon">@drawable/ic_search</item>
+        <item name="searchIcon">@drawable/ic_search_new</item>
         <!-- Gets rid of the "underline" in the text -->
         <item name="queryBackground">@color/white</item>
         <!-- Gets rid of the search icon when the SearchView is expanded -->
@@ -672,5 +697,9 @@
         <!-- The hint text that appears when the user has not typed anything -->
     </style>
 
+
+    <style name = "All_Dmlbutton">
+        <item name="android:textAllCaps">false</item>
+    </style>
 
 </resources>

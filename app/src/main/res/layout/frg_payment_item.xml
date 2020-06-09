@@ -47,6 +47,7 @@
 
 
     <com.dealermela.utility.DmlTextView
+        android:id="@+id/defaulttxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="By placing an Order, you agree to Terms of Use and Privacy Policy of Diamondmela.com"

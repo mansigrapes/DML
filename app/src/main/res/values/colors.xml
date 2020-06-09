@@ -33,15 +33,20 @@
     <color name="green">#4CAF50</color>
     <color name="red">#F44336</color>
 
+    <color name="grey">#595959</color>
 
     <!--payment-->
     <color name="transparentColorBack">#B3000000</color>
     <color name="colorBack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
 
-
     <color name="transaction_line_color_black">#434242</color>
     <color name="transaction_round_back_black">#2f2f2f</color>
     <color name="download_disabled">#808080</color>
+
+    <color name="rose">#ddb5ba</color>
+    <color name="tone">#c58c85</color>
+    <color name="yellow">#FFC107</color>
+    <color name="platinum">#e5e4e2</color>
 
 </resources>

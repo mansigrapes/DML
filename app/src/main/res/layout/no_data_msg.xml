@@ -1,25 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    android:id="@+id/constraintNoData"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:visibility="gone"
+    android:id="@+id/constraintNoData"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?login_signup_text_color"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <com.dealermela.utility.DmlImageView
+        android:id="@+id/dmlImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/no_data_search"
+        app:layout_constraintBottom_toTopOf="@+id/dmlTextViewBold7"
+        app:layout_constraintEnd_toEndOf="@+id/dmlTextViewBold7"
+        app:layout_constraintStart_toStartOf="@+id/dmlTextViewBold7" />
 
     <com.dealermela.utility.DmlTextViewBold
         android:id="@+id/dmlTextViewBold7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/sixteen_sp"
-        android:layout_marginEnd="@dimen/sixteen_sp"
-        android:text="No data available."
-        android:textAlignment="center"
-        android:textSize="30sp"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:letterSpacing="0.03"
+        android:lines="1"
+        android:text="@string/sorry"
+        android:textColor="@color/red"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.dealermela.utility.DmlTextViewBold
+        android:id="@+id/tvNoData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:letterSpacing="0.03"
+        android:lineSpacingExtra="12dp"
+        android:lines="1"
+        android:text="@string/no_product_title"
+        android:textSize="@dimen/sixteen_sp"
+        app:layout_constraintEnd_toEndOf="@+id/dmlTextViewBold7"
+        app:layout_constraintHorizontal_bias="0.400"
+        app:layout_constraintStart_toStartOf="@+id/dmlTextViewBold7"
+        app:layout_constraintTop_toBottomOf="@+id/dmlTextViewBold7" />
+
+    <com.dealermela.utility.DmlTextView
+        android:id="@+id/dmlTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/twenty_sp"
+        android:layout_marginTop="@dimen/thirty_dp"
+        android:layout_marginRight="@dimen/twenty_sp"
+        android:gravity="center"
+        android:letterSpacing="0.03"
+        android:text="@string/no_product_title_desc"
+        android:textSize="@dimen/sixteen_sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
+
+
+
+
+

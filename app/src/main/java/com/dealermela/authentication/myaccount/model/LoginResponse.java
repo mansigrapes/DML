@@ -15,6 +15,19 @@ public class LoginResponse {
     @Expose
     private Data data = null;
 
+    @SerializedName("message")
+    @Expose
+    private String message;
+
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public String getStatus() {
         return status;
     }

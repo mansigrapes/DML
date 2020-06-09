@@ -72,15 +72,10 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
             }
         }
-
-
-
-
     }
 
     @Override
     public int getItemCount() {
-
         return itemArrayList.size();
     }
 
@@ -121,8 +116,6 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
 
 }

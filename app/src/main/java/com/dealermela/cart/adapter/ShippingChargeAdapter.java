@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -46,6 +48,7 @@ public class ShippingChargeAdapter extends RecyclerView.Adapter<ShippingChargeAd
         return new ViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
@@ -54,9 +57,8 @@ public class ShippingChargeAdapter extends RecyclerView.Adapter<ShippingChargeAd
             holder.radioBtnSelectShippingCharge.setText(itemArrayList.get(i).getMethodTitle());
         }else{
             float price= Float.parseFloat(itemArrayList.get(i).getPrice());
-            holder.radioBtnSelectShippingCharge.setText(itemArrayList.get(i).getMethodTitle()+" "+CommonUtils.priceFormat(price));
+            holder.radioBtnSelectShippingCharge.setText(itemArrayList.get(i).getMethodTitle()+" "+ AppConstants.RS + CommonUtils.priceFormat(price));
         }
-
 
         if (i==0){
             holder.linLeft.setVisibility(View.VISIBLE);
@@ -66,13 +68,11 @@ public class ShippingChargeAdapter extends RecyclerView.Adapter<ShippingChargeAd
             holder.linRight.setVisibility(View.VISIBLE);
         }
 
-
         if (itemArrayList.get(i).isSelected()){
             holder.radioBtnSelectShippingCharge.setChecked(true);
         }else{
             holder.radioBtnSelectShippingCharge.setChecked(false);
         }
-
     }
 
     @Override
@@ -114,8 +114,5 @@ public class ShippingChargeAdapter extends RecyclerView.Adapter<ShippingChargeAd
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
-
 }

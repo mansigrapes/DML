@@ -74,9 +74,6 @@ public class BraceletsAdapter extends RecyclerView.Adapter<BraceletsAdapter.View
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
             }
         }
-
-
-
     }
 
     @Override
@@ -115,14 +112,12 @@ public class BraceletsAdapter extends RecyclerView.Adapter<BraceletsAdapter.View
             ((ProductDetailAct) activity).cBracelet=itemArrayList.get(getAdapterPosition()).getLabel();
             ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");
             notifyDataSetChanged();
-
         }
 
         @Override
         public boolean onLongClick(View v) {
             return false;
         }
-
 
     }
 

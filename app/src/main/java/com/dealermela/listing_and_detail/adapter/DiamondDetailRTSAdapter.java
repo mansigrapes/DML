@@ -85,8 +85,5 @@ public class DiamondDetailRTSAdapter extends RecyclerView.Adapter<DiamondDetailR
 //            Toast.makeText(activity, "long Click" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
             return false;
         }
-
-
     }
-
 }

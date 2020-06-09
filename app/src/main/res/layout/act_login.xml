@@ -65,19 +65,19 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft" />
 
-    <com.dealermela.utility.DmlTextView
-        android:id="@+id/tvRemPwd"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/login_email_password_start_end_top_margin"
-        android:layout_marginEnd="@dimen/login_email_password_start_end_top_margin"
-        android:text="@string/remember_password"
-        android:textAlignment="textStart"
-        android:textSize="@dimen/login_remember_password_text"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintStart_toEndOf="@+id/checkBox"
-        app:layout_constraintTop_toBottomOf="@+id/viewPassword" />
+<!--    <com.dealermela.utility.DmlTextView-->
+<!--        android:id="@+id/tvRemPwd"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/login_email_password_start_end_top_margin"-->
+<!--        android:layout_marginEnd="@dimen/login_email_password_start_end_top_margin"-->
+<!--        android:text="@string/remember_password"-->
+<!--        android:textAlignment="textStart"-->
+<!--        android:textSize="@dimen/login_remember_password_text"-->
+<!--        android:textColor="@color/white"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/checkBox"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/viewPassword" />-->
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineLeft"
@@ -94,6 +94,7 @@
         app:layout_constraintGuide_end="@dimen/login_guideline_start_end" />
 
     <com.dealermela.utility.DmlButton
+        style="@style/All_Dmlbutton"
         android:id="@+id/btnLogin"
         android:layout_width="@dimen/login_button_width"
         android:layout_height="@dimen/login_button_height"
@@ -106,7 +107,7 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/tvRemPwd"
+        app:layout_constraintTop_toBottomOf="@+id/viewPassword"
         tools:targetApi="m" />
 
     <com.dealermela.utility.DmlTextView
@@ -175,16 +176,16 @@
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/login_email_password_start_end_top_margin"
-        android:button="@drawable/checkbox"
-        android:checked="false"
-        app:layout_constraintBottom_toBottomOf="@+id/tvRemPwd"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toTopOf="@+id/tvRemPwd" />
+<!--    <CheckBox-->
+<!--        android:id="@+id/checkBox"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/login_email_password_start_end_top_margin"-->
+<!--        android:button="@drawable/checkbox"-->
+<!--        android:checked="false"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/tvRemPwd"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/tvRemPwd" />-->
 
 
 </android.support.constraint.ConstraintLayout>

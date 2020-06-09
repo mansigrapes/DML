@@ -66,13 +66,10 @@ public class CaratAdapter extends RecyclerView.Adapter<CaratAdapter.ViewHolder> 
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
             }
         }
-
-
     }
 
     @Override
     public int getItemCount() {
-
         return itemArrayList.size();
     }
 
@@ -108,7 +105,6 @@ public class CaratAdapter extends RecyclerView.Adapter<CaratAdapter.ViewHolder> 
         public boolean onLongClick(View v) {
             return false;
         }
-
 
     }
 

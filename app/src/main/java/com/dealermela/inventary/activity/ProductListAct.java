@@ -45,7 +45,7 @@ public class ProductListAct extends DealerMelaBaseActivity {
 
     @Override
     public void init() {
-        bindToolBar("Payment List");
+        bindToolBar("Product List");
     }
 
     @Override
@@ -153,20 +153,5 @@ public class ProductListAct extends DealerMelaBaseActivity {
         });
     }
 
-    private void deleteProductFromTry(String productIds){
-        ApiInterface apiInterface = APIClientLaravel.getClient().create(ApiInterface.class);
-        Call<JsonObject> callApi = apiInterface.deleteProductFromTry(productIds,customerId);
-        callApi.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
-
-            }
-        });
-    }
 
 }

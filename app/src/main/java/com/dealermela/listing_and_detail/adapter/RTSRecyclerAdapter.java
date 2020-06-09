@@ -51,9 +51,25 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
         holder.tvMetal.setText(itemArrayList.get(i).getMetalQualityValue());
-        holder.tvStone.setText(itemArrayList.get(i).getRtsStoneQuality());
-        holder.tvDiamondWeight.setText(String.valueOf(itemArrayList.get(i).getDiamondWeight()));
-        holder.tvSize.setText(itemArrayList.get(i).getRtsRingSize());
+
+        if(itemArrayList.get(i).getRtsStoneQuality() != null){
+            holder.tvStone.setText(itemArrayList.get(i).getRtsStoneQuality());
+        }else {
+            holder.tvStone.setText("-");
+        }
+
+        if(itemArrayList.get(i).getDiamondWeight() != null){
+            holder.tvDiamondWeight.setText(String.valueOf(itemArrayList.get(i).getDiamondWeight()) + " cts");
+        }else {
+            holder.tvDiamondWeight.setText("-");
+        }
+
+        if(itemArrayList.get(i).getRtsRingSize() != null) {
+            holder.tvSize.setText(itemArrayList.get(i).getRtsRingSize());
+        }else{
+            holder.tvSize.setText("-");
+        }
+
         rtsSlider = itemArrayList.get(i);
 
         if (flag == 0) {
@@ -62,7 +78,6 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
                     rtsSlider.setSelected(true);
                     flag = 1;
                     AppLogger.e("selected item", "----------" + rtsSlider.getEntityId());
-
 
                     ((ProductDetailAct) activity).cProductId = rtsSlider.getEntityId();
                     ((ProductDetailAct) activity).cSku = rtsSlider.getOriginalSku();
@@ -74,10 +89,10 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
                     ((ProductDetailAct) activity).cStoneWeight = String.valueOf(rtsSlider.getDiamondWeight());
                     ((ProductDetailAct) activity).cPrice = rtsSlider.getCustomPrice();
                     ((ProductDetailAct) activity).rtsClick(rtsSlider.getEntityId());
+                    ((ProductDetailAct) activity).tvColorGold.setText(itemArrayList.get(i).getMetalQualityValue());
                 }
             }
         }
-
 
         if (themePreferences.getTheme().equalsIgnoreCase("black")) {
             if (rtsSlider.isSelected()) {
@@ -152,12 +167,6 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
 
             }
         }
-
-
-
-
-
-
     }
 
     @Override

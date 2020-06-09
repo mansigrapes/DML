@@ -32,6 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/five_dp"
                     android:layout_marginTop="@dimen/ten_sp"
+                    android:visibility="gone"
                     android:background="@drawable/bottom_shadow_gradient" />
             </LinearLayout>
 
@@ -61,7 +62,6 @@
                     app:piv_selectedColor="@color/white"
                     app:piv_unselectedColor="@color/white"
                     app:piv_viewPager="@id/viewpagerSlider"
-
                     />
 
             </RelativeLayout>
@@ -83,8 +83,8 @@
                     tools:ignore="ContentDescription" />
 
                 <ImageView
-                    style="@style/pop_product_image_tint"
                     android:id="@+id/img_arrow"
+                    style="@style/pop_product_image_tint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -93,8 +93,8 @@
                     tools:ignore="ContentDescription" />
 
                 <ImageView
-                    style="@style/pop_product_image_tint"
                     android:id="@+id/img_line"
+                    style="@style/pop_product_image_tint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -104,8 +104,8 @@
 
 
                 <ImageView
-                    style="@style/pop_product_image_tint"
                     android:id="@+id/img_left_line"
+                    style="@style/pop_product_image_tint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -152,10 +152,10 @@
             <com.dealermela.utility.DmlButtonBold
                 android:id="@+id/btnViewAll"
                 android:layout_width="@dimen/hundred_sp"
-                android:layout_height="@dimen/thirty_five_sp"
+                android:layout_height="@dimen/btn_height"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/twenty_sp"
-                android:background="@drawable/selected"
+                android:background="@drawable/black_button_round"
                 android:elevation="@dimen/ten_sp"
                 android:text="@string/view_all"
                 android:textColor="?buttonTextColor"
@@ -166,7 +166,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/twenty_sp"
-                android:background="@drawable/back_gradiant"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -182,40 +181,38 @@
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/img_left_line1"
                         android:src="@drawable/ic_titltedesign"
-                        android:tint="@color/white"
                         tools:ignore="ContentDescription" />
 
                     <ImageView
+                        style="@style/pop_product_image_tint"
                         android:id="@+id/img_arrow1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/img_line1"
                         android:src="@drawable/ic_titledesignsecond"
-                        android:tint="@color/white"
                         tools:ignore="ContentDescription" />
 
                     <ImageView
                         android:id="@+id/img_line1"
+                        style="@style/pop_product_image_tint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/txt_popular_product1"
                         android:src="@drawable/ic_titledesignline"
-                        android:tint="@color/white"
                         tools:ignore="ContentDescription" />
-
 
                     <ImageView
                         android:id="@+id/img_left_line1"
+                        style="@style/pop_product_image_tint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/txt_popular_product1"
                         android:src="@drawable/ic_titledesignline"
-                        android:tint="@color/white"
                         tools:ignore="ContentDescription" />
-
+<!--                    android:tint="@color/white"-->
 
                     <com.dealermela.utility.DmlTextViewBold
                         android:id="@+id/txt_popular_product1"
@@ -228,42 +225,40 @@
                         android:layout_marginEnd="@dimen/five_sp"
                         android:text="@string/best_category"
                         android:textAllCaps="true"
-                        android:textColor="@color/white"
+                        android:textColor="?textViewTextColor"
                         android:textSize="@dimen/sixteen_sp" />
 
                 </RelativeLayout>
 
-
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/two_dp"
-                    android:background="?transaction_line_color" />
+                    android:layout_height="@dimen/one_sp_view"
+                    android:background="?transaction_line_color"
+                    android:visibility="gone"/>
 
+                <LinearLayout
+                    android:id="@+id/lin_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_sp"
+                    android:orientation="vertical"
+                    android:background="@drawable/back_gradiant">
 
-
-                    <LinearLayout
-                        android:id="@+id/lin_product"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycleViewBestProducts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_sp"
-                        android:orientation="vertical">
+                        android:layout_marginEnd="@dimen/eight_sp" />
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recycleViewBestProducts"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/eight_sp" />
-
-                    </LinearLayout>
-
+                </LinearLayout>
 
 
                 <View
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/one_sp_view"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:background="?transaction_line_color" />
+                    android:background="?transaction_line_color"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/imgSingleBanner"
@@ -359,8 +354,8 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            style="@style/pop_product_image_tint"
                             android:id="@+id/imageView15"
+                            style="@style/pop_product_image_tint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -386,7 +381,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/two_dp"
+                android:layout_height="@dimen/one_sp_view"
                 android:layout_marginTop="@dimen/twenty_sp"
                 android:background="?transaction_line_color" />
 
@@ -414,8 +409,8 @@
                     tools:ignore="ContentDescription" />
 
                 <ImageView
-                    style="@style/pop_product_image_tint"
                     android:id="@+id/img_right"
+                    style="@style/pop_product_image_tint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -424,15 +419,14 @@
                     tools:ignore="ContentDescription" />
 
                 <ImageView
-                    style="@style/pop_product_image_tint"
                     android:id="@+id/img_left"
+                    style="@style/pop_product_image_tint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/txt_popular_product_new"
                     android:src="@drawable/ic_titledesignline"
-                    tools:ignore="ContentDescription"
-                     />
+                    tools:ignore="ContentDescription" />
 
                 <com.dealermela.utility.DmlTextViewBold
                     android:id="@+id/txt_popular_product_new"
@@ -468,11 +462,11 @@
                 app:reverseLayout="true" />
 
             <View
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/one_sp_view"
                 android:layout_marginTop="@dimen/fifteen_sp"
-                android:background="?transaction_line_color" />
+                android:background="?transaction_line_color"
+                android:visibility="gone" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
@@ -484,7 +478,7 @@
                     android:layout_height="@dimen/home_bottom_logo_height_width"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/twenty_sp"
-                    android:src="@drawable/dml_logo"
+                    android:src="@drawable/diamondmela_logo"
                     tools:ignore="ContentDescription" />
 
                 <com.dealermela.utility.DmlTextView

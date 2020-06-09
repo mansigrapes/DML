@@ -14,11 +14,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -73,12 +75,20 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
         return new ViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
 
-        holder.tvProductPrice.setText(CommonUtils.priceFormat((float) Math.ceil(Float.parseFloat(itemArrayList.get(i).getPrice()))));
+        holder.tvProductPrice.setText(AppConstants.RS + CommonUtils.priceFormat((float) Math.ceil(Float.parseFloat(itemArrayList.get(i).getPrice()))));
         holder.imgDownloadProduct.setImageURI(itemArrayList.get(i).getImage());
-        holder.tvSku.setText(itemArrayList.get(i).getSku());
+//        holder.tvSku.setText(itemArrayList.get(i).getSku());
+
+        String[] strings1 = itemArrayList.get(i).getSku().split(" ");
+        for (int j = 0; j < strings1.length; j++) {
+            if (j == 0) {
+                holder.tvSku.setText(strings1[j]);
+            }
+        }
 
         holder.checkDownloadProduct.setChecked(itemArrayList.get(i).isSelected() ? true : false);
 
@@ -87,7 +97,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
         } else {
             holder.imgDeleteFlag.setVisibility(View.GONE);
         }
-
 
         holder.imgDeleteFlag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +116,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                         // Your Permission granted already .Do next code
                         AppLogger.e("init if ", "----call");
                         downloadProduct(itemArrayList.get(i).getProductId(), itemArrayList.get(i).getSku(), i);
-
                     } else {
                         AppLogger.e("init if else ", "----call");
                         ((DownloadAct) activity).requestPermission(); // Code for permission
@@ -118,7 +126,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                     // Do next code
                     downloadProduct(itemArrayList.get(i).getProductId(), itemArrayList.get(i).getSku(), i);
                 }
-
             }
         });
 
@@ -139,6 +146,7 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                                 itemArrayList.remove(i);
                                 notifyItemRemoved(i);
                                 notifyItemRangeChanged(i, itemArrayList.size());
+
                             }
                         })
                         .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -147,9 +155,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                                 dialog.dismiss();
                             }
                         }).show();
-
-
-
 
 
                /* AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.AppCompatAlertDialogStyle);
@@ -164,7 +169,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                         itemArrayList.remove(i);
                         notifyItemRemoved(i);
                         notifyItemRangeChanged(i, itemArrayList.size());
-
                     }
                 });
                 alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -174,7 +178,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                     }
                 });
                 alert.show();*/
-
             }
         });
 
@@ -187,14 +190,10 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                 holder.checkDownloadProduct.setChecked(itemArrayList.get(i).isSelected() ? true : false);
 
                 if (itemArrayList.get(i).isSelected()) {
-
                 } else {
-
                 }
-
             }
         });
-
     }
 
     @Override
@@ -240,7 +239,7 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                 }
             });
 
-            TextView tvSku = dialog.findViewById(R.id.tvSku);
+            TextView tvSkuDialog = dialog.findViewById(R.id.tvSkuDialog);
             TextView tvGoldType = dialog.findViewById(R.id.tvGoldType);
             TextView tvMetalDetail = dialog.findViewById(R.id.tvMetalDetail);
             TextView tvStoneDetail = dialog.findViewById(R.id.tvStoneDetail);
@@ -256,34 +255,34 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                 }
             });
 
-            tvSku.setText(itemArrayList.get(getAdapterPosition()).getSku());
+//            tvSkuDialog.setText(itemArrayList.get(getAdapterPosition()).getSku());
             StringBuilder stringBuilder = new StringBuilder();
 
             String[] strings = itemArrayList.get(getAdapterPosition()).getSku().split(" ");
             for (int i = 0; i < strings.length; i++) {
-                if (i > 0) {
+                if (i == 0) {
+                    tvSkuDialog.setText(strings[i]);
+                }else {
                     stringBuilder.append(strings[i]);
                     stringBuilder.append(" ");
                 }
             }
-
+            tvGoldType.setVisibility(View.VISIBLE);
             tvGoldType.setText(stringBuilder);
-            tvMetalDetail.setText(itemArrayList.get(getAdapterPosition()).getMetalDeatil() + " " + itemArrayList.get(getAdapterPosition()).getCarat());
-            tvStoneDetail.setText(itemArrayList.get(getAdapterPosition()).getStoneDetail() + " " + itemArrayList.get(getAdapterPosition()).getDiamondWeight());
+//            tvMetalDetail.setText(itemArrayList.get(getAdapterPosition()).getMetalDeatil() + " " + itemArrayList.get(getAdapterPosition()).getCarat());
+            tvMetalDetail.setText(itemArrayList.get(getAdapterPosition()).getCarat() + " ("+ itemArrayList.get(getAdapterPosition()).getMetalDeatil()+ ")" );
+            tvStoneDetail.setText(itemArrayList.get(getAdapterPosition()).getStoneDetail() + " (" + itemArrayList.get(getAdapterPosition()).getDiamondWeight() + ")" );
 
             imgProductImage.setImageURI(itemArrayList.get(getAdapterPosition()).getImage());
 
             Objects.requireNonNull(dialog.getWindow()).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         }
 
         @Override
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
 
     private void downloadProduct(String productId, final String sku, final int position) {
@@ -307,6 +306,7 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                         if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                             hud.dismiss();
                             String url = jsonObject.getString("image");
+                            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(url);
                             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
                             request.setDescription(sku);
                             request.setTitle(sku);
@@ -319,17 +319,10 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                                 folder = new File(Environment
                                         .getExternalStorageDirectory() + "/Diamond Mela/Download Product");
                             }
-
-
-                            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                                request.allowScanningByMediaScanner();
-                                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                            }*/
-
-
                             request.allowScanningByMediaScanner();
                             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                            @SuppressLint("SimpleDateFormat") String fileName = new SimpleDateFormat("yyyyMMddHHmm'.txt'").format(new Date());
+                            @SuppressLint("SimpleDateFormat") String fileName = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
+                            fileName += "."+fileExtension;
                             request.setDestinationInExternalPublicDir(folder.getAbsolutePath(), sku + fileName);
 
                             DownloadManager manager = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
@@ -339,21 +332,21 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                             itemArrayList.get(position).setFlag("0");
                             notifyItemChanged(position);
 
+//                            itemArrayList.remove(position);
+//                            notifyItemRemoved(position);
+//                            notifyItemRangeChanged(position, itemArrayList.size());
+
                         }
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                         hud.dismiss();
                     }
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
-
             }
         });
     }
@@ -374,19 +367,17 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                         if (itemArrayList.isEmpty()) {
                             activity.finish();
                         }
+                        CommonUtils.showSuccessToast(activity, "Product deleted successfully");
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
-
             }
         });
     }
@@ -421,6 +412,4 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
         itemArrayList.get(position).setFlag("0");
         notifyItemChanged(position);
     }
-
-
 }

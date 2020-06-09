@@ -15,15 +15,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout11"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/search_round"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include21">
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/searchViewInvoice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:iconifiedByDefault="false"
+            app:searchIcon="@drawable/ic_search_new"
+            app:queryHint="Search" />
+
+        <!--        app:searchIcon="@drawable/ic_search"-->
+        <!--        app:queryBackground="@color/transparent"-->
+        <!--        app:closeIcon="@drawable/ic_clear"-->
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleViewInvoiceList"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="@dimen/eight_sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include21" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
 
     <include
         layout="@layout/no_data_msg"

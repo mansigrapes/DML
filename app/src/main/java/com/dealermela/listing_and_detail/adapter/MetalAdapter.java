@@ -2,6 +2,7 @@ package com.dealermela.listing_and_detail.adapter;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> 
         super();
         this.activity = activity;
         this.itemArrayList = itemArrayList;
-        themePreferences=new ThemePreferences(activity);
+        themePreferences = new ThemePreferences(activity);
     }
 
     @NonNull
@@ -43,6 +44,18 @@ public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull final ViewHolder holder, int i) {
 
         holder.tvName.setText(itemArrayList.get(i));
+
+        if (itemArrayList.get(i).contains("Rose")) {
+            holder.cardMetalColor.setCardBackgroundColor(activity.getResources().getColor(R.color.rose));
+        } else if (itemArrayList.get(i).contains("Tone")) {
+            holder.cardMetalColor.setCardBackgroundColor(activity.getResources().getColor(R.color.tone));
+        } else if (itemArrayList.get(i).contains("Yellow")) {
+            holder.cardMetalColor.setCardBackgroundColor(activity.getResources().getColor(R.color.yellow));
+        } else if (itemArrayList.get(i).contains("white")) {
+            holder.cardMetalColor.setCardBackgroundColor(activity.getResources().getColor(R.color.white));
+        } else {
+            holder.cardMetalColor.setCardBackgroundColor(activity.getResources().getColor(R.color.platinum));
+        }
 
         if (themePreferences.getTheme().equalsIgnoreCase("black")) {
             if (itemArrayList.get(i).equalsIgnoreCase(metalValue)) {
@@ -72,10 +85,6 @@ public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> 
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
             }
         }
-
-
-
-
     }
 
     @Override
@@ -88,11 +97,13 @@ public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> 
 
         final TextView tvName;
         final LinearLayout linMetal;
+        final CardView cardMetalColor;
 
         ViewHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             linMetal = itemView.findViewById(R.id.linMetal);
+            cardMetalColor = itemView.findViewById(R.id.cardMetalColor);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
@@ -101,7 +112,7 @@ public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> 
         public void onClick(View v) {
             linMetal.setBackground(activity.getResources().getDrawable(R.drawable.ten_size_logo_color_round_border));
             metalValue = itemArrayList.get(getAdapterPosition());
-            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()),"");
+            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()), "");
             notifyDataSetChanged();
         }
 

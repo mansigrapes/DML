@@ -42,9 +42,18 @@ public class ProductDetailItem {
     @SerializedName("belt_price")
     @Expose
     private String belt_price = null;
+//    @SerializedName("metalprice")
+//    @Expose
+//    private List<Integer> metalprice = null;
+
+//    @SerializedName("metalprice")
+//    @Expose
+//    private Metalprice metalprice;
+
     @SerializedName("metalprice")
     @Expose
-    private List<Integer> metalprice = null;
+    private Integer metalprice;
+
     @SerializedName("diamondmainprice")
     @Expose
     private List<Diamondmainprice> diamondmainprice = null;
@@ -150,7 +159,6 @@ public class ProductDetailItem {
         this.carat = carat;
     }
 
-
     public String getBelt_price() {
         return belt_price;
     }
@@ -167,11 +175,27 @@ public class ProductDetailItem {
         this.metal = metal;
     }
 
-    public List<Integer> getMetalprice() {
+//    public List<Integer> getMetalprice() {
+//        return metalprice;
+//    }
+//
+//    public void setMetalprice(List<Integer> metalprice) {
+//        this.metalprice = metalprice;
+//    }
+
+//    public Metalprice getMetalprice() {
+//        return metalprice;
+//    }
+//
+//    public void setMetalprice(Metalprice metalprice) {
+//        this.metalprice = metalprice;
+//    }
+
+    public Integer getMetalprice() {
         return metalprice;
     }
 
-    public void setMetalprice(List<Integer> metalprice) {
+    public void setMetalprice(Integer metalprice) {
         this.metalprice = metalprice;
     }
 
@@ -238,6 +262,21 @@ public class ProductDetailItem {
     public void setGemstonedetails(List<Gemstonedetail> gemstonedetails) {
         this.gemstonedetails = gemstonedetails;
     }
+
+//    public class Metalprice {
+//
+//        @SerializedName("price")
+//        @Expose
+//        private Integer price;
+//
+//        public Integer getPrice() {
+//            return price;
+//        }
+//        public void setPrice(Integer price) {
+//            this.price = price;
+//        }
+//
+//    }
 
     public class RtsSlider {
 

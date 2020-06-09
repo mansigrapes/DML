@@ -1,6 +1,8 @@
 package com.dealermela.home.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -22,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -56,6 +59,7 @@ import com.dealermela.util.ThemePreferences;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
@@ -89,7 +93,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
     private ScrollView scrollViewCollection;
     private boolean doubleBackToExitPressedOnce = false;
 //    private RelativeLayout relCart;
-
+    private RelativeLayout RLUser;
     private TextView tvDownloadCount, tvCartCount, tvCartCountHome;
     private ThemePreferences themePreferences;
     private View viewBottomMyStock,
@@ -97,6 +101,8 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
             viewBottomTransaction,
             viewBottomDownload,
             viewBottomPolicies;
+
+    private View loginview;
 
     private DrawerLayout drawer;
     SpaceNavigationView spaceNavigationView;
@@ -108,7 +114,6 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
         drawer = findViewById(R.id.drawer_layout);
 
-
         spaceNavigationView = findViewById(R.id.space);
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
 
@@ -119,8 +124,8 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
         //Bottom bar
         spaceNavigationView.addSpaceItem(new SpaceItem("", R.drawable.ic_home));
-        spaceNavigationView.addSpaceItem(new SpaceItem("", R.drawable.ic_referral));
         spaceNavigationView.addSpaceItem(new SpaceItem("", R.drawable.ic_compare));
+        spaceNavigationView.addSpaceItem(new SpaceItem("", R.drawable.ic_referral));
         spaceNavigationView.addSpaceItem(new SpaceItem("", R.drawable.ic_profile));
 
         spaceNavigationView.showIconOnly();
@@ -140,18 +145,18 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                         fragment = new HomeFrg();
                         replaceFragment(fragment);
                     }
-
                 } else if (itemIndex == 1) {
                     if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                         showSnackBar(drawer);
                     } else {
-                        startNewActivity(CreateReferralAct.class);
+                        startNewActivity(TransactionAct.class);
                     }
                 } else if (itemIndex == 2) {
+
                     if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                         showSnackBar(drawer);
                     } else {
-                        startNewActivity(TransactionAct.class);
+                        startNewActivity(CreateReferralAct.class);
                     }
                 } else if (itemIndex == 3) {
                     if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
@@ -168,43 +173,37 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 //                    fragment = new HomeFrg();
 //                    replaceFragment(fragment);
                 } else if (itemIndex == 1) {
-//                    if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-//                        showSnackBar(drawer);
-//                    } else {
-//                        startNewActivity(TransactionAct.class);
-//                    }
+                    if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                        showSnackBar(drawer);
+                    } else {
+                        startNewActivity(TransactionAct.class);
+                    }
                 } else if (itemIndex == 2) {
-//                    if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-//                        showSnackBar(drawer);
-//                    } else {
-//                        startNewActivity(OrderTabActivity.class);
-//                    }
+                    if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                        showSnackBar(drawer);
+                    } else {
+                        startNewActivity(OrderTabActivity.class);
+                    }
                 } else if (itemIndex == 3) {
-//                    if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-//                        showSnackBar(drawer);
-//                    } else {
-//                        startNewActivity(EditProfileAct.class);
-//                    }
+                    if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                        showSnackBar(drawer);
+                    } else {
+                        startNewActivity(EditProfileAct.class);
+                    }
                 }
-
             }
-
         });
 
 //        Set onLongClick listener
         spaceNavigationView.setSpaceOnLongClickListener(new SpaceOnLongClickListener() {
             @Override
             public void onCentreButtonLongClick() {
-
             }
-
             @Override
             public void onItemLongClick(int itemIndex, String itemName) {
             }
         });
-
         themePreferences = new ThemePreferences(MainActivity.this);
-
     }
 
     @Override
@@ -222,7 +221,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         item.setActionView(R.layout.switch_layout);
         Switch switchAB = item
                 .getActionView().findViewById(R.id.switchAB);
-
+        switchAB.setChecked(false);
         if (themePreferences.getTheme().equalsIgnoreCase("white")) {
             switchAB.setChecked(false);
         } else {
@@ -246,9 +245,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 }
             }
         });
-
         return true;
-
     }
 
     @Override
@@ -264,8 +261,6 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
     @SuppressLint("SetTextI18n")
     @Override
     public void init() {
-
-
     }
 
     @Override
@@ -279,11 +274,14 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        toolbar.setNavigationIcon(R.drawable.ic_menu);
+//        if (themePreferences.getTheme().equalsIgnoreCase("white")) {
+            toolbar.setNavigationIcon(R.drawable.ic_menu_new);
+//        } else {
+//            toolbar.setNavigationIcon(R.drawable.ic_menu_new_black_theme);
+//        }
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
-
 
         tvMyAccount = navigationView.findViewById(R.id.tvMyAccount);
         tvCreateReferral = navigationView.findViewById(R.id.tvCreateReferral);
@@ -292,7 +290,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         tvUserName = headerLayout.findViewById(R.id.tvUserName);
 //        relCart = findViewById(R.id.relCart);
 //        relCart.setVisibility(View.GONE);
-
+        RLUser = headerLayout.findViewById(R.id.RLUser);
         imgDot = headerLayout.findViewById(R.id.imgDot);
         ImageView imgArrow = headerLayout.findViewById(R.id.imgArrow);
         SimpleDraweeView imgUser = headerLayout.findViewById(R.id.imgUser);
@@ -305,14 +303,14 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         linTransaction = headerLayout.findViewById(R.id.linTransaction);
         linDownload = headerLayout.findViewById(R.id.linDownload);
         linPolicies = headerLayout.findViewById(R.id.linPolicies);
-        linCart = headerLayout.findViewById(R.id.linCart);
+//        linCart = headerLayout.findViewById(R.id.linCart);
         linFAQ = headerLayout.findViewById(R.id.linFAQ);
         linContactUs = headerLayout.findViewById(R.id.linContactUs);
         linLogout = headerLayout.findViewById(R.id.linLogout);
         linMyStock = headerLayout.findViewById(R.id.linMyStock);
 
         tvDownloadCount = headerLayout.findViewById(R.id.tvDownloadCount);
-        tvCartCount = headerLayout.findViewById(R.id.tvCartCount);
+//        tvCartCount = headerLayout.findViewById(R.id.tvCartCount);
         tvCartCountHome = findViewById(R.id.tvCartCountHome);
 
         viewBottomMyStock = headerLayout.findViewById(R.id.viewBottomMyStock);
@@ -321,7 +319,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         viewBottomDownload = headerLayout.findViewById(R.id.viewBottomDownload);
         viewBottomPolicies = headerLayout.findViewById(R.id.viewBottomPolicies);
 
-
+        loginview = headerLayout.findViewById(R.id.loginview);
     }
 
     @SuppressLint("SetTextI18n")
@@ -332,17 +330,17 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
             Gson gson = new Gson();
             loginResponse = gson.fromJson(sharedPreferences.getLoginData(), LoginResponse.class);
             customerId = loginResponse.getData().getEntityId();
-
         }
 
-
         if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+            loginview.setVisibility(View.GONE);
             tvLogin.setVisibility(View.VISIBLE);
             tvSignUp.setVisibility(View.VISIBLE);
             imgDot.setVisibility(View.VISIBLE);
             tvUserName.setVisibility(View.GONE);
             linInventory.setVisibility(View.GONE);
         } else {
+            loginview.setVisibility(View.VISIBLE);
             linInventory.setVisibility(View.VISIBLE);
             tvLogin.setVisibility(View.GONE);
             tvSignUp.setVisibility(View.GONE);
@@ -354,8 +352,6 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 tvCreateReferral.setVisibility(View.GONE);
             }
         }
-
-
     }
 
     @Override
@@ -365,6 +361,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         tvLogin.setOnClickListener(this);
         tvSignUp.setOnClickListener(this);
         tvUserName.setOnClickListener(this);
+        RLUser.setOnClickListener(this);
 
         linInventory.setOnClickListener(this);
         linCollection.setOnClickListener(this);
@@ -372,7 +369,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         linTransaction.setOnClickListener(this);
         linDownload.setOnClickListener(this);
         linPolicies.setOnClickListener(this);
-        linCart.setOnClickListener(this);
+//        linCart.setOnClickListener(this);
         linFAQ.setOnClickListener(this);
         linContactUs.setOnClickListener(this);
         linLogout.setOnClickListener(this);
@@ -396,7 +393,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                             .setAction("Login", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    loginFlag = 1;
+                                    loginFlag = 0;
                                     Intent intent = new Intent(MainActivity.this, LoginAct.class);
                                     startActivity(intent);
                                 }
@@ -414,14 +411,13 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 }
                 break;
             case R.id.tvCreateReferral:
-
                 if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                     Snackbar snackBar = Snackbar
                             .make(v, "Please first login", Snackbar.LENGTH_LONG)
                             .setAction("Login", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    loginFlag = 1;
+                                    loginFlag = 0;
                                     Intent intent = new Intent(MainActivity.this, LoginAct.class);
                                     startActivity(intent);
                                 }
@@ -441,7 +437,6 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
             case R.id.tvLogin:
                 startNewActivity(LoginAct.class);
-                finishAffinity();
                 onBackPressed();
                 break;
 
@@ -450,14 +445,25 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 onBackPressed();
                 break;
 
+            case R.id.RLUser:
+                if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+
+                }else {
+                    startNewActivity(EditProfileAct.class);
+                    onBackPressed();
+                }
+                break;
+
             case R.id.tvUserName:
                 startNewActivity(EditProfileAct.class);
                 onBackPressed();
                 break;
 
             case R.id.linInventory:
-                Intent intent = new Intent(MainActivity.this, InventoryListAct.class);
-                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, InventoryListAct.class);
+//                startActivity(intent);
+                fragment = new HomeFrg();
+                replaceFragment(fragment);
                 onBackPressed();
                 break;
 
@@ -489,29 +495,32 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 onBackPressed();
                 break;
 
-            case R.id.linCart:
-                startNewActivity(CartAct.class);
-                onBackPressed();
-                break;
+//            case R.id.linCart:
+//                startNewActivity(CartAct.class);
+//                onBackPressed();
+//                break;
 
             case R.id.linFAQ:
                 break;
+
             case R.id.linContactUs:
                 startNewActivity(ContactUsAct.class);
                 onBackPressed();
                 break;
+
             case R.id.linMyStock:
                 startNewActivity(MyStockAct.class);
                 onBackPressed();
                 break;
+
             case R.id.linLogout:
                 onBackPressed();
-                LogoutDialogClass logoutDialogClass = new LogoutDialogClass(MainActivity.this);
-                logoutDialogClass.show();
-                Objects.requireNonNull(logoutDialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                Objects.requireNonNull(logoutDialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                LogoutDialogClass logoutDialogClass = new LogoutDialogClass(MainActivity.this);
+//                logoutDialogClass.show();
+//                Objects.requireNonNull(logoutDialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+//                Objects.requireNonNull(logoutDialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                /*new (this)
+           /*     new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.logout))
                         .setMessage(R.string.please_logout)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -525,8 +534,37 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                             public void onClick(DialogInterface dialog, int which) {
                             }
                         })
-                        .show();*/
+                        .show();   */
+
+                new IOSDialog.Builder(this)
+                        .setTitle(getString(R.string.logout))
+                        .setMessage(R.string.please_logout)
+                        .setCancelable(false)
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                logout();
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
         }
+    }
+
+
+    private void logout() {
+        SharedPreferences sharedPreferences = new SharedPreferences(this);
+        sharedPreferences.saveLoginData("");
+        sharedPreferences.saveShipping("");
+        sharedPreferences.saveBillingAddress("");
+//        sharedPreferences.saveRemember("");
+        customerId="";
+        this.startActivity(new Intent(this,LoginAct.class));
+//        activity.finishAffinity();
     }
 
     @SuppressLint("InflateParams")
@@ -546,7 +584,6 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                     intent.putExtra(AppConstants.NAME, list.get(finalI).getName());
                     intent.putExtra(AppConstants.bannerListCheck, "");
                     startNewActivityWithIntent(intent);
-
                 }
             });
             linContainer.addView(textLayout);
@@ -563,14 +600,12 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 Log.e(AppConstants.RESPONSE, "-----------------" + response.body());
                 assert response.body() != null;
                 inflateTextViews(response.body().getData().size(), response.body().getData());
-
             }
 
             @Override
             public void onFailure(@NonNull Call<HeaderItem> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
             }
-
         });
     }
 
@@ -580,9 +615,10 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                return;
+            if (doubleBackToExitPressedOnce) {  //if label is true than exit from the app
+                finishAffinity();
+//                super.onBackPressed();        //before code
+//                return;
             }
 
             this.doubleBackToExitPressedOnce = true;
@@ -594,7 +630,6 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                     doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
-
         }
     }
 
@@ -607,6 +642,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         mapFilter.clear();
         selectFilter.clear();
         filterFlag = 0;
+
         if (!sharedPreferences.getLoginData().equalsIgnoreCase("")) {
             getCount();
             linOrders.setVisibility(View.VISIBLE);
@@ -630,7 +666,6 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
             linPolicies.setVisibility(View.GONE);
             linLogout.setVisibility(View.GONE);
 
-
             viewBottomMyStock.setVisibility(View.GONE);
             viewBottomOrder.setVisibility(View.GONE);
             viewBottomTransaction.setVisibility(View.GONE);
@@ -639,15 +674,14 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
             setupBadge();
             if (cartCount == 0) {
-                tvCartCount.setVisibility(View.GONE);
+//                tvCartCount.setVisibility(View.GONE);
                 tvCartCountHome.setVisibility(View.GONE);
             } else {
-                tvCartCount.setVisibility(View.VISIBLE);
+//                tvCartCount.setVisibility(View.VISIBLE);
                 tvCartCountHome.setVisibility(View.VISIBLE);
-                tvCartCount.setText(String.valueOf(cartCount));
+//                tvCartCount.setText(String.valueOf(cartCount));
                 tvCartCountHome.setText(String.valueOf(cartCount));
             }
-
         }
     }
 
@@ -664,13 +698,13 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                     if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
 
                         if (jsonObject.getInt("total_qty") != 0) {
-                            tvCartCount.setVisibility(View.VISIBLE);
+//                            tvCartCount.setVisibility(View.VISIBLE);
                             tvCartCountHome.setVisibility(View.VISIBLE);
                             cartCount = jsonObject.getInt("total_qty");
-                            tvCartCount.setText(String.valueOf(jsonObject.getInt("total_qty")));
+//                            tvCartCount.setText(String.valueOf(jsonObject.getInt("total_qty")));
                             tvCartCountHome.setText(String.valueOf(jsonObject.getInt("total_qty")));
                         } else {
-                            tvCartCount.setVisibility(View.GONE);
+//                            tvCartCount.setVisibility(View.GONE);
                             tvCartCountHome.setVisibility(View.GONE);
                         }
 
@@ -683,29 +717,21 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                                 tvDownloadCount.setVisibility(View.VISIBLE);
                                 tvDownloadCount.setText(String.valueOf(jsonObject.getInt("download_count")));
                             }
-
-
                         } else {
                             tvDownloadCount.setVisibility(View.GONE);
                         }
-
                     } else {
-                        tvCartCount.setVisibility(View.GONE);
+//                        tvCartCount.setVisibility(View.GONE);
                         tvDownloadCount.setVisibility(View.GONE);
-
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
-
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
             }
-
         });
     }
 
@@ -715,7 +741,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 .setAction("Login", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loginFlag = 1;
+                        loginFlag = 0;
                         Intent intent = new Intent(MainActivity.this, LoginAct.class);
                         startActivity(intent);
                     }
@@ -727,5 +753,4 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         textView.setTextColor(Color.WHITE);
         snackBar.show();
     }
-
 }

@@ -68,6 +68,12 @@ public class HomePageSliderAdapter extends android.support.v4.view.PagerAdapter 
 
                 AppLogger.e("data attr", "--------------" + imageItemArrayList.get(position).getDataAttr());
 
+//                if(imageItemArrayList.get(position).getDataAttr().equalsIgnoreCase("")){
+//
+//                }else if(imageItemArrayList.get(position).getDataAttr().equalsIgnoreCase("")) {
+//
+//                }
+
                 if (!imageItemArrayList.get(position).getDataAttr().equalsIgnoreCase("")) {
 
                     HashMap<String, String> bannerFilter = new HashMap<>();
@@ -78,25 +84,30 @@ public class HomePageSliderAdapter extends android.support.v4.view.PagerAdapter 
                     AppLogger.e("array2", "-----------" + str[1]);
                     AppLogger.e("size", "-----------" + str.length);
 
-                    for (int j = 0; j < str.length; j++) {
-                        String[] keyValue = str[j].split("#");
-                        AppLogger.e("key value", "-----------" + keyValue);
-                        AppLogger.e("key value", "-----------" + keyValue[0]);
-                        AppLogger.e("key value", "-----------" + keyValue[1]);
-                        bannerFilter.put(keyValue[0], keyValue[1]);
-                        if (j == str.length - 1) {
+//                    for (int j = 0; j < str.length; j++) {
+//                        String[] keyValue = str[j].split("#");
+//                        AppLogger.e("key value", "-----------" + keyValue);
+//                        AppLogger.e("key value", "-----------" + keyValue[0]);
+//                        AppLogger.e("key value", "-----------" + keyValue[1]);
+//                        bannerFilter.put(str[0], str[1]);
+//                        if (j == str.length - 1) {
                             Intent intent = new Intent(mContext, ListAct.class);
-                            if (bannerFilter.containsKey("category_id")) {
-                                intent.putExtra(AppConstants.ID, bannerFilter.get("category_id"));
-                            } else {
-                                intent.putExtra(AppConstants.ID, "");
+//                            if (bannerFilter.containsKey("category_id")) {
+//                                intent.putExtra(AppConstants.ID, bannerFilter.get("category_id"));
+//                            } else {
+//                                intent.putExtra(AppConstants.ID, "");
+//                            }
+                            intent.putExtra(AppConstants.ID,str[0] );
+                            if(str[1].equalsIgnoreCase("pendentsets")){
+                                intent.putExtra(AppConstants.NAME, "Pendants & Sets");
+                            }else {
+                                intent.putExtra(AppConstants.NAME, str[1]);
                             }
-                            intent.putExtra(AppConstants.NAME, "Banner");
                             intent.putExtra(AppConstants.bannerListCheck, "Banner");
                             intent.putExtra("map", bannerFilter);
                             mContext.startActivity(intent);
-                        }
-                    }
+//                        }
+//                    }
                 }
             }
         });
@@ -107,5 +118,4 @@ public class HomePageSliderAdapter extends android.support.v4.view.PagerAdapter 
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((RelativeLayout) object);
     }
-
 }

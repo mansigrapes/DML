@@ -107,7 +107,6 @@ public class PaymentFrg extends DealerMelaBaseFragment implements View.OnClickLi
                     if (response.body().getShippingCharges() == null || response.body().getShippingCharges().isEmpty()) {
 //                        CommonUtils.showToast(getActivity(),"Shipping charges is empty");
 
-
                         Snackbar snack = Snackbar.make(rootView, "Shipping charges is empty, you can not continue this order.", Snackbar.LENGTH_LONG);
                         View view = snack.getView();
                         TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -119,22 +118,17 @@ public class PaymentFrg extends DealerMelaBaseFragment implements View.OnClickLi
                         shippingCharges.addAll(response.body().getShippingCharges());
                     }
 
-
                     PaymentSelectAdapter paymentSelectAdapter = new PaymentSelectAdapter(getActivity(), response.body().getDate(), PaymentFrg.this);
                     recycleViewPayment.setAdapter(paymentSelectAdapter);
 
-
                 } else {
-
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<SelectPaymentItem> call, @NonNull Throwable t) {
                 progressBarPayment.setVisibility(View.GONE);
             }
-
         });
     }
 

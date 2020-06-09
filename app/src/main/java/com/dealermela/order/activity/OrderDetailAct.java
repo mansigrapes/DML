@@ -1,10 +1,15 @@
 package com.dealermela.order.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -25,9 +30,12 @@ import com.dealermela.util.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +51,8 @@ public class OrderDetailAct extends DealerMelaBaseActivity implements View.OnCli
     private ProgressBar progressBar;
     private LinearLayout linCancel, linPrintOrder,linearLayout;
     private KProgressHUD hud;
+    public List<OrderItem.Datum> itemArrayList;
+    int position ;
 
     @Override
     protected int getLayoutResourceId() {
@@ -53,8 +63,10 @@ public class OrderDetailAct extends DealerMelaBaseActivity implements View.OnCli
     public void init() {
         orderId = getIntent().getStringExtra(AppConstants.ORDER_ID);
         status = getIntent().getStringExtra("status");
+        position = getIntent().getIntExtra("position",0);
+        AppLogger.e("DetailPage_Position","----"+ position);
         AppLogger.e("order id", "------------" + orderId);
-
+        closeOptionsMenu();
     }
 
     @Override
@@ -80,17 +92,14 @@ public class OrderDetailAct extends DealerMelaBaseActivity implements View.OnCli
     @Override
     public void postInitView() {
         if (status.equalsIgnoreCase("Pending")){
-            linPrintOrder.setVisibility(View.GONE);
-        }else if(status.equalsIgnoreCase("Complete")){
+//            linPrintOrder.setVisibility(View.GONE);
+        }else if(status.equalsIgnoreCase("Completed")){
             linCancel.setVisibility(View.GONE);
         }else if(status.equalsIgnoreCase("Canceled")){
 //            linPrintOrder.setVisibility(View.GONE);
-//            linCancel.setVisibility(View.GONE);
-            linearLayout.setVisibility(View.GONE);
-
+            linCancel.setVisibility(View.GONE);
+//            linearLayout.setVisibility(View.GONE);
         }
-
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(OrderDetailAct.this);
         recycleViewOrderList.setLayoutManager(linearLayoutManager);
     }
@@ -111,6 +120,7 @@ public class OrderDetailAct extends DealerMelaBaseActivity implements View.OnCli
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<OrderDetailItem> callApi = apiInterface.orderDetail(orderId);
         callApi.enqueue(new Callback<OrderDetailItem>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(@NonNull Call<OrderDetailItem> call, @NonNull Response<OrderDetailItem> response) {
                 assert response.body() != null;
@@ -124,28 +134,25 @@ public class OrderDetailAct extends DealerMelaBaseActivity implements View.OnCli
                     tvShippingAddress.setText(response.body().getData().get(0).getShiipingAddress());
                     tvPaymentMethod.setText(response.body().getData().get(0).getPaymentMethod());
                     tvShippingMethod.setText(Html.fromHtml(response.body().getData().get(0).getShippingDescription()));
+//                    tvShippingMethod.setText(response.body().getData().get(0).getShippingDescription());
 
-                    tvSubTotal.setText(CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOrderSubtotal())));
-                    tvShippingCharge.setText(CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOrderShippingamount())));
-                    tvTax.setText(CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOderTaxamount())));
+                    tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOrderSubtotal())));
+                    tvShippingCharge.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOrderShippingamount())));
+                    tvTax.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOderTaxamount())));
 
                     if (response.body().getData().get(0).getOrderGrandtotal()==null){
 
                     }else{
-                        tvGrandTotal.setText(CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOrderGrandtotal())));
+                        tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOrderGrandtotal())));
                     }
-
-
                     OrderDetailAdapter orderDetailAdapter = new OrderDetailAdapter(OrderDetailAct.this, response.body().getData().get(0).getOrderItem());
                     recycleViewOrderList.setAdapter(orderDetailAdapter);
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<OrderDetailItem> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
-
             }
         });
     }
@@ -154,17 +161,31 @@ public class OrderDetailAct extends DealerMelaBaseActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.linCancel:
-                cancelOrder(orderId);
+                new IOSDialog.Builder(this)
+                        .setTitle("Cancel Order")
+                        .setMessage("Are you sure to cancel order?")
+                        .setCancelable(false)
+                        .setPositiveButton(this.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                cancelOrder(orderId);
+                            }
+                        })
+                        .setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
                 break;
-
             case R.id.linPrintOrder:
                 printOrder(orderId);
                 break;
         }
     }
 
-
-    private void cancelOrder(String orderId) {
+    private void cancelOrder(final String orderId) {
 
         //show progress
         hud = KProgressHUD.create(OrderDetailAct.this)
@@ -186,22 +207,20 @@ public class OrderDetailAct extends DealerMelaBaseActivity implements View.OnCli
                         if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                             hud.dismiss();
                             linCancel.setVisibility(View.GONE);
-
+                            tvOrderStatus.setText("ORDER STATUS : " + "Canceled");
+//                            AppLogger.e("cancelbtn","-----"+itemArrayList.get(position));
+//                            itemArrayList.get(position).setOrderStatus("Canceled");
                         }
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                         hud.dismiss();
                     }
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
-
             }
         });
     }
@@ -215,7 +234,6 @@ public class OrderDetailAct extends DealerMelaBaseActivity implements View.OnCli
         hud = KProgressHUD.create(OrderDetailAct.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait");
-
         hud.show();
 
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
@@ -240,14 +258,32 @@ public class OrderDetailAct extends DealerMelaBaseActivity implements View.OnCli
                         hud.dismiss();
                     }
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
-
             }
         });
+    }
+
+    //Option menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_search) {
+            return true;
+        }
+        if (id == R.id.action_cart) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -86,9 +86,6 @@ public class RingAdapter extends RecyclerView.Adapter<RingAdapter.ViewHolder> {
             }
         }
 
-
-
-
     }
 
     @Override

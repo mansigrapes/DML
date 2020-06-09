@@ -76,10 +76,6 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
 
     @Override
     public void init() {
-        SharedPreferences sharedPreferences = new SharedPreferences(EditProfileAct.this);
-        Gson gson = new Gson();
-        loginResponse = gson.fromJson(sharedPreferences.getLoginData(), LoginResponse.class);
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -121,15 +117,11 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
         edBankAccHolderName = findViewById(R.id.edBankAccHolderName);
         edIfscCode = findViewById(R.id.edIfscCode);
         edBranchName = findViewById(R.id.edBranchName);
-
-
         linBank = findViewById(R.id.linBank);
-
     }
 
     @Override
     public void postInitView() {
-
     }
 
     @Override
@@ -147,7 +139,6 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
 
     @Override
     public void loadData() {
-
     }
 
     @Override
@@ -196,6 +187,11 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
                 break;
             case R.id.btnCancel:
                 linBank.setVisibility(View.GONE);
+                edBankName.getText().clear();
+                edBankAccNo.getText().clear();
+                edBankAccHolderName.getText().clear();
+                edIfscCode.getText().clear();
+                edBranchName.getText().clear();
                 break;
 
             case R.id.btnManageBankDetail:
@@ -226,9 +222,15 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
 
                     assert status != null;
                     if (status.equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                        edBankName.setText("");
+                        edBankAccNo.setText("");
+                        edBankAccHolderName.setText("");
+                        edIfscCode.setText("");
+                        edBranchName.setText("");
+                        ViewDialog viewDialog = new ViewDialog();
+                        viewDialog.showDialog(EditProfileAct.this, "Thank you!", message, "OK", "", "1");
 
-                        ViewDialog viewDialog=new ViewDialog();
-                        viewDialog.showDialog(EditProfileAct.this,"Thank you!",message,"OK","","1");
+                        linBank.setVisibility(View.GONE);
 
                         /*AlertDialog alertDialog = new AlertDialog.Builder(EditProfileAct.this).create();
                         alertDialog.setTitle("Thank You!");
@@ -251,10 +253,7 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
                     } else {
                         CommonUtils.showErrorToast(EditProfileAct.this, message);
                     }
-
                 }
-
-
             }
 
             @Override
@@ -262,7 +261,6 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
                 AppLogger.e("", "------------" + t.getMessage());
                 hideProgressDialog();
             }
-
         });
     }
 
@@ -288,10 +286,9 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
 
                     tvSName.setText(response.body().getDefaultShipping().getFirstname() + " " + response.body().getDefaultShipping().getLastname());
                     tvSAddress1.setText(response.body().getDefaultShipping().getStreet());
-                    tvSCity.setText(response.body().getDefaultShipping().getCity() + "," + response.body().getDefaultBilling().getRegion() + "," + response.body().getDefaultBilling().getPostcode());
+                    tvSCity.setText(response.body().getDefaultShipping().getCity() + "," + response.body().getDefaultShipping().getRegion() + "," + response.body().getDefaultShipping().getPostcode());
                     tvSCountry.setText(response.body().getDefaultShipping().getCountry());
                     tvSTelephone.setText("T: " + response.body().getDefaultShipping().getTelephone());
-
                 }
 
             }
@@ -331,6 +328,9 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
     protected void onResume() {
         super.onResume();
         getAddress(customerId);
+        SharedPreferences sharedPreferences = new SharedPreferences(EditProfileAct.this);
+        Gson gson = new Gson();
+        loginResponse = gson.fromJson(sharedPreferences.getLoginData(), LoginResponse.class);
         tvName.setText(loginResponse.getData().getFirstname() + " " + loginResponse.getData().getLastname());
         tvEmail.setText(loginResponse.getData().getEmail());
         tvReferralCode.setText(" " + loginResponse.getData().getRefcode());
@@ -349,12 +349,12 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
             TextView tvTitle = dialog.findViewById(R.id.tvTitle);
             TextView tvMsg = dialog.findViewById(R.id.tvMsg);
             Button btnYes = dialog.findViewById(R.id.btnYes);
-            Button btnNo =  dialog.findViewById(R.id.btnNo);
+            Button btnNo = dialog.findViewById(R.id.btnNo);
             tvTitle.setText(title);
             tvMsg.setText(msg);
             btnYes.setText(btnYesText);
             btnNo.setText(btnNoText);
-            if (isVisible.equalsIgnoreCase("1")){
+            if (isVisible.equalsIgnoreCase("1")) {
                 btnNo.setVisibility(View.GONE);
             }
 
@@ -363,7 +363,7 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
                 public void onClick(View v) {
 //                    Toast.makeText(getApplicationContext(),"Cancel" ,Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
-                   startNewActivity(ManageBankAct.class);
+                    startNewActivity(ManageBankAct.class);
                 }
             });
 

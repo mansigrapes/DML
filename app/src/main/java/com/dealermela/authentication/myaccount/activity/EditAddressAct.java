@@ -11,15 +11,20 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
@@ -30,6 +35,7 @@ import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.CommonUtils;
 import com.dealermela.util.ThemePreferences;
 import com.dealermela.util.Validator;
 import com.google.gson.Gson;
@@ -42,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,7 +56,6 @@ import retrofit2.Response;
 import static com.dealermela.home.activity.MainActivity.customerId;
 
 public class EditAddressAct extends DealerMelaBaseActivity implements View.OnClickListener {
-
 
     private TextInputLayout tilState;
     private TextInputEditText edFnm, edLnm, edTelephone, edAddress1, edAddress2, edZipCode, edState, edCity;
@@ -65,10 +71,13 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
     private AddressManageResponse.DefaultShipping defaultShipping;
     private AddressManageResponse.Datum additionalAddress;
 
-
     private String status = "";
     private CheckBox checkBoxDefaultBilling, checkBoxShippingBilling;
     private ThemePreferences themePreferences;
+    private TextView lblState;
+
+    String billingFlag;
+    String shippingFlag;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,6 +92,7 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
 
     @Override
     public void init() {
+        closeOptionsMenu();
         themePreferences = new ThemePreferences(EditAddressAct.this);
         Intent intent = getIntent();
         status = intent.getStringExtra("addressStatus");
@@ -92,7 +102,6 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
             String target = intent.getStringExtra("defaultBilling");
             defaultBilling = gson.fromJson(target, AddressManageResponse.DefaultBilling.class);
             AppLogger.e("fnm", defaultBilling.getFirstname());
-
 
         } else if (intent.getStringExtra("addressStatus").equalsIgnoreCase("2")) {
             bindToolBar("Edit Address");
@@ -105,23 +114,22 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
             Gson gson = new Gson();
             String target = intent.getStringExtra("defaultShipping");
             additionalAddress = gson.fromJson(target, AddressManageResponse.Datum.class);
-
         } else if (intent.getStringExtra("addressStatus").equalsIgnoreCase("4")) {
             bindToolBar("Add Address");
         } else if (intent.getStringExtra("addressStatus").equalsIgnoreCase("5")) {
             bindToolBar("Add Address");
         }
-
     }
 
     @Override
     public void initView() {
 
+        lblState = findViewById(R.id.lblState);
         edFnm = findViewById(R.id.edFnm);
         edLnm = findViewById(R.id.edLnm);
         edTelephone = findViewById(R.id.edTelephone);
         edAddress1 = findViewById(R.id.edAddress1);
-        edAddress2 = findViewById(R.id.edAddress2);
+//        edAddress2 = findViewById(R.id.edAddress2);
         edZipCode = findViewById(R.id.edZipCode);
         edState = findViewById(R.id.edState);
         edCity = findViewById(R.id.edCity);
@@ -135,7 +143,6 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
         tilState = findViewById(R.id.tilState);
         checkBoxDefaultBilling = findViewById(R.id.checkBoxDefaultBilling);
         checkBoxShippingBilling = findViewById(R.id.checkBoxShippingBilling);
-
     }
 
     @Override
@@ -146,9 +153,10 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
             edLnm.setText(defaultBilling.getLastname());
             edTelephone.setText(defaultBilling.getTelephone());
             edAddress1.setText(defaultBilling.getStreet());
-//            edAddress2.setText(defaultBilling.getStreet());
+//            edAddress2.setText(defaultBilling.getStreet1());
             edZipCode.setText(defaultBilling.getPostcode());
             edCity.setText(defaultBilling.getCity());
+            edState.setText(defaultBilling.getRegion());
             compareValue = defaultBilling.getCountryId();
 
             checkBoxShippingBilling.setVisibility(View.GONE);
@@ -159,7 +167,8 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
             edLnm.setText(defaultShipping.getLastname());
             edTelephone.setText(defaultShipping.getTelephone());
             edAddress1.setText(defaultShipping.getStreet());
-//            edAddress2.setText(defaultShipping.getStreet());
+//            edAddress2.setText(defaultShipping.getStreet1());
+            edState.setText(defaultShipping.getRegion());
             edZipCode.setText(defaultShipping.getPostcode());
             edCity.setText(defaultShipping.getCity());
             compareValue = defaultShipping.getCountryId();
@@ -172,7 +181,8 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
             edLnm.setText(additionalAddress.getLastname());
             edTelephone.setText(additionalAddress.getTelephone());
             edAddress1.setText(additionalAddress.getStreet());
-//            edAddress2.setText(additionalAddress.getStreet());
+//            edAddress2.setText(additionalAddress.getStreet1());
+            edState.setText(additionalAddress.getRegion());
             edZipCode.setText(additionalAddress.getPostcode());
             edCity.setText(additionalAddress.getCity());
             compareValue = additionalAddress.getCountryId();
@@ -182,11 +192,11 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
             checkBoxDefaultBilling.setVisibility(View.GONE);
         }
 
-
         List<String> spinnerArray = new ArrayList<>();
         List<String> countryA = new ArrayList<>();
 
         if (!countryArray.isEmpty()) {
+
             for (int i = 0; i <= countryArray.size() - 1; i++) {
                 spinnerArray.add(countryArray.get(i).getName());
                 countryA.add(countryArray.get(i).getCountryId());
@@ -199,15 +209,16 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                     this, android.R.layout.simple_spinner_item, countryA);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerCountry.setSelection(99);
+            spinnerCountry.setEnabled(false);
             spinnerCountry.setAdapter(adapter);
 
-            if (compareValue != null) {
+            if (compareValue != "") {
                 int spinnerPosition = adapter1.getPosition(compareValue);
                 spinnerCountry.setSelection(spinnerPosition);
             }
-
+        } else {
         }
-
     }
 
     @Override
@@ -223,30 +234,32 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                 } else {
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                 }
-
-
+                spinnerCountry.setSelection(99);
                 AppLogger.e("item", "---------" + countryArray.get(position).getName());
                 countryId = countryArray.get(position).getCountryId();
                 if (countryArray.get(position).getCountryId().equalsIgnoreCase("IN")) {
+                    lblState.setVisibility(View.VISIBLE);
+                    spinnerState.setVisibility(View.VISIBLE);
                     getStateList(countryArray.get(position).getCountryId());
                     tilState.setVisibility(View.GONE);
                     edState.setText("");
                     spinnerState.setVisibility(View.VISIBLE);
                     viewState.setVisibility(View.VISIBLE);
                 } else {
+                    lblState.setVisibility(View.GONE);
+                    spinnerState.setVisibility(View.GONE);
                     tilState.setVisibility(View.VISIBLE);
 //                    edState.setText(defaultBilling.getRegion());
                     spinnerState.setVisibility(View.GONE);
                     viewState.setVisibility(View.GONE);
                 }
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
+
         spinnerState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -257,10 +270,8 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                 }
                 regionId = stateArray.get(position).getRegionId();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
@@ -289,22 +300,16 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    ViewDialog viewDialog=new ViewDialog();
-                    viewDialog.showDialog(EditAddressAct.this,"Thank you!",message,"OK","","1");
-
-
+                    ViewDialog viewDialog = new ViewDialog();
+                    viewDialog.showDialog(EditAddressAct.this, "Thank you!", message, "OK", "", "1");
                 }
-
             }
-
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 hideProgressDialog();
             }
         });
-
     }
 
     private void editBillingAddress(String customerId, String addressId, String firstName, String lastName, String street1, String street2, String city, String regionId, String region, String postcode, String countryId, String telephone) {
@@ -322,19 +327,18 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject = new JSONObject(String.valueOf(response.body()));
+                        ViewDialog viewDialog = new ViewDialog();
                         message = jsonObject.getString("message");
+                        if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                            viewDialog.showDialog(EditAddressAct.this, "Thank you!", message, "OK", "", "1");
+                        } else if(jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)){
+//                            CommonUtils.showErrorToast(EditAddressAct.this, jsonObject.getString("status"));
+                            CommonUtils.showErrorToast(EditAddressAct.this, message);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    ViewDialog viewDialog=new ViewDialog();
-                    viewDialog.showDialog(EditAddressAct.this,"Thank you!",message,"OK","","1");
-
-
-
-
                 }
-
             }
 
             @Override
@@ -343,7 +347,6 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                 hideProgressDialog();
             }
         });
-
     }
 
     private void editShippingAddress(String customerId, String addressId, String firstName, String lastName, String street1, String street2, String city, String regionId, String region, String postcode, String countryId, String telephone) {
@@ -362,24 +365,24 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                     try {
                         JSONObject jsonObject = new JSONObject(String.valueOf(response.body()));
                         message = jsonObject.getString("message");
+                        if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                            ViewDialog viewDialog = new ViewDialog();
+                            viewDialog.showDialog(EditAddressAct.this, "Thank you!", message, "OK", "", "1");
+                        } else if(jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)){
+//                            CommonUtils.showErrorToast(EditAddressAct.this, jsonObject.getString("status"));
+                            CommonUtils.showErrorToast(EditAddressAct.this, message);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    ViewDialog viewDialog=new ViewDialog();
-                    viewDialog.showDialog(EditAddressAct.this,"Thank you!",message,"OK","","1");
-
                 }
-
             }
-
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 hideProgressDialog();
             }
         });
-
     }
 
     private void editAdditionalAddress(String customerId, String addressId, String addressBillingFlag, String addressShippingFlag, String firstName, String lastName, String street1, String street2, String city, String regionId, String region, String postcode, String countryId, String telephone) {
@@ -398,16 +401,17 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                         JSONObject jsonObject = new JSONObject(String.valueOf(response.body()));
                         status_success = jsonObject.getString("status");
                         message = jsonObject.getString("message");
+                        if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                            ViewDialog viewDialog = new ViewDialog();
+                            viewDialog.showDialog(EditAddressAct.this, "Thank you!", message, "OK", "", "1");
+                        } else if(jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)) {
+//                            CommonUtils.showErrorToast(EditAddressAct.this, jsonObject.getString("status"));
+                            CommonUtils.showErrorToast(EditAddressAct.this, message);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    ViewDialog viewDialog=new ViewDialog();
-                    viewDialog.showDialog(EditAddressAct.this,"Thank you!",message,"OK","","1");
-
-
                 }
-
             }
 
             @Override
@@ -416,7 +420,6 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                 hideProgressDialog();
             }
         });
-
     }
 
     private void getCountryList() {
@@ -437,7 +440,6 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                 } else if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)) {
                     Log.e(AppConstants.RESPONSE, "-----------------" + response.body().getStatus());
                 }
-
             }
 
             @Override
@@ -445,7 +447,6 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 hideProgressDialog();
             }
-
         });
     }
 
@@ -466,7 +467,6 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                 } else if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)) {
                     Log.e(AppConstants.RESPONSE, "-----------------" + response.body().getStatus());
                 }
-
             }
 
             @Override
@@ -474,7 +474,6 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 hideProgressDialog();
             }
-
         });
     }
 
@@ -482,6 +481,8 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
         List<String> spinnerArray = new ArrayList<>();
 
         if (!stateArray.isEmpty()) {
+            lblState.setVisibility(View.VISIBLE);
+            spinnerState.setVisibility(View.VISIBLE);
             for (int i = 0; i <= stateArray.size() - 1; i++) {
                 spinnerArray.add(stateArray.get(i).getName());
             }
@@ -499,13 +500,13 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
             } else if (status.equalsIgnoreCase("3")) {
                 compareValue = additionalAddress.getRegion();
             }
-
-
             if (compareValue != null) {
                 int spinnerPosition = adapter.getPosition(compareValue);
                 spinnerState.setSelection(spinnerPosition);
             }
-
+        } else {
+            lblState.setVisibility(View.GONE);
+            spinnerState.setVisibility(View.GONE);
         }
     }
 
@@ -515,15 +516,12 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
             case R.id.btnSave:
                 boolean valid = validateAddress();
                 if (valid) {
-                    String billingFlag;
                     if (checkBoxDefaultBilling.isChecked()) {
                         billingFlag = "1";
                     } else {
                         billingFlag = "0";
                     }
 
-
-                    String shippingFlag;
                     if (checkBoxShippingBilling.isChecked()) {
                         shippingFlag = "1";
                     } else {
@@ -532,65 +530,61 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
 
                     if (status.equalsIgnoreCase("1")) {
                         if (countryId.equalsIgnoreCase("IN")) {
-                            editBillingAddress(customerId, defaultBilling.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+//                            editBillingAddress(customerId, defaultBilling.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            editBillingAddress(customerId, defaultBilling.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
                         } else {
                             if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                                 edState.setError("Please enter state name.");
                                 edState.requestFocus();
                             } else {
-                                editBillingAddress(customerId, defaultBilling.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, Objects.requireNonNull(edState.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                                editBillingAddress(customerId, defaultBilling.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, Objects.requireNonNull(edState.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
                             }
                         }
-
                     } else if (status.equalsIgnoreCase("2")) {
                         if (countryId.equalsIgnoreCase("IN")) {
-                            editShippingAddress(customerId, defaultShipping.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            editShippingAddress(customerId, defaultShipping.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
                         } else {
                             if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                                 edState.setError("Please enter state name.");
                                 edState.requestFocus();
                             } else {
-                                editShippingAddress(customerId, defaultShipping.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, Objects.requireNonNull(edState.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                                editShippingAddress(customerId, defaultShipping.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, Objects.requireNonNull(edState.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
                             }
                         }
-
-
                     } else if (status.equalsIgnoreCase("3")) {
-
                         if (countryId.equalsIgnoreCase("IN")) {
-                            editAdditionalAddress(customerId, additionalAddress.getEntityId(), billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            editAdditionalAddress(customerId, additionalAddress.getEntityId(), billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
                         } else {
                             if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                                 edState.setError("Please enter state name.");
                                 edState.requestFocus();
                             } else {
-                                editAdditionalAddress(customerId, additionalAddress.getEntityId(), billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, Objects.requireNonNull(edState.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                                editAdditionalAddress(customerId, additionalAddress.getEntityId(), billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, Objects.requireNonNull(edState.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
                             }
                         }
                     } else if (status.equalsIgnoreCase("4")) {
                         if (countryId.equalsIgnoreCase("IN")) {
-                            addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
                         } else {
                             if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                                 edState.setError("Please enter state name.");
                                 edState.requestFocus();
                             } else {
-                                addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, Objects.requireNonNull(edState.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                                addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, Objects.requireNonNull(edState.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
                             }
                         }
                     } else if (status.equalsIgnoreCase("5")) {
                         if (countryId.equalsIgnoreCase("IN")) {
-                            addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
                         } else {
                             if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                                 edState.setError("Please enter state name.");
                                 edState.requestFocus();
                             } else {
-                                addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, Objects.requireNonNull(edState.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                                addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, Objects.requireNonNull(edState.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
                             }
                         }
                     }
-
                 }
                 break;
         }
@@ -603,11 +597,20 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
             return false;
         } else if (!Validator.checkEmptyInputLayout(edTelephone, "Please enter telephone")) {
             return false;
+        } else if(!Validator.isValidPhoneNumber(Objects.requireNonNull(edTelephone.getText()).toString())){
+            edTelephone.requestFocus();
+            edTelephone.setError(getString(R.string.login_please_enter_valid_mobile));
+            return false;
         } else if (!Validator.checkEmptyInputLayout(edAddress1, getString(R.string.sign_up_please_enter_address))) {
             return false;
         } else if (!Validator.checkEmptyInputLayout(edZipCode, getString(R.string.sign_up_please_enter_zip_code))) {
             return false;
-        } else
+        } else if(!Validator.isValidZip(Objects.requireNonNull(edZipCode.getText()).toString())){
+            edZipCode.requestFocus();
+            edZipCode.setError(getString(R.string.login_please_enter_valid_zip));
+            return false;
+        }
+        else
             return Validator.checkEmptyInputLayout(edCity, getString(R.string.sign_up_please_enter_city));
     }
 
@@ -625,12 +628,12 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
             TextView tvTitle = dialog.findViewById(R.id.tvTitle);
             TextView tvMsg = dialog.findViewById(R.id.tvMsg);
             Button btnYes = dialog.findViewById(R.id.btnYes);
-            Button btnNo =  dialog.findViewById(R.id.btnNo);
+            Button btnNo = dialog.findViewById(R.id.btnNo);
             tvTitle.setText(title);
             tvMsg.setText(msg);
             btnYes.setText(btnYesText);
             btnNo.setText(btnNoText);
-            if (isVisible.equalsIgnoreCase("1")){
+            if (isVisible.equalsIgnoreCase("1")) {
                 btnNo.setVisibility(View.GONE);
             }
 
@@ -653,6 +656,25 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
 
             dialog.show();
         }
+    }
+
+    //Option menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return false;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_search) {
+            return true;
+        }
+        if (id == R.id.action_cart) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -38,6 +41,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,13 +63,10 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
     private final List<OrderItem.Datum> itemArrayList;
     private KProgressHUD hud;
 
-
-
     public MyOrderAdapter(Activity activity, List<OrderItem.Datum> itemArrayList) {
         super();
         this.activity = activity;
         this.itemArrayList = itemArrayList;
-
     }
 
     @NonNull
@@ -73,9 +74,9 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.frg_my_order_item_adapter, viewGroup, false);
         return new ViewHolder(v);
-
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
@@ -83,52 +84,83 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
 //        AppLogger.e("item", "----------------" + itemArrayList.get(i).getOrderItems().get(0).getProductName());
 //        AppLogger.e("position", "----------------" + i);
 
-
-
-        if (itemArrayList.get(i).getOrderItems().isEmpty()){
-            holder.tvTitle.setText(Html.fromHtml("<b>" + "Title : " + "</b> " ));
-            holder.tvSku.setText(Html.fromHtml("<b>" + "Sku : " + "</b> " ));
-            holder.tvMetalDetail.setText(Html.fromHtml("<b>" + "Metal Detail : " + "</b> " ));
-            holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " ));
-            holder.imgProduct.setImageURI("");
-        }else{
+        if (itemArrayList.get(i).getOrderItems().isEmpty()) {
+            holder.tvTitle.setText(Html.fromHtml("<b>" + "Title : " + "</b> "));
+            holder.tvSku.setText(Html.fromHtml("<b>" + "Sku : " + "</b> "));
+            holder.tvMetalDetail.setText(Html.fromHtml("<b>" + "Metal Detail : " + "</b> "));
+            holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> "));
+            holder.imgProduct.setImageURI("http://123.108.51.11/media/catalog/product/cache/1/small_image/9df78eab33525d08d6e5fb8d27136e95/placeholder/default/def_2.png");
+        } else {
             holder.tvTitle.setText(itemArrayList.get(i).getOrderItems().get(0).getProductName());
-            holder.tvSku.setText(Html.fromHtml("<b>" + "Sku : " + "</b> " + itemArrayList.get(i).getOrderItems().get(0).getProductSku()));
-            holder.tvMetalDetail.setText(Html.fromHtml("<b>" + "Metal Detail : " + "</b> " + itemArrayList.get(i).getOrderItems().get(0).getProductMetalquality() + "(" + itemArrayList.get(i).getOrderItems().get(0).getProductMetalweight() + ")"));
-            holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getOrderItems().get(0).getProductStonequality() + "(" + itemArrayList.get(i).getOrderItems().get(0).getProductStoneweight() + ")"));
-            holder.imgProduct.setImageURI(itemArrayList.get(i).getOrderItems().get(0).getImage());
+
+            String[] strings = itemArrayList.get(i).getOrderItems().get(0).getProductSku().split(" ");
+            for (int j = 0; j < strings.length; j++) {
+                if (j == 0) {
+                    holder.tvSku.setText(Html.fromHtml("<b>" + "Sku : " + "</b> " + strings[j]));
+                }
+            }
+//            holder.tvSku.setText(Html.fromHtml("<b>" + "Sku : " + "</b> " + itemArrayList.get(i).getOrderItems().get(0).getProductSku()));
+            holder.tvMetalDetail.setText(Html.fromHtml("<b>" + "Metal Detail : " + "</b> " + itemArrayList.get(i).getOrderItems().get(0).getProductMetalquality() + "<b> | </b>" + itemArrayList.get(i).getOrderItems().get(0).getProductMetalweight() ));
+
+            if(itemArrayList.get(i).getOrderItems().get(0).getProductStonequality() != null &&  itemArrayList.get(i).getOrderItems().get(0).getProductStoneweight() != null)
+            {
+                holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getOrderItems().get(0).getProductStonequality() + "<b> | </b>" + itemArrayList.get(i).getOrderItems().get(0).getProductStoneweight()));
+            } else if (itemArrayList.get(i).getOrderItems().get(0).getProductStonequality() != null &&  itemArrayList.get(i).getOrderItems().get(0).getProductStoneweight() == null){
+                holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getOrderItems().get(0).getProductStonequality() + "<b> | </b>" + " N/A " ));
+            } else if (itemArrayList.get(i).getOrderItems().get(0).getProductStonequality() == null &&  itemArrayList.get(i).getOrderItems().get(0).getProductStoneweight() != null){
+                holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + " N/A " + "<b> | </b>" + itemArrayList.get(i).getOrderItems().get(0).getProductStoneweight() ));
+            } else {
+                holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + " N/A " + "<b> | </b>" + " N/A " ));
+            }
+
+//            if(!itemArrayList.get(i).getOrderItems().get(0).getProductStonequality().isEmpty())
+//            {
+//                holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getOrderItems().get(0).getProductStonequality() + "<b> | </b>" + itemArrayList.get(i).getOrderItems().get(0).getProductStoneweight() ));
+//            } else {
+//                holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + " N/A "));
+//            }
+
+            AppLogger.e("image url","----"+itemArrayList.get(i).getOrderItems().get(0).getImage());
+
+            if(itemArrayList.get(i).getOrderItems().get(0).getImage().isEmpty()){
+                holder.imgProduct.setImageResource(R.mipmap.ic_launcher);
+            }else {
+                holder.imgProduct.setImageURI(itemArrayList.get(i).getOrderItems().get(0).getImage());
+            }
+
+            if(!itemArrayList.get(i).getOrderItems().get(0).getCertificateNo().isEmpty()){
+                holder.tvcertificate.setText(Html.fromHtml("<b>" + "Certificate : " + "</b> " + itemArrayList.get(i).getOrderItems().get(0).getCertificateNo()));
+            }else {
+                holder.tvcertificate.setText(Html.fromHtml("<b>" + "Certificate : " + " N/A " + "</b>"));
+            }
+
         }
 
         holder.tvOrderNo.setText(Html.fromHtml("<b>" + "Order No : " + "</b> " + itemArrayList.get(i).getOrderno()));
         float price = Float.parseFloat(itemArrayList.get(i).getGrandTotal());
-        holder.tvGrandTotal.setText(Html.fromHtml("<b>" + "Grand Total : " + "</b> " + CommonUtils.priceFormat(price)));
+        holder.tvGrandTotal.setText(Html.fromHtml("<b>" + "Grand Total : " + "</b> " + AppConstants.RS + CommonUtils.priceFormat(price)));
         holder.tvStatus.setText(itemArrayList.get(i).getOrderStatus());
-
-
-
 
         if (itemArrayList.get(i).getOrderStatus().equalsIgnoreCase("Canceled")) {
             holder.imgCancel.setVisibility(View.GONE);
             holder.imgPrint.setVisibility(View.GONE);
             holder.imgView.setVisibility(View.VISIBLE);
-            AppLogger.e("canceled","------");
+            AppLogger.e("canceled", "------");
         }
-
 
         if (itemArrayList.get(i).getOrderStatus().equalsIgnoreCase("Pending")) {
             holder.imgPrint.setVisibility(View.GONE);
-            holder.imgCancel.setVisibility(View.VISIBLE);
-            holder.imgView.setVisibility(View.VISIBLE);
-            AppLogger.e("pending","------");
-        }
-
-        if (itemArrayList.get(i).getOrderStatus().equalsIgnoreCase("Complete")) {
-            holder.imgPrint.setVisibility(View.VISIBLE);
             holder.imgCancel.setVisibility(View.GONE);
             holder.imgView.setVisibility(View.VISIBLE);
-            AppLogger.e("pending","------");
+            AppLogger.e("pending", "------");
         }
 
+        if (itemArrayList.get(i).getOrderStatus().equalsIgnoreCase("Completed")) {
+            holder.imgPrint.setVisibility(View.GONE);
+            holder.imgCancel.setVisibility(View.GONE);
+            holder.imgView.setVisibility(View.VISIBLE);
+            AppLogger.e("Completed", "------");
+        }
 
         if (itemArrayList.get(i).getOrderItems().size() > 1) {
             holder.cardViewMore.setVisibility(View.VISIBLE);
@@ -143,6 +175,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
                 Intent intent = new Intent(activity, OrderDetailAct.class);
                 intent.putExtra(AppConstants.ORDER_ID, itemArrayList.get(i).getOrderid());
                 intent.putExtra("status", itemArrayList.get(i).getOrderStatus());
+                intent.putExtra("position",i);
                 activity.startActivity(intent);
             }
         });
@@ -151,16 +184,32 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
             @Override
             public void onClick(View v) {
 
-                AppLogger.e("order id","------"+itemArrayList.get(i).getOrderid());
+                AppLogger.e("order id", "------" + itemArrayList.get(i).getOrderid());
                 printOrder(itemArrayList.get(i).getOrderid());
             }
         });
 
-
         holder.imgCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancelOrder(itemArrayList.get(i).getOrderid(), i);
+
+                new IOSDialog.Builder(activity)
+                        .setTitle("Cancel Order")
+                        .setMessage("Are you sure to cancel order?")
+                        .setCancelable(false)
+                        .setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                cancelOrder(itemArrayList.get(i).getOrderid(), i);
+                            }
+                        })
+                        .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
             }
         });
 
@@ -184,7 +233,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        final TextView tvTitle, tvOrderNo, tvSku, tvMetalDetail, tvStoneDetail, tvGrandTotal, tvStatus;
+        final TextView tvTitle, tvOrderNo, tvSku, tvMetalDetail, tvStoneDetail, tvGrandTotal, tvStatus, tvcertificate;
         final ImageView imgView, imgPrint, imgCancel;
         final SimpleDraweeView imgProduct;
         final CardView cardViewMore;
@@ -198,6 +247,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
             tvStoneDetail = itemView.findViewById(R.id.tvStoneDetail);
             tvGrandTotal = itemView.findViewById(R.id.tvGrandTotal);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvcertificate = itemView.findViewById(R.id.tvcertificate);
             imgView = itemView.findViewById(R.id.imgView);
             imgPrint = itemView.findViewById(R.id.imgPrint);
             imgCancel = itemView.findViewById(R.id.imgCancel);
@@ -219,8 +269,6 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
 
     private void cancelOrder(String orderId, final int cPosition) {
@@ -246,21 +294,17 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
                             hud.dismiss();
                             itemArrayList.get(cPosition).setOrderStatus("Canceled");
                             notifyItemChanged(cPosition);
-
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                         hud.dismiss();
                     }
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
-
             }
         });
     }
@@ -278,7 +322,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
         hud.show();
 
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<JsonObject> callApi = apiInterface.printOrder(orderId,customerId,loginResponse.getData().getGroupId());
+        Call<JsonObject> callApi = apiInterface.printOrder(orderId, customerId, loginResponse.getData().getGroupId());
         callApi.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
@@ -289,27 +333,22 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
                         JSONObject jsonObject = new JSONObject(response.body().toString());
                         if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                             hud.dismiss();
-                            String pdfUrl=jsonObject.getString("pdf");
-                            Intent intent=new Intent(activity,OrderPrintAct.class);
-                            intent.putExtra(AppConstants.NAME,pdfUrl);
+                            String pdfUrl = jsonObject.getString("pdf");
+                            Intent intent = new Intent(activity, OrderPrintAct.class);
+                            intent.putExtra(AppConstants.NAME, pdfUrl);
                             activity.startActivity(intent);
-
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                         hud.dismiss();
                     }
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
-
             }
         });
     }
-
 }

@@ -10,12 +10,15 @@ import android.widget.ProgressBar;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
+import com.dealermela.authentication.myaccount.model.LoginResponse;
 import com.dealermela.home.adapter.PopularRecyclerAdapter;
 import com.dealermela.home.model.PopularProductItem;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.SharedPreferences;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +29,9 @@ public class PopularProductAct extends DealerMelaBaseActivity {
     private RecyclerView recyclerViewPopProducts;
     private LinearLayout linNoData;
     private ProgressBar progressBar;
+    private SharedPreferences sharedPreferences;
+    private LoginResponse loginResponse;
+    public static String customerId = "";
 
     @Override
     protected int getLayoutResourceId() {
@@ -49,23 +55,30 @@ public class PopularProductAct extends DealerMelaBaseActivity {
 
     @Override
     public void postInitView() {
-
     }
 
     @Override
     public void addListener() {
-
     }
 
     @Override
     public void loadData() {
-        getPopularProduct();
+        sharedPreferences = new SharedPreferences(PopularProductAct.this);
+        if(sharedPreferences.getLoginData().equalsIgnoreCase("")){
+            getPopularProduct("");
+        }else
+        {
+            Gson gson = new Gson();
+            loginResponse = gson.fromJson(sharedPreferences.getLoginData(), LoginResponse.class);
+            customerId = loginResponse.getData().getEntityId();
+            getPopularProduct(customerId);
+        }
     }
 
-    private void getPopularProduct() {
+    private void getPopularProduct(String customerId) {
         progressBar.setVisibility(View.VISIBLE);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<PopularProductItem> callApi = apiInterface.getPopularProduct();
+        Call<PopularProductItem> callApi = apiInterface.getPopularProduct(customerId);
         callApi.enqueue(new Callback<PopularProductItem>() {
             @Override
             public void onResponse(@NonNull Call<PopularProductItem> call, @NonNull Response<PopularProductItem> response) {
@@ -82,7 +95,6 @@ public class PopularProductAct extends DealerMelaBaseActivity {
                     }else{
                         linNoData.setVisibility(View.VISIBLE);
                     }
-
                 }
             }
 

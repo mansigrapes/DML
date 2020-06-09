@@ -5,8 +5,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -86,7 +88,6 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
         tvGrandTotal = rootView.findViewById(R.id.tvGrandTotal);
         progressBarCart = rootView.findViewById(R.id.progressBarCart);
         linNoData = rootView.findViewById(R.id.linNoData);
-
     }
 
     @Override
@@ -100,6 +101,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
         btnContinue.setOnClickListener(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void loadData() {
         if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
@@ -107,7 +109,6 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
         } else {
             listCart(customerId);
         }
-
     }
 
     @Override
@@ -116,14 +117,15 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
             case R.id.btnContinue:
                 if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                     Snackbar snackBar = Snackbar
-                            .make(v, "Please first login", Snackbar.LENGTH_LONG)
+                            .make(v, "Please Login, to Proceed Checkout", Snackbar.LENGTH_LONG)
                             .setAction("Login", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    requireActivity().finish();
+                                    Objects.requireNonNull(getActivity()).finish();
                                     loginFlag = 1;
                                     Intent intent = new Intent(getActivity(), LoginAct.class);
                                     startActivity(intent);
-                                    Objects.requireNonNull(getActivity()).finish();
                                 }
                             });
                     snackBar.setActionTextColor(Color.RED);
@@ -142,12 +144,14 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                     fragmentTransaction.replace(R.id.frameCart, fragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
+
                 }
                 break;
         }
     }
 
     //View all data in local database
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void fillListView() {
         List<CartLocalDataItem> cartLocalDataItems = new ArrayList<>();
         databaseCartAdapter.openDatabase();
@@ -209,11 +213,9 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                     grandTotal = subTotal + tax;
                     AppLogger.e("grand total", "---------" + grandTotal);
 
-                    tvSubTotal.setText(CommonUtils.priceFormat(subTotal));
-                    tvTax.setText(String.valueOf(CommonUtils.priceFormat(tax)));
-                    tvGrandTotal.setText(String.valueOf(CommonUtils.priceFormat(grandTotal)));
-
-
+                    tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
+                    tvTax.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(tax)));
+                    tvGrandTotal.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(grandTotal)));
                 }
             }
             databaseCartAdapter.closeDatabase();
@@ -221,9 +223,9 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
             linNoData.setVisibility(View.VISIBLE);
             btnContinue.setVisibility(View.INVISIBLE);
         }
-
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void updateCartItem(String id, String qty) {
         showProgressDialog("Quantity", getString(R.string.please_wait));
         databaseCartAdapter.openDatabase();
@@ -233,6 +235,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
         updateGrandTotal();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void deleteItem(String id) {
         showProgressDialog("Quantity", getString(R.string.please_wait));
         databaseCartAdapter.openDatabase();
@@ -242,6 +245,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
         updateGrandTotal();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void updateGrandTotal() {
         subTotal = 0;
         tax = 0;
@@ -264,9 +268,9 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                 grandTotal = subTotal + tax;
                 AppLogger.e("grand total", "---------" + grandTotal);
 
-                tvSubTotal.setText(CommonUtils.priceFormat(subTotal));
-                tvTax.setText(String.valueOf(CommonUtils.priceFormat(tax)));
-                tvGrandTotal.setText(String.valueOf(CommonUtils.priceFormat(grandTotal)));
+                tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
+                tvTax.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(tax)));
+                tvGrandTotal.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(grandTotal)));
             }
         }
     }
@@ -276,6 +280,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<CartServerDataItem> callApi = apiInterface.listCart(customerId);
         callApi.enqueue(new Callback<CartServerDataItem>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NonNull Call<CartServerDataItem> call, @NonNull Response<CartServerDataItem> response) {
@@ -289,9 +294,9 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                     subTotal = response.body().getSubtotal();
                     tax = response.body().getTax();
 
-                    tvGrandTotal.setText(CommonUtils.priceFormat(grandTotal));
-                    tvSubTotal.setText(CommonUtils.priceFormat(subTotal));
-                    tvTax.setText(CommonUtils.priceFormat(tax));
+                    tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(grandTotal));
+                    tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
+                    tvTax.setText(AppConstants.RS + CommonUtils.priceFormat(tax));
 
                     CartServerAdapter cartServerAdapter = new CartServerAdapter(getActivity(), response.body().getData(), ShoppingFrg.this);
                     recycleViewCart.setAdapter(cartServerAdapter);
@@ -301,8 +306,6 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                     linNoData.setVisibility(View.VISIBLE);
                     btnContinue.setVisibility(View.INVISIBLE);
                 }
-
-
             }
 
             @Override
@@ -311,7 +314,6 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                 btnContinue.setEnabled(false);
                 linNoData.setVisibility(View.VISIBLE);
             }
-
         });
     }
 
@@ -321,6 +323,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<CartServerDataItem> callApi = apiInterface.listCart(customerId);
         callApi.enqueue(new Callback<CartServerDataItem>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NonNull Call<CartServerDataItem> call, @NonNull Response<CartServerDataItem> response) {
@@ -328,16 +331,15 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                 progressBarCart.setVisibility(View.GONE);
                 assert response.body() != null;
 
-
                 if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                     hideProgressDialog();
                     grandTotal = response.body().getGrandtotal();
                     subTotal = response.body().getSubtotal();
                     tax = response.body().getTax();
 
-                    tvGrandTotal.setText(CommonUtils.priceFormat(grandTotal));
-                    tvSubTotal.setText(CommonUtils.priceFormat(subTotal));
-                    tvTax.setText(CommonUtils.priceFormat(tax));
+                    tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(grandTotal));
+                    tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
+                    tvTax.setText(AppConstants.RS + CommonUtils.priceFormat(tax));
                     AppLogger.e("tax", "------------" + tax);
 
                 }else{
@@ -346,7 +348,6 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                     linNoData.setVisibility(View.VISIBLE);
                     btnContinue.setVisibility(View.INVISIBLE);
                 }
-
             }
 
             @Override
@@ -356,6 +357,4 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
 
         });
     }
-
-
 }

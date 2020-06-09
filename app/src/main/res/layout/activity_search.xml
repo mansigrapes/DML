@@ -22,38 +22,90 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_margin="8dp"
         />
 
-    <com.dealermela.utility.DmlEditText
-        android:id="@+id/edSearch"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="60dp"
-        android:hint="@string/search_jewellery"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:lines="1"
-        android:textColor="?toolbarTextColor"
-        app:layout_constraintBottom_toBottomOf="@+id/include16"
-        app:layout_constraintEnd_toEndOf="@+id/include16"
-        app:layout_constraintStart_toStartOf="@+id/include16"
-        android:paddingStart="@dimen/ten_padding_margin"
-        android:layout_marginTop="@dimen/ten_padding_margin"
-        android:layout_marginBottom="@dimen/ten_padding_margin"
-        android:drawableStart="@drawable/serch_ic"
-        android:drawablePadding="@dimen/ten_padding_margin"
-        android:layout_marginEnd="@dimen/ten_padding_margin"
-        android:background="@drawable/edit_pro_btn"
-        app:layout_constraintTop_toTopOf="parent" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/layout1"
+            android:layout_marginEnd="@dimen/ten_padding_margin"
+            android:layout_marginBottom="@dimen/ten_padding_margin"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="@drawable/edit_pro_btn"
+            app:layout_constraintBottom_toBottomOf="@+id/include16"
+            app:layout_constraintEnd_toEndOf="@+id/include16"
+            app:layout_constraintStart_toStartOf="@+id/include16"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <com.dealermela.utility.DmlEditText
+            android:id="@+id/edSearch"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:drawableStart="@drawable/serch_ic"
+            android:hint="@string/search_jewellery"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:lines="1"
+            android:textColor="?toolbarTextColor"
+            android:textColorHint="#949393"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/layout1"
+            app:layout_constraintEnd_toStartOf="@+id/imgclose"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/layout1"
+            app:layout_constraintTop_toTopOf="@+id/layout1"
+            app:layout_constraintVertical_bias="0.0" >
+            <requestFocus/>
+        </com.dealermela.utility.DmlEditText>
+
+        <com.dealermela.utility.DmlImageView
+            android:id="@+id/imgclose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/eight_sp"
+            android:src="@drawable/ic_cancel_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edSearch"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--            android:tint="@color/white" -->
+
+    </android.support.constraint.ConstraintLayout>
+
+<!--    <com.dealermela.utility.DmlEditText-->
+<!--        android:id="@+id/edSearch"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginStart="60dp"-->
+<!--        android:hint="@string/search_jewellery"-->
+<!--        android:imeOptions="actionSearch"-->
+<!--        android:inputType="text"-->
+<!--        android:lines="1"-->
+<!--        android:textColor="?toolbarTextColor"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/include16"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/include16"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/include16"-->
+<!--        android:paddingStart="@dimen/ten_padding_margin"-->
+<!--        android:layout_marginTop="@dimen/ten_padding_margin"-->
+<!--        android:layout_marginBottom="@dimen/ten_padding_margin"-->
+<!--        android:drawableStart="@drawable/serch_ic"-->
+<!--        android:drawablePadding="@dimen/ten_padding_margin"-->
+<!--        android:layout_marginEnd="@dimen/ten_padding_margin"-->
+<!--        android:background="@drawable/edit_pro_btn"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <View
         android:id="@+id/view14"
         android:layout_width="0dp"
         android:layout_height="@dimen/one_sp_view"
-        android:layout_marginBottom="@dimen/eight_sp"
         app:layout_constraintBottom_toTopOf="@+id/recycleViewHeader"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?toolbarViewColor"
         app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

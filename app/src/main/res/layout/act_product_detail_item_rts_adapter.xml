@@ -6,7 +6,8 @@
     android:background="@drawable/ten_rts_border"
     android:orientation="vertical"
     android:layout_marginStart="@dimen/eight_margin_padding"
-    android:padding="@dimen/rts_item_padding">
+    android:padding="@dimen/rts_item_padding"
+    >
 
     <com.dealermela.utility.DmlTextView
         android:id="@+id/tvMetalTitle"

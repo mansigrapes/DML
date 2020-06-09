@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -22,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dealermela.R;
+import com.dealermela.authentication.myaccount.activity.ManageBankAct;
 import com.dealermela.authentication.myaccount.model.BankResponse;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
@@ -30,6 +32,7 @@ import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
 import com.dealermela.util.Validator;
 import com.google.gson.JsonObject;
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import org.json.JSONException;
@@ -54,11 +57,13 @@ public class BankRecyclerAdapter extends RecyclerView.Adapter<BankRecyclerAdapte
     private TextInputEditText edBankAccHolderName;
     private TextInputEditText edIfscCode;
     private TextInputEditText edBranchName;
+//    private Dialog dialog;
 
     public BankRecyclerAdapter(Activity activity, List<BankResponse.Datum> itemArrayList) {
         super();
         this.activity = activity;
         this.itemArrayList = itemArrayList;
+//        dialog=new Dialog(activity);
     }
 
     @NonNull
@@ -87,7 +92,6 @@ public class BankRecyclerAdapter extends RecyclerView.Adapter<BankRecyclerAdapte
                 dialog.show();
                 Button btnSave = dialog.findViewById(R.id.btnSave);
                 Button btnCancel = dialog.findViewById(R.id.btnCancel);
-
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -122,23 +126,18 @@ public class BankRecyclerAdapter extends RecyclerView.Adapter<BankRecyclerAdapte
                             notifyItemChanged(i);
                             dialog.dismiss();
                         }
-
                     }
                 });
 
                 Objects.requireNonNull(dialog.getWindow()).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-
             }
         });
-
 
         //Delete Bank
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 new IOSDialog.Builder(activity)
                         .setTitle(activity.getString(R.string.delete))
@@ -152,6 +151,9 @@ public class BankRecyclerAdapter extends RecyclerView.Adapter<BankRecyclerAdapte
                                 itemArrayList.remove(i);
                                 notifyItemRemoved(i);
                                 notifyItemRangeChanged(i, itemArrayList.size());
+                                if(itemArrayList.isEmpty()){
+                                    ManageBankAct.constraintNoData.setVisibility(View.VISIBLE);
+                                }
                             }
                         })
                         .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -195,10 +197,8 @@ public class BankRecyclerAdapter extends RecyclerView.Adapter<BankRecyclerAdapte
                     }
                 });
                 alert.show();*/
-
             }
         });
-
     }
 
     @Override
@@ -231,19 +231,22 @@ public class BankRecyclerAdapter extends RecyclerView.Adapter<BankRecyclerAdapte
 
         @Override
         public void onClick(View v) {
-
         }
 
         @Override
         public boolean onLongClick(View v) {
             return false;
         }
-
     }
 
     private void editBank(String bankId, String customerId, String bankName, String bankAccountNumber, String bankAccountHolder, String ifscCode, String branchName) {
+        final ProgressDialog progressDialog=new ProgressDialog(activity);
+        progressDialog.setMessage("Please wait");
+        progressDialog.show();
+
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<JsonObject> callApi = apiInterface.editBankDetail(bankId, customerId, bankName, bankAccountNumber, bankAccountHolder, ifscCode, branchName);
+
         callApi.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
@@ -261,25 +264,28 @@ public class BankRecyclerAdapter extends RecyclerView.Adapter<BankRecyclerAdapte
 
                     assert status != null;
                     if (status.equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
-                        AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-                        alertDialog.setTitle("Thank You!");
-                        alertDialog.setMessage(message);
-                        alertDialog.setCancelable(false);
-                        // Alert dialog button
-                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                new DialogInterface.OnClickListener() {
+                       progressDialog.dismiss();
+
+                        new IOSDialog.Builder(activity)
+                                .setTitle("Thank You!")
+                                .setMessage(message)
+                                .setCancelable(false)
+                                .setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                    @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        // continue with delete
                                         dialog.dismiss();
+//                                        SharedPreferences sharedPreferences = new SharedPreferences(activity);
+//                                        sharedPreferences.saveLoginData("");
+//                                        activity.startActivity(new Intent(activity, LoginAct.class));
+//                                        activity.finishAffinity();
                                     }
-                                });
-                        alertDialog.show();
+                                })
+                                .show();
                     } else {
                         CommonUtils.showErrorToast(activity, message);
                     }
-
                 }
-
-
             }
 
             @Override

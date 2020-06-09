@@ -77,9 +77,7 @@ public class HeaderMenuAdapter extends RecyclerView.Adapter<HeaderMenuAdapter.Vi
             intent.putExtra(AppConstants.bannerListCheck, "");
             activity.startActivity(intent);
             activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-
         }
-
         @Override
         public boolean onLongClick(View v) {
             return false;

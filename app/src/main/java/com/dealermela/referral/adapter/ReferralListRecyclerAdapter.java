@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dealermela.R;
+import com.dealermela.referral.activity.ManageReferralAct;
 import com.dealermela.referral.model.ReferralResponse;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
@@ -60,7 +61,7 @@ public class ReferralListRecyclerAdapter extends RecyclerView.Adapter<ReferralLi
 
                 new IOSDialog.Builder(activity)
                         .setTitle(activity.getString(R.string.delete))
-                        .setMessage(activity.getString(R.string.delete_msg))
+                        .setMessage("Are you sure to delete?")
                         .setCancelable(false)
                         .setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
@@ -70,6 +71,9 @@ public class ReferralListRecyclerAdapter extends RecyclerView.Adapter<ReferralLi
                                 itemArrayList.remove(i);
                                 notifyItemRemoved(i);
                                 notifyItemRangeRemoved(i, itemArrayList.size());
+                                if (itemArrayList.isEmpty()){
+                                    activity.finish();
+                                }
                             }
                         })
                         .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -78,8 +82,6 @@ public class ReferralListRecyclerAdapter extends RecyclerView.Adapter<ReferralLi
                                 dialog.dismiss();
                             }
                         }).show();
-
-
 
               /*  AlertDialog.Builder alert = new AlertDialog.Builder(activity,R.style.AppCompatAlertDialogStyle);
                 alert.setTitle(activity.getString(R.string.delete));
@@ -101,8 +103,6 @@ public class ReferralListRecyclerAdapter extends RecyclerView.Adapter<ReferralLi
                     }
                 });
                 alert.show();*/
-
-
             }
         });
     }

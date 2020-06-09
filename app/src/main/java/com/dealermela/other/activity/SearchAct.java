@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,10 +42,11 @@ import retrofit2.Response;
 
 import static com.dealermela.util.AppConstants.RESPONSE;
 
-public class SearchAct extends DealerMelaBaseActivity {
+public class SearchAct extends DealerMelaBaseActivity implements View.OnClickListener{
 
     private RecyclerView recycleViewHeader;
     private EditText edSearch;
+    private ImageView imgclose;
 
     @Override
     protected int getLayoutResourceId() {
@@ -55,6 +57,7 @@ public class SearchAct extends DealerMelaBaseActivity {
     public void init() {
         recycleViewHeader = findViewById(R.id.recycleViewHeader);
         edSearch=findViewById(R.id.edSearch);
+        imgclose=findViewById(R.id.imgclose);
     }
 
     @Override
@@ -67,23 +70,43 @@ public class SearchAct extends DealerMelaBaseActivity {
 
     @Override
     public void postInitView() {
-
     }
 
     @Override
     public void addListener() {
+        imgclose.setOnClickListener(this);
+        showcloseimg();
+
+        edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                showcloseimg();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                showcloseimg();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                showcloseimg();
+            }
+        });
+
         edSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                showcloseimg();
                 if(actionId== EditorInfo.IME_ACTION_SEARCH){
                     //do something
-                    hideKeyboard(SearchAct.this);
+//                    hideKeyboard(SearchAct.this);
                     Intent intent=new Intent(SearchAct.this, ListAct.class);
                     intent.putExtra(AppConstants.ID, "search");
                     intent.putExtra(AppConstants.NAME, edSearch.getText().toString());
                     intent.putExtra(AppConstants.bannerListCheck, "");
                     startNewActivityWithIntent(intent);
-                    AppLogger.e("search","--------");
+                    AppLogger.e("search", edSearch.getText().toString());
                 }
                 return false;
             }
@@ -93,6 +116,15 @@ public class SearchAct extends DealerMelaBaseActivity {
     @Override
     public void loadData() {
         addHeader();
+        showcloseimg();
+    }
+
+    private void showcloseimg() {
+        if(!edSearch.getText().toString().isEmpty()){
+            imgclose.setVisibility(View.VISIBLE);
+        }else{
+            imgclose.setVisibility(View.GONE);
+        }
     }
 
     //Option menu
@@ -112,7 +144,6 @@ public class SearchAct extends DealerMelaBaseActivity {
         if (id == R.id.action_cart) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -129,26 +160,38 @@ public class SearchAct extends DealerMelaBaseActivity {
                 if (response.isSuccessful()) {
                     HeaderMenuAdapter headerMenuAdapter = new HeaderMenuAdapter(SearchAct.this, response.body().getData());
                     recycleViewHeader.setAdapter(headerMenuAdapter);
-
                 }
             }
-
             @Override
             public void onFailure(@NonNull Call<HeaderItem> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
             }
-
         });
     }
 
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.imgclose:
+                edSearch.getText().clear();
+            break;
         }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+//    public static void hideKeyboard(Activity activity) {
+//        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+//        //Find the currently focused view, so we can grab the correct window token from it.
+//        View view = activity.getCurrentFocus();
+//        //If no view currently has focus, create a new one, just so we can grab a window token from it
+//        if (view == null) {
+//            view = new View(activity);
+//        }
+//        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        finish();
     }
 }

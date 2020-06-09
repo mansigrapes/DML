@@ -77,11 +77,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:divider="@null"
+        android:layout_marginTop="16dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/btnApply"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hsView" />
+        app:layout_constraintTop_toBottomOf="@+id/view9" />
 
 
     <com.dealermela.utility.DmlButton
@@ -99,10 +100,11 @@
         android:id="@+id/recycleViewFilterData"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/btnApply"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/listViewFilter"
-        app:layout_constraintTop_toBottomOf="@+id/hsView" />
+        app:layout_constraintTop_toBottomOf="@+id/view9" />
 
     <com.dealermela.utility.DmlEditText
         android:id="@+id/edText"
@@ -119,7 +121,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/hsView" />
+        app:layout_constraintTop_toBottomOf="@+id/view9" />
 
     <ProgressBar
         android:id="@+id/progressBarFilter"
@@ -135,25 +137,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <HorizontalScrollView
-        android:id="@+id/hsView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view9">
+<!--    <HorizontalScrollView-->
+<!--        android:id="@+id/hsView"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/view9">-->
 
-        <GridLayout
-            android:id="@+id/linContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:columnCount="2"
-            android:rowCount="2"
-            android:layout_margin="@dimen/five_dp"
-            />
-
-
-    </HorizontalScrollView>
+<!--        <GridLayout-->
+<!--            android:id="@+id/linContainer"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:columnCount="2"-->
+<!--            android:rowCount="2"-->
+<!--            android:layout_margin="@dimen/five_dp"-->
+<!--            />-->
+<!--        -->
+<!--    </HorizontalScrollView>-->
 
 </android.support.constraint.ConstraintLayout>

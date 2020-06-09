@@ -120,11 +120,11 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
             for (int i = 0; i <= countryArray.size() - 1; i++) {
                 spinnerArray.add(countryArray.get(i).getName());
             }
-
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     this, android.R.layout.simple_spinner_item, spinnerArray);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerCountry.setEnabled(false);
             spinnerCountry.setAdapter(adapter);
         }
     }
@@ -137,6 +137,7 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+                spinnerCountry.setSelection(99);
                 AppLogger.e("country", "---------" + countryArray.get(position).getName());
                 countryId = countryArray.get(position).getCountryId();
                 if (countryArray.get(position).getCountryId().equalsIgnoreCase("IN")) {
@@ -150,28 +151,26 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
                     spinnerState.setVisibility(View.GONE);
                     tvState.setVisibility(View.GONE);
                 }
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
+
         spinnerState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-
                 stateId = stateArray.get(position).getRegionId();
                 AppLogger.e("state id","-----------"+stateId);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
+
         spinnerCommunity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -180,7 +179,6 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
         spinnerEntity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -193,12 +191,10 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
                 }else{
                     tilCompany.setVisibility(View.GONE);
                 }
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
@@ -218,7 +214,6 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
                 Log.e(AppConstants.RESPONSE, "-----------------" + response.body());
                 assert response.body() != null;
                 hideProgressDialog();
-
                 countryArray = response.body().getData();
                 postInitView();
                 if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
@@ -226,7 +221,6 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
                 } else if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)) {
                     Log.e(AppConstants.RESPONSE, "-----------------" + response.body().getStatus());
                 }
-
             }
 
             @Override
@@ -234,7 +228,6 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 hideProgressDialog();
             }
-
         });
     }
 
@@ -251,12 +244,10 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
                 if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                     Log.e(AppConstants.RESPONSE, "-----------------" + response.body().getStatus());
                     stateArray = response.body().getData();
-
                     loadState();
                 } else if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)) {
                     Log.e(AppConstants.RESPONSE, "-----------------" + response.body().getStatus());
                 }
-
             }
 
             @Override
@@ -264,7 +255,6 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 hideProgressDialog();
             }
-
         });
     }
 
@@ -306,16 +296,10 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
                                     })
                                     .show();
                         }
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                 }
-
-
             }
 
             @Override
@@ -343,28 +327,29 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
 
                                 AppLogger.e("state id","---------"+stateId);
 
-                                if (spinnerCommunity.getSelectedItem() == "Dealer") {
-                                    signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), spinnerCommunity.getSelectedItem().toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, stateId, Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), spinnerEntity.getSelectedItem().toString(), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
+                                if (spinnerCommunity.getSelectedItem().toString().equalsIgnoreCase("Dealer")) {
+
+                                    int result = spinnerCommunity.getSelectedItemPosition() + 1;
+                                    signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(),String.valueOf(result) , Objects.requireNonNull(edAddress.getText()).toString(), countryId, stateId, Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), String.valueOf(spinnerEntity.getSelectedItemPosition()), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
                                 } else {
-                                    signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), spinnerCommunity.getSelectedItem().toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, stateId, Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), spinnerEntity.getSelectedItem().toString(), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
+                                    AppLogger.e("Community","---"+spinnerCommunity.getSelectedItemPosition());
+                                    int result = spinnerCommunity.getSelectedItemPosition() + 1;
+                                    signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(),String.valueOf(result) , Objects.requireNonNull(edAddress.getText()).toString(), countryId, stateId, Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), String.valueOf(spinnerEntity.getSelectedItemPosition()), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
                                 }
-
-
                             }
-
 //                            }
                         } else {
                             if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                                 edState.setError("Please enter state name.");
                                 edState.requestFocus();
                             } else {
-                                signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), spinnerCommunity.getSelectedItem().toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, edState.getText().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), spinnerEntity.getSelectedItem().toString(), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
+                                int result = spinnerCommunity.getSelectedItemPosition() + 1;
+                                signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(),String.valueOf(result), Objects.requireNonNull(edAddress.getText()).toString(), countryId, edState.getText().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), String.valueOf(spinnerEntity.getSelectedItemPosition()), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
                             }
                         }
                     } else {
                         CommonUtils.showInfoToast(SignUpAct.this, "Please check the terms & condition. ");
                     }
-
                 }
                 break;
 
@@ -401,9 +386,7 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
             edZipCode.requestFocus();
             edZipCode.setError(getString(R.string.login_please_enter_valid_zip));
             return false;
-        }
-
-        else if (!Validator.checkEmptyInputEditText(edPassword, tilPassword, getString(R.string.sign_up_please_enter_password))) {
+        } else if (!Validator.checkEmptyInputEditText(edPassword, tilPassword, getString(R.string.sign_up_please_enter_password))) {
             return false;
         } else if (!Validator.checkPasswordLength(edPassword)) {
             return false;
@@ -415,7 +398,6 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
             edConfirmPassword.requestFocus();
             return false;
         }
-
         return true;
     }
 
@@ -429,13 +411,11 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
                 }*/
                 spinnerArray.add(stateArray.get(i).getName());
             }
-
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     this, android.R.layout.simple_spinner_item, spinnerArray);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerState.setAdapter(adapter);
-
         }
     }
 
@@ -456,7 +436,6 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
         if (id == R.id.action_cart) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

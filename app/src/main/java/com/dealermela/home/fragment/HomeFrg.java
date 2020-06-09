@@ -87,13 +87,11 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
 
         arrayListPopularProduct = gson.fromJson(sharedPreferences.getPopularProducts(), type);
 
-
         if (!arrayListPopularProduct.isEmpty()) {
             coverFlow = rootView.findViewById(R.id.coverflow);
             PopularProductCoverFlowAdapter adapter = new PopularProductCoverFlowAdapter(getActivity(), arrayListPopularProduct);
             coverFlow.setAdapter(adapter);
         }
-
         return rootView;
     }
 
@@ -144,8 +142,6 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
         if (themePreferences.getTheme().equalsIgnoreCase("black")) {
             linBackGrad.setBackground(null);
         }
-
-
     }
 
     @Override
@@ -235,7 +231,6 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
                             e.printStackTrace();
                         }
                     }
-
                 }
             }
 

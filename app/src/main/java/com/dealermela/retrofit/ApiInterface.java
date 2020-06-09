@@ -14,6 +14,7 @@ import com.dealermela.home.model.HeaderItem;
 import com.dealermela.home.model.MostSellingItem;
 import com.dealermela.home.model.PopularProductItem;
 import com.dealermela.inventary.model.InventoryActionItem;
+import com.dealermela.inventary.model.InventoryFilterItem;
 import com.dealermela.inventary.model.InventoryInvoiceItem;
 import com.dealermela.inventary.model.InventoryItem;
 import com.dealermela.inventary.model.InventoryPaymentItem;
@@ -100,7 +101,7 @@ public interface ApiInterface {
     // EDIT CUSTOMER
     @FormUrlEncoded
     @POST("dmlapi/customers/editcustomer/")
-    Call<LoginResponse> editContactInfo(@Field("notification_token") String notificationToken,
+    Call<JsonObject> editContactInfo(@Field("notification_token") String notificationToken,
                                         @Field("customer_id") String customerId,
                                         @Field("firstname") String firstName,
                                         @Field("lastname") String lastName,
@@ -113,7 +114,6 @@ public interface ApiInterface {
                                         @Field("postcode") String postCode,
                                         @Field("pancardno") String panCardNo,
                                         @Field("gstin") String gstIn);
-
 
     // EDIT DEFAULT SHIPPING
     @FormUrlEncoded
@@ -271,9 +271,14 @@ public interface ApiInterface {
     @GET("dmlapi/home/bestsellerproduct")
     Call<MostSellingItem> getMostSEllingProduct();
 
+//    //Popular Product
+//    @GET("dmlapi/home/getpopularproduct")
+//    Call<PopularProductItem> getPopularProduct();
+
     //Popular Product
-    @GET("dmlapi/home/getpopularproduct")
-    Call<PopularProductItem> getPopularProduct();
+    @FormUrlEncoded
+    @POST("dmlapi/home/getpopularproduct")
+    Call<PopularProductItem> getPopularProduct(@Field("customer_id") String customerId);
 
     //POLICY
     @FormUrlEncoded
@@ -307,7 +312,6 @@ public interface ApiInterface {
                                              @Field("bangle_pro_id") String bangleProId,
                                              @Field("bracelet_pro_id") String braceletProId,
                                              @Field("pendent_pro_id") String pendentProId);
-
 
     @FormUrlEncoded
     @POST("dmlapi/product/getrtssliderdetails")
@@ -354,9 +358,10 @@ public interface ApiInterface {
 
     //TRANSACTION
     @FormUrlEncoded
-    @POST("dmlapi/transaction/transactionview/")
+//    @POST("dmlapi/transaction/transactionview/")
+    @POST("public/api/Transactionview")
     Call<TransactionItem> transactionList(@Field("customer_id") String customerId,
-                                          @Field("pagesize") String page);
+                                          @Field("page") String page);
 
 
     //ORDER
@@ -382,8 +387,9 @@ public interface ApiInterface {
                                @Field("option_type_id") String optionTypeId,
                                @Field("stone_option_id") String stoneOptionId,
                                @Field("stone_option_type_id") String stoneOptionTypeId,
-                               @Field("qty") String qty);
-
+                               @Field("qty") String qty,
+                               @Field("metalqualitycolor") String metalQualityColor,
+                               @Field("metalcarat") String metalCarat);
 
     @FormUrlEncoded
     @POST("dmlapi/addtocart/listcartitems")
@@ -406,6 +412,10 @@ public interface ApiInterface {
 
     @GET("dmlapi/product/getreadytoshipfilteroption")
     Call<FilterItem> setFilter();
+
+    // Inventory  Filter
+    @GET("dmlapi/product/getreadytoshipfilteroption")
+    Call<InventoryFilterItem> setInvFilter();
 
 
     //    Save Payment
@@ -494,7 +504,11 @@ public interface ApiInterface {
     //**************************************Inventory***********************************************
     @FormUrlEncoded
     @POST("dmlapi/inventory/manageinventory")
-    Call<InventoryItem> getManageInventory(@Field("page") String page);
+    Call<InventoryItem> getManageInventory(@Field("page") String page,
+                                           @Field("price") String price,
+                                           @Field("gold_purity") String gold_purity,
+                                           @Field("diamond_quality") String diamond_quality,
+                                           @Field("diamond_shape") String diamond_shape);
 
 
     //get Inventory list
@@ -516,7 +530,7 @@ public interface ApiInterface {
     //get product list
     @FormUrlEncoded
     @POST("public/api/getTryProductsList")
-    Call<InventoryProductItem> getTryProductsList(@Field("page") String page, @Field("customer_id") String customer_id,@Field("date") String date,@Field("submit_to_dml") String submitToDml);
+    Call<InventoryProductItem> getTryProductsList(@Field("page") String page, @Field("customer_id") String customer_id, @Field("date") String date, @Field("submit_to_dml") String submitToDml);
 
 
     //Try product Add
@@ -528,7 +542,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("public/api/deleteProductFromTry")
     Call<JsonObject> deleteProductFromTry(@Field("customer_id") String customer_id, @Field("product_id") String product_id);
-
 
 
     //************************************Quotation*****************************************

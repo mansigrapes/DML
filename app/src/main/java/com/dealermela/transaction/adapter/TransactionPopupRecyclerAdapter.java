@@ -13,6 +13,7 @@ import com.dealermela.R;
 import com.dealermela.authentication.myaccount.model.BankResponse;
 import com.dealermela.transaction.model.TransactionItem;
 import com.dealermela.util.AppConstants;
+import com.dealermela.util.CommonUtils;
 
 import java.util.List;
 
@@ -38,12 +39,10 @@ public class TransactionPopupRecyclerAdapter extends RecyclerView.Adapter<Transa
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
-        holder.tvOrderNo.setText(itemArrayList.get(i).getProductIncrementId());
-        holder.tvName.setText(itemArrayList.get(i).getProductName());
-        holder.tvSku.setText(itemArrayList.get(i).getProductSku());
-        holder.tvStoneQuality.setText(itemArrayList.get(i).getProductStonequality()+"("+itemArrayList.get(i).getProductStoneweight()+")");
-        holder.tvMetalWeight.setText(itemArrayList.get(i).getProductMetalweight());
-        holder.tvPrice.setText(itemArrayList.get(i).getProductPrice());
+        holder.tvCustomerName.setText(itemArrayList.get(i).getCustomerName());
+        holder.tvAmt.setText("\u20B9 " + CommonUtils.rupeeFormat(String.valueOf(itemArrayList.get(i).getAmount())));
+        holder.tvRemainingAmt.setText("\u20B9 " + CommonUtils.rupeeFormat(String.valueOf(itemArrayList.get(i).getRemaingAmount())));
+        holder.tvPaidDate.setText(CommonUtils.convert_dateformate(itemArrayList.get(i).getPaidDate()));
 
     }
 
@@ -54,16 +53,15 @@ public class TransactionPopupRecyclerAdapter extends RecyclerView.Adapter<Transa
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        final TextView tvOrderNo, tvName, tvSku, tvStoneQuality, tvMetalWeight, tvPrice;
+        final TextView tvCustomerName, tvAmt, tvRemainingAmt, tvPaidDate;
 
         ViewHolder(View itemView) {
             super(itemView);
-            tvOrderNo = itemView.findViewById(R.id.tvOrderNo);
-            tvName = itemView.findViewById(R.id.tvName);
-            tvSku = itemView.findViewById(R.id.tvSku);
-            tvStoneQuality = itemView.findViewById(R.id.tvStoneQuality);
-            tvMetalWeight = itemView.findViewById(R.id.tvMetalWeight);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvCustomerName = itemView.findViewById(R.id.tvCustomerName);
+            tvAmt = itemView.findViewById(R.id.tvAmt);
+            tvRemainingAmt = itemView.findViewById(R.id.tvRemainingAmt);
+            tvPaidDate = itemView.findViewById(R.id.tvPaidDate);
+
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

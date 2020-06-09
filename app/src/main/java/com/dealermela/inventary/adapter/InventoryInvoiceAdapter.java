@@ -3,7 +3,6 @@ package com.dealermela.inventary.adapter;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +62,8 @@ public class InventoryInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        private TextView tvInvoiceNo,tvCustomerName,tvInvoiceDate,tvAmount,tvStatus;
+        private TextView tvInvoiceNo, tvCustomerName, tvInvoiceDate, tvAmount, tvStatus;
+
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             tvInvoiceNo = itemView.findViewById(R.id.tvInvoiceNo);
@@ -76,11 +76,11 @@ public class InventoryInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
         public void setData(InventoryInvoiceItem.Datum datum) {
-            tvInvoiceNo.setText(Html.fromHtml("<b>Invoice No: </b>" + datum.getInvoiceNumber()));
-            tvCustomerName.setText(Html.fromHtml("<b>Customer Name: </b>" + datum.getCustomerFirstname()+" "+datum.getCustomerLastname()));
-            tvInvoiceDate.setText(Html.fromHtml("<b>Invoice Date: </b>" + datum.getInvoiceCreatedDate()));
-            tvAmount.setText(Html.fromHtml("<b>Amount: </b>" + datum.getGrandTotal()));
-            tvStatus.setText(Html.fromHtml("<b>Status: </b>" + datum.getStatus()));
+            tvInvoiceNo.setText(datum.getInvoiceNumber());
+            tvCustomerName.setText(datum.getCustomerFirstname() + " " + datum.getCustomerLastname());
+            tvInvoiceDate.setText(datum.getInvoiceCreatedDate());
+            tvAmount.setText(datum.getGrandTotal());
+            tvStatus.setText(datum.getStatus());
         }
 
         @Override

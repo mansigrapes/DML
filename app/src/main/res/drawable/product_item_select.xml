@@ -4,7 +4,7 @@
 
     <stroke
         android:width="2dp"
-        android:color="@color/transaction_round_back_black" />
+        android:color="@color/dml_logo_color" />
 
     <solid android:color="@color/black"/>
 

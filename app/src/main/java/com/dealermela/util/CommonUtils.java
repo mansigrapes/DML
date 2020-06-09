@@ -1,5 +1,6 @@
 package com.dealermela.util;
 
+//import android.NumberFormat;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -9,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -30,6 +31,7 @@ import com.dealermela.home.activity.MainActivity;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,6 +46,8 @@ import es.dmoral.toasty.Toasty;
 public final class CommonUtils {
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat outputsdf = new SimpleDateFormat("dd-MM-yyyy");
 
     private static final String ALLOWED_CHARACTERS = AppConstants.RANDOM_STR;
 
@@ -64,11 +68,16 @@ public final class CommonUtils {
         return (result + lastDigit);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static String priceFormat(Float amount) {
         String price;
-        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+//        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));       // This Gives symbol of rupees in Higher version of Android
+//        NumberFormat formatter = NumberFormat.getInstance();
+//        price = formatter.format(amount);  //In this we don't get decimal value
+//        price = price.substring(0, price.length() - 3);
+
+        NumberFormat formatter = NumberFormat.getInstance(new Locale("en", "IN"));
         price = formatter.format(amount);
-        price = price.substring(0, price.length() - 3);
         return price;
 //        return formatter.format(amount);
     }
@@ -108,6 +117,18 @@ public final class CommonUtils {
             e.printStackTrace();
         }
         return mDate;
+    }
+
+    public static String convert_dateformate(String date) {
+        Date mDate = null;
+        String formatedDate = null;
+        try {
+            mDate = sdf2.parse(date);
+            formatedDate=outputsdf.format(mDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formatedDate;
     }
 
     public static String giveDate(String time) {

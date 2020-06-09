@@ -156,6 +156,9 @@ public class OrderDetailItem {
         @SerializedName("product_sku")
         @Expose
         private String productSku;
+        @SerializedName("product_stonequality")
+        @Expose
+        private String productStonequality;
         @SerializedName("product_stoneweight")
         @Expose
         private String productStoneweight;
@@ -165,6 +168,9 @@ public class OrderDetailItem {
         @SerializedName("product_metalweight")
         @Expose
         private String productMetalweight;
+        @SerializedName("product_metalquality")
+        @Expose
+        private String productMetalquality;
         @SerializedName("product_type")
         @Expose
         private String productType;
@@ -177,6 +183,9 @@ public class OrderDetailItem {
         @SerializedName("product_qty")
         @Expose
         private String product_qty;
+        @SerializedName("CertificateNo")
+        @Expose
+        private String certificateNo;
 
         public String getProductImg() {
             return productImg;
@@ -202,6 +211,14 @@ public class OrderDetailItem {
             this.productSku = productSku;
         }
 
+        public String getProductStonequality() {
+            return productStonequality;
+        }
+
+        public void setProductStonequality(String productStonequality) {
+            this.productStonequality = productStonequality;
+        }
+
         public String getProductStoneweight() {
             return productStoneweight;
         }
@@ -224,6 +241,14 @@ public class OrderDetailItem {
 
         public void setProductMetalweight(String productMetalweight) {
             this.productMetalweight = productMetalweight;
+        }
+
+        public String getProductMetalquality() {
+            return productMetalquality;
+        }
+
+        public void setProductMetalquality(String productMetalquality) {
+            this.productMetalquality = productMetalquality;
         }
 
         public String getProductType() {
@@ -257,6 +282,13 @@ public class OrderDetailItem {
         public void setProduct_qty(String product_qty) {
             this.product_qty = product_qty;
         }
-    }
 
+        public String getCertificateNo() {
+            return certificateNo;
+        }
+
+        public void setCertificateNo(String certificateNo) {
+            this.certificateNo = certificateNo;
+        }
+    }
 }

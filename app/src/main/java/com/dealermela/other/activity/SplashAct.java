@@ -66,12 +66,13 @@ public class SplashAct extends DealerMelaBaseActivity {
 
     @Override
     public void loadData() {
-        getPopularProduct();
+
+        getPopularProduct("");
     }
 
-    private void getPopularProduct() {
+    private void getPopularProduct(String customerId) {
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<PopularProductItem> callApi = apiInterface.getPopularProduct();
+        Call<PopularProductItem> callApi = apiInterface.getPopularProduct(customerId);
         callApi.enqueue(new Callback<PopularProductItem>() {
             @Override
             public void onResponse(@NonNull Call<PopularProductItem> call, @NonNull Response<PopularProductItem> response) {
@@ -79,7 +80,6 @@ public class SplashAct extends DealerMelaBaseActivity {
                 Log.e(AppConstants.RESPONSE, "-----------------" + response.body());
                 assert response.body() != null;
                 arrayListPopularProduct = response.body().getProductImg();
-
 
 //                if (response.isSuccessful()) {
 //
@@ -89,14 +89,12 @@ public class SplashAct extends DealerMelaBaseActivity {
                 // This method will be executed once the timer is over
                 // Start your app main activity
 
-
-
                 SharedPreferences sharedPreferences = new SharedPreferences(SplashAct.this);
                 Gson gson = new Gson();
-
                 sharedPreferences.savePopularProducts(gson.toJson(arrayListPopularProduct));
 
                 if (sharedPreferences.getRemember().equalsIgnoreCase("true")){
+
                     if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                         startNewActivity(MainActivity.class);
                         // close this activity
@@ -106,19 +104,15 @@ public class SplashAct extends DealerMelaBaseActivity {
                         finish();
                     }
                 }else{
-                    sharedPreferences.saveLoginData("");
-                    sharedPreferences.saveShipping("");
-                    sharedPreferences.saveBillingAddress("");
-                    sharedPreferences.saveRemember("");
+//                    sharedPreferences.saveLoginData("");
+//                    sharedPreferences.saveShipping("");
+//                    sharedPreferences.saveBillingAddress("");
+//                    sharedPreferences.saveRemember("");
                     startNewActivity(MainActivity.class);
                     finish();
                 }
-
-
 //                        }
 //                    }, AppConstants.SPLASH_TIME_OUT);
-
-
 //                }
             }
 

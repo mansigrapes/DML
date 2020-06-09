@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dealermela.R;
+import com.dealermela.order.activity.OrderTabActivity;
 import com.dealermela.util.AppLogger;
 
 public class StatusActivity extends AppCompatActivity {
@@ -20,6 +21,10 @@ public class StatusActivity extends AppCompatActivity {
 		TextView tv4 = (TextView) findViewById(R.id.textView1);
 		tv4.setText(mainIntent.getStringExtra("transStatus"));
 
+		if(tv4.getText().toString().equalsIgnoreCase("Transaction Successful!")){
+			Intent intent = new Intent(StatusActivity.this, OrderTabActivity.class);
+			startActivity(intent);
+		}
 	}
 	
 	public void showToast(String msg) {

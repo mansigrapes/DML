@@ -7,6 +7,7 @@
     tools:context=".referral.activity.CreateReferralAct">
 
     <com.dealermela.utility.DmlButton
+        style="@style/All_Dmlbutton"
         android:id="@+id/btnManageReferral"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -110,18 +111,18 @@
                 android:layout_height="@dimen/one_sp_view"
                 android:background="?toolbarViewColor" />
 
-
             <com.dealermela.utility.DmlButton
+                style="@style/All_Dmlbutton"
                 android:id="@+id/btnAddReferral"
                 android:layout_width="200dp"
                 android:layout_height="@dimen/thirty_five_sp"
                 android:layout_gravity="center"
                 android:text="@string/add_referral"
                 android:layout_marginTop="@dimen/thirty_five_sp"
-                android:background="?order_menu_color"
-                android:textColor="@color/white"
-                />
+                android:textColor="?login_signup_text_color"
+                android:background="?buttonTextColor"
 
+                />
 
         </LinearLayout>
 
