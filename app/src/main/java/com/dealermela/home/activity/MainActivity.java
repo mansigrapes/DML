@@ -274,12 +274,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-//        if (themePreferences.getTheme().equalsIgnoreCase("white")) {
-            toolbar.setNavigationIcon(R.drawable.ic_menu_new);
-//        } else {
-//            toolbar.setNavigationIcon(R.drawable.ic_menu_new_black_theme);
-//        }
-
+        toolbar.setNavigationIcon(R.drawable.ic_menu_new);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
 

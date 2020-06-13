@@ -1,13 +1,17 @@
 package com.dealermela.other.activity;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.crashlytics.android.Crashlytics;
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
+import com.dealermela.authentication.myaccount.dialog.MaintenanceDialogClass;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
 import com.dealermela.home.activity.MainActivity;
 import com.dealermela.home.model.PopularProductItem;
@@ -20,6 +24,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import io.fabric.sdk.android.Fabric;
 import retrofit2.Call;
@@ -79,46 +84,60 @@ public class SplashAct extends DealerMelaBaseActivity {
                 assert response.body() != null;
                 Log.e(AppConstants.RESPONSE, "-----------------" + response.body());
                 assert response.body() != null;
-                arrayListPopularProduct = response.body().getProductImg();
+
+                if (response.body() != null) {
+                    if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                        arrayListPopularProduct = response.body().getProductImg();
 
 //                if (response.isSuccessful()) {
 //
 //                    new Handler().postDelayed(new Runnable() {
 //                        @Override
 //                        public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main activity
+                        // This method will be executed once the timer is over
+                        // Start your app main activity
 
-                SharedPreferences sharedPreferences = new SharedPreferences(SplashAct.this);
-                Gson gson = new Gson();
-                sharedPreferences.savePopularProducts(gson.toJson(arrayListPopularProduct));
+                        SharedPreferences sharedPreferences = new SharedPreferences(SplashAct.this);
+                        Gson gson = new Gson();
+                        sharedPreferences.savePopularProducts(gson.toJson(arrayListPopularProduct));
 
-                if (sharedPreferences.getRemember().equalsIgnoreCase("true")){
+                        if (sharedPreferences.getRemember().equalsIgnoreCase("true")) {
 
-                    if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-                        startNewActivity(MainActivity.class);
-                        // close this activity
-                        finish();
-                    } else {
-                        startNewActivity(MainActivity.class);
-                        finish();
-                    }
-                }else{
+                            if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                                startNewActivity(MainActivity.class);
+                                // close this activity
+                                finish();
+                            } else {
+                                startNewActivity(MainActivity.class);
+                                finish();
+                            }
+                        } else {
 //                    sharedPreferences.saveLoginData("");
 //                    sharedPreferences.saveShipping("");
 //                    sharedPreferences.saveBillingAddress("");
 //                    sharedPreferences.saveRemember("");
-                    startNewActivity(MainActivity.class);
-                    finish();
-                }
+                            startNewActivity(MainActivity.class);
+                            finish();
+                        }
 //                        }
 //                    }, AppConstants.SPLASH_TIME_OUT);
 //                }
+                    }
+                }else {
+                    AppLogger.e("error", "------------" + response.body().toString());
+                    MaintenanceDialogClass dialogClass = new MaintenanceDialogClass(SplashAct.this);
+                    dialogClass.show();
+                    Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                    Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                }
             }
-
             @Override
             public void onFailure(@NonNull Call<PopularProductItem> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
+                MaintenanceDialogClass dialogClass = new MaintenanceDialogClass(SplashAct.this);
+                dialogClass.show();
+                Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
         });
     }

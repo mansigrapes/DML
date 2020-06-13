@@ -48,18 +48,18 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
                     flag=1;
                     pendentProId=itemArrayList.get(i).getProductId();
                     ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(i).getLabel();
-                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
+//                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
 
                 }else if(itemArrayList.get(i).getLabel().equalsIgnoreCase("ONLY EARRINGS")){
                     flag=1;
                     pendentProId=itemArrayList.get(i).getProductId();
                     ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(i).getLabel();
-                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
+//                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
                 }else{
                     flag=1;
                     pendentProId=itemArrayList.get(i).getProductId();
                     ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(i).getLabel();
-                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
+//                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
                 }
         }
 
@@ -111,7 +111,7 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
 
         @Override
         public void onClick(View v) {
-            AppLogger.e("click", "-------" + getAdapterPosition());
+            AppLogger.e("Pendent_Adapter_click", "-------" + getAdapterPosition());
             int pos = getAdapterPosition();
             for (int i = 0; i < itemArrayList.size(); i++) {
                 ProductDetailItem.PendentEarring pendentEarring = itemArrayList.get(i);
@@ -131,8 +131,6 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
 
 }

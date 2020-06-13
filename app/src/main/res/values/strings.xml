@@ -271,6 +271,7 @@
     <string name="inventory">INVENTORY</string>
     <string name="metal_details">Metal Details</string>
     <string name="stone_details">Stone Details</string>
+    <string name="login_fail">Something want to wrong please try again.</string>
 
     <string-array name="inventory_action">
         <item>with price and with logo</item>

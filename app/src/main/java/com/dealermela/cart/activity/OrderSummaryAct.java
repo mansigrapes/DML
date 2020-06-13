@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.activity.ForgotPasswordAct;
+import com.dealermela.authentication.myaccount.dialog.MaintenanceDialogClass;
 import com.dealermela.authentication.myaccount.dialog.SuccessDialogClass;
 import com.dealermela.authentication.myaccount.dialog.SuccessOrderDialogClass;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
@@ -56,6 +57,7 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
     private TextView tvDefaultBillingAddress, tvDefaultShippingAddress, tvPaymentMethod, tvSubTotal, tvShippingCharge, tvTax, tvGrandTotal;
     private SharedPreferences sharedPreferences;
     private String total,orderId;
+    private String websiteOrderId,billingName,billingEmail,billingTel,billingAddress;
 
     @Override
     protected int getLayoutResourceId() {
@@ -135,6 +137,12 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
 
                     OrderSummaryAdapter orderSummaryAdapter = new OrderSummaryAdapter(OrderSummaryAct.this, response.body().getData());
                     recycleViewOrderSummary.setAdapter(orderSummaryAdapter);
+
+                    billingName =  response.body().getData().get(0).getCustomerName();
+                    billingEmail = response.body().getData().get(0).getEmail();
+                    billingTel = response.body().getData().get(0).getContactNumber();
+                    billingAddress = response.body().getData().get(0).getBillingAddress();
+
                 }
             }
 
@@ -191,24 +199,69 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
                 if (tvPaymentMethod.getText().toString().equalsIgnoreCase("NEFT OR RTGS")){
                     placeOrder();
                 }else{
-                    String vAccessCode = ServiceUtility.chkNull(AppConstants.ACCESS_CODE).toString().trim();
-                    String vMerchantId = ServiceUtility.chkNull(AppConstants.MERCHANT_ID).toString().trim();
-                    String vCurrency = ServiceUtility.chkNull(AppConstants.CURRENCY).toString().trim();
-                    String vAmount = ServiceUtility.chkNull(total).toString().trim();
-                    if(!vAccessCode.equals("") && !vMerchantId.equals("") && !vCurrency.equals("") && !vAmount.equals("")){
-                        Intent intent = new Intent(this, WebViewActivity.class);
-                        intent.putExtra(AvenuesParams.ACCESS_CODE, ServiceUtility.chkNull(AppConstants.ACCESS_CODE).toString().trim());
-                        intent.putExtra(AvenuesParams.MERCHANT_ID, ServiceUtility.chkNull(AppConstants.MERCHANT_ID).toString().trim());
-                        intent.putExtra(AvenuesParams.ORDER_ID, ServiceUtility.chkNull(orderId).toString().trim());
-                        intent.putExtra(AvenuesParams.CURRENCY, ServiceUtility.chkNull(AppConstants.CURRENCY).toString().trim());
-                        intent.putExtra(AvenuesParams.AMOUNT, ServiceUtility.chkNull(total).toString().trim());
+                    ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+                    Call<JsonObject> callApi = apiInterface.placeOrder(customerId);
+                    callApi.enqueue(new Callback<JsonObject>() {
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+                            AppLogger.e(AppConstants.RESPONSE, "--------------" + response.body());
+                            hideProgressDialog();
+                            assert response.body() != null;
+                            hideProgressDialog();
+                            if(response.body() != null) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                                    websiteOrderId  =  jsonObject.getString("order_id");
+                                    AppLogger.e("OrderSummarypage","Orderid ------"+orderId.toString());
+                                    String vAccessCode = ServiceUtility.chkNull(AppConstants.ACCESS_CODE).toString().trim();
+                                    String vMerchantId = ServiceUtility.chkNull(AppConstants.MERCHANT_ID).toString().trim();
+                                    String vCurrency = ServiceUtility.chkNull(AppConstants.CURRENCY).toString().trim();
+                                    String vAmount = ServiceUtility.chkNull(total).toString().trim();
+
+                                    if(!vAccessCode.equals("") && !vMerchantId.equals("") && !vCurrency.equals("") && !vAmount.equals("")){
+                                        Intent intent = new Intent(OrderSummaryAct.this, WebViewActivity.class);
+                                        intent.putExtra(AvenuesParams.ACCESS_CODE, ServiceUtility.chkNull(AppConstants.ACCESS_CODE).toString().trim());
+                                        intent.putExtra(AvenuesParams.MERCHANT_ID, ServiceUtility.chkNull(AppConstants.MERCHANT_ID).toString().trim());
+                                        intent.putExtra(AvenuesParams.ORDER_ID, ServiceUtility.chkNull(orderId).toString().trim());
+                                        intent.putExtra(AvenuesParams.CURRENCY, ServiceUtility.chkNull(AppConstants.CURRENCY).toString().trim());
+                                        intent.putExtra(AvenuesParams.AMOUNT, ServiceUtility.chkNull(total).toString().trim());
 //                        intent.putExtra(AvenuesParams.RecipientsName);
 
-                        intent.putExtra(AvenuesParams.REDIRECT_URL, ServiceUtility.chkNull(AppConstants.redirectUrl).toString().trim());
-                        intent.putExtra(AvenuesParams.CANCEL_URL, ServiceUtility.chkNull(AppConstants.cancelUrl).toString().trim());
-                        intent.putExtra(AvenuesParams.RSA_KEY_URL, ServiceUtility.chkNull(AppConstants.rsaKeyUrl).toString().trim());
-                        startActivity(intent);
-                    }
+                                        intent.putExtra(AvenuesParams.REDIRECT_URL, ServiceUtility.chkNull(AppConstants.redirectUrl).toString().trim());
+                                        intent.putExtra(AvenuesParams.CANCEL_URL, ServiceUtility.chkNull(AppConstants.cancelUrl).toString().trim());
+                                        intent.putExtra(AvenuesParams.RSA_KEY_URL, ServiceUtility.chkNull(AppConstants.rsaKeyUrl).toString().trim());
+
+                                        intent.putExtra(AvenuesParams.billing_name, ServiceUtility.chkNull(billingName).toString().trim());
+                                        intent.putExtra(AvenuesParams.billing_address, ServiceUtility.chkNull(billingAddress).toString().trim());
+                                        intent.putExtra(AvenuesParams.billing_tel, ServiceUtility.chkNull(billingTel).toString().trim());
+                                        intent.putExtra(AvenuesParams.billing_email, ServiceUtility.chkNull(billingEmail).toString().trim());
+                                        intent.putExtra(AvenuesParams.website_order_id, ServiceUtility.chkNull(websiteOrderId).toString().trim());
+
+                                        startActivity(intent);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }else {
+                                MaintenanceDialogClass dialogClass = new MaintenanceDialogClass(OrderSummaryAct.this);
+                                dialogClass.show();
+                                Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                                Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+                            hideProgressDialog();
+                            MaintenanceDialogClass dialogClass = new MaintenanceDialogClass(OrderSummaryAct.this);
+                            dialogClass.show();
+                            Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                            Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        }
+                    });
+
                 }
 
                 break;

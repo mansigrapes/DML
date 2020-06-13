@@ -25,7 +25,6 @@ public class PolicyAct extends DealerMelaBaseActivity {
 
     @Override
     public void init() {
-
     }
 
     @Override

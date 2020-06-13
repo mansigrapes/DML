@@ -324,6 +324,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
                 }
             } else {
                 textCartItemCount.setText(String.valueOf(Math.min(cartCount, 99)));
+                textCartItemCount.setVisibility(View.VISIBLE);
                 if (textCartItemCount.getVisibility() != View.VISIBLE) {
                     textCartItemCount.setVisibility(View.VISIBLE);
                 }

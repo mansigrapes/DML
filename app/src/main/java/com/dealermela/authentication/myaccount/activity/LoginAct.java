@@ -170,58 +170,80 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                 assert response.body() != null;
                 hideProgressDialog();
                 String message=null, status=null;
-//                try {
-//                    JSONObject jsonObject=new JSONObject(String.valueOf(response.body()));
-//                    status=jsonObject.getString("status");
+                if(response.isSuccessful()) {
+//                    try {
+//                            JSONObject jsonObject=new JSONObject(String.valueOf(response.body()));
+    //                      status=jsonObject.getString("status");
+                        if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS))
+//                        if(jsonObject.getString("status").equalsIgnoreCase("success"))
+                        {
+ ////                    Save data to session
+                            Gson gson = new Gson();
+                            String json = gson.toJson(response.body());
+                            AppLogger.e(AppConstants.RESPONSE, "-----------------" + json);
 
-                    if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS))
-//                    if(status.equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS))
-                    {
-                        AppLogger.e(AppConstants.RESPONSE, "-----------------" + response.body().getStatus());
-                        //                    Save data to session
-                        Gson gson = new Gson();
-                        String json = gson.toJson(response.body());
-                        AppLogger.e(AppConstants.RESPONSE, "-----------------" + json);
+                            sharedPreferences.saveLoginData(json);
+                            sharedPreferences.saveEmail(edEmail.getText().toString().trim());
+                            sharedPreferences.savePassword(edPassword.getText().toString().trim());
+                            customerId = response.body().getData().getEntityId();
+                            sharedPreferences.saveBillingAddress(response.body().getData().getDefaultBillingNew().getFirstname() + " " + response.body().getData().getDefaultBillingNew().getLastname() + ",\n" + response.body().getData().getDefaultBillingNew().getStreet() + ",\n" + response.body().getData().getDefaultBillingNew().getCity() + ", " + response.body().getData().getDefaultBillingNew().getRegion() + ", " + response.body().getData().getDefaultBillingNew().getPostcode() + ",\n" + response.body().getData().getDefaultBillingNew().getCountryId() + "\nT: " + response.body().getData().getDefaultBillingNew().getTelephone());
+                            sharedPreferences.saveShipping(response.body().getData().getDefaultShippingNew().getFirstname() + " " + response.body().getData().getDefaultBillingNew().getLastname() + ",\n" + response.body().getData().getDefaultBillingNew().getStreet() + ",\n" + response.body().getData().getDefaultBillingNew().getCity() + ", " + response.body().getData().getDefaultBillingNew().getRegion() + ", " + response.body().getData().getDefaultBillingNew().getPostcode() + ",\n" + response.body().getData().getDefaultBillingNew().getCountryId() + "\nT: " + response.body().getData().getDefaultBillingNew().getTelephone());
 
-                        sharedPreferences.saveLoginData(json);
-                        sharedPreferences.saveEmail(edEmail.getText().toString().trim());
-                        sharedPreferences.savePassword(edPassword.getText().toString().trim());
-//                        String data = jsonObject.getString("data");
-////                        customerId = json.getEntityId();
-//                        customerId = json.substring(54,63);
+ //old code not usable                ////    sharedPreferences.saveBillingAddress(response.body().getData().getDefaultBilling());
+ //old code not usable                ////    sharedPreferences.saveShipping(response.body().getData().getDefaultShipping());
 
-//                        JSONArray jsonArray = jsonObject.getJSONArray("data");
-//                        customerId = jsonObject.getString("entity_id");
+//                            sharedPreferences.saveLoginData(response.body().toString());
+//                            sharedPreferences.saveEmail(edEmail.getText().toString().trim());
+//                            sharedPreferences.savePassword(edPassword.getText().toString().trim());
+//
+//                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+//                                for(int i = 0 ; i < jsonArray.length(); i++){
+//                                    JSONObject object = jsonArray.getJSONObject(i);
+//                                    customerId = object.getString("entity_id");
+//
+//                                    JSONArray jsonArray1 = object.getJSONArray("default_billing_new");
+//                                    for(int j = 0 ; j < jsonArray1.length(); j++){
+//                                        JSONObject object1 = jsonArray1.getJSONObject(j);
+//                                        sharedPreferences.saveBillingAddress(object1.getString("firstname") + " " + object1.getString("lastname") + ",\n" + object1.getString("street") + ",\n" + object1.getString("city") + ", " + object1.getString("region") + ", " + object1.getString("postcode") + ",\n" + object1.getString("country_id") + "\nT: " + object1.getString("telephone"));
+//                                    }
+//
+//                                    JSONArray jsonArray2 = object.getJSONArray("default_shipping_new");
+//                                    for(int k = 0 ; k < jsonArray2.length(); k++){
+//                                        JSONObject object2 = jsonArray2.getJSONObject(k);
+//                                        sharedPreferences.saveShipping(object2.getString("firstname") + " " + object2.getString("lastname") + ",\n" + object2.getString("street") + ",\n" + object2.getString("city") + ", " + object2.getString("region") + ", " + object2.getString("postcode") + ",\n" + object2.getString("country_id") + "\nT: " + object2.getString("telephone"));
+//                                    }
+//                                }
 
-                        customerId = response.body().getData().getEntityId();
-                        sharedPreferences.saveBillingAddress(response.body().getData().getDefaultBillingNew().getFirstname() + " " + response.body().getData().getDefaultBillingNew().getLastname() + ",\n" + response.body().getData().getDefaultBillingNew().getStreet() + ",\n" + response.body().getData().getDefaultBillingNew().getCity() + ", " + response.body().getData().getDefaultBillingNew().getRegion() + ", " + response.body().getData().getDefaultBillingNew().getPostcode() + ",\n" + response.body().getData().getDefaultBillingNew().getCountryId() + "\nT: " + response.body().getData().getDefaultBillingNew().getTelephone());
-                        sharedPreferences.saveShipping(response.body().getData().getDefaultShippingNew().getFirstname() + " " + response.body().getData().getDefaultBillingNew().getLastname() + ",\n" + response.body().getData().getDefaultBillingNew().getStreet() + ",\n" + response.body().getData().getDefaultBillingNew().getCity() + ", " + response.body().getData().getDefaultBillingNew().getRegion() + ", " + response.body().getData().getDefaultBillingNew().getPostcode() + ",\n" + response.body().getData().getDefaultBillingNew().getCountryId() + "\nT: " + response.body().getData().getDefaultBillingNew().getTelephone());
+                            fillListView();
 
-                        //    sharedPreferences.saveBillingAddress(response.body().getData().getDefaultBilling());
-                        //    sharedPreferences.saveShipping(response.body().getData().getDefaultShipping());
+                        } else if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)) {
 
-                        fillListView();
+//                            CommonUtils.showErrorToast(LoginAct.this, jsonObject.getString("message"));
+//                            AppLogger.e(AppConstants.RESPONSE, "-----------------" + jsonObject.getString("message"));
 
-                    } else if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)) {
+                            CommonUtils.showErrorToast(LoginAct.this, response.body().getMessage());
+                            AppLogger.e(AppConstants.RESPONSE, "-----------------" + response.body().getMessage());
 
-                        CommonUtils.showErrorToast(LoginAct.this, response.body().getMessage());
+    ////                        CommonUtils.showErrorToast(LoginAct.this, message);
+                        } else {
+//                            CommonUtils.showErrorToast(LoginAct.this, jsonObject.getString("message"));
+//                            AppLogger.e(AppConstants.RESPONSE, "-----------------" + jsonObject.getString("message"));
 
-                        AppLogger.e(AppConstants.RESPONSE, "-----------------" + response.body().getMessage());
+                            CommonUtils.showErrorToast(LoginAct.this, response.body().getMessage());
+                            AppLogger.e(AppConstants.RESPONSE, "-----------------" + response.body().getMessage());
 
-//                        CommonUtils.showErrorToast(LoginAct.this, message);
-                    } else {
-                        AppLogger.e(AppConstants.RESPONSE, "-----------------" + response.body().getStatus());
-                    }
+                        }
 
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    AppLogger.e("Error Execption","--"+e.getMessage());
-//                }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                        AppLogger.e("Error Execption","--"+e.getMessage());
+//                    }
+                }
             }
 
             @Override
             public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
-                CommonUtils.showErrorToast(LoginAct.this, "Fail to get any Response");
+                CommonUtils.showErrorToast(LoginAct.this, getString(R.string.login_fail));
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 hideProgressDialog();
             }

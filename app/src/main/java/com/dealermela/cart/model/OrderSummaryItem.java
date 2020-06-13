@@ -84,6 +84,8 @@ public class OrderSummaryItem {
         this.data = data;
     }
 
+
+
     public class Datum {
 
         @SerializedName("name")
@@ -100,7 +102,7 @@ public class OrderSummaryItem {
         private String stonequality;
         @SerializedName("ringsize")
         @Expose
-        private Object ringsize;
+        private String ringsize;
         @SerializedName("pendents")
         @Expose
         private Object pendents;
@@ -119,7 +121,21 @@ public class OrderSummaryItem {
         @SerializedName("subtotal")
         @Expose
         private Integer subtotal;
-
+        @SerializedName("billing_address")
+        @Expose
+        private String billingAddress;
+        @SerializedName("shipping_address")
+        @Expose
+        private String shippingAddress;
+        @SerializedName("email")
+        @Expose
+        private String email;
+        @SerializedName("customer_name")
+        @Expose
+        private String customerName;
+        @SerializedName("contact_number")
+        @Expose
+        private String contactNumber;
 
         public String getName() {
             return name;
@@ -153,11 +169,11 @@ public class OrderSummaryItem {
             this.stonequality = stonequality;
         }
 
-        public Object getRingsize() {
+        public String getRingsize() {
             return ringsize;
         }
 
-        public void setRingsize(Object ringsize) {
+        public void setRingsize(String ringsize) {
             this.ringsize = ringsize;
         }
 
@@ -209,8 +225,44 @@ public class OrderSummaryItem {
             this.subtotal = subtotal;
         }
 
+        public String getBillingAddress() {
+            return billingAddress;
+        }
 
+        public void setBillingAddress(String billingAddress) {
+            this.billingAddress = billingAddress;
+        }
 
+        public String getShippingAddress() {
+            return shippingAddress;
+        }
+
+        public void setShippingAddress(String shippingAddress) {
+            this.shippingAddress = shippingAddress;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getCustomerName() {
+            return customerName;
+        }
+
+        public void setCustomerName(String customerName) {
+            this.customerName = customerName;
+        }
+
+        public String getContactNumber() {
+            return contactNumber;
+        }
+
+        public void setContactNumber(String contactNumber) {
+            this.contactNumber = contactNumber;
+        }
     }
-
 }

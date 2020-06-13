@@ -147,6 +147,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     private RelativeLayout relDiamondDetailTotal;
     private CardView cardDiamondBox;
 
+    private String ringOptionId, ringOptionTypeId, stoneOptionId, stoneOptionTypeId;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -477,10 +479,24 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                     } else {
                         cProductId = response.body().getSimpleProductId();
+
                         includeCustomise.setVisibility(View.VISIBLE);
                         //using for ring adapter
                         ringAdapter = new RingAdapter(ProductDetailAct.this, response.body().getRingsize());
                         recycleViewRingSize.setAdapter(ringAdapter);
+
+                        if (productCategoryId.equalsIgnoreCase(AppConstants.RING_ID)){
+                            cRingSize = ringValue;
+                            AppLogger.e("ArrayRing_size","----"+response.body().getRingsize().size());
+                            for(int j = 0 ; j < response.body().getRingsize().size(); j++ ){
+                                if(response.body().getRingsize().get(j).getTitle().equalsIgnoreCase(ringValue)){
+                                    ringOptionId = response.body().getRingsize().get(j).getOptionId();
+                                    ringOptionTypeId = response.body().getRingsize().get(j).getOptionTypeId();
+                                }
+                            }
+                            AppLogger.e("DetailpageRefresh_RingId","-----"+ ringOptionId);
+                            AppLogger.e("DetailpageRefresh_RingTypeId","-----"+ ringOptionTypeId);
+                        }
 
                         //using for Bangle adapter
                         if (!response.body().getBangleSize().isEmpty()) {
@@ -503,12 +519,18 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         //using for pendent and sets adapter
                         if (!response.body().getPendentEarring().isEmpty()) {
                             AppLogger.e("pendent earning size", "--------------" + response.body().getPendentEarring().size());
-                            if (response.body().getPendentEarring().size() > 1) {
-                                response.body().getPendentEarring().get(0).setSelected(true);
-                            } else if (response.body().getPendentEarring().size() > 0) {
-                                response.body().getPendentEarring().get(1).setSelected(true);
-                            } else {
-                                response.body().getPendentEarring().get(0).setSelected(true);
+//                            if (response.body().getPendentEarring().size() > 1) {
+//                                response.body().getPendentEarring().get(0).setSelected(true);
+//                            } else if (response.body().getPendentEarring().size() > 0) {
+//                                response.body().getPendentEarring().get(1).setSelected(true);
+//                            } else {
+//                                response.body().getPendentEarring().get(0).setSelected(true);
+//                            }
+
+                            for(int j = 0; j < response.body().getPendentEarring().size(); j++ ){
+                                if(response.body().getPendentEarring().get(j).getProductId().equalsIgnoreCase(cProductId)){
+                                    response.body().getPendentEarring().get(j).setSelected(true);
+                                }
                             }
 
                             PendentSetsAdapter pendentSetsAdapter = new PendentSetsAdapter(ProductDetailAct.this, response.body().getPendentEarring());
@@ -639,6 +661,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //                    tvMetalEstimatedTotal.setText(AppConstants.RS + response.body().getMetaldetails().get(0).getMetalestimatedprice());
                     int value = response.body().getMetaldetails().get(0).getMetalestimatedprice();
                     tvMetalEstimatedTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(String.valueOf(value))));
+
                     linProgress.setVisibility(View.GONE);
 
                     cPrice = response.body().getProductDetails().get(0).getPrice();
@@ -671,15 +694,15 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     }
 
     private void productDetailRefresh(final String productId, String metalCarat, String metalQualityColor, String ringSize, String stoneQuality, String bangleProId, String braceletProId, String pendentProId, final String clickAction) {
-        AppLogger.e("product Id", "-------" + productId);
-        AppLogger.e("metalCarat", "-------" + metalCarat);
-        AppLogger.e("metalQualityColor", "-------" + metalQualityColor);
-        AppLogger.e("ringSize", "-------" + ringSize);
-        AppLogger.e("stoneQuality", "-------" + stoneQuality);
-        AppLogger.e("bangleProId", "-------" + bangleProId);
-        AppLogger.e("braceletProId", "-------" + braceletProId);
-        AppLogger.e("pendentProId", "-------" + pendentProId);
-        AppLogger.e("clickAction", "-------" + clickAction);
+        AppLogger.e("Refresh_product Id", "-------" + productId);
+        AppLogger.e("Refresh_metalCarat", "-------" + metalCarat);
+        AppLogger.e("Refresh_metalQualityColor", "-------" + metalQualityColor);
+        AppLogger.e("Refresh_ringSize", "-------" + ringSize);
+        AppLogger.e("Refresh_stoneQuality", "-------" + stoneQuality);
+        AppLogger.e("Refresh_bangleProId", "-------" + bangleProId);
+        AppLogger.e("Refresh_braceletProId", "-------" + braceletProId);
+        AppLogger.e("Refresh_pendentProId", "-------" + pendentProId);
+        AppLogger.e("Refresh_clickAction", "-------" + clickAction);
 
         linProgress.setVisibility(View.VISIBLE);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
@@ -713,6 +736,20 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     //using for ring adapter
                     ringAdapter = new RingAdapter(ProductDetailAct.this, response.body().getRingsize());
                     recycleViewRingSize.setAdapter(ringAdapter);
+                    ringAdapter.notifyItemRangeChanged(0, ringAdapter.getItemCount());
+
+                    if (productCategoryId.equalsIgnoreCase(AppConstants.RING_ID)){
+                        cRingSize = ringValue;
+                        AppLogger.e("ArrayRing_size","----"+response.body().getRingsize().size());
+                        for(int j = 0 ; j < response.body().getRingsize().size(); j++ ){
+                            if(response.body().getRingsize().get(j).getTitle().equalsIgnoreCase(ringValue)){
+                                ringOptionId = response.body().getRingsize().get(j).getOptionId();
+                                ringOptionTypeId = response.body().getRingsize().get(j).getOptionTypeId();
+                            }
+                        }
+                        AppLogger.e("DetailpageRefresh_RingId","-----"+ ringOptionId);
+                        AppLogger.e("DetailpageRefresh_RingTypeId","-----"+ ringOptionTypeId);
+                    }
 
                     //using for rts adapter
                     if (!response.body().getRtsSlider().isEmpty()) {
@@ -748,6 +785,41 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                             }
                         }
                     }
+
+                    //Earrings , Pendants , Pendant & sets
+
+//                    if(productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//
+//                    }
+
+//                    //using for pendent and sets adapter
+                    if (!response.body().getPendentEarring().isEmpty()) {
+                        AppLogger.e("pendent earning size_refresh", "--------------" + response.body().getPendentEarring().size());
+   /*                     if (response.body().getPendentEarring().size() > 1) {
+                            response.body().getPendentEarring().get(0).setSelected(true);
+                        } else if (response.body().getPendentEarring().size() > 0) {
+                            response.body().getPendentEarring().get(1).setSelected(true);
+                        } else {
+                            response.body().getPendentEarring().get(0).setSelected(true);
+                        }
+                        */      //Old code PendentEarrings Type Selected as on Simpleproductid & in this array id matched
+
+                        for(int j = 0; j < response.body().getPendentEarring().size(); j++ ){
+                            if(response.body().getPendentEarring().get(j).getProductId().equalsIgnoreCase(cProductId)){
+                                response.body().getPendentEarring().get(j).setSelected(true);
+                            }
+                        }
+
+                        PendentSetsAdapter pendentSetsAdapter = new PendentSetsAdapter(ProductDetailAct.this, response.body().getPendentEarring());
+                        recycleViewPendentSets.setAdapter(pendentSetsAdapter);
+
+                    }
+
+//                    if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID)) {
+//                        PendentSetsAdapter pendentSetsAdapter = new PendentSetsAdapter(ProductDetailAct.this, response.body().getPendentEarring());
+//                        recycleViewPendentSets.setAdapter(pendentSetsAdapter);
+//                    }
+
                     // cBracelet = response.body().getBraceletsSize().get(0).getLabel();
                     //using for Diamond detail adapter
 
@@ -804,6 +876,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     tvMetalWeightApprox.setText(response.body().getMetaldetails().get(0).getMetalweight() + " gms");
                     int value = response.body().getMetaldetails().get(0).getMetalestimatedprice();
                     tvMetalEstimatedTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(String.valueOf(value))));
+
                     linProgress.setVisibility(View.GONE);
 
                     //                float grandTotal = metalPrice + Float.parseFloat(response.body().getDiamondmainprice().get(0).getDimondprice());
@@ -888,7 +961,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //            productDetailRefresh(productId, caratValue, metalValue, "", diamondValue, bangleProductId, "", "", clickAction);
             productDetailRefresh(productId, caratValue, metalValue, "", diamondValue, "", "", "", clickAction);   // Change for configurable products
         } else if (productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
-            productDetailRefresh(productId, caratValue, metalValue, "", diamondValue, "", "", pendentProId, clickAction);
+//            productDetailRefresh(productId, caratValue, metalValue, "", diamondValue, "", "", pendentProId, clickAction);
+            productDetailRefresh(cProductId, caratValue, metalValue, "", diamondValue, "", "", "", clickAction);
         } else {
             productDetailRefresh(productId, caratValue, metalValue, "", diamondValue, "", "", "", clickAction);
         }
@@ -1026,10 +1100,6 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
     //product add to cart
     public void addRecord() {
-        String ringOptionId;
-        String ringOptionTypeId;
-        String stoneOptionId;
-        String stoneOptionTypeId;
 
         if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
             Cursor cursor;
@@ -1058,6 +1128,11 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     }
                     stoneOptionId = diamondAdapter.stoneOptionId;
                     stoneOptionTypeId = diamondAdapter.stoneOptionTypeId;
+                    if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID)){
+                       cProductId= pendentProId.toString();
+                        AppLogger.e("AddToCart","cProductId---pendentProId----" + cProductId);
+                    }
+
                 }
                 cmetalQualityColor = metalValue;
                 cmetalCarat =  caratValue;
@@ -1102,14 +1177,21 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
             } else {
                 if (productCategoryId.equalsIgnoreCase(AppConstants.RING_ID)) {
                     cRingSize = ringValue;
-                    ringOptionId = ringAdapter.ringOptionId;
-                    ringOptionTypeId = ringAdapter.ringOptionTypeId;
+//                    ringOptionId = ringAdapter.ringOptionId;
+//                    ringOptionTypeId = ringAdapter.ringOptionTypeId;
+                    ringOptionId = ringOptionId.toString();
+                    ringOptionTypeId = ringOptionTypeId.toString();
+
                 } else {
                     ringOptionId = "";
                     ringOptionTypeId = "";
                 }
                 stoneOptionId = diamondAdapter.stoneOptionId;
                 stoneOptionTypeId = diamondAdapter.stoneOptionTypeId;
+//                if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID)){
+//                    cProductId= pendentProId.toString();
+//                    AppLogger.e("AddToCart","cProductId---pendentProId----" + cProductId);
+//                }
             }
 
             addToCart(cProductId, customerId, ringOptionId, ringOptionTypeId, stoneOptionId, stoneOptionTypeId, "1",metalValue, caratValue);
@@ -1117,10 +1199,10 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     }
 
     public void buyNow() {
-        String ringOptionId;
-        String ringOptionTypeId;
-        String stoneOptionId;
-        String stoneOptionTypeId;
+//        String ringOptionId;
+//        String ringOptionTypeId;
+//        String stoneOptionId;
+//        String stoneOptionTypeId;
 
         if (productType.equalsIgnoreCase("simple")) {
             ringOptionId = "";
@@ -1130,14 +1212,21 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         } else {
             if (productCategoryId.equalsIgnoreCase(AppConstants.RING_ID)) {
                 cRingSize = ringValue;
-                ringOptionId = ringAdapter.ringOptionId;
-                ringOptionTypeId = ringAdapter.ringOptionTypeId;
+//                ringOptionId = ringAdapter.ringOptionId;
+//                ringOptionTypeId = ringAdapter.ringOptionTypeId;
+                ringOptionId = ringOptionId.toString();
+                ringOptionTypeId = ringOptionTypeId.toString();
+
             } else {
                 ringOptionId = "";
                 ringOptionTypeId = "";
             }
             stoneOptionId = diamondAdapter.stoneOptionId;
             stoneOptionTypeId = diamondAdapter.stoneOptionTypeId;
+            if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID)){
+                cProductId= pendentProId;
+                AppLogger.e("BuyNow","cProductId---pendentProId----" + cProductId);
+            }
         }
 
         buyNow(cProductId, customerId, ringOptionId, ringOptionTypeId, stoneOptionId, stoneOptionTypeId, "1", metalValue, caratValue);

@@ -40,7 +40,7 @@ import retrofit2.http.POST;
 
 public interface ApiInterface {
 
-    //    Login API
+    //    Login API    /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/ValidateUser/")
     Call<LoginResponse> Login(@Field("email") String email,
@@ -48,7 +48,7 @@ public interface ApiInterface {
                               @Field("notification_token") String token,
                               @Field("device_id") String deviceId);
 
-    //    Sign Up API
+    //    Sign Up API   /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/registercustomer/")
     Call<JsonObject> signUp(@Field("firstname") String firstName,
@@ -66,7 +66,7 @@ public interface ApiInterface {
                             @Field("confirmation") String confirmation);
 
 
-    //    Forgot Password
+    //    Forgot Password        /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/forgorpassword/")
     Call<JsonObject> forgotPassword(@Field("email") String email);
@@ -79,12 +79,12 @@ public interface ApiInterface {
     @GET("routers/")
     Call<LoginResponse> getResponseData();
 
-    //    Get All Country
+    //    Get All Country             /**/
     @GET("dmlapi/customers/getallcountrylist/")
     Call<CountryResponse> getCountry();
 
 
-    //    Get all state country wise
+    //    Get all state country wise   /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/getallregionlist/")
     Call<StateResponse> getState(@Field("country_id") String countryId);
@@ -92,13 +92,13 @@ public interface ApiInterface {
 
     /*    Using for My Account  */
 
-    // Get All Address
+    // Get All Address         /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/getalladdress/")
     Call<AddressManageResponse> getAllAddress(@Field("customer_id") String customerId);
 
 
-    // EDIT CUSTOMER
+    // EDIT CUSTOMER      /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/editcustomer/")
     Call<JsonObject> editContactInfo(@Field("notification_token") String notificationToken,
@@ -115,7 +115,7 @@ public interface ApiInterface {
                                         @Field("pancardno") String panCardNo,
                                         @Field("gstin") String gstIn);
 
-    // EDIT DEFAULT SHIPPING
+    // EDIT DEFAULT SHIPPING             /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/editdefaultshipping/")
     Call<JsonObject> editDefaultShipping(@Field("customer_id") String customerId,
@@ -132,7 +132,7 @@ public interface ApiInterface {
                                          @Field("telephone") String telephone);
 
 
-    // EDIT DEFAULT BILLING
+    // EDIT DEFAULT BILLING     /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/editdefaultbilling/")
     Call<JsonObject> editDefaultBilling(@Field("customer_id") String customerId,
@@ -148,7 +148,7 @@ public interface ApiInterface {
                                         @Field("country_id") String countryId,
                                         @Field("telephone") String telephone);
 
-    // EDIT ADDITIONAL BILLING
+    // EDIT ADDITIONAL BILLING               /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/editaddressbyid/")
     Call<JsonObject> editAdditionalBilling(@Field("customer_id") String customerId,
@@ -166,7 +166,7 @@ public interface ApiInterface {
                                            @Field("country_id") String countryId,
                                            @Field("telephone") String telephone);
 
-    //ADD NEW ADDRESS
+    //ADD NEW ADDRESS          /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/createaddress/")
     Call<JsonObject> addNewAddress(@Field("customer_id") String customerId,
@@ -184,13 +184,13 @@ public interface ApiInterface {
                                    @Field("telephone") String telephone);
 
 
-    // Delete Bank Detail
+    // Delete address      /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/deleteaddress")
     Call<JsonObject> deleteAddress(@Field("address_id") String addressId, @Field("customer_id") String customerId);
 
 
-    //    Change Password
+    //    Change Password       /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/changepassword")
     Call<JsonObject> changePassword(@Field("customer_id") String customerId,
@@ -198,7 +198,7 @@ public interface ApiInterface {
                                     @Field("new_password") String password);
 
 
-    // Add Bank Detail
+    // Add Bank Detail                   /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/addbankdetails")
     Call<JsonObject> addBankDetail(@Field("customer_id") String customerId,
@@ -208,7 +208,7 @@ public interface ApiInterface {
                                    @Field("ifsc_code") String IFSCCode,
                                    @Field("branch_name") String branchName);
 
-    // Edit Bank Detail
+    // Edit Bank Detail          /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/editbankdetails")
     Call<JsonObject> editBankDetail(@Field("bank_id") String bankId,
@@ -219,13 +219,13 @@ public interface ApiInterface {
                                     @Field("ifsc_code") String IFSCCode,
                                     @Field("branch_name") String branchName);
 
-    // Delete Bank Detail
+    // Delete Bank Detail           /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/deletebankdetails")
     Call<JsonObject> deleteBankDetail(@Field("bank_id") String bankId);
 
 
-    // List Bank Detail
+    // List Bank Detail            /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/listbankdetails")
     Call<BankResponse> listBankDetail(@Field("customer_id") String customerId);
@@ -233,12 +233,12 @@ public interface ApiInterface {
 
     //REFERRAL
 
-    //List Referral
+    //List Referral              /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/getallreferrals")
     Call<ReferralResponse> referralList(@Field("customer_id") String customerId);
 
-    //Add Referral
+    //Add Referral                 /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/createreferral")
     Call<JsonObject> addReferral(@Field("franchisee_status") String franchiseeStatus,
@@ -253,21 +253,21 @@ public interface ApiInterface {
                                  @Field("referral_type") String referralType,
                                  @Field("_isfranchisee") String isFranchisee);
 
-    //Delete Referral
+    //Delete Referral               /**/
     @FormUrlEncoded
     @POST("dmlapi/customers/deletereferral")
     Call<JsonObject> deleteReferral(@Field("referral_customer_id") String referralCustomerId);
 
     //HOME
-    //Banner Slider
+    //Banner Slider              /**/
     @GET("dmlapi/home/gethomeslider")
     Call<BannerSliderItem> getBannerImage();
 
-    //Header Slider
+    //Header Slider             /**/
     @GET("dmlapi/home/getallcategorys")
     Call<HeaderItem> getHeader();
 
-    //Most Selling Product
+    //Most Selling Product      /**/
     @GET("dmlapi/home/bestsellerproduct")
     Call<MostSellingItem> getMostSEllingProduct();
 
@@ -276,16 +276,16 @@ public interface ApiInterface {
 //    Call<PopularProductItem> getPopularProduct();
 
     //Popular Product
-    @FormUrlEncoded
+    @FormUrlEncoded        /**/
     @POST("dmlapi/home/getpopularproduct")
     Call<PopularProductItem> getPopularProduct(@Field("customer_id") String customerId);
 
     //POLICY
-    @FormUrlEncoded
+    @FormUrlEncoded         /**/
     @POST("dmlapi/home/policycontent")
     Call<JsonObject> getPolicy(@Field("customer_id") String customerId, @Field("policy") String policy);
 
-    //Listing
+    //Listing                      /**/
     @FormUrlEncoded
     @POST("dmlapi/product/getallproductbycategory")
     Call<ListingItem> getCategoryProduct(@Field("customer_id") String customerId,
@@ -301,7 +301,7 @@ public interface ApiInterface {
                                          @Field("sort_by") String sort_by);
 
 
-    //Detail Page
+    //Detail Page                             /**/
     @FormUrlEncoded
     @POST("dmlapi/product/getproductdetails")
     Call<ProductDetailItem> getProductDetail(@Field("product_id") String productId,
@@ -313,43 +313,44 @@ public interface ApiInterface {
                                              @Field("bracelet_pro_id") String braceletProId,
                                              @Field("pendent_pro_id") String pendentProId);
 
+    //rtsslider           /**/
     @FormUrlEncoded
     @POST("dmlapi/product/getrtssliderdetails")
     Call<RTSItem> getRTSDetail(@Field("product_id") String productId);
 
     //DOWNLOAD
-    //Download product list
+    //Download product list                          /**/
     @FormUrlEncoded
     @POST("dmlapi/downloadproduct/downloadview/")
     Call<DownloadItem> getDownloadProductList(@Field("customer_id") String customerId, @Field("pagesize") String pageSize);
 
-    //Download product add in download list
+    //Download product add in download list                 /**/
     @FormUrlEncoded
     @POST("dmlapi/downloadproduct/download/")
     Call<JsonObject> downloadProduct(@Field("customer_id") String customerId,
                                      @Field("product_id") String productId);
 
-    //Download product image
+    //Download product image                 /**/
     @FormUrlEncoded
     @POST("dmlapi/downloadproduct/DownloadImage/")
     Call<JsonObject> downloadProductImage(@Field("customer_id") String customerId,
                                           @Field("product_id") String productId,
                                           @Field("price") String price);
 
-    //Download product delete
+    //Download product delete          /**/
     @FormUrlEncoded
     @POST("dmlapi/downloadproduct/DeleteProduct/")
     Call<JsonObject> deleteProductImage(@Field("customer_id") String customerId,
                                         @Field("product_id") String productId);
 
 
-    //Download product delete all
+    //Download product delete all               /**/
     @FormUrlEncoded
     @POST("dmlapi/downloadproduct/DeleteAllProduct/")
     Call<JsonObject> deleteAllProductImage(@Field("customer_id") String customerId,
                                            @Field("product_ids") String productIds);
 
-
+    //download All Product              /**/
     @FormUrlEncoded
     @POST("dmlapi/downloadproduct/DownloadAllImage/")
     Call<JsonObject> downloadAllProductImage(@Field("customer_id") String customerId,
@@ -378,7 +379,7 @@ public interface ApiInterface {
     Call<OrderDetailItem> orderDetail(@Field("orderid") String orderid);
 
 
-    //CART
+    //CART                                                     /**/
     @FormUrlEncoded
     @POST("dmlapi/addtocart/addcartcustom")
     Call<JsonObject> addToCart(@Field("product_id") String productId,
@@ -391,11 +392,12 @@ public interface ApiInterface {
                                @Field("metalqualitycolor") String metalQualityColor,
                                @Field("metalcarat") String metalCarat);
 
+    //List cart product                          /**/
     @FormUrlEncoded
     @POST("dmlapi/addtocart/listcartitems")
     Call<CartServerDataItem> listCart(@Field("customer_id") String customer_id);
 
-
+    //remove cart item                      /**/
     @FormUrlEncoded
     @POST("dmlapi/addtocart/removecartitem")
     Call<JsonObject> removeCartItem(@Field("customer_id") String customerId, @Field("item_id") String itemId);
@@ -405,11 +407,12 @@ public interface ApiInterface {
     @POST("dmlapi/addtocart/updatecartqty")
     Call<JsonObject> updateCartQty(@Field("customer_id") String customerId, @Field("item_id") String itemId, @Field("qty") String qty);
 
+    //display payment method                /**/
     @FormUrlEncoded
     @POST("dmlapi/addtocart/paymentmethods")
     Call<SelectPaymentItem> getSelectPayment(@Field("customer_id") String customerId);
 
-
+    //                            /**/
     @GET("dmlapi/product/getreadytoshipfilteroption")
     Call<FilterItem> setFilter();
 
@@ -418,7 +421,7 @@ public interface ApiInterface {
     Call<InventoryFilterItem> setInvFilter();
 
 
-    //    Save Payment
+    //    Save Payment                          /**/
     @FormUrlEncoded
     @POST("dmlapi/addtocart/paymentsave")
     Call<JsonObject> savePayment(@Field("customer_id") String customerId,
@@ -427,19 +430,19 @@ public interface ApiInterface {
                                  @Field("shipping_price") String shippingPrice);
 
 
-    // order summary
+    // order summary                /**/
     @FormUrlEncoded
     @POST("dmlapi/addtocart/orderdetailsview")
     Call<OrderSummaryItem> orderSummary(@Field("customer_id") String customerId);
 
-    // place order
+    // place order                              /**/
     @FormUrlEncoded
     @POST("dmlapi/addtocart/createorders")
     Call<JsonObject> placeOrder(@Field("customer_id") String customerId);
 
 
     //    My Stock
-    //Listing
+    //Listing                          /**/
     @FormUrlEncoded
     @POST("dmlapi/mystock/MystockView")
     Call<MyStockItem> getMyStockProduct(@Field("customer_id") String customerId,
@@ -454,21 +457,23 @@ public interface ApiInterface {
                                         @Field("sort_by") String sort_by);
 
 
-    // sale product
+    // sale product       /**/
     @FormUrlEncoded
     @POST("dmlapi/Mystock/addmystockproduct")
     Call<JsonObject> placeOrder(@Field("product") String product, @Field("customer_id") String customer_id);
 
 
-    //Cart ,Download Count
+    //Cart ,Download Count                              /** /
     @FormUrlEncoded
     @POST("dmlapi/addtocart/getcountCartandDownload")
     Call<JsonObject> getCartDownloadCount(@Field("customer_id") String customerId);
 
-    //    Set Address Default
+    //    Set Address Default                              /**/
     @FormUrlEncoded
     @POST("dmlapi/addtocart/setaddresses")
-    Call<JsonObject> setAddresses(@Field("customer_id") String customerId, @Field("address_id") String address_id, @Field("flag_shipping") String flag_shipping);
+    Call<JsonObject> setAddresses(@Field("customer_id") String customerId,
+                                  @Field("address_id") String address_id,
+                                  @Field("flag_shipping") String flag_shipping);
 
 
     //    Set cancel order
@@ -477,7 +482,7 @@ public interface ApiInterface {
     Call<JsonObject> cancelOrder(@Field("orderid") String customerId);
 
 
-    //Listing
+    //Listing                        /**/
     @FormUrlEncoded
     @POST("dmlapi/product/search")
     Call<ListingItem> searchProduct(@Field("search_term") String searchTerm,
@@ -489,11 +494,10 @@ public interface ApiInterface {
     @POST("dmlapi/allorder/downloadpdf")
     Call<JsonObject> printOrder(@Field("order_id") String order_id, @Field("customer_id") String customer_id, @Field("group_id") String group_id);
 
-    //contact us
+    //contact us                    /**/
     @FormUrlEncoded
     @POST("dmlapi/home/contactus")
     Call<JsonObject> contactUs(@Field("name") String name, @Field("comment") String comment, @Field("email") String email);
-
 
     //add to download
     @FormUrlEncoded
@@ -511,41 +515,48 @@ public interface ApiInterface {
                                            @Field("diamond_shape") String diamond_shape);
 
 
-    //get Inventory list
+    //get Inventory list                        /**/
     @FormUrlEncoded
     @POST("public/api/inventoryactions")
     Call<InventoryActionItem> inventoryAction(@Field("productIds") String productIds, @Field("price") String action);
 
 
-    //get invoice list
+    //get invoice list                      /**/
     @FormUrlEncoded
     @POST("public/api/getInvoiceList")
-    Call<InventoryInvoiceItem> getInvoiseList(@Field("page") String page, @Field("invoice_status") String invoice_status, @Field("search_value") String search_value, @Field("customer_id") String customer_id);
+    Call<InventoryInvoiceItem> getInvoiseList(@Field("page") String page,
+                                              @Field("invoice_status") String invoice_status,
+                                              @Field("search_value") String search_value,
+                                              @Field("customer_id") String customer_id);
 
-    //get payment list
+    //get payment list                          /**/
     @FormUrlEncoded
     @POST("public/api/getPaymentList")
     Call<InventoryPaymentItem> getPaymentList(@Field("page") String page, @Field("customer_id") String customer_id);
 
-    //get product list
+    //get product list                  /**/
     @FormUrlEncoded
     @POST("public/api/getTryProductsList")
-    Call<InventoryProductItem> getTryProductsList(@Field("page") String page, @Field("customer_id") String customer_id, @Field("date") String date, @Field("submit_to_dml") String submitToDml);
+    Call<InventoryProductItem> getTryProductsList(@Field("page") String page,
+                                                  @Field("customer_id") String customer_id,
+                                                  @Field("date") String date,
+                                                  @Field("submit_to_dml") String submitToDml);
 
 
-    //Try product Add
+    //Try product Add                   /**/
     @FormUrlEncoded
     @POST("public/api/StoreTryProduct")
     Call<JsonObject> storeTryProduct(@Field("product_id") String product_id, @Field("customer_id") String customer_id);
 
-    //delete product from try list
+    //delete product from try list                  /**/
     @FormUrlEncoded
     @POST("public/api/deleteProductFromTry")
-    Call<JsonObject> deleteProductFromTry(@Field("customer_id") String customer_id, @Field("product_id") String product_id);
+    Call<JsonObject> deleteProductFromTry(@Field("customer_id") String customer_id,
+                                          @Field("product_id") String product_id);
 
 
     //************************************Quotation*****************************************
-    //quotation list
+    //quotation list                         /**/
     @FormUrlEncoded
     @POST("public/api/getQuotationList")
     Call<InventoryQuotationItem> getQuotationList(@Field("page") String page, @Field("customer_id") String customer_id);

@@ -3,9 +3,12 @@ package com.dealermela.listing_and_detail.activity;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,17 +18,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
+import com.dealermela.authentication.myaccount.dialog.MaintenanceDialogClass;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
+import com.dealermela.cart.activity.CartAct;
 import com.dealermela.listing_and_detail.adapter.ListingRecyclerAdapter;
 import com.dealermela.listing_and_detail.adapter.SortByListRecyclerAdapter;
 import com.dealermela.listing_and_detail.model.FilterItem;
 import com.dealermela.listing_and_detail.model.ListingItem;
+import com.dealermela.other.activity.SearchAct;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
@@ -44,6 +51,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -224,7 +232,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                     dialog.dismiss();
                                     StringBuilder stringBuilder=new StringBuilder();
 
-
                                     for(ListingItem.ProductImg productImg: downloadItemArrayList){
                                         AppLogger.e("product ids","---------"+productImg.getEntityId());
                                         stringBuilder.append(productImg.getEntityId()).append(",");
@@ -344,6 +351,8 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
             }
             getSortFilter();
+//            getCount();  //changed on 10/06 before call this method in onResume Function
+            setupBadge();
         }
     }
 
@@ -373,11 +382,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //                intent.putExtra(AppConstants.NAME, data);
                 startActivity(intent);
                 break;
-
         }
     }
 
-    private void getCategoryProduct(String categoryId, String groupId, String page, String price, String gold_purity, String diamonod_quality, String diamond_shape, String sku, String availability, String sort_by) {
+    private void getCategoryProduct(final String categoryId, String groupId, String page, String price, String gold_purity, String diamonod_quality, String diamond_shape, String sku, String availability, String sort_by) {
         if (page_count == 1) {
 //            progressCenter.setVisibility(View.VISIBLE);
         } else {
@@ -394,32 +402,42 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 } else {
                     progressBottom.setVisibility(View.GONE);
                 }
-                if (response.isSuccessful()) {
-                    if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                if (id.equalsIgnoreCase(AppConstants.NECKLACE_ID)){     //temporary add on 13/06 Bcz necklace category product data mismatch from backend
+                    linNoData.setVisibility(View.VISIBLE);
+                    linSortBy.setVisibility(View.GONE);
+                    linFilter.setVisibility(View.GONE);
+                    parentShimmerLayout.setVisibility(View.GONE);
+                    fabDownload.hide();
+
+                }else{
+                    if (response.isSuccessful()) {
+                        if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
 //                        parentShimmerLayout.stopShimmerAnimation();
 
-                        linNoData.setVisibility(View.GONE);         //added for coming back from Reset filter & data display back
-                        linSortBy.setVisibility(View.VISIBLE);
-                        parentShimmerLayout.setVisibility(View.GONE);
-                        recycleViewListing.setVisibility(View.VISIBLE);
-                        itemArrayList.addAll(response.body().getData());
-                        listingRecyclerAdapter.notifyDataSetChanged();
-
-                    } else {
-
-                        if (itemArrayList.isEmpty()) {
-                            linNoData.setVisibility(View.VISIBLE);
-                            linSortBy.setVisibility(View.GONE);
-                            linFilter.setVisibility(View.GONE);
+                            linNoData.setVisibility(View.GONE);         //added for coming back from Reset filter & data display back
+                            linSortBy.setVisibility(View.VISIBLE);
                             parentShimmerLayout.setVisibility(View.GONE);
-                            fabDownload.hide();
-                            if(filterFlag == 1){
-                                linFilter.setVisibility(View.VISIBLE);
-                            }
+                            recycleViewListing.setVisibility(View.VISIBLE);
+                            itemArrayList.addAll(response.body().getData());
+                            listingRecyclerAdapter.notifyDataSetChanged();
+
                         } else {
-                            linNoData.setVisibility(View.GONE);
+
+                            if (itemArrayList.isEmpty()) {
+                                linNoData.setVisibility(View.VISIBLE);
+                                linSortBy.setVisibility(View.GONE);
+                                linFilter.setVisibility(View.GONE);
+                                parentShimmerLayout.setVisibility(View.GONE);
+                                fabDownload.hide();
+                                if (filterFlag == 1) {
+                                    linFilter.setVisibility(View.VISIBLE);
+                                }
+                            } else {
+                                linNoData.setVisibility(View.GONE);
+                            }
                         }
                     }
+
                 }
             }
 
@@ -436,6 +454,12 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 } else {
                     progressBottom.setVisibility(View.GONE);
                 }
+
+                MaintenanceDialogClass dialogClass = new MaintenanceDialogClass(ListAct.this);
+                dialogClass.show();
+                Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
             }
         });
     }
@@ -510,8 +534,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         } else {
             tvCount.setVisibility(View.GONE);
         }
-
-//        getCount();
 
         if (filterFlag == 1) {
             tvCount.setVisibility(View.VISIBLE);
@@ -589,7 +611,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //            availability.setLength(availability.length() - 1);
 //            sort_by.setLength(sort_by.length() - 1);
 
-
             listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
             recycleViewListing.setAdapter(listingRecyclerAdapter);
             if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
@@ -629,11 +650,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                     getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price, gold_purity, diamond_quality, diamond_shape, sku, availability, sort_by);
                 }
                 AppLogger.e(" full string data", "--------" + price + gold_purity + diamond_quality + diamond_shape + sku + availability);
-a
+
             }*/
         }else {
             tvCount.setVisibility(View.GONE);
-
             price.setLength(0);
             gold_purity.setLength(0);
             diamond_quality.setLength(0);
@@ -648,6 +668,9 @@ a
                 getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
             }
         }
+
+//        textCartItemCount.setText(String.valueOf(Math.min(cartCount, 99)));
+        setupBadge();
     }
 
 //    private void getCount() {
@@ -664,14 +687,16 @@ a
 //
 //                        if (jsonObject.getInt("total_qty") != 0) {
 //                            tvListCartCount.setVisibility(View.VISIBLE);
-//                            cartCount = jsonObject.getInt("total_qty");
-//                            tvListCartCount.setText(String.valueOf(jsonObject.getInt("total_qty")));
+////                            cartCount = jsonObject.getInt("total_qty");
+//                            String count = String.valueOf(jsonObject.getInt("total_qty"));
+//                            tvListCartCount.setText(count);
+//                            AppLogger.e("ListPageCartcount","--------"+tvListCartCount.getText().toString());
 //                        } else {
-//                            tvListCartCount.setVisibility(View.GONE);
+////                            tvListCartCount.setVisibility(View.GONE);
 //                        }
 //
 //                    } else {
-//                        tvListCartCount.setVisibility(View.GONE);
+////                        tvListCartCount.setVisibility(View.GONE);
 //                    }
 //                } catch (JSONException e) {
 //                    e.printStackTrace();
@@ -702,15 +727,15 @@ a
                 parentShimmerLayout.setVisibility(View.GONE);
                 recycleViewListing.setVisibility(View.VISIBLE);
                 if (page_count == 1) {
-//                    progressCenter.setVisibility(View.GONE);
+                    progressCenter.setVisibility(View.GONE);
                 } else {
                     progressBottom.setVisibility(View.GONE);
                 }
                 if (response.isSuccessful()) {
                     if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                        linNoData.setVisibility(View.GONE);
                         itemArrayList.addAll(response.body().getData());
                         listingRecyclerAdapter.notifyDataSetChanged();
-                        linNoData.setVisibility(View.GONE);
                     } else {
                         linNoData.setVisibility(View.GONE);
                         if (itemArrayList.isEmpty()) {
@@ -787,5 +812,46 @@ a
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
+
+    //Option menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainwithcart, menu);
+
+        final MenuItem menuItem = menu.findItem(R.id.action_cart);
+
+        View actionView = MenuItemCompat.getActionView(menuItem);
+        textCartItemCount = actionView.findViewById(R.id.cart_badge);
+
+        setupBadge();
+
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_cart: {
+                // Do something
+                startNewActivity(CartAct.class);
+                return true;
+            }
+            case R.id.action_search: {
+                startNewActivity(SearchAct.class);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

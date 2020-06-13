@@ -79,13 +79,13 @@ public class RingAdapter extends RecyclerView.Adapter<RingAdapter.ViewHolder> {
                 ringOptionId=itemArrayList.get(i).getOptionId();
                 ringOptionTypeId=itemArrayList.get(i).getOptionTypeId();
 
-
             } else {
                 holder.linRing.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
             }
         }
-
+            AppLogger.e("Ring_OptionIdFromAdapter","-----" + ringOptionId);
+            AppLogger.e("Ring_OptionTypeIdFromAdapter","-----" + ringOptionTypeId);
     }
 
     @Override
@@ -127,8 +127,5 @@ public class RingAdapter extends RecyclerView.Adapter<RingAdapter.ViewHolder> {
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
-
 }
