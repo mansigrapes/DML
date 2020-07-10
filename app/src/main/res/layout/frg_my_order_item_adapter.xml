@@ -59,6 +59,12 @@
             android:layout_height="wrap_content" />
 
         <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvcertificate"
+            style="@style/order_item_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.dealermela.utility.DmlTextView
             android:id="@+id/tvMetalDetail"
             style="@style/order_item_textView"
             android:layout_width="match_parent"
@@ -72,12 +78,6 @@
 
         <com.dealermela.utility.DmlTextView
             android:id="@+id/tvGrandTotal"
-            style="@style/order_item_textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <com.dealermela.utility.DmlTextView
-            android:id="@+id/tvcertificate"
             style="@style/order_item_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

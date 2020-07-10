@@ -50,7 +50,6 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
 
     private final Activity activity;
     public final List<ListingItem.Datum> itemArrayList;
-
     private KProgressHUD hud;
     private SharedPreferences sharedPreferences;
 
@@ -205,7 +204,7 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
 
         @Override
         public void onClick(View v) {
-            filterFlag = 0;
+//            filterFlag = 0;
             Intent intent = new Intent(activity, ProductDetailAct.class);
             intent.putExtra(AppConstants.NAME, itemArrayList.get(getAdapterPosition()).getEntityId());
             activity.startActivity(intent);

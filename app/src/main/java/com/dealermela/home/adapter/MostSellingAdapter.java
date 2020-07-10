@@ -55,8 +55,6 @@ public class MostSellingAdapter extends RecyclerView.Adapter<MostSellingAdapter.
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int i) {
 
-
-
 //        int index = itemArrayList.get(i).getPrice().indexOf(".");
         float price=Float.parseFloat(itemArrayList.get(i).getCustomPrice());
 

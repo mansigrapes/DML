@@ -128,9 +128,7 @@ public class ForgotPasswordAct extends DealerMelaBaseActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
-
             }
 
             @Override
@@ -138,7 +136,6 @@ public class ForgotPasswordAct extends DealerMelaBaseActivity {
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 hideProgressDialog();
             }
-
         });
     }
 

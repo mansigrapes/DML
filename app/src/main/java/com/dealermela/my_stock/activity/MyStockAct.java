@@ -34,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
+import static com.dealermela.inventary.activity.InventoryFilterAct.filterFlag;
 import static com.dealermela.listing_and_detail.activity.FilterAct.mapFilter;
 import static com.dealermela.home.activity.MainActivity.customerId;
 

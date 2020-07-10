@@ -84,7 +84,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     //using slider images
     private ViewPager viewPagerSlider;
 
-    //using slider images horizontal
+    //using slider images horizontalc
     private HorizontalScrollView hsvSlider;
 
     //using slider images horizontal item and progress loader
@@ -126,7 +126,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     private View viewRing, viewBangle, viewBracelet, viewPendentSets;
     private TextView tvRingSizeHeading, tvBangleSizeHeading, tvBraceletsHeading, tvPendentHeading;
 
-    public String cProductId, cCategoryId, cProductType, cSku, cRingSize = "", cBangle, cBracelet, cPendentSet, cMetalDetail, cMetalWeight, cStoneDetail, cStoneWeight, cPrice, cQty = "1", cImageUrl, cmetalQualityColor, cmetalCarat;
+    public String cProductId, cCategoryId, cProductType, cSku, cRingSize = "", cBangle, cBracelet, cPendentSet, cMetalDetail, cMetalWeight, cStoneDetail, cStoneWeight, cPrice, cQty = "1", cImageUrl, cmetalQualityColor, cmetalCarat, ctotalItem = "1";
 
     private DatabaseCartAdapter databaseCartAdapter;
 
@@ -479,7 +479,6 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                     } else {
                         cProductId = response.body().getSimpleProductId();
-
                         includeCustomise.setVisibility(View.VISIBLE);
                         //using for ring adapter
                         ringAdapter = new RingAdapter(ProductDetailAct.this, response.body().getRingsize());
@@ -879,7 +878,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                     linProgress.setVisibility(View.GONE);
 
-                    //                float grandTotal = metalPrice + Float.parseFloat(response.body().getDiamondmainprice().get(0).getDimondprice());
+                    //  float grandTotal = metalPrice + Float.parseFloat(response.body().getDiamondmainprice().get(0).getDimondprice());
 
                     cPrice = response.body().getProductDetails().get(0).getPrice();
                     tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
@@ -916,26 +915,29 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         ImageView imageView;
         ConstraintLayout main_layout;
         for (int i = 0; i < images.size(); i++) {
-            imageLayout = getLayoutInflater().inflate(R.layout.act_product_detail_item_image, null);
-            imageView = imageLayout.findViewById(R.id.image_linear);
-            main_layout = imageLayout.findViewById(R.id.main_layout);
+            if(images.get(i)!=null) {
+                imageLayout = getLayoutInflater().inflate(R.layout.act_product_detail_item_image, null);
+                imageView = imageLayout.findViewById(R.id.image_linear);
+                main_layout = imageLayout.findViewById(R.id.main_layout);
 
-            imageView.setOnClickListener(
-                    onChagePageClickListener(i)
-            );
+                imageView.setOnClickListener(
+                        onChagePageClickListener(i)
+                );
 
-            if (c_position == i) {
-                imageView.setBackground(getResources().getDrawable(R.drawable.product_item_select));
-            } else {
-                imageView.setBackground(getResources().getDrawable(R.drawable.product_item_un_select));
+                if (c_position == i) {
+                    imageView.setBackground(getResources().getDrawable(R.drawable.product_item_select));
+                } else {
+                    imageView.setBackground(getResources().getDrawable(R.drawable.product_item_un_select));
+                }
+
+                    Glide.with(ProductDetailAct.this)
+                            .load(images.get(i))
+                            .apply(new RequestOptions().placeholder(R.drawable.dml_logo).error(R.drawable.dml_logo))
+                            .into(imageView);
+    //            imageView.setImageResource(images.get(i).getFile());
+
+                linContainer.addView(imageLayout);
             }
-
-            Glide.with(ProductDetailAct.this)
-                    .load(images.get(i))
-                    .apply(new RequestOptions().placeholder(R.drawable.dml_logo).error(R.drawable.dml_logo))
-                    .into(imageView);
-//            imageView.setImageResource(images.get(i).getFile());
-            linContainer.addView(imageLayout);
         }
     }
 
@@ -1158,7 +1160,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         stoneOptionId,
                         stoneOptionTypeId,
                         cmetalQualityColor,
-                        cmetalCarat);
+                        cmetalCarat,
+                        ctotalItem);
 
 //                Toast.makeText(getApplicationContext(), "item added to cart", Toast.LENGTH_SHORT).show();
                 CommonUtils.showSuccessToast(ProductDetailAct.this, "Item added in cart.");

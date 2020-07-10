@@ -85,7 +85,6 @@ public class OrderSummaryItem {
     }
 
 
-
     public class Datum {
 
         @SerializedName("name")
@@ -102,10 +101,10 @@ public class OrderSummaryItem {
         private String stonequality;
         @SerializedName("ringsize")
         @Expose
-        private String ringsize;
+        private Object ringsize;
         @SerializedName("pendents")
         @Expose
-        private Object pendents;
+        private String pendents;
         @SerializedName("bangles")
         @Expose
         private Object bangles;
@@ -124,9 +123,39 @@ public class OrderSummaryItem {
         @SerializedName("billing_address")
         @Expose
         private String billingAddress;
+        @SerializedName("billing_address_individual")
+        @Expose
+        private String billingAddressIndividual;
+        @SerializedName("billing_city_individual")
+        @Expose
+        private String billingCityIndividual;
+        @SerializedName("billing_zip_individual")
+        @Expose
+        private String billingZipIndividual;
+        @SerializedName("billing_country_individual")
+        @Expose
+        private String billingCountryIndividual;
+        @SerializedName("billing_region_individual")
+        @Expose
+        private String billingRegionIndividual;
         @SerializedName("shipping_address")
         @Expose
         private String shippingAddress;
+        @SerializedName("shipping_address_individual")
+        @Expose
+        private String shippingAddressIndividual;
+        @SerializedName("shipping_city_individual")
+        @Expose
+        private String shippingCityIndividual;
+        @SerializedName("shipping_zip_individual")
+        @Expose
+        private String shippingZipIndividual;
+        @SerializedName("shipping_country_individual")
+        @Expose
+        private String shippingCountryIndividual;
+        @SerializedName("shipping_region_individual")
+        @Expose
+        private String shippingRegionIndividual;
         @SerializedName("email")
         @Expose
         private String email;
@@ -169,19 +198,19 @@ public class OrderSummaryItem {
             this.stonequality = stonequality;
         }
 
-        public String getRingsize() {
+        public Object getRingsize() {
             return ringsize;
         }
 
-        public void setRingsize(String ringsize) {
+        public void setRingsize(Object ringsize) {
             this.ringsize = ringsize;
         }
 
-        public Object getPendents() {
+        public String getPendents() {
             return pendents;
         }
 
-        public void setPendents(Object pendents) {
+        public void setPendents(String pendents) {
             this.pendents = pendents;
         }
 
@@ -233,12 +262,92 @@ public class OrderSummaryItem {
             this.billingAddress = billingAddress;
         }
 
+        public String getBillingAddressIndividual() {
+            return billingAddressIndividual;
+        }
+
+        public void setBillingAddressIndividual(String billingAddressIndividual) {
+            this.billingAddressIndividual = billingAddressIndividual;
+        }
+
+        public String getBillingCityIndividual() {
+            return billingCityIndividual;
+        }
+
+        public void setBillingCityIndividual(String billingCityIndividual) {
+            this.billingCityIndividual = billingCityIndividual;
+        }
+
+        public String getBillingZipIndividual() {
+            return billingZipIndividual;
+        }
+
+        public void setBillingZipIndividual(String billingZipIndividual) {
+            this.billingZipIndividual = billingZipIndividual;
+        }
+
+        public String getBillingCountryIndividual() {
+            return billingCountryIndividual;
+        }
+
+        public void setBillingCountryIndividual(String billingCountryIndividual) {
+            this.billingCountryIndividual = billingCountryIndividual;
+        }
+
+        public String getBillingRegionIndividual() {
+            return billingRegionIndividual;
+        }
+
+        public void setBillingRegionIndividual(String billingRegionIndividual) {
+            this.billingRegionIndividual = billingRegionIndividual;
+        }
+
         public String getShippingAddress() {
             return shippingAddress;
         }
 
         public void setShippingAddress(String shippingAddress) {
             this.shippingAddress = shippingAddress;
+        }
+
+        public String getShippingAddressIndividual() {
+            return shippingAddressIndividual;
+        }
+
+        public void setShippingAddressIndividual(String shippingAddressIndividual) {
+            this.shippingAddressIndividual = shippingAddressIndividual;
+        }
+
+        public String getShippingCityIndividual() {
+            return shippingCityIndividual;
+        }
+
+        public void setShippingCityIndividual(String shippingCityIndividual) {
+            this.shippingCityIndividual = shippingCityIndividual;
+        }
+
+        public String getShippingZipIndividual() {
+            return shippingZipIndividual;
+        }
+
+        public void setShippingZipIndividual(String shippingZipIndividual) {
+            this.shippingZipIndividual = shippingZipIndividual;
+        }
+
+        public String getShippingCountryIndividual() {
+            return shippingCountryIndividual;
+        }
+
+        public void setShippingCountryIndividual(String shippingCountryIndividual) {
+            this.shippingCountryIndividual = shippingCountryIndividual;
+        }
+
+        public String getShippingRegionIndividual() {
+            return shippingRegionIndividual;
+        }
+
+        public void setShippingRegionIndividual(String shippingRegionIndividual) {
+            this.shippingRegionIndividual = shippingRegionIndividual;
         }
 
         public String getEmail() {

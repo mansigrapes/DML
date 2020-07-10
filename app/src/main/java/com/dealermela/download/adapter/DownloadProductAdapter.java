@@ -73,6 +73,7 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.act_download_item, viewGroup, false);
         return new ViewHolder(v);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -327,7 +328,7 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
 
                             DownloadManager manager = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
                             manager.enqueue(request);
-                            CommonUtils.showSuccessToast(activity, "Image Download in Gallery");
+                            CommonUtils.showSuccessToast(activity, "Image is downloaded");
 
                             itemArrayList.get(position).setFlag("0");
                             notifyItemChanged(position);
@@ -393,13 +394,15 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
 //        notifyItemRangeChanged(position, itemArrayList.size());
     }
 
-
    /* public void removeAt(int position) {
         itemArrayList.remove(position);
         notifyItemRemoved(position);
 //        notifyItemRangeChanged(position, itemArrayList.size());
     }*/
 
+   public void updatecheckbox(int position){
+       notifyItemChanged(position);
+   }
 
     public void updateData() {
         for (int i = 0; i <= itemArrayList.size() - 1; i++) {

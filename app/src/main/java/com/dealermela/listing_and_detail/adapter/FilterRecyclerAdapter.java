@@ -17,6 +17,7 @@ import com.dealermela.util.AppLogger;
 import java.util.List;
 
 import static com.dealermela.listing_and_detail.activity.FilterAct.filterCurrentPosition;
+import static com.dealermela.listing_and_detail.activity.ListAct.filterSelectItems;
 
 public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAdapter.ViewHolder> {
 
@@ -83,7 +84,6 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
             }
             ((FilterAct) activity).countFilter();
 //            ((FilterAct) activity).bindSelectFilter();
-
         }
 
         @Override

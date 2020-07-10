@@ -187,11 +187,11 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 edText.setText("");
 //                bindSelectFilter();
                 countFilter();
+//                filterFlag = 0;
                 break;
 
             case R.id.imgBack:
 
-                filterFlag = 0;
                 finish();
                 break;
 
@@ -201,14 +201,25 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
 //                }else{
 //                    filterFlag = 0;
 //                }
-                filterFlag = 1;
+                for(int j = 0 ; j < filterSelectItems.size() ; j++){          // Filter: click reset button & then click apply,without selecting any filter then all listing items display
+                    if(filterSelectItems.get(j).getFiltercount()!= 0) {
+                        filterFlag = 1;
+                    }
+                }
+//                if(edText.getText().toString()!=null){
+//                    if(filterSelectItems.get(4).getOptionName().equalsIgnoreCase("sku")){
+////                        = edText.getText().toString();
+//                    }
+//                    filterFlag = 1;
+//                }
+
                 finish();
                 break;
         }
     }
 
     public void resetFilter() {
-        filterFlag = 0;
+        filterFlag = 2;
         for (int i = 0; i < filterSelectItems.size(); i++) {
             if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("price")) {
                 for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {

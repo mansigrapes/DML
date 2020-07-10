@@ -33,6 +33,8 @@ import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import java.util.List;
 
+import static com.dealermela.DealerMelaBaseActivity.cartCount;
+
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
@@ -112,10 +114,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 holder.tvQuantity.setText(String.valueOf(qty));
                 AppLogger.e("plus old price", "----------" + itemArrayList.get(i).getPrice());
                 itemArrayList.get(i).setQty(String.valueOf(qty));
+                cartCount++;             //Added this line to update cartcount for every item  But count not updated from API SIDE.
+                AppLogger.e("CountUpdated ","-----"+cartCount);
                 notifyItemChanged(i);
                 notifyItemRangeChanged(i, itemArrayList.size());
                 shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty));
-                DealerMelaBaseActivity.cartCount++;           //Added this line to update cartcount for every item
+//                shoppingFrg.updatetotalItem(String.valueOf())
             }
         });
 
@@ -131,7 +135,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     notifyItemChanged(i);
                     notifyItemRangeChanged(i, itemArrayList.size());
                     shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty));
-                    DealerMelaBaseActivity.cartCount++;              //Added this line to update cartcount for every item
+                    cartCount--;           //Added this line to update cartcount for every item
 
                 } else {
                     qty--;
@@ -143,7 +147,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     notifyItemChanged(i);
                     notifyItemRangeChanged(i, itemArrayList.size());
                     shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty));
-                    DealerMelaBaseActivity.cartCount++;            //Added this line to update cartcount for every item
+                    cartCount--;           //Added this line to update cartcount for every item
                 }
             }
         });
@@ -180,7 +184,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
                 new IOSDialog.Builder(activity)
                         .setTitle(activity.getString(R.string.delete))
-                        .setMessage(activity.getString(R.string.delete_msg))
+                        .setMessage(activity.getString(R.string.remove_cartitem_msg))
                         .setCancelable(false)
                         .setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
@@ -191,7 +195,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                                 shoppingFrg.deleteItem(String.valueOf(itemArrayList.get(i).getId()));
                                 itemArrayList.remove(i);
                                 if (itemArrayList.isEmpty()) {
-                                    activity.finish();
+//                                    activity.finish();
                                 }
                             }
                         })

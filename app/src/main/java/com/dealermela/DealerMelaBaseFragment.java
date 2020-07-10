@@ -97,7 +97,5 @@ public abstract class DealerMelaBaseFragment extends Fragment implements ViewBin
             hud.dismiss();
             hud = null;
         }
-
     }
-
 }

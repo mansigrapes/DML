@@ -1,6 +1,7 @@
 package com.dealermela.listing_and_detail.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,17 +22,19 @@ import com.dealermela.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dealermela.listing_and_detail.activity.FilterAct.filterCurrentPosition;
 import static com.dealermela.listing_and_detail.activity.FilterAct.mapFilter;
 import static com.dealermela.listing_and_detail.activity.FilterAct.paramKey;
+import static com.dealermela.listing_and_detail.activity.ListAct.filterSelectItems;
 
 public class FilterTitleListAdapter extends BaseAdapter {
     private final Activity context; //context
-    public final List<FilterItem.Datum> items; //data source of the list adapter
+    public final ArrayList<FilterItem.Datum> items; //data source of the list adapter
     public int selectedPosition = 0;
     private ThemePreferences themePreferences;
 
     //public constructor
-    public FilterTitleListAdapter(Activity context, List<FilterItem.Datum> items) {
+    public FilterTitleListAdapter(Activity context, ArrayList<FilterItem.Datum> items) {
         this.context = context;
         this.items = items;
         themePreferences = new ThemePreferences(context);
@@ -54,7 +57,8 @@ public class FilterTitleListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        // inflate the layout for each list row
+
+//        // inflate the layout for each list row
         if (convertView == null) {
             convertView = LayoutInflater.from(context).
                     inflate(R.layout.act_filter_item_title, parent, false);
@@ -62,13 +66,15 @@ public class FilterTitleListAdapter extends BaseAdapter {
         // get current item to be displayed
 
         // get the TextView for item name and item description
-        final LinearLayout linLayout = convertView.findViewById(R.id.linLayout);
+        LinearLayout linLayout = convertView.findViewById(R.id.linLayout);
 //        ImageView imgIcon = convertView.findViewById(R.id.imgIcon);
 
-        final TextView tvTitle = convertView.findViewById(R.id.tvTitle);
-        final TextView tvinvcount = convertView.findViewById(R.id.tvinvcount);
+        TextView tvTitle = convertView.findViewById(R.id.tvTitle);
+        TextView tvinvcount = convertView.findViewById(R.id.tvinvcount);
 
-        final RelativeLayout relArrow = convertView.findViewById(R.id.relArrow);
+        RelativeLayout relArrow = convertView.findViewById(R.id.relArrow);
+
+        tvTitle.setText(items.get(position).getLabel());
 
         AppLogger.e("svg url", "-------"+items.get(position).getIcon());
 //        Utils.fetchSvg(context, items.get(position).getIcon(), imgIcon);
@@ -83,17 +89,15 @@ public class FilterTitleListAdapter extends BaseAdapter {
             if (themePreferences.getTheme().equalsIgnoreCase("black")) {
                 linLayout.setBackgroundColor(context.getResources().getColor(R.color.transaction_round_back_black));
                 tvTitle.setTextColor(context.getResources().getColor(R.color.white));
-                relArrow.setVisibility(View.GONE);
+                relArrow.setVisibility(View.INVISIBLE);
 //                imgIcon.setColorFilter(context.getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
             } else {
                 linLayout.setBackgroundColor(context.getResources().getColor(R.color.filter_un_select_item_color));
                 tvTitle.setTextColor(context.getResources().getColor(R.color.black));
-                relArrow.setVisibility(View.GONE);
+                relArrow.setVisibility(View.INVISIBLE);
 //                imgIcon.setColorFilter(context.getResources().getColor(R.color.black), PorterDuff.Mode.SRC_IN);
             }
         }
-
-        tvTitle.setText(items.get(position).getLabel());
 
         if (items.get(position).getFiltercount() == 0) {
             tvinvcount.setVisibility(View.GONE);
@@ -104,5 +108,4 @@ public class FilterTitleListAdapter extends BaseAdapter {
 
         return convertView;
     }
-
 }

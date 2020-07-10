@@ -43,24 +43,23 @@ public class SortByListRecyclerAdapter extends RecyclerView.Adapter<SortByListRe
     public void onBindViewHolder(@NonNull final ViewHolder holder, int i) {
         if (themePreferences.getTheme().equalsIgnoreCase("black")) {
             if (itemArrayList.get(i).isSelected()){
-                holder.tvSortTitle.setTextColor(activity.getResources().getColor(R.color.red));
+                holder.tvSortTitle.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
             }else{
                 holder.tvSortTitle.setTextColor(activity.getResources().getColor(R.color.white));
             }
         }else if (themePreferences.getTheme().equalsIgnoreCase("white")) {
             if (itemArrayList.get(i).isSelected()){
-                holder.tvSortTitle.setTextColor(activity.getResources().getColor(R.color.red));
+                holder.tvSortTitle.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
             }else{
                 holder.tvSortTitle.setTextColor(activity.getResources().getColor(R.color.black));
             }
         }else{
             if (itemArrayList.get(i).isSelected()){
-                holder.tvSortTitle.setTextColor(activity.getResources().getColor(R.color.red));
+                holder.tvSortTitle.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
             }else{
                 holder.tvSortTitle.setTextColor(activity.getResources().getColor(R.color.black));
             }
         }
-
 
         holder.tvSortTitle.setText(itemArrayList.get(i).getLabel());
 
@@ -92,7 +91,5 @@ public class SortByListRecyclerAdapter extends RecyclerView.Adapter<SortByListRe
             return false;
         }
 
-
     }
-
 }

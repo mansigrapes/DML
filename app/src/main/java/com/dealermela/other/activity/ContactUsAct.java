@@ -155,10 +155,11 @@ public class ContactUsAct extends DealerMelaBaseActivity implements View.OnClick
                                         edTelephone.setText("");
                                         edEmail.setText("");
 
-
                                     }
                                 })
                                 .show();
+                    }else {
+                        CommonUtils.showErrorToast(ContactUsAct.this,jsonObject.getString("message"));
                     }
 
                 } catch (JSONException e) {

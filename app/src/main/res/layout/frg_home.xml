@@ -102,7 +102,6 @@
                     android:src="@drawable/ic_titledesignline"
                     tools:ignore="ContentDescription" />
 
-
                 <ImageView
                     android:id="@+id/img_left_line"
                     style="@style/pop_product_image_tint"

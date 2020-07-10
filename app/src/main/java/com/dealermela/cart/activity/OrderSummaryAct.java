@@ -57,7 +57,7 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
     private TextView tvDefaultBillingAddress, tvDefaultShippingAddress, tvPaymentMethod, tvSubTotal, tvShippingCharge, tvTax, tvGrandTotal;
     private SharedPreferences sharedPreferences;
     private String total,orderId;
-    private String websiteOrderId,billingName,billingEmail,billingTel,billingAddress;
+    private String websiteOrderId,billingName,billingEmail,billingTel,billingAddress,billingZip,billingCity,billingState,billingCountry;
 
     @Override
     protected int getLayoutResourceId() {
@@ -141,7 +141,11 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
                     billingName =  response.body().getData().get(0).getCustomerName();
                     billingEmail = response.body().getData().get(0).getEmail();
                     billingTel = response.body().getData().get(0).getContactNumber();
-                    billingAddress = response.body().getData().get(0).getBillingAddress();
+                    billingAddress = response.body().getData().get(0).getBillingAddressIndividual();
+                    billingZip = response.body().getData().get(0).getBillingZipIndividual();
+                    billingCity = response.body().getData().get(0).getBillingCityIndividual();
+                    billingState  = response.body().getData().get(0).getBillingRegionIndividual();
+                    billingCountry = response.body().getData().get(0).getBillingCountryIndividual();
 
                 }
             }
@@ -234,8 +238,13 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
 
                                         intent.putExtra(AvenuesParams.billing_name, ServiceUtility.chkNull(billingName).toString().trim());
                                         intent.putExtra(AvenuesParams.billing_address, ServiceUtility.chkNull(billingAddress).toString().trim());
+                                        intent.putExtra(AvenuesParams.billing_zip, ServiceUtility.chkNull(billingZip).toString().trim());
+                                        intent.putExtra(AvenuesParams.billing_city, ServiceUtility.chkNull(billingCity).toString().trim());
+                                        intent.putExtra(AvenuesParams.billing_state, ServiceUtility.chkNull(billingState).toString().trim());
+                                        intent.putExtra(AvenuesParams.billing_country, ServiceUtility.chkNull(billingCountry).toString().trim());
                                         intent.putExtra(AvenuesParams.billing_tel, ServiceUtility.chkNull(billingTel).toString().trim());
                                         intent.putExtra(AvenuesParams.billing_email, ServiceUtility.chkNull(billingEmail).toString().trim());
+
                                         intent.putExtra(AvenuesParams.website_order_id, ServiceUtility.chkNull(websiteOrderId).toString().trim());
 
                                         startActivity(intent);

@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_new_sort" />
 
-            <com.dealermela.utility.DmlTextView
+            <com.dealermela.utility.DmlTextViewBold
                 style="@style/listing_sort_filter_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
 
         <LinearLayout
             android:id="@+id/linFilterOrder"
-            android:layout_width="85dp"
+            android:layout_width="89dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:background="@drawable/list_sort_filter_back_border"
@@ -65,21 +65,21 @@
                 android:gravity="center"
                 android:src="@drawable/ic_new_filter" />
 
-            <com.dealermela.utility.DmlTextView
+            <com.dealermela.utility.DmlTextViewBold
                 style="@style/listing_sort_filter_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/filter" />
 
             <com.dealermela.utility.DmlTextView
                 android:id="@+id/tvCount"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
                 android:layout_marginTop="3dp"
+                android:gravity="left"
                 android:background="@drawable/filter_round_icon"
-                android:visibility="gone" />
+                 android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -93,7 +93,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        android:visibility="gone"/>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"

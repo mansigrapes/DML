@@ -162,7 +162,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
 
                 new IOSDialog.Builder(activity)
                         .setTitle(activity.getString(R.string.delete))
-                        .setMessage(activity.getString(R.string.delete_msg))
+                        .setMessage(activity.getString(R.string.remove_cartitem_msg))
                         .setCancelable(false)
                         .setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override

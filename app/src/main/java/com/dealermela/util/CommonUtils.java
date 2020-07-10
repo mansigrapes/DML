@@ -72,7 +72,7 @@ public final class CommonUtils {
     public static String priceFormat(Float amount) {
         String price;
 //        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));       // This Gives symbol of rupees in Higher version of Android
-//        NumberFormat formatter = NumberFormat.getInstance();
+////        NumberFormat formatter = NumberFormat.getInstance();
 //        price = formatter.format(amount);  //In this we don't get decimal value
 //        price = price.substring(0, price.length() - 3);
 

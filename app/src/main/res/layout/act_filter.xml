@@ -60,10 +60,12 @@
         android:id="@+id/view9"
         android:layout_width="0dp"
         android:layout_height="@dimen/one_sp_view"
-        android:background="?toolbarViewColor"
+        style="@style/view_style_detail_page"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+<!--    android:background="?toolbarViewColor"-->
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -91,6 +93,7 @@
         android:layout_height="wrap_content"
         android:background="@color/dml_logo_color"
         android:text="@string/apply"
+        style="@style/All_Dmlbutton"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -58,9 +58,6 @@ public class FullImageSliderAdapter extends android.support.v4.view.PagerAdapter
 
         container.addView(itemView);
 
-
-
-
         return itemView;
     }
 

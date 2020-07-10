@@ -30,6 +30,7 @@
     <string name="entity">Entity</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="create_account">Create Account</string>
+    <string name="please_enter_string">Please enter string</string>
     <string name="login_please_enter_email">Please enter email.</string>
     <string name="login_please_enter_password">Please enter password.</string>
     <string name="login_please_enter_valid_email">Please enter valid email.</string>
@@ -92,6 +93,9 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="Download">DOWNLOAD</string>
+    <string name="Alert">ALERT</string>
+    <string name="Download_alert">Please select at least one product for download.</string>
+    <string name="Delete_alert">Please select at least one product for delete.</string>
 
     <string name="bank_name">Bank Name</string>
     <string name="bank_account_number">Account Number</string>
@@ -99,7 +103,8 @@
     <string name="ifsc_code">IFSC Code</string>
     <string name="branch_name">Branch Name</string>
     <string name="manage_bank_detail">Manage Bank Detail</string>
-    <string name="delete_msg">Are you sure to remove?</string>
+    <string name="delete_msg">Are you sure to delete?</string>
+    <string name="remove_cartitem_msg">Are you sure to remove?</string>
     <string name="referral_code_colon">REFERRAL CODE :</string>
     <string name="default_billing_address">Default Billing Address</string>
     <string name="default_shipping_address">Default Shipping Address</string>
@@ -146,7 +151,7 @@
     <string name="apply">Apply</string>
     <string name="theme">Theme</string>
     <string name="customise_your_jewellery">Customise your jewellery</string>
-    <string name="create_your_own_customized_jwellery">Create your own customized jwellery</string>
+    <string name="create_your_own_customized_jwellery">Create your own customized jewellery</string>
     <string name="ring_size">Ring Size</string>
     <string name="diamond">Diamond</string>
     <string name="carat">Carat</string>
@@ -176,7 +181,7 @@
     <string name="total">Total</string>
     <string name="product_detail">PRODUCT DETAIL</string>
     <string name="sku">Sku</string>
-    <string name="certificate_no">CERTIFICATE NO</string>
+    <string name="certificate_no">Certificate No</string>
     <string name="diamond_detail">DIAMOND DETAIL</string>
     <string name="metal_detail">METAL DETAIL</string>
     <string name="purity">Purity</string>
@@ -245,8 +250,8 @@
     <string name="continues">Continue</string>
     <string name="belt_price">Belt Price</string>
     <string name="search_jewellery">Search jewellery</string>
-    <string name="diamondmela_is_currently_down_for_maintenance">Diamondmela is currently down for maintenance.</string>
-    <string name="we_expect_to_be_back_in_a_couple_hours_thanks_for_your_patence">We expect to be back in a couple hours, Thanks for your patience.</string>
+    <string name="diamondmela_is_currently_down_for_maintenance">Diamond Mela is currently down for maintenance.</string>
+    <string name="we_expect_to_be_back_in_a_couple_hours_thanks_for_your_patence">We expect to be back in a couple of hours, Thanks for your patience.</string>
     <string name="filter_order">Filter Order</string>
     <string name="close_text">Close</string>
     <string name="stock_n_in">Stock  In</string>

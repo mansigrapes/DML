@@ -69,19 +69,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewTitleHeader">
 
-        <RelativeLayout
-            android:layout_width="@dimen/fifty_dp"
-            android:layout_height="match_parent"
-            android:visibility="gone">
+<!--        <RelativeLayout-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:visibility="gone">-->
 
-            <CheckBox
-                android:id="@+id/checkBoxSelectAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true" />
+<!--            <CheckBox-->
+<!--                android:id="@+id/checkBoxSelectAll"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerInParent="true" />-->
 
-
-        </RelativeLayout>
+<!--        </RelativeLayout>-->
 
         <View
             android:id="@+id/view4"
@@ -89,12 +88,18 @@
             android:layout_width="@dimen/one_sp_view"
             android:layout_height="wrap_content" />
 
+        <CheckBox
+            android:id="@+id/checkBoxSelectAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
         <com.dealermela.utility.DmlTextView
             android:id="@+id/dmlTextViewBold2"
             style="@style/download_text_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1.65"
             android:text="@string/image" />
 
         <View

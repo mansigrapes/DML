@@ -288,7 +288,7 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                             AppLogger.e("login json","----------------"+json);
                             sharedPreferences.saveLoginData(json);
                             finish();
-
+                            CommonUtils.showSuccessToast(EditContactInfoAct.this,message);
                         }else if(status.equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)){
                             CommonUtils.showErrorToast(EditContactInfoAct.this,message);
     //                        finish();

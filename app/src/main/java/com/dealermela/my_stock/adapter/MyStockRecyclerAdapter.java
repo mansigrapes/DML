@@ -38,7 +38,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.dealermela.home.activity.MainActivity.customerId;
-import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
 
 public class MyStockRecyclerAdapter extends RecyclerView.Adapter<MyStockRecyclerAdapter.ViewHolder> {
 
@@ -121,7 +120,7 @@ public class MyStockRecyclerAdapter extends RecyclerView.Adapter<MyStockRecycler
         @Override
         public void onClick(View v) {
 
-            filterFlag = 0;
+//            filterFlag = 0;
             /*Intent intent = new Intent(activity, ProductDetailAct.class);
             intent.putExtra(AppConstants.NAME, itemArrayList.get(getAdapterPosition()).getEntityId());
             activity.startActivity(intent);

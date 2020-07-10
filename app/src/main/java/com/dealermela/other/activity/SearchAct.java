@@ -35,6 +35,7 @@ import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.Validator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,12 +102,18 @@ public class SearchAct extends DealerMelaBaseActivity implements View.OnClickLis
                 if(actionId== EditorInfo.IME_ACTION_SEARCH){
                     //do something
 //                    hideKeyboard(SearchAct.this);
-                    Intent intent=new Intent(SearchAct.this, ListAct.class);
-                    intent.putExtra(AppConstants.ID, "search");
-                    intent.putExtra(AppConstants.NAME, edSearch.getText().toString());
-                    intent.putExtra(AppConstants.bannerListCheck, "");
-                    startNewActivityWithIntent(intent);
-                    AppLogger.e("search", edSearch.getText().toString());
+                    if (!Validator.checkEmpty(edSearch, getString(R.string.please_enter_string))) {
+
+                    }
+                    else{
+                        Intent intent=new Intent(SearchAct.this, ListAct.class);
+                        intent.putExtra(AppConstants.ID, "search");
+                        intent.putExtra(AppConstants.NAME, edSearch.getText().toString());
+                        intent.putExtra(AppConstants.bannerListCheck, "");
+                        startNewActivityWithIntent(intent);
+                        AppLogger.e("search", edSearch.getText().toString());
+                    }
+
                 }
                 return false;
             }

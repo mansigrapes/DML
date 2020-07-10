@@ -103,12 +103,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:background="?login_signup_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/imgNext"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="?login_signup_text_color"
-                    />
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <com.dealermela.utility.DmlImageView
                     android:id="@+id/imgNext"

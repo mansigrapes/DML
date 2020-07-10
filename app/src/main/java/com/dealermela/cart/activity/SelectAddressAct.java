@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
@@ -36,6 +37,7 @@ public class SelectAddressAct extends DealerMelaBaseActivity implements View.OnC
     private RecyclerView recycleViewAddress;
     private Button btnAddNewAddress;
     public String addressFlag = "";
+    private TextView tvnoaddress;
 
     @Override
     protected int getLayoutResourceId() {
@@ -52,10 +54,9 @@ public class SelectAddressAct extends DealerMelaBaseActivity implements View.OnC
         bindToolBar("Select Address");
         recycleViewAddress = findViewById(R.id.recycleViewAddress);
         btnAddNewAddress = findViewById(R.id.btnAddNewAddress);
+        tvnoaddress = findViewById(R.id.tvnoaddress);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SelectAddressAct.this);
         recycleViewAddress.setLayoutManager(linearLayoutManager);
-
-
     }
 
     @Override
@@ -85,10 +86,14 @@ public class SelectAddressAct extends DealerMelaBaseActivity implements View.OnC
                 assert response.body() != null;
                 hideProgressDialog();
                 if (response.isSuccessful()) {
-                    SelectAddressAdapter selectAddressAdapter = new SelectAddressAdapter(SelectAddressAct.this, response.body().getData());
-                    recycleViewAddress.setAdapter(selectAddressAdapter);
-                    recycleViewAddress.scrollToPosition(response.body().getData().size()-1);
-
+                    if(response.body().getData().isEmpty()){
+                        tvnoaddress.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        SelectAddressAdapter selectAddressAdapter = new SelectAddressAdapter(SelectAddressAct.this, response.body().getData());
+                        recycleViewAddress.setAdapter(selectAddressAdapter);
+                        recycleViewAddress.scrollToPosition(response.body().getData().size() - 1);
+                    }
                 }
             }
 

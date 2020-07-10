@@ -2,10 +2,10 @@ package com.dealermela.cart.model;
 
 public class CartLocalDataItem {
     private int id;
-    private String productId,productType,categoryId,sku,ring_size,bangle_size,bracelet_size,pendent_set_type,metal_detail,stone_detail,price,qty;
+    private String productId,productType,categoryId,sku,ring_size,bangle_size,bracelet_size,pendent_set_type,metal_detail,stone_detail,price,qty,total_item;
     private String proImage;
 
-    public CartLocalDataItem(int id, String productId, String productType, String categoryId, String sku, String ring_size, String bangle_size, String bracelet_size, String pendent_set_type, String metal_detail, String stone_detail, String price, String qty, String proImage) {
+    public CartLocalDataItem(int id, String productId, String productType, String categoryId, String sku, String ring_size, String bangle_size, String bracelet_size, String pendent_set_type, String metal_detail, String stone_detail, String price, String qty, String proImage, String totalItem ) {
         this.id = id;
         this.productId = productId;
         this.productType = productType;
@@ -20,6 +20,7 @@ public class CartLocalDataItem {
         this.price = price;
         this.qty = qty;
         this.proImage = proImage;
+        this.total_item = totalItem;
     }
 
     public int getId() {
@@ -132,5 +133,13 @@ public class CartLocalDataItem {
 
     public void setProImage(String proImage) {
         this.proImage = proImage;
+    }
+
+    public String getTotal_item() {
+        return total_item;
+    }
+
+    public void setTotal_item(String total_item) {
+        this.total_item = total_item;
     }
 }

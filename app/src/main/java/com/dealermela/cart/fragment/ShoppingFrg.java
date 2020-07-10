@@ -54,10 +54,12 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
     private View rootView;
     private RecyclerView recycleViewCart;
     private TextView tvSubTotal, tvTax, tvGrandTotal;
-    private float subTotal = 0, tax = 0, grandTotal = 0;
+    private float subTotal = 0, tax = 0, grandTotal = 0, roundtax = 0, roundgrandtotal = 0;
     private Button btnContinue;
     private DatabaseCartAdapter databaseCartAdapter;
     private Cursor c;
+
+    public static int totalqty = 0;
 
     public ShoppingFrg() {
         // Required empty public constructor
@@ -178,6 +180,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                 AppLogger.e("RING_OPTION_TYPE_ID", "-----------" + c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_TYPE_ID)));
                 AppLogger.e("STONE_OPTION_ID", "-----------" + c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_ID)));
                 AppLogger.e("STONE_OPTION_TYPE_ID", "-----------" + c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_TYPE_ID)));
+                AppLogger.e("TOTAL_ITEM", "-----------" + c.getString(c.getColumnIndex(DatabaseCartAdapter.TOTAL_ITEM)));
 
                 float price = Float.parseFloat(c.getString(c.getColumnIndex(DatabaseCartAdapter.PRICE))) * Float.parseFloat(c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)));
                 cartLocalDataItems.add(new CartLocalDataItem(c.getInt(c.getColumnIndex(DatabaseCartAdapter.ID)),
@@ -191,11 +194,15 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                         c.getString(c.getColumnIndex(DatabaseCartAdapter.PENDENT_SET_TYPE)),
                         c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_DETAIL)),
                         c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_DETAIL)),
-                        String.valueOf(price),
+//                        String.valueOf(price),
+                        c.getString(c.getColumnIndex(DatabaseCartAdapter.PRICE)),
                         c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)),
-                        c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_IMAGE))));
+                        c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_IMAGE)),
+                        c.getString(c.getColumnIndex(DatabaseCartAdapter.TOTAL_ITEM))));
 
                 AppLogger.e("price", "---------" + price);
+
+                totalqty = totalqty + Integer.parseInt( c.getString(c.getColumnIndex(DatabaseCartAdapter.TOTAL_ITEM)));
 
                 subTotal = subTotal + price;
 
@@ -213,9 +220,12 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                     grandTotal = subTotal + tax;
                     AppLogger.e("grand total", "---------" + grandTotal);
 
+                    roundtax = Math.round(tax);
+                    roundgrandtotal = Math.round(grandTotal);
+
                     tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
-                    tvTax.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(tax)));
-                    tvGrandTotal.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(grandTotal)));
+                    tvTax.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(roundtax)));
+                    tvGrandTotal.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(roundgrandtotal)));
                 }
             }
             databaseCartAdapter.closeDatabase();
@@ -271,6 +281,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                 tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
                 tvTax.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(tax)));
                 tvGrandTotal.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(grandTotal)));
+
             }
         }
     }

@@ -230,9 +230,5 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
-
-
 }

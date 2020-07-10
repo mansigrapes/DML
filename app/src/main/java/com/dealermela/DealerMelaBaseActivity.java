@@ -44,6 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dealermela.cart.fragment.ShoppingFrg.totalqty;
 import static com.dealermela.home.activity.MainActivity.customerId;
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.diamondValue;
 import static com.dealermela.listing_and_detail.adapter.BangleAdapter.bangleProductId;
@@ -62,6 +63,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
     public static TextView textCartItemCount ;
     Switch switchAB;
     public static int cartCount = 0;
+//    int totalitem = 0;
 
     private SharedPreferences sharedPreferences;
     private DatabaseCartAdapter databaseCartAdapter;
@@ -341,6 +343,12 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
             databaseCartAdapter.openDatabase();
             Cursor c = databaseCartAdapter.getAllValues();
             cartCount = c.getCount();
+//            cartCount = totalqty;           //comment this bcz it increase every time when this page & shipping cart opens
+  /*          for (int i = 0; i < c.getCount(); i++) {
+                totalitem = totalitem + Integer.parseInt(c.getString(c.getColumnIndex("qty")));
+                c.moveToNext();
+            }
+            cartCount = totalitem;  */
             databaseCartAdapter.closeDatabase();
             setupBadge();
         } else {

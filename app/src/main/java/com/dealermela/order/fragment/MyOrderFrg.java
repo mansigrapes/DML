@@ -311,6 +311,7 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                     } else {
                         if (detailList.isEmpty()) {
                             linNoData.setVisibility(View.VISIBLE);
+                            linFilterOrder.setEnabled(false);
 //                            linFilterOrder.setVisibility(View.GONE);
                         }
                     }

@@ -1,5 +1,6 @@
 package com.dealermela.download.activity;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -131,10 +132,19 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    for (int j = 0; j < downloadProductAdapter.itemArrayList.size(); j++) {
+                            downloadProductAdapter.itemArrayList.get(j).setSelected(true);
+                            downloadProductAdapter.updatecheckbox(j);
+                    }
                     AppLogger.e("select all", "----checked");
                 } else {
+                    for (int j = 0; j < downloadProductAdapter.itemArrayList.size(); j++) {
+                        downloadProductAdapter.itemArrayList.get(j).setSelected(false);
+                        downloadProductAdapter.updatecheckbox(j);
+                    }
                     AppLogger.e("un select all", "----un checked");
                 }
+
             }
         });
 
@@ -297,7 +307,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 
                             }
                         }
-                        CommonUtils.showSuccessToast(DownloadAct.this, " All Product(s) deleted successfully");
+                        CommonUtils.showSuccessToast(DownloadAct.this, " Product(s) deleted successfully");
                       /*  page_count = 1;
                         detailList = new ArrayList<>();
                         loadData();*/
@@ -374,7 +384,6 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -429,29 +438,21 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
         }
 
         if (listString.toString().equals("")) {
+
             new IOSDialog.Builder(DownloadAct.this)
-                    .setTitle(getString(R.string.Download))
-//                    .setMessage("Are u sure u want download all item?")
-                    .setMessage("Are you sure to download selected products?")
+                    .setTitle(getString(R.string.Alert))
+                    .setMessage(R.string.Download_alert)
                     .setCancelable(false)
                     .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            AppLogger.e("string data", "------" + listString);
-
-                            downloadAllProduct(customerId, "");
-
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
                     }).show();
 
-//            CommonUtils.showToast(DownloadAct.this, "Please select at least one item after download all.");
+            ////add this for minimum select 1 product from the list for download
+//            CommonUtils.showWarningToast(DownloadAct.this, "Please select atleast one product for download.");
+
         } else {
             new IOSDialog.Builder(DownloadAct.this)
                     .setTitle(getString(R.string.Download))
@@ -520,20 +521,10 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 
         if (listString.toString().equals("")) {
             new IOSDialog.Builder(DownloadAct.this)
-                    .setTitle(getString(R.string.delete))
-                    .setMessage("Are you sure to delete selected products?")
+                    .setTitle(getString(R.string.Alert))
+                    .setMessage(R.string.Delete_alert)
                     .setCancelable(false)
                     .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            AppLogger.e("string data", "------" + listString);
-
-                                deleteAllProduct(customerId, "");
-
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -585,8 +576,6 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                         dialog.dismiss();
                     }
                 }).show();*/
-
-
 
        /* AlertDialog.Builder alertDeleteAll = new AlertDialog.Builder(DownloadAct.this, R.style.AppCompatAlertDialogStyle);
         alertDeleteAll.setTitle(getString(R.string.delete));

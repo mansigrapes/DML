@@ -21,7 +21,8 @@
 
     <color name="filter_un_select_item_color">#F1F1F1</color>
     <color name="filter_select_item_color">#9b0f56</color>
-    
+<!--    <color name="filter_select_item_color">#12A19B</color>-->
+
     <color name="transaction_round_back">#EEECED</color>
     <color name="transaction_line_color">#B7B7B7</color>
     <color name="product_detaol_grand_total_back">#F6F6F6</color>
@@ -48,5 +49,10 @@
     <color name="tone">#c58c85</color>
     <color name="yellow">#FFC107</color>
     <color name="platinum">#e5e4e2</color>
+
+<!--    filter icon / background colour-->
+    <color name="lightgreenlogo">#12A19B</color>
+    <color name="darkgreenlogo">#027B72</color>
+
 
 </resources>
