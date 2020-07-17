@@ -51,7 +51,6 @@ public class SplashAct extends DealerMelaBaseActivity {
 
     @Override
     public void init() {
-
     }
 
     @Override
@@ -61,17 +60,14 @@ public class SplashAct extends DealerMelaBaseActivity {
 
     @Override
     public void postInitView() {
-
     }
 
     @Override
     public void addListener() {
-
     }
 
     @Override
     public void loadData() {
-
         getPopularProduct("");
     }
 

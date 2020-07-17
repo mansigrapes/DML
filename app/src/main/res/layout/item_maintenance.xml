@@ -25,6 +25,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:letterSpacing="0.03"
+        android:textColor="@color/black"
         android:text="@string/diamondmela_is_currently_down_for_maintenance"
         android:textSize="@dimen/sixteen_sp" />
 
@@ -37,6 +38,7 @@
         android:layout_marginRight="@dimen/twenty_sp"
         android:gravity="center"
         android:letterSpacing="0.03"
+        android:textColor="@color/black"
         android:text="@string/we_expect_to_be_back_in_a_couple_hours_thanks_for_your_patence"
         android:textSize="@dimen/twelve_sp" />
 
@@ -45,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ok"
+        android:textColor="@color/black"
         android:layout_margin="@dimen/twenty_sp"
         android:background="@drawable/ten_size_black_round_border"
         />

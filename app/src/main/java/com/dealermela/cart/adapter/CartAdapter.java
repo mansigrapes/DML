@@ -190,13 +190,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                notifyItemRemoved(i);
-                                notifyItemRangeChanged(i, itemArrayList.size());
+
                                 shoppingFrg.deleteItem(String.valueOf(itemArrayList.get(i).getId()));
                                 itemArrayList.remove(i);
                                 if (itemArrayList.isEmpty()) {
-//                                    activity.finish();
+//                                   activity.finish();
                                 }
+                                notifyItemRemoved(i);
+                                notifyItemRangeChanged(i, itemArrayList.size());
                             }
                         })
                         .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {

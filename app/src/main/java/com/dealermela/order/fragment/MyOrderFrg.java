@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -53,7 +54,8 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
     private List<OrderItem.Datum> detailList;
     private String orderFilter="all";
     private LinearLayout linFilterOrder;
-    private TextView tvstatuscount;
+    private TextView tvstatuscount,tvstatus;
+    private ImageView orderfilter;
 
     public MyOrderFrg() {
         // Required empty public constructor
@@ -88,6 +90,8 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
         linFilterOrder=rootView.findViewById(R.id.linFilterOrder);
         progressBarCenter.setVisibility(View.VISIBLE);
         tvstatuscount = rootView.findViewById(R.id.tvstatuscount);
+        tvstatus = rootView.findViewById(R.id.tvstatus);
+        orderfilter = rootView.findViewById(R.id.orderfilter);
     }
 
     @Override
@@ -312,6 +316,10 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                         if (detailList.isEmpty()) {
                             linNoData.setVisibility(View.VISIBLE);
                             linFilterOrder.setEnabled(false);
+
+                            tvstatus.setTextColor(getResources().getColor(R.color.in_active_item_color));
+                            orderfilter.setColorFilter(getResources().getColor(R.color.in_active_item_color));
+
 //                            linFilterOrder.setVisibility(View.GONE);
                         }
                     }
@@ -322,7 +330,10 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
             public void onFailure(@NonNull Call<OrderItem> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
                 linNoData.setVisibility(View.VISIBLE);
-                linFilterOrder.setVisibility(View.GONE);
+                linFilterOrder.setEnabled(false);
+                tvstatus.setTextColor(getResources().getColor(R.color.in_active_item_color));
+                orderfilter.setColorFilter(getResources().getColor(R.color.in_active_item_color));
+
                 if (page_count == 1) {
                     progressBarCenter.setVisibility(View.GONE);
                 } else {

@@ -106,6 +106,18 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         tvReset.setOnClickListener(this);
         btnApply.setOnClickListener(this);
 
+        if (mapFilter.containsKey(paramKey)) {
+            //key exists
+            String key = mapFilter.get(paramKey);
+            edText.setText(key);
+//            adapter.items.get(0).setFiltercount(1);
+        } else {
+            //key does not exists
+            mapFilter.put(paramKey, "");
+            selectFilter.put(paramKey, "");
+
+        }
+
         listViewFilter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -116,15 +128,18 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 if (adapter.items.get(position).getOption_type().equalsIgnoreCase("text")) {
                     edText.setVisibility(View.VISIBLE);
                     recycleViewFilterData.setVisibility(View.GONE);
+
                     paramKey = filterSelectItems.get(position).getOptionName();
                     if (mapFilter.containsKey(paramKey)) {
                         //key exists
                         String key = mapFilter.get(paramKey);
                         edText.setText(key);
+                        adapter.items.get(position).setFiltercount(1);
                     } else {
                         //key does not exists
                         mapFilter.put(paramKey, "");
                         selectFilter.put(paramKey, "");
+                        adapter.items.get(position).setFiltercount(0);
                     }
 
                 } else {
@@ -156,9 +171,11 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
             @Override
             public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -185,6 +202,8 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, filterSelectItems.get(0).getOptionData());
                 recycleViewFilterData.setAdapter(filterRecyclerAdapter);
                 edText.setText("");
+                mapFilter.put(paramKey, "");
+                selectFilter.put(paramKey, "");
 //                bindSelectFilter();
                 countFilter();
 //                filterFlag = 0;
@@ -204,6 +223,10 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 for(int j = 0 ; j < filterSelectItems.size() ; j++){          // Filter: click reset button & then click apply,without selecting any filter then all listing items display
                     if(filterSelectItems.get(j).getFiltercount()!= 0) {
                         filterFlag = 1;
+                    }
+                    if (mapFilter.containsKey(paramKey)) {
+                        filterFlag =  1;
+
                     }
                 }
 //                if(edText.getText().toString()!=null){
@@ -383,11 +406,18 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 }
                 filterSelectItems.get(i).setFiltercount(selectFilterArray.size());
                 selectFilterArray.clear();
+            } else if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("sku")){
+//                if(edText.getText().toString() != null){
+//                    adapter.items.get(i).setFiltercount(1);
+//                }else{
+//
+//                }
             }
         }
     }
 
     public void updateFilterData(int position, boolean selectFlag) {
         filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).setSelected(selectFlag);
+
     }
 }

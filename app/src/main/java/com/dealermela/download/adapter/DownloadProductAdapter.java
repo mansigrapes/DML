@@ -73,7 +73,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.act_download_item, viewGroup, false);
         return new ViewHolder(v);
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

@@ -20,8 +20,8 @@
         <item name="android:textColorHint">@color/black</item>
         <item name="editTextColor">@color/black</item>
 
-
         <!--used attr.xml-->
+        <item name="inActive_filer_color">@color/in_active_item_color</item>
         <item name="toolbarTextColor">@color/black</item>
         <item name="toolbarViewColor">@color/black</item>
         <item name="buttonTextColor">@color/black</item>
@@ -42,7 +42,6 @@
         <item name="transaction_line_color">@color/transaction_line_color</item>
         <item name="transaction_round_back">@color/transaction_round_back</item>
 
-
         <item name="common_line_color">@color/transaction_line_color</item>
         <item name="common_round_back">@color/transaction_round_back</item>
 
@@ -54,18 +53,14 @@
         <item name="btn_select_border_color">@color/dml_logo_color</item>
         <item name="lbl_dml_logo_with_black">@color/dml_logo_color</item>
 
-
         <item name="list_item_qty_round">#D9D9D9</item>
-
 
         <item name="active_item_color">@color/black</item>
         <item name="in_active_item_color">@color/in_active_item_color</item>
         <item name="bottom_navigation_background_color">#FFF3F2F2</item>
         <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
 
-
         <!--<item name="colorControlNormal">?login_signup_text_color</item>-->
-
 
     </style>
 
@@ -82,6 +77,7 @@
         <item name="android:textColorHint">@color/white</item>
         <item name="editTextColor">@color/white</item>
         <!--used attr.xml-->
+        <item name="inActive_filer_color">@color/in_active_item_color</item>
         <item name="toolbarTextColor">@color/white</item>
         <item name="toolbarViewColor">@color/white</item>
         <item name="buttonTextColor">@color/white</item>
@@ -112,22 +108,22 @@
         <item name="order_menu_color">#2f2f2f</item>
         <item name="order_tab_back_color">#2f2f2f</item>
         <item name="dml_logo_color">@color/white</item>
-        <item name="lbl_dml_logo_with_black">#2f2f2f</item>
+<!--        <item name="lbl_dml_logo_with_black">#2f2f2f</item>-->
+        <item name="lbl_dml_logo_with_black">@color/dml_logo_color</item>
 
         <item name="btn_un_select_border_color">@color/transaction_line_color</item>
         <item name="btn_select_border_color">@color/dml_logo_color</item>
 
         <item name="active_item_color">@color/white</item>
-        <item name="in_active_item_color">#F1EEEE</item>
+<!--        <item name="in_active_item_color">#F1EEEE</item>-->
+        <item name="in_active_item_color">@color/in_active_item_color</item>
 
         <item name="bottom_navigation_background_color">#222222</item>
         <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
 
         <!--<item name="colorControlNormal">?login_signup_text_color</item>-->
 
-
     </style>
-
 
     <style name="WhiteDrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>

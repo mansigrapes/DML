@@ -101,7 +101,6 @@ public class SearchableListDialog extends DialogFragment implements
         String strPositiveButton = _strPositiveButtonText == null ? "CLOSE" : _strPositiveButtonText;
 //        alertDialog.setPositiveButton(strPositiveButton, _onClickListener);
 
-
         String strTitle = _strTitle == null ? "Select Item" : _strTitle;
         alertDialog.setTitle(strTitle);
 
@@ -154,7 +153,6 @@ public class SearchableListDialog extends DialogFragment implements
         InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context
                 .INPUT_METHOD_SERVICE);
         mgr.hideSoftInputFromWindow(_searchView.getWindowToken(), 0);
-
 
         List items = (List) getArguments().getSerializable(ITEMS);
 

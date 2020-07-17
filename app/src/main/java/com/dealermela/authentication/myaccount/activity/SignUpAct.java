@@ -51,7 +51,7 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
     private TextInputEditText edFnm, edLnm, edEmail, edContact, edAddress, edState, edCity, edZipCode, edPassword, edConfirmPassword,edCompany;
     private TextInputLayout tilFnm, tilLnm, tilEmail, tilContactNumber, tilAddress, tilState, tilCity, tilZipCode, tilPassword, tilConfirmPassword,tilCompany;
     private Button btnSignUp;
-    private Spinner spinnerCountry, spinnerState, spinnerCommunity, spinnerEntity;
+    private Spinner spinnerCountry, spinnerState, spinnerCommunity,spinnerEntity;
     private TextView tvState, tvTermsCondition;
     private List<CountryResponse.Datum> countryArray = new ArrayList<>();
     private List<StateResponse.Datum> stateArray = new ArrayList<>();

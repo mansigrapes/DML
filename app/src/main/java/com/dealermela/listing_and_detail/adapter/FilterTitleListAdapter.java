@@ -100,7 +100,7 @@ public class FilterTitleListAdapter extends BaseAdapter {
         }
 
         if (items.get(position).getFiltercount() == 0) {
-            tvinvcount.setVisibility(View.GONE);
+                tvinvcount.setVisibility(View.GONE);
         } else {
             tvinvcount.setVisibility(View.VISIBLE);
             tvinvcount.setText(String.valueOf(items.get(position).getFiltercount()));

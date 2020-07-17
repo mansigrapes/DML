@@ -86,7 +86,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view9" />
 
-
     <com.dealermela.utility.DmlButton
         android:id="@+id/btnApply"
         android:layout_width="0dp"
@@ -116,10 +115,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:hint="@string/sku"
+        android:textColorHint="?loginButtonTextColor"
         android:inputType="textCapSentences"
         android:lineSpacingExtra="@dimen/eight_sp"
         android:lines="1"
         android:textSize="@dimen/twelve_sp"
+        android:textColor="?loginButtonTextColor"
+        android:textCursorDrawable="@null"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"

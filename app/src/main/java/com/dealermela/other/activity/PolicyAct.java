@@ -44,14 +44,10 @@ public class PolicyAct extends DealerMelaBaseActivity {
 
     @Override
     public void addListener() {
-
     }
 
     @Override
     public void loadData() {
-
     }
-
-
 
 }

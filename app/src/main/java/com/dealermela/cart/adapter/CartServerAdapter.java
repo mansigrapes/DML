@@ -48,6 +48,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.dealermela.DealerMelaBaseActivity.cartCount;
+import static com.dealermela.DealerMelaBaseActivity.setupBadge;
 import static com.dealermela.home.activity.MainActivity.customerId;
 
 
@@ -120,7 +121,8 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
                 qty++;
                 holder.tvQuantity.setText(String.valueOf(qty));
                 itemArrayList.get(i).setQty(String.valueOf(qty));
-                cartCount++;             //Added this line to update cartcount for every item  But count not updated from API SIDE.
+                cartCount++;         //Added this line to update cartcount for every item  But count not updated from API SIDE.
+                setupBadge();
                 AppLogger.e("CountUpdated ","-----"+cartCount);
                 notifyItemChanged(i);
                 notifyItemRangeChanged(i, itemArrayList.size());
@@ -140,6 +142,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
                     notifyItemRangeChanged(i, itemArrayList.size());
 //                    updateProductQty(customerId, itemArrayList.get(i).getItemid(), String.valueOf(qty));
                     cartCount--;         //Added this line to update cartcount for every item
+                    setupBadge();
                 } else {
                     qty--;
                     holder.tvQuantity.setText(String.valueOf(qty));
@@ -151,6 +154,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
                     notifyItemRangeChanged(i, itemArrayList.size());
                     updateProductQty(customerId, itemArrayList.get(i).getItemid(), String.valueOf(qty));
                     cartCount--;   //Added this line to update cartcount for every item
+                    setupBadge();
                     AppLogger.e("CountUpdated ","-----"+cartCount);
                 }
             }

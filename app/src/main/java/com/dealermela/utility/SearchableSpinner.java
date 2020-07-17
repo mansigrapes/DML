@@ -33,7 +33,6 @@ public class SearchableSpinner extends android.support.v7.widget.AppCompatSpinne
     private String _strHintText;
     private boolean _isFromInit;
 
-
     public SearchableSpinner(Context context) {
         super(context);
         this._context = context;
@@ -135,7 +134,6 @@ public class SearchableSpinner extends android.support.v7.widget.AppCompatSpinne
 //        Toast.makeText(getContext(), "You selected " + selectedItem, Toast.LENGTH_LONG).show();
     }
 
-
     private Activity scanForActivity(Context cont) {
         if (cont == null)
             return null;
@@ -161,7 +159,6 @@ public class SearchableSpinner extends android.support.v7.widget.AppCompatSpinne
         if (!TextUtils.isEmpty(_strHintText) && !_isDirty) {
             return null;
         } else {
-
             return super.getSelectedItem();
         }
     }

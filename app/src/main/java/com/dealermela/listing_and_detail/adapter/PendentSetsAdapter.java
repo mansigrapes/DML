@@ -70,6 +70,7 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select_black));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
+                pendentProId=itemArrayList.get(i).getProductId();
             } else {
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect_black));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.white));
@@ -80,6 +81,7 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
+                pendentProId=itemArrayList.get(i).getProductId();
             } else {
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
@@ -121,6 +123,7 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
                     pendentEarring.setSelected(true);
                 }
             }
+
             pendentProId=itemArrayList.get(getAdapterPosition()).getProductId();
             ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(getAdapterPosition()).getLabel();
             ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");

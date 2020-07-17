@@ -296,7 +296,6 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
         });*/
 
         return true;
-
     }
 
     @Override
@@ -318,7 +317,6 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
     }
 
     public static void setupBadge() {
-
         if (textCartItemCount != null) {
             if (cartCount == 0) {
                 if (textCartItemCount.getVisibility() != View.GONE) {
@@ -333,6 +331,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
             }
         }
     }
+
 
     @Override
     protected void onResume() {

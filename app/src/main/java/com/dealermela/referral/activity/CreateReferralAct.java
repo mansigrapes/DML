@@ -86,7 +86,6 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
                 } else {
                     spinnerArray.add(String.valueOf(i));
                 }
-
             }
 
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -137,7 +136,6 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
         } else if (loginResponse.getCustomerRole().equalsIgnoreCase("Wholesale")) {
 
         }
-
     }
 
     @Override
@@ -219,10 +217,6 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
                                 }
                             })
                             .show();
-
-
-
-
 
                     /*AlertDialog alertDialog = new AlertDialog.Builder(CreateReferralAct.this).create();
                     alertDialog.setTitle("Thank You!");

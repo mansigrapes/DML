@@ -31,6 +31,7 @@
     <color name="edit_profile_text_header_back">#EEECED</color>
 
     <color name="in_active_item_color">#AFABAB</color>
+    <color name="filter_icon_color">#027B72</color>
     <color name="green">#4CAF50</color>
     <color name="red">#F44336</color>
 

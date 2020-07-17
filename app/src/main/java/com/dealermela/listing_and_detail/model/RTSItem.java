@@ -20,7 +20,7 @@ public class RTSItem {
     private String belt_price = null;
     @SerializedName("metalprice")
     @Expose
-    private List<Integer> metalprice = null;
+    private Integer metalprice;
     @SerializedName("diamondmainprice")
     @Expose
     private List<Diamondmainprice> diamondmainprice = null;
@@ -58,11 +58,11 @@ public class RTSItem {
         this.stock = stock;
     }
 
-    public List<Integer> getMetalprice() {
+    public Integer getMetalprice() {
         return metalprice;
     }
 
-    public void setMetalprice(List<Integer> metalprice) {
+    public void setMetalprice(Integer metalprice) {
         this.metalprice = metalprice;
     }
 

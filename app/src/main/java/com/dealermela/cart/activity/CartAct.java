@@ -138,9 +138,11 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
 
             int fragments = getSupportFragmentManager().getBackStackEntryCount();
             if (fragments == 1) {
+                getFragmentManager().popBackStack();
                 super.onBackPressed();
             } else if (getFragmentManager().getBackStackEntryCount() > 1) {
                 getFragmentManager().popBackStack();
+                super.onBackPressed();
             } else {
                 super.onBackPressed();
             }
@@ -156,6 +158,7 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
                 super.onBackPressed();
             }
         }
+        finish();
     }
 
     //Option menu

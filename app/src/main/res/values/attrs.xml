@@ -3,12 +3,13 @@
     <attr name="buttonTextColor" format="color" />
     <attr name="textViewTextColor" format="color" />
     <attr name="editTextTextColor" format="color" />
-    <attr name="editTextTextHintColor" format="color" />
-    <attr name="loginButtonTextColor" format="color" />
+    <attr name="editTextTextHintColor" format="color"/>
+    <attr name="loginButtonTextColor" format="color"/>
     <attr name="viewColor" format="color" />
     <attr name="cardTitleBackground" format="reference" />
     <attr name="toolbarTextColor" format="color" />
     <attr name="toolbarViewColor" format="color" />
+    <attr name="inActive_filer_color" format="color" />
 
     <attr name="top_bottom_icon_tint_color" format="color" />
     <attr name="bottom_icon_inActive_tint_color" format="color" />

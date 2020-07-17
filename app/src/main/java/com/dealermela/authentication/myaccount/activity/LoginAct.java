@@ -282,7 +282,9 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                             } else {
                                 loginFlag = 0;
                                 cartbackFlag = 1;
-                                startNewActivity(CartAct.class);
+//                                startNewActivity(CartAct.class);
+                                ShoppingFrg frg = new ShoppingFrg();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.frameCart,frg).commit();
                                 finish();
                             }
                         }

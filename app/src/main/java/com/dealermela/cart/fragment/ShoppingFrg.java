@@ -146,7 +146,6 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                     fragmentTransaction.replace(R.id.frameCart, fragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
-
                 }
                 break;
         }
@@ -262,27 +261,34 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
         grandTotal = 0;
         databaseCartAdapter.openDatabase();
         c = databaseCartAdapter.getAllValues();
-        for (int i = 0; i < c.getCount(); i++) {
 
-            float price = Float.parseFloat(c.getString(c.getColumnIndex(DatabaseCartAdapter.PRICE))) * Float.parseFloat(c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)));
+        if(c.getCount() != 0) {
 
-            AppLogger.e("price", "---------" + price);
-            subTotal = subTotal + price;
+            for (int i = 0; i < c.getCount(); i++) {
 
-            c.moveToNext();
-            if (i == c.getCount() - 1) {
-                AppLogger.e("sub Total", "---------" + subTotal);
-                tax = (subTotal * 3) / 100;
-                AppLogger.e("tax", "---------" + tax);
+                float price = Float.parseFloat(c.getString(c.getColumnIndex(DatabaseCartAdapter.PRICE))) * Float.parseFloat(c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)));
 
-                grandTotal = subTotal + tax;
-                AppLogger.e("grand total", "---------" + grandTotal);
+                AppLogger.e("price", "---------" + price);
+                subTotal = subTotal + price;
 
-                tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
-                tvTax.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(tax)));
-                tvGrandTotal.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(grandTotal)));
+                c.moveToNext();
+                if (i == c.getCount() - 1) {
+                    AppLogger.e("sub Total", "---------" + subTotal);
+                    tax = (subTotal * 3) / 100;
+                    AppLogger.e("tax", "---------" + tax);
 
+                    grandTotal = subTotal + tax;
+                    AppLogger.e("grand total", "---------" + grandTotal);
+
+                    tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
+                    tvTax.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(tax)));
+                    tvGrandTotal.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(grandTotal)));
+
+                }
             }
+        }else {
+            linNoData.setVisibility(View.VISIBLE);
+            btnContinue.setVisibility(View.INVISIBLE);
         }
     }
 

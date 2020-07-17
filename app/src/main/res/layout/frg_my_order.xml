@@ -19,12 +19,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.dealermela.utility.DmlImageView
+            android:id="@+id/orderfilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/ic_filter" />
 
         <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvstatus"
             style="@style/listing_sort_filter_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

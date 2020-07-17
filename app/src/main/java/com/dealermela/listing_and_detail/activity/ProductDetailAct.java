@@ -354,7 +354,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     }
 
     //get all product detail
-    private void getProductDetail(final String productId, String metalCarat, String metalQualityColor, String ringSize, String stoneQuality, String bangleProId, String braceletProId, String pendentProId) {
+    private void getProductDetail(final String productId, String metalCarat, String metalQualityColor, String ringSize, String stoneQuality, String bangleProId, String braceletProId, final String pendentProId) {
 
         AppLogger.e("productId", "--------------" + productId);
         AppLogger.e("metalCarat", "--------------" + metalCarat);
@@ -803,6 +803,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         }
                         */      //Old code PendentEarrings Type Selected as on Simpleproductid & in this array id matched
 
+
                         for(int j = 0; j < response.body().getPendentEarring().size(); j++ ){
                             if(response.body().getPendentEarring().get(j).getProductId().equalsIgnoreCase(cProductId)){
                                 response.body().getPendentEarring().get(j).setSelected(true);
@@ -811,7 +812,6 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                         PendentSetsAdapter pendentSetsAdapter = new PendentSetsAdapter(ProductDetailAct.this, response.body().getPendentEarring());
                         recycleViewPendentSets.setAdapter(pendentSetsAdapter);
-
                     }
 
 //                    if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID)) {
@@ -964,7 +964,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
             productDetailRefresh(productId, caratValue, metalValue, "", diamondValue, "", "", "", clickAction);   // Change for configurable products
         } else if (productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
 //            productDetailRefresh(productId, caratValue, metalValue, "", diamondValue, "", "", pendentProId, clickAction);
-            productDetailRefresh(cProductId, caratValue, metalValue, "", diamondValue, "", "", "", clickAction);
+//            productDetailRefresh(cProductId, caratValue, metalValue, "", diamondValue, "", "", "", clickAction);
+            productDetailRefresh(pendentProId, caratValue, metalValue, "", diamondValue, "", "", pendentProId, clickAction);
         } else {
             productDetailRefresh(productId, caratValue, metalValue, "", diamondValue, "", "", "", clickAction);
         }
@@ -1005,21 +1006,22 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
     }
 
-    private void rtsProductClick(String productId) {
-        AppLogger.e("rts click", "---------" + productId);
+    private void rtsProductClick(String productId){
         linProgress.setVisibility(View.VISIBLE);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<RTSItem> callApi = apiInterface.getRTSDetail(productId);
         callApi.enqueue(new Callback<RTSItem>() {
+//            @RequiresApi(api = Build.VERSION_CODES.N)
             @RequiresApi(api = Build.VERSION_CODES.N)
             @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(@NonNull Call<RTSItem> call, @NonNull Response<RTSItem> response) {
+            public void onResponse(Call<RTSItem> call, Response<RTSItem> response) {
 
-                //using for Diamond detail adapter
-                assert response.body() != null;
+//                //using for Diamond detail adapter
+//                assert response.body() != null;
 
                 if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+
                     if (response.body().getStock().equalsIgnoreCase("0")) {
                         linButton.setVisibility(View.GONE);
                         btnSoldOut.setVisibility(View.VISIBLE);
@@ -1044,14 +1046,20 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     //Product Detail
                     assert response.body() != null;
                     tvProductName.setText(response.body().getProductDetails().get(0).getProductName());
+
+                    if(response.body().getProductDetails().get(0).getPrice() == "0"){
+                        tvProductPrice.setText(AppConstants.RS + "0");
+                    }else{
+                        tvProductPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
+                    }
                     tvSku.setText(response.body().getProductDetails().get(0).getSku());
                     cSku = response.body().getProductDetails().get(0).getSku();
                     tvCertificateNo.setText(response.body().getProductDetails().get(0).getCertificateNo());
                     cMetalWeight = response.body().getMetaldetails().get(0).getMetalweight();
                     //Metal Diamond Detail
-                    Float metalPrice = Float.parseFloat(response.body().getMetalprice().get(0).toString());
-//                metalPrice = metalPrice.substring(1, metalPrice.length() - 1);
-//                    tvMetalPrice.setText(String.valueOf(CommonUtils.priceFormat(metalPrice)));
+                    Float metalPrice = Float.parseFloat(response.body().getMetalprice().toString());
+   //                metalPrice = metalPrice.substring(1, metalPrice.length() - 1);
+                    tvMetalPrice.setText(String.valueOf(CommonUtils.priceFormat(metalPrice)));
                     tvMetalPrice.setText(AppConstants.RS + CommonUtils.priceFormat(metalPrice));
                     if (response.body().getDiamondmainprice().isEmpty()) {
                         linDiamondBox.setVisibility(View.GONE);
@@ -1080,22 +1088,23 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         relBelt.setVisibility(View.VISIBLE);
                         viewBelt.setVisibility(View.VISIBLE);
                         float beltPrice = Float.parseFloat(response.body().getBelt_price());
-                        tvBeltPrice.setText(AppConstants.RS + CommonUtils.priceFormat(beltPrice));
+// //                       tvBeltPrice.setText(AppConstants.RS + CommonUtils.priceFormat(beltPrice));
 
                     }
-                    tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
+// //                   tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
                     if(response.body().getProductDetails().get(0).getPrice() == "0"){
                         tvProductPrice.setText(AppConstants.RS + "0");
                     }else{
-                        tvProductPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
+// //                       tvProductPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
                     }
 //                tvColorGold.setText("(" + caratValue + " " + metalValue + ")");
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<RTSItem> call, @NonNull Throwable t) {
+            public void onFailure(Call<RTSItem> call, Throwable t) {
                 linProgress.setVisibility(View.GONE);
+                AppLogger.e("Error","--------" + t.getMessage());
             }
         });
     }
@@ -1109,7 +1118,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
             cursor = databaseCartAdapter.findRecordCheck(cProductId);
             if (cursor.getCount() > 0) {
                 AppLogger.e("Record", "-------Found");
-                CommonUtils.showWarningToast(ProductDetailAct.this, "Product is already in cart");
+                CommonUtils.showWarningToast(ProductDetailAct.this, "Product has already in cart");
             } else {
                 AppLogger.e("Record", "-------Not found");
                 if (productType.equalsIgnoreCase("simple")) {
@@ -1164,7 +1173,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         ctotalItem);
 
 //                Toast.makeText(getApplicationContext(), "item added to cart", Toast.LENGTH_SHORT).show();
-                CommonUtils.showSuccessToast(ProductDetailAct.this, "Item added in cart.");
+                CommonUtils.showSuccessToast(ProductDetailAct.this, "Product added in cart.");
                 cartCount++;
                 setupBadge();
                 databaseCartAdapter.closeDatabase();
@@ -1260,7 +1269,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
-                        CommonUtils.showSuccessToast(ProductDetailAct.this, "Item added in cart.");
+                        CommonUtils.showSuccessToast(ProductDetailAct.this, "Product added in cart.");
                         cartCount++;
                         setupBadge();
                     }else {
@@ -1317,4 +1326,16 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
             }
         });
     }
+
+    public void onBackPressed(){
+        finish();
+//        return setupBadge();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        invalidateOptionsMenu();
+    }
+
 }

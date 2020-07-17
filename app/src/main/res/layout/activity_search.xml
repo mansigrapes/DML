@@ -52,6 +52,7 @@
             android:lines="1"
             android:textColor="?toolbarTextColor"
             android:textColorHint="#949393"
+            android:textCursorDrawable="@null"
             android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="@+id/layout1"
             app:layout_constraintEnd_toStartOf="@+id/imgclose"

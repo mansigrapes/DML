@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -60,6 +61,8 @@ import retrofit2.Response;
 import static com.dealermela.home.activity.MainActivity.customerId;
 
 import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
+import static com.dealermela.listing_and_detail.activity.FilterAct.mapFilter;
+import static com.dealermela.listing_and_detail.activity.FilterAct.paramKey;
 import static com.dealermela.listing_and_detail.activity.FilterAct.selectFilter;
 
 public class ListAct extends DealerMelaBaseActivity implements View.OnClickListener {
@@ -83,10 +86,11 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     private GridLayoutManager gridLayoutManager;
     private ProgressBar progressCenter, progressBottom;
     private LinearLayout linNoData;
-    private TextView tvCount,tvListCartCount;
+    private TextView tvCount,tvListCartCount,tvSortbyDot,tvFilter,tvSortby;
     private List<FilterItem.SortBy> sortByList = new ArrayList<>();
     private BottomSheetDialog mBottomSheetDialog;
     private SharedPreferences sharedPreferences;
+    private ImageView sortIcon,filterIcon;
 
 //    private String price = "", gold_purity = "", diamond_quality = "", diamond_shape = "", sku = "", availability = "", sort_by = "";
 
@@ -111,8 +115,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
     @Override
     public void init() {
-
-//        closeOptionsMenu();        //Add for check cart count update or not 8/06/20
 
         id = getIntent().getStringExtra(AppConstants.ID);
         name = getIntent().getStringExtra(AppConstants.NAME);
@@ -145,6 +147,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         Gson gson = new Gson();
         loginResponse = gson.fromJson(sharedPreferences.getLoginData(), LoginResponse.class);
         itemArrayList = new ArrayList<>();
+
     }
 
     @SuppressLint("RestrictedApi")
@@ -152,12 +155,17 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     public void initView() {
         bindToolBar(CommonUtils.capitalizeString(name));
 
+        sortIcon = findViewById(R.id.sortIcon);
+        filterIcon = findViewById(R.id.filterIcon);
+        tvFilter = findViewById(R.id.tvFilter);
+        tvSortby = findViewById(R.id.tvSortby);
         tvListCartCount = findViewById(R.id.cart_badge);
         linSortBy = findViewById(R.id.linSortBy);
         linFilter = findViewById(R.id.linFilterOrder);
         progressCenter = findViewById(R.id.progressCenter);
         progressBottom = findViewById(R.id.progressBottom);
         tvCount = findViewById(R.id.tvCount);
+        tvSortbyDot = findViewById(R.id.tvSortByDot);
 
         gridLayoutManager = new GridLayoutManager(ListAct.this, 2);
         recycleViewListing = findViewById(R.id.recycleViewListing);
@@ -177,12 +185,15 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
     @Override
     public void postInitView() {
+        setupBadge();
     }
 
     @Override
     public void addListener() {
         linSortBy.setOnClickListener(this);
         linFilter.setOnClickListener(this);
+
+        setupBadge();
 
 //        if(filterFlag == 1){
 //            AppLogger.e("When return back from detail page if any filter is applied ","value"+ filterFlag);
@@ -404,6 +415,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<ListingItem> callApi = apiInterface.getCategoryProduct(customerId, categoryId, groupId, page, price, gold_purity, diamonod_quality, diamond_shape, sku, availability, sort_by);
         callApi.enqueue(new Callback<ListingItem>() {
+            @SuppressLint("ResourceType")
             @Override
             public void onResponse(@NonNull Call<ListingItem> call, @NonNull Response<ListingItem> response) {
                 assert response.body() != null;
@@ -414,8 +426,12 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 }
                 if (id.equalsIgnoreCase(AppConstants.NECKLACE_ID)){     //temporary add on 13/06 Bcz necklace category product data mismatch from backend
                     linNoData.setVisibility(View.VISIBLE);
-                    linSortBy.setVisibility(View.GONE);
-                    linFilter.setVisibility(View.GONE);
+                    linSortBy.setEnabled(false);
+                    linFilter.setEnabled(false);
+                    tvFilter.setTextAppearance(ListAct.this, R.attr.inActive_filer_color);
+                    tvSortby.setTextAppearance(ListAct.this, R.attr.inActive_filer_color);
+                    sortIcon.setColorFilter(getResources().getColor(R.color.in_active_item_color));
+                    filterIcon.setColorFilter(getResources().getColor(R.color.in_active_item_color));
                     parentShimmerLayout.setVisibility(View.GONE);
                     fabDownload.hide();
 
@@ -425,7 +441,11 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //                        parentShimmerLayout.stopShimmerAnimation();
 
                             linNoData.setVisibility(View.GONE);         //added for coming back from Reset filter & data display back
-                            linSortBy.setVisibility(View.VISIBLE);
+                            linSortBy.setEnabled(true);
+                            tvFilter.setTextAppearance(ListAct.this, R.attr.inActive_filer_color);
+                            tvSortby.setTextAppearance(ListAct.this, R.attr.inActive_filer_color);
+                            sortIcon.setColorFilter(getResources().getColor(R.color.filter_icon_color));
+                            filterIcon.setColorFilter(getResources().getColor(R.color.filter_icon_color));
                             parentShimmerLayout.setVisibility(View.GONE);
                             recycleViewListing.setVisibility(View.VISIBLE);
                             itemArrayList.addAll(response.body().getData());
@@ -435,12 +455,24 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
                             if (itemArrayList.isEmpty()) {
                                 linNoData.setVisibility(View.VISIBLE);
-                                linSortBy.setVisibility(View.GONE);
-                                linFilter.setVisibility(View.GONE);
+                                linSortBy.setEnabled(false);
+                                linFilter.setEnabled(false);
+//                                tvFilter.setTextColor(getResources().getColor(R.color.in_active_item_color));
+//                                tvSortby.setTextColor(getResources().getColor(R.color.in_active_item_color));
+                                tvFilter.setTextColor(getResources().getColor(R.color.in_active_item_color));
+                                tvSortby.setTextColor(getResources().getColor(R.color.in_active_item_color));
+                                sortIcon.setColorFilter(getResources().getColor(R.color.in_active_item_color));
+                                filterIcon.setColorFilter(getResources().getColor(R.color.in_active_item_color));
                                 parentShimmerLayout.setVisibility(View.GONE);
                                 fabDownload.hide();
                                 if (filterFlag == 1) {
-                                    linFilter.setVisibility(View.VISIBLE);
+                                    linFilter.setEnabled(true);
+                                    linSortBy.setEnabled(false);
+//                                    tvFilter.setTextColor(getResources().getColor(R.color.black));
+                                    tvFilter.setTextAppearance(ListAct.this, R.attr.inActive_filer_color);
+                                    tvSortby.setTextColor(getResources().getColor(R.color.in_active_item_color));
+                                    sortIcon.setColorFilter(getResources().getColor(R.color.in_active_item_color));
+                                    filterIcon.setColorFilter(getResources().getColor(R.color.filter_icon_color));
                                 }
                             } else {
                                 linNoData.setVisibility(View.GONE);
@@ -454,8 +486,12 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             public void onFailure(@NonNull Call<ListingItem> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
                 linNoData.setVisibility(View.VISIBLE);
-                linSortBy.setVisibility(View.GONE);
-                linFilter.setVisibility(View.GONE);
+                linSortBy.setEnabled(false);
+                linFilter.setEnabled(false);
+                tvFilter.setTextColor(getResources().getColor(R.color.in_active_item_color));
+                tvSortby.setTextColor(getResources().getColor(R.color.in_active_item_color));
+                sortIcon.setColorFilter(getResources().getColor(R.color.in_active_item_color));
+                filterIcon.setColorFilter(getResources().getColor(R.color.in_active_item_color));
                 parentShimmerLayout.setVisibility(View.GONE);
 
                 if (page_count == 1) {
@@ -523,6 +559,9 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         previousTotal = 0; // The total number of items in the dataset after the last load
         loading = true; // True if we are still waiting for the last set of data to load.
         mBottomSheetDialog.dismiss();
+
+        tvSortbyDot.setVisibility(View.VISIBLE);  //Display dot WHen sorting is applied
+
         listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
         recycleViewListing.setAdapter(listingRecyclerAdapter);
         if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
@@ -545,6 +584,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //        } else {
 //            tvCount.setVisibility(View.GONE);
 //        }
+
+//        setupBadge();
+
+       invalidateOptionsMenu();  // Adding this for update Cart Counting on back pressed from Detail / Cart Screen
 
         if (filterFlag == 1) {
             tvCount.setVisibility(View.VISIBLE);
@@ -591,6 +634,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                     }
                 } else if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("sku")){
 //                    sku =
+                    if (mapFilter.containsKey(paramKey)) {
+                        String key = mapFilter.get(paramKey);
+                        sku.append(key);
+                    }
                 }
             }
 
@@ -686,46 +733,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
             }
         }
-
-//        textCartItemCount.setText(String.valueOf(Math.min(cartCount, 99)));
-        setupBadge();
     }
-
-//    private void getCount() {
-//        ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-//        Call<JsonObject> callApi = apiInterface.getCartDownloadCount(customerId);
-//        callApi.enqueue(new Callback<JsonObject>() {
-//            @Override
-//            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
-//                assert response.body() != null;
-//                Log.e(AppConstants.RESPONSE, "-----------------" + response.body());
-//                try {
-//                    JSONObject jsonObject = new JSONObject(response.body().toString());
-//                    if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
-//
-//                        if (jsonObject.getInt("total_qty") != 0) {
-//                            tvListCartCount.setVisibility(View.VISIBLE);
-////                            cartCount = jsonObject.getInt("total_qty");
-//                            String count = String.valueOf(jsonObject.getInt("total_qty"));
-//                            tvListCartCount.setText(count);
-//                            AppLogger.e("ListPageCartcount","--------"+tvListCartCount.getText().toString());
-//                        } else {
-////                            tvListCartCount.setVisibility(View.GONE);
-//                        }
-//
-//                    } else {
-////                        tvListCartCount.setVisibility(View.GONE);
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            @Override
-//            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
-//                AppLogger.e("error", "------------" + t.getMessage());
-//            }
-//        });
-//    }
 
     private void searchProduct(String searchTerm, String page) {
         if (page_count == 1) {
@@ -839,44 +847,43 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //    }
 
     //Option menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.mainwithcart, menu);
-
-        final MenuItem menuItem = menu.findItem(R.id.action_cart);
-
-        View actionView = MenuItemCompat.getActionView(menuItem);
-        textCartItemCount = actionView.findViewById(R.id.cart_badge);
-
-        setupBadge();
-
-        actionView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOptionsItemSelected(menuItem);
-            }
-        });
-
-        return true;
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.action_cart: {
-                // Do something
-                startNewActivity(CartAct.class);
-                return true;
-            }
-            case R.id.action_search: {
-                startNewActivity(SearchAct.class);
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.mainwithcart, menu);
+//
+//        final MenuItem menuItem = menu.findItem(R.id.action_cart);
+//
+//        View actionView = MenuItemCompat.getActionView(menuItem);
+//        textCartItemCount = actionView.findViewById(R.id.cart_badge);
+//
+//        DealerMelaBaseActivity.setupBadge();
+//
+//        actionView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onOptionsItemSelected(menuItem);
+//            }
+//        });
+//
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        switch (item.getItemId()) {
+//
+//            case R.id.action_cart: {
+//                // Do something
+//                startNewActivity(CartAct.class);
+//                return true;
+//            }
+//            case R.id.action_search: {
+//                startNewActivity(SearchAct.class);
+//                return true;
+//            }
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
 }
