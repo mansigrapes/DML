@@ -47,8 +47,8 @@ public class DiamondDetailRTSAdapter extends RecyclerView.Adapter<DiamondDetailR
         holder.tvDiamondQuality.setText(itemArrayList.get(i).getQuality());
         holder.tvDiamondPieces.setText(itemArrayList.get(i).getPieces());
         holder.tvDiamondTotalWeight.setText(itemArrayList.get(i).getTotalweight()+"ct");
-        holder.tvDiamondCaratRate.setText(itemArrayList.get(i).getCaratrate());
-        holder.tvDiamondEstimatedPrice.setText(itemArrayList.get(i).getEstimatedprice());
+//        holder.tvDiamondCaratRate.setText(itemArrayList.get(i).getCaratrate());
+//        holder.tvDiamondEstimatedPrice.setText(itemArrayList.get(i).getEstimatedprice());
     }
 
     @Override
@@ -58,7 +58,8 @@ public class DiamondDetailRTSAdapter extends RecyclerView.Adapter<DiamondDetailR
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        final TextView tvDiamondShape, tvDiamondSetting, tvDiamondQuality, tvDiamondPieces, tvDiamondTotalWeight, tvDiamondCaratRate,tvDiamondIndex,tvDiamondEstimatedPrice;
+        final TextView tvDiamondShape, tvDiamondSetting, tvDiamondQuality, tvDiamondPieces, tvDiamondTotalWeight,tvDiamondIndex;
+//        final TextView  tvDiamondEstimatedPrice, tvDiamondCaratRate;
         final LinearLayout linDiamond;
 
         ViewHolder(View itemView) {
@@ -68,9 +69,9 @@ public class DiamondDetailRTSAdapter extends RecyclerView.Adapter<DiamondDetailR
             tvDiamondQuality = itemView.findViewById(R.id.tvDiamondQuality);
             tvDiamondPieces = itemView.findViewById(R.id.tvDiamondPieces);
             tvDiamondTotalWeight = itemView.findViewById(R.id.tvDiamondTotalWeight);
-            tvDiamondCaratRate = itemView.findViewById(R.id.tvDiamondCaratRate);
+//            tvDiamondCaratRate = itemView.findViewById(R.id.tvDiamondCaratRate);
             tvDiamondIndex = itemView.findViewById(R.id.tvDiamondIndex);
-            tvDiamondEstimatedPrice = itemView.findViewById(R.id.tvDiamondEstimatedPrice);
+//            tvDiamondEstimatedPrice = itemView.findViewById(R.id.tvDiamondEstimatedPrice);
             linDiamond = itemView.findViewById(R.id.linDiamond);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);

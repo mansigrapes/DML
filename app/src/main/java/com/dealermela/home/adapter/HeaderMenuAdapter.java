@@ -82,8 +82,5 @@ public class HeaderMenuAdapter extends RecyclerView.Adapter<HeaderMenuAdapter.Vi
         public boolean onLongClick(View v) {
             return false;
         }
-
     }
-
-
 }

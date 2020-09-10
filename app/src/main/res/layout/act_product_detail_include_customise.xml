@@ -41,84 +41,96 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
-            android:text="@string/ring_size" />
+            android:text="@string/ring_size"
+            android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleViewRingSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ten_padding_margin"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:visibility="gone"/>
 
         <View
             android:id="@+id/viewRing"
             style="@style/view_style_detail_page"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="20sp" />
+            android:layout_marginTop="20sp"
+            android:visibility="gone"/>
 
         <com.dealermela.utility.DmlTextView
             android:id="@+id/tvPendentHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
-            android:text="@string/type" />
+            android:text="@string/type"
+            android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleViewPendentSets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ten_padding_margin"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:visibility="gone"/>
 
         <View
             android:id="@+id/viewPendentSets"
             style="@style/view_style_detail_page"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="20sp" />
+            android:layout_marginTop="20sp"
+            android:visibility="gone"/>
 
         <com.dealermela.utility.DmlTextView
             android:id="@+id/tvBangleSizeHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
-            android:text="@string/bangle_size" />
+            android:text="@string/bangle_size"
+            android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleViewBangleSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ten_padding_margin"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:visibility="gone"/>
 
         <View
             android:id="@+id/viewBangle"
             style="@style/view_style_detail_page"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="20sp" />
+            android:layout_marginTop="20sp"
+            android:visibility="gone"/>
 
         <com.dealermela.utility.DmlTextView
             android:id="@+id/tvBraceletsHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
-            android:text="@string/length" />
+            android:text="@string/length"
+            android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleViewBraceletSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ten_padding_margin"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:visibility="gone" />
 
         <View
             android:id="@+id/viewBracelet"
             style="@style/view_style_detail_page"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="20sp" />
+            android:layout_marginTop="20sp"
+            android:visibility="gone"/>
 
         <com.dealermela.utility.DmlTextView
             android:layout_width="match_parent"
@@ -176,6 +188,26 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="20sp" />
+
+<!--    02/09/2020   add this extra recycleview for some device last recycleview skip the adapter & data not displaying-->
+        <com.dealermela.utility.DmlTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           />
+
+<!--        <android.support.v7.widget.RecyclerView-->
+<!--            android:id="@+id/recycleViewTest"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/ten_padding_margin"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:visibility="gone"/>-->
+
+<!--        <View-->
+<!--            style="@style/view_style_detail_page"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_marginTop="20sp" />-->
 
     </LinearLayout>
 

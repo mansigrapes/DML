@@ -24,6 +24,7 @@ import com.dealermela.authentication.myaccount.activity.ForgotPasswordAct;
 import com.dealermela.cart.activity.CartAct;
 import com.dealermela.cart.fragment.ShoppingFrg;
 import com.dealermela.cart.model.CartLocalDataItem;
+import com.dealermela.dbhelper.DatabaseCartAdapter;
 import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
@@ -34,6 +35,7 @@ import com.ligl.android.widget.iosdialog.IOSDialog;
 import java.util.List;
 
 import static com.dealermela.DealerMelaBaseActivity.cartCount;
+import static com.dealermela.DealerMelaBaseActivity.setupBadge;
 
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
@@ -41,6 +43,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private final Activity activity;
     private final ShoppingFrg shoppingFrg;
     private final List<CartLocalDataItem> itemArrayList;
+    int  totalitem;
 
     public CartAdapter(Activity activity, List<CartLocalDataItem> itemArrayList, ShoppingFrg shoppingFrg) {
         super();
@@ -90,7 +93,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             holder.tvRingSize.setText(Html.fromHtml(sourceString));
 
         } else if (itemArrayList.get(i).getCategoryId().equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
-            sourceString = "<b>" + "Pendent Size : " + "</b> " + itemArrayList.get(i).getPendent_set_type();
+            sourceString = "<b>" + "Pendent Type : " + "</b> " + itemArrayList.get(i).getPendent_set_type();
             holder.tvRingSize.setText(Html.fromHtml(sourceString));
         } else {
             holder.tvRingSize.setVisibility(View.GONE);
@@ -110,32 +113,42 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 int qty = Integer.parseInt(itemArrayList.get(i).getQty());
+                totalitem = Integer.parseInt(itemArrayList.get(i).getTotal_item());
+                AppLogger.e("TotalItem At Qty increase Time :","----"+totalitem);
                 qty++;
                 holder.tvQuantity.setText(String.valueOf(qty));
                 AppLogger.e("plus old price", "----------" + itemArrayList.get(i).getPrice());
                 itemArrayList.get(i).setQty(String.valueOf(qty));
                 cartCount++;             //Added this line to update cartcount for every item  But count not updated from API SIDE.
+                setupBadge();
                 AppLogger.e("CountUpdated ","-----"+cartCount);
+                totalitem = totalitem + 1;
+                AppLogger.e("Updated Plus TotalItem ","----" + totalitem);
+                shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty), String.valueOf(totalitem));
+                DatabaseCartAdapter.updateTotalQTY(String.valueOf(totalitem));
+//                shoppingFrg.updatetotalItem(String.valueOf())
                 notifyItemChanged(i);
                 notifyItemRangeChanged(i, itemArrayList.size());
-                shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty));
-//                shoppingFrg.updatetotalItem(String.valueOf())
             }
         });
-
 
         holder.imgMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int qty = Integer.parseInt(itemArrayList.get(i).getQty());
+                totalitem = Integer.parseInt(itemArrayList.get(i).getTotal_item());
                 if (String.valueOf(qty).equalsIgnoreCase("1")) {
                     holder.tvQuantity.setText(String.valueOf(qty));
                     AppLogger.e("minus old price", "----------" + itemArrayList.get(i).getPrice());
                     itemArrayList.get(i).setQty(String.valueOf(qty));
+                    cartCount--;           //Added this line to update cartcount for every item
+                    setupBadge();
+                    totalitem = totalitem - 1;
+                    AppLogger.e("Minus TotalItem ","----" + totalitem);
+                    shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty), String.valueOf(totalitem));
+                    DatabaseCartAdapter.updateTotalQTY(String.valueOf(totalitem));
                     notifyItemChanged(i);
                     notifyItemRangeChanged(i, itemArrayList.size());
-                    shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty));
-                    cartCount--;           //Added this line to update cartcount for every item
 
                 } else {
                     qty--;
@@ -144,10 +157,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 //                    float updatePrice = Float.parseFloat(itemArrayList.get(i).getPrice()) * qty;
 //                    itemArrayList.get(i).setPrice(String.valueOf(updatePrice));
                     itemArrayList.get(i).setQty(String.valueOf(qty));
+                    cartCount--;           //Added this line to update cartcount for every item
+                    setupBadge();
+                    totalitem = totalitem - 1;
+                    AppLogger.e("Minus TotalItem ","----" + totalitem);
+                    shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty), String.valueOf(totalitem));
+                    DatabaseCartAdapter.updateTotalQTY(String.valueOf(totalitem));
                     notifyItemChanged(i);
                     notifyItemRangeChanged(i, itemArrayList.size());
-                    shoppingFrg.updateCartItem(String.valueOf(itemArrayList.get(i).getId()), String.valueOf(qty));
-                    cartCount--;           //Added this line to update cartcount for every item
                 }
             }
         });
@@ -191,7 +208,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
 
-                                shoppingFrg.deleteItem(String.valueOf(itemArrayList.get(i).getId()));
+                                String  removeqty = itemArrayList.get(i).getQty();
+                                totalitem = Integer.parseInt(itemArrayList.get(i).getTotal_item());
+
+                                if( removeqty.equalsIgnoreCase("1")){
+                                    totalitem = totalitem - 1;
+                                    AppLogger.e("remove product which QTY is 1 :TotalItem ","----" + totalitem);
+                                }else {
+                                    int qtyremove = Integer.parseInt(itemArrayList.get(i).getQty());
+                                    totalitem = totalitem - qtyremove;
+                                    AppLogger.e("remove product which QTY is more than 1 :TotalItem ","----" + totalitem);
+                                }
+                                shoppingFrg.deleteItem(String.valueOf(itemArrayList.get(i).getId()),String.valueOf(totalitem));
                                 itemArrayList.remove(i);
                                 if (itemArrayList.isEmpty()) {
 //                                   activity.finish();

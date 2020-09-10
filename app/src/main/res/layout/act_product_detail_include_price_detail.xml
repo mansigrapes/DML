@@ -267,13 +267,13 @@
             <com.dealermela.utility.DmlImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/gia" />
+                android:src="@drawable/gia_new" />
 
             <com.dealermela.utility.DmlImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:src="@drawable/igi" />
+                android:src="@drawable/igi_new" />
 
         </LinearLayout>
 

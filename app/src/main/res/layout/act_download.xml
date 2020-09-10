@@ -92,7 +92,8 @@
             android:id="@+id/checkBoxSelectAll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:buttonTint="?editTextTextColor"/>
 
         <com.dealermela.utility.DmlTextView
             android:id="@+id/dmlTextViewBold2"
@@ -100,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.65"
-            android:text="@string/image" />
+            android:text="@string/downloadimage" />
 
         <View
             android:id="@+id/view2"

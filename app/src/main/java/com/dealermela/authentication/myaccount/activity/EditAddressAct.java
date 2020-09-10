@@ -483,6 +483,9 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
         if (!stateArray.isEmpty()) {
             lblState.setVisibility(View.VISIBLE);
             spinnerState.setVisibility(View.VISIBLE);
+//            spinnerArray.add(0,"Select State");
+
+//            for (int i = 0; i <= stateArray.size() - 1; i++) {   // when select state is added at 0 position
             for (int i = 0; i <= stateArray.size() - 1; i++) {
                 spinnerArray.add(stateArray.get(i).getName());
             }
@@ -531,7 +534,11 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                     if (status.equalsIgnoreCase("1")) {
                         if (countryId.equalsIgnoreCase("IN")) {
 //                            editBillingAddress(customerId, defaultBilling.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), Objects.requireNonNull(edAddress2.getText()).toString(), Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
-                            editBillingAddress(customerId, defaultBilling.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            if (spinnerState.getSelectedItem() == "Select State") {
+                                CommonUtils.showInfoToast(EditAddressAct.this, "Please select state.");
+                            } else {
+                                editBillingAddress(customerId, defaultBilling.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            }
                         } else {
                             if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                                 edState.setError("Please enter state name.");
@@ -542,7 +549,11 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                         }
                     } else if (status.equalsIgnoreCase("2")) {
                         if (countryId.equalsIgnoreCase("IN")) {
-                            editShippingAddress(customerId, defaultShipping.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            if (spinnerState.getSelectedItem() == "Select State") {
+                                CommonUtils.showInfoToast(EditAddressAct.this, "Please select state.");
+                            } else {
+                                editShippingAddress(customerId, defaultShipping.getEntityId(), Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            }
                         } else {
                             if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                                 edState.setError("Please enter state name.");
@@ -553,7 +564,11 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                         }
                     } else if (status.equalsIgnoreCase("3")) {
                         if (countryId.equalsIgnoreCase("IN")) {
-                            editAdditionalAddress(customerId, additionalAddress.getEntityId(), billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            if (spinnerState.getSelectedItem() == "Select State") {
+                                CommonUtils.showInfoToast(EditAddressAct.this, "Please select state.");
+                            } else {
+                                editAdditionalAddress(customerId, additionalAddress.getEntityId(), billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            }
                         } else {
                             if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                                 edState.setError("Please enter state name.");
@@ -564,7 +579,11 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                         }
                     } else if (status.equalsIgnoreCase("4")) {
                         if (countryId.equalsIgnoreCase("IN")) {
-                            addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            if (spinnerState.getSelectedItem() == "Select State") {
+                                CommonUtils.showInfoToast(EditAddressAct.this, "Please select state.");
+                            } else {
+                                addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            }
                         } else {
                             if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                                 edState.setError("Please enter state name.");
@@ -575,7 +594,11 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                         }
                     } else if (status.equalsIgnoreCase("5")) {
                         if (countryId.equalsIgnoreCase("IN")) {
-                            addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            if (spinnerState.getSelectedItem() == "Select State") {
+                                CommonUtils.showInfoToast(EditAddressAct.this, "Please select state.");
+                            } else {
+                                addAddress(customerId, billingFlag, shippingFlag, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edAddress1.getText()).toString(), "", Objects.requireNonNull(edCity.getText()).toString(), regionId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edZipCode.getText()).toString(), countryId, Objects.requireNonNull(edTelephone.getText()).toString());
+                            }
                         } else {
                             if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                                 edState.setError("Please enter state name.");

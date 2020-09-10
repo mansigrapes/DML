@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/success"
+            style="@style/textSuccessDialogStyle"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
@@ -37,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ten_padding_margin"
+            style="@style/textSuccessDialogStyle"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -46,8 +48,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
+            style="@style/textSuccessDialogStyle"
             android:background="@drawable/success_button_background"
             android:text="@string/ok"
+
             />
 
     </LinearLayout>

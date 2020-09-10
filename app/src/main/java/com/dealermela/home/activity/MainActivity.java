@@ -1,11 +1,9 @@
 package com.dealermela.home.activity;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -20,7 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,13 +31,11 @@ import com.dealermela.R;
 import com.dealermela.authentication.myaccount.activity.EditProfileAct;
 import com.dealermela.authentication.myaccount.activity.LoginAct;
 import com.dealermela.authentication.myaccount.activity.SignUpAct;
-import com.dealermela.authentication.myaccount.dialog.LogoutDialogClass;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
 import com.dealermela.cart.activity.CartAct;
 import com.dealermela.download.activity.DownloadAct;
 import com.dealermela.home.fragment.HomeFrg;
 import com.dealermela.home.model.HeaderItem;
-import com.dealermela.inventary.activity.InventoryListAct;
 import com.dealermela.listing_and_detail.activity.ListAct;
 import com.dealermela.my_stock.activity.MyStockAct;
 import com.dealermela.order.activity.OrderTabActivity;
@@ -69,7 +64,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,9 +77,10 @@ import static com.dealermela.other.activity.SplashAct.loginFlag;
 public class MainActivity extends DealerMelaBaseActivity implements View.OnClickListener {
 
     private Fragment fragment;
-    private TextView tvMyAccount, tvCreateReferral, tvLogin, tvSignUp, tvUserName;
+    private TextView tvMyAccount, tvCreateReferral, tvLogin, tvSignUp, tvUserName, tvcollection;
     private ImageView imgDot;
     public static String customerId = "";
+    public static String GroupId = "";
     private SharedPreferences sharedPreferences;
     private LoginResponse loginResponse;
     private LinearLayout linContainer;
@@ -216,6 +211,13 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
+        //used for display Qr Code Scanning
+        MenuItem item1 = menu.findItem(R.id.action_Scancode);
+        if(!sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+            item1.setVisible(true);
+        }else{
+            item1.setVisible(false);
+        }
         //using for theme change
         MenuItem item = (MenuItem) menu.findItem(R.id.switchId);
         item.setActionView(R.layout.switch_layout);
@@ -253,6 +255,9 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         int id = item.getItemId();
         if (id == R.id.action_search) {
             startNewActivity(SearchAct.class);
+            return true;
+        }else if(id == R.id.action_Scancode){
+            startNewActivity(QRCodeScanningAct.class);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -294,6 +299,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
         linInventory = headerLayout.findViewById(R.id.linInventory);
         linCollection = headerLayout.findViewById(R.id.linCollection);
+        tvcollection = headerLayout.findViewById(R.id.tvcollection);
         linOrders = headerLayout.findViewById(R.id.linOrders);
         linTransaction = headerLayout.findViewById(R.id.linTransaction);
         linDownload = headerLayout.findViewById(R.id.linDownload);
@@ -325,6 +331,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
             Gson gson = new Gson();
             loginResponse = gson.fromJson(sharedPreferences.getLoginData(), LoginResponse.class);
             customerId = loginResponse.getData().getEntityId();
+            GroupId =  loginResponse.getData().getGroupId();
         }
 
         if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
@@ -463,10 +470,13 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 break;
 
             case R.id.linCollection:
+
                 if (scrollViewCollection.getVisibility() == View.VISIBLE) {
                     scrollViewCollection.setVisibility(View.GONE);
+                    tvcollection.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_right_black_24dp, 0);
                 } else {
                     scrollViewCollection.setVisibility(View.VISIBLE);
+                    tvcollection.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_expand_more_24, 0);
                 }
                 break;
 
@@ -550,7 +560,6 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         }
     }
 
-
     private void logout() {
         SharedPreferences sharedPreferences = new SharedPreferences(this);
         sharedPreferences.saveLoginData("");
@@ -631,6 +640,9 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
     @Override
     protected void onResume() {
         super.onResume();
+
+        invalidateOptionsMenu();    //Add for QR CODE Scan Visibility Update After Logout
+
         isOnce = false;
         spaceNavigationView.changeCurrentItem(0);
         postInitView();

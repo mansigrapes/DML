@@ -73,7 +73,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.2"
-                        android:text="@string/billing_address" />
+                        android:text="@string/order_billing_address" />
 
                     <com.dealermela.utility.DmlTextView
                         android:id="@+id/tvDefaultBillingAddress"
@@ -102,7 +102,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.2"
-                        android:text="@string/shipping_address" />
+                        android:text="@string/order_shipping_address" />
 
                     <com.dealermela.utility.DmlTextView
                         android:id="@+id/tvDefaultShippingAddress"
@@ -270,8 +270,9 @@
         style="@style/btnBankManage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/place_order"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+<!--    android:text="@string/place_order"-->
+
 </android.support.constraint.ConstraintLayout>

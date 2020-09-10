@@ -889,6 +889,8 @@ public class ProductDetailItem {
         @Expose
         private String optionId;
 
+        private boolean isSelected = false;
+
         public String getTitle() {
             return title;
         }
@@ -911,6 +913,14 @@ public class ProductDetailItem {
 
         public void setOptionId(String optionId) {
             this.optionId = optionId;
+        }
+
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
         }
 
     }

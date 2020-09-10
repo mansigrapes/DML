@@ -15,8 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="?attr/selectableItemBackground"
-        />
+        android:background="?attr/selectableItemBackground" />
 
     <View
         android:layout_width="match_parent"
@@ -24,5 +23,15 @@
         android:background="?transaction_line_color"
         app:layout_constraintTop_toBottomOf="@+id/tvSortTitle"
         tools:layout_editor_absoluteX="49dp" />
+
+<!--    <com.dealermela.utility.DmlButton-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/cancel1"-->
+<!--        android:text="Cancel and Clear"-->
+<!--        style="@style/All_Dmlbutton"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:background="@color/dml_logo_color"-->
+<!--        />-->
 
 </android.support.constraint.ConstraintLayout>

@@ -59,14 +59,12 @@ public class RingAdapter extends RecyclerView.Adapter<RingAdapter.ViewHolder> {
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.white));
             }
 
-
         } else if (themePreferences.getTheme().equalsIgnoreCase("white")) {
             if (itemArrayList.get(i).getTitle().equalsIgnoreCase(ringValue)) {
                 holder.linRing.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
                 ringOptionId=itemArrayList.get(i).getOptionId();
                 ringOptionTypeId=itemArrayList.get(i).getOptionTypeId();
-
 
             } else {
                 holder.linRing.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect));
@@ -113,7 +111,29 @@ public class RingAdapter extends RecyclerView.Adapter<RingAdapter.ViewHolder> {
         public void onClick(View v) {
             AppLogger.e("click", "-------" + getAdapterPosition());
 
-//            linRing.setBackground(activity.getResources().getDrawable(R.drawable.ten_size_logo_color_round_border));
+//          linRing.setBackground(activity.getResources().getDrawable(R.drawable.ten_size_logo_color_round_border));
+
+//            AppLogger.e("Pendent_Adapter_click", "-------" + getAdapterPosition());
+//            int pos = getAdapterPosition();
+//            for (int i = 0; i < itemArrayList.size(); i++) {
+//                ProductDetailItem.PendentEarring pendentEarring = itemArrayList.get(i);
+//                if (i != pos) {
+//                    pendentEarring.setSelected(false);
+//                } else {
+//                    pendentEarring.setSelected(true);
+//                }
+//            }
+
+            int pos  = getAdapterPosition();
+            for(int i = 0; i < itemArrayList.size(); i++){
+                ProductDetailItem.Ringsize ringsize = itemArrayList.get(i);
+                if(i != pos){
+                    ringsize.setSelected(false);
+                }else {
+                    ringsize.setSelected(true);
+                }
+            }
+
             ringValue = itemArrayList.get(getAdapterPosition()).getTitle();
 
             ringOptionId=itemArrayList.get(getAdapterPosition()).getOptionId();

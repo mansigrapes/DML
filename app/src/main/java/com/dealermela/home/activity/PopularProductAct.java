@@ -104,4 +104,10 @@ public class PopularProductAct extends DealerMelaBaseActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        invalidateOptionsMenu();
+    }
 }

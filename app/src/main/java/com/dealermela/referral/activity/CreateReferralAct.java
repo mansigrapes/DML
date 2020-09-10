@@ -13,6 +13,7 @@ import android.widget.Spinner;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
+import com.dealermela.authentication.myaccount.activity.SignUpAct;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
@@ -159,8 +160,12 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
             edEmail.requestFocus();
             edEmail.setError(getString(R.string.login_please_enter_valid_email));
             return false;
-        } else
-            return Validator.checkEmptyInputLayout(edTelephone, getString(R.string.enter_telephone));
+        }else if(!Validator.isValidPhoneNumber(Objects.requireNonNull(edTelephone.getText().toString()))){
+            edTelephone.requestFocus();
+            edTelephone.setError(getString(R.string.login_please_enter_valid_mobile));
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -200,24 +205,35 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
                     try {
                         JSONObject jsonObject = new JSONObject(String.valueOf(response.body()));
                         message = jsonObject.getString("message");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
 
-                    new IOSDialog.Builder(CreateReferralAct.this)
-                            .setTitle("Thank You!")
-                            .setMessage(message)
-                            .setCancelable(false)
-                            .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    startNewActivity(ManageReferralAct.class);
-                                    finish();
-                                }
-                            })
-                            .show();
-
+                        if(jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)){
+                            new IOSDialog.Builder(CreateReferralAct.this)
+                                    .setTitle("Thank You!")
+                                    .setMessage(message)
+                                    .setCancelable(false)
+                                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            startNewActivity(ManageReferralAct.class);
+                                            finish();
+                                        }
+                                    })
+                                    .show();
+                        } else if(jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED))
+                        {
+                            new AlertDialog.Builder(CreateReferralAct.this,R.style.AppCompatAlertDialogStyle)
+                                    .setTitle(CommonUtils.capitalizeString(jsonObject.getString("status")))
+                                    .setMessage(message)
+                                    .setCancelable(false)
+                                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        }
                     /*AlertDialog alertDialog = new AlertDialog.Builder(CreateReferralAct.this).create();
                     alertDialog.setTitle("Thank You!");
                     alertDialog.setMessage(message);
@@ -233,8 +249,10 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
                                 }
                             });
                     alertDialog.show();*/
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-
             }
 
             @Override
@@ -243,8 +261,5 @@ public class CreateReferralAct extends DealerMelaBaseActivity implements View.On
                 hideProgressDialog();
             }
         });
-
-
     }
-
 }

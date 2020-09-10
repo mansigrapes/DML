@@ -112,12 +112,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <com.dealermela.utility.DmlButton
+                    <com.dealermela.utility.DmlButtonSemiBold
                         android:id="@+id/btnChangeBillingAddress"
                         style="@style/edit_profile_button"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/btn_height"
-                        android:text="Change Address" />
+                        android:text="Edit Address" />
 
                 </LinearLayout>
 
@@ -126,7 +126,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/ten_padding_margin"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:id="@+id/layoutshippingaddress">
 
                     <com.dealermela.utility.DmlTextView
                         android:id="@+id/tvSName"
@@ -165,27 +166,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <com.dealermela.utility.DmlButton
+                    <com.dealermela.utility.DmlButtonSemiBold
                         android:id="@+id/btnChangeShippingAddress"
                         style="@style/edit_profile_button"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/btn_height"
-                        android:text="Change Address" />
+                        android:text="Edit Address" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <com.dealermela.utility.DmlButton
-                style="@style/All_Dmlbutton"
                 android:id="@+id/btnAddNewAddress"
+                style="@style/All_Dmlbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/btn_height"
-                android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:background="@drawable/ten_size_black_button_round"
                 android:paddingStart="10sp"
                 android:paddingEnd="10sp"
+                android:layout_gravity="right"
+
                 android:text="Add New Address"
                 android:textColor="@color/white" />
 

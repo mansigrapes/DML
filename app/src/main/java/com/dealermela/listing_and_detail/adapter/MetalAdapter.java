@@ -51,8 +51,8 @@ public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> 
             holder.cardMetalColor.setCardBackgroundColor(activity.getResources().getColor(R.color.tone));
         } else if (itemArrayList.get(i).contains("Yellow")) {
             holder.cardMetalColor.setCardBackgroundColor(activity.getResources().getColor(R.color.yellow));
-        } else if (itemArrayList.get(i).contains("white")) {
-            holder.cardMetalColor.setCardBackgroundColor(activity.getResources().getColor(R.color.white));
+        } else if (itemArrayList.get(i).contains("White")) {
+            holder.cardMetalColor.setCardBackgroundColor(activity.getResources().getColor(R.color.OffWhite));
         } else {
             holder.cardMetalColor.setCardBackgroundColor(activity.getResources().getColor(R.color.platinum));
         }
@@ -120,8 +120,5 @@ public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> 
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
-
 }

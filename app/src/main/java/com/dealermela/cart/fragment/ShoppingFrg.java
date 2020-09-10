@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -53,8 +54,8 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
 
     private View rootView;
     private RecyclerView recycleViewCart;
-    private TextView tvSubTotal, tvTax, tvGrandTotal;
-    private float subTotal = 0, tax = 0, grandTotal = 0, roundtax = 0, roundgrandtotal = 0;
+    private TextView tvSubTotal, tvTax, tvGrandTotal, tvShippingCharge;
+    private float subTotal = 0, tax = 0, grandTotal = 0, shipping_charge = 0, roundtax = 0, roundgrandtotal = 0;
     private Button btnContinue;
     private DatabaseCartAdapter databaseCartAdapter;
     private Cursor c;
@@ -67,7 +68,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
 
     private SharedPreferences sharedPreferences;
     private ProgressBar progressBarCart;
-    private LinearLayout linNoData;
+    public LinearLayout linNoData;
 
     @Override
     public View myFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
         recycleViewCart = rootView.findViewById(R.id.recycleViewCart);
         tvSubTotal = rootView.findViewById(R.id.tvSubTotal);
         tvTax = rootView.findViewById(R.id.tvTax);
+        tvShippingCharge = rootView.findViewById(R.id.tvShippingCharge);
         tvGrandTotal = rootView.findViewById(R.id.tvGrandTotal);
         progressBarCart = rootView.findViewById(R.id.progressBarCart);
         linNoData = rootView.findViewById(R.id.linNoData);
@@ -225,6 +227,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                     tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
                     tvTax.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(roundtax)));
                     tvGrandTotal.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(roundgrandtotal)));
+                    tvShippingCharge.setText(AppConstants.RS + "0");
                 }
             }
             databaseCartAdapter.closeDatabase();
@@ -235,20 +238,22 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void updateCartItem(String id, String qty) {
+    public void updateCartItem(String id, String qty, String totalitem) {
         showProgressDialog("Quantity", getString(R.string.please_wait));
         databaseCartAdapter.openDatabase();
-        databaseCartAdapter.updateQTY(id, qty);
+        databaseCartAdapter.updateQTY(id, qty, totalitem);
+        databaseCartAdapter.updateTotalQTY(totalitem);
         databaseCartAdapter.closeDatabase();
         hideProgressDialog();
         updateGrandTotal();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void deleteItem(String id) {
+    public void deleteItem(String id,String totalitem) {
         showProgressDialog("Quantity", getString(R.string.please_wait));
         databaseCartAdapter.openDatabase();
         databaseCartAdapter.deleteItem(id);
+        databaseCartAdapter.updateTotalQTY(totalitem);
         databaseCartAdapter.closeDatabase();
         hideProgressDialog();
         updateGrandTotal();
@@ -280,10 +285,15 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                     grandTotal = subTotal + tax;
                     AppLogger.e("grand total", "---------" + grandTotal);
 
-                    tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
-                    tvTax.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(tax)));
-                    tvGrandTotal.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(grandTotal)));
+                    roundtax = Math.round(tax);
+                    roundgrandtotal = Math.round(grandTotal);
 
+                    AppLogger.e("RoundedTax","-----"+ roundtax);
+                    AppLogger.e("RoundedGrandTotal","-----" + roundgrandtotal);
+
+                    tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
+                    tvTax.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(roundtax)));
+                    tvGrandTotal.setText(String.valueOf(AppConstants.RS + CommonUtils.priceFormat(roundgrandtotal)));
                 }
             }
         }else {
@@ -310,10 +320,16 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                     grandTotal = response.body().getGrandtotal();
                     subTotal = response.body().getSubtotal();
                     tax = response.body().getTax();
+//                    if(response.body().getShippingCharge() != 0){
+//
+//                    }
+                    shipping_charge = response.body().getShippingCharge();
 
                     tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(grandTotal));
                     tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subTotal));
                     tvTax.setText(AppConstants.RS + CommonUtils.priceFormat(tax));
+
+                    tvShippingCharge.setText(AppConstants.RS + CommonUtils.priceFormat(shipping_charge));
 
                     CartServerAdapter cartServerAdapter = new CartServerAdapter(getActivity(), response.body().getData(), ShoppingFrg.this);
                     recycleViewCart.setAdapter(cartServerAdapter);
@@ -335,8 +351,8 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
     }
 
     public void updateCart(String customerId) {
-        progressBarCart.setVisibility(View.VISIBLE);
-        showProgressDialog("Cart","Updating Cart");
+//        progressBarCart.setVisibility(View.VISIBLE);
+//        showProgressDialog("Cart","Updating Cart");
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<CartServerDataItem> callApi = apiInterface.listCart(customerId);
         callApi.enqueue(new Callback<CartServerDataItem>() {
@@ -345,11 +361,11 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
             @Override
             public void onResponse(@NonNull Call<CartServerDataItem> call, @NonNull Response<CartServerDataItem> response) {
                 AppLogger.e(AppConstants.RESPONSE, "--------------" + response.body());
-                progressBarCart.setVisibility(View.GONE);
+//                progressBarCart.setVisibility(View.GONE);
                 assert response.body() != null;
 
                 if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
-                    hideProgressDialog();
+//                    hideProgressDialog();
                     grandTotal = response.body().getGrandtotal();
                     subTotal = response.body().getSubtotal();
                     tax = response.body().getTax();
@@ -360,7 +376,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                     AppLogger.e("tax", "------------" + tax);
 
                 }else{
-                    hideProgressDialog();
+//                    hideProgressDialog();
                     btnContinue.setEnabled(false);
                     linNoData.setVisibility(View.VISIBLE);
                     btnContinue.setVisibility(View.INVISIBLE);
@@ -371,7 +387,6 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
             public void onFailure(@NonNull Call<CartServerDataItem> call, @NonNull Throwable t) {
                 progressBarCart.setVisibility(View.GONE);
             }
-
         });
     }
 }

@@ -26,6 +26,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
 import com.dealermela.download.activity.DownloadAct;
+import com.dealermela.home.activity.MainActivity;
 import com.dealermela.home.model.HeaderItem;
 import com.dealermela.listing_and_detail.activity.ListAct;
 import com.dealermela.order.activity.OrderDetailAct;
@@ -55,6 +56,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dealermela.cart.activity.OrderSummaryAct.Orderflag;
+import static com.dealermela.home.activity.MainActivity.GroupId;
 import static com.dealermela.home.activity.MainActivity.customerId;
 
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHolder> {
@@ -133,12 +136,20 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
             }else {
                 holder.tvcertificate.setText(Html.fromHtml("<b>" + "Certificate : " + " N/A " + "</b>"));
             }
-
         }
 
         holder.tvOrderNo.setText(Html.fromHtml("<b>" + "Order No : " + "</b> " + itemArrayList.get(i).getOrderno()));
         float price = Float.parseFloat(itemArrayList.get(i).getGrandTotal());
-        holder.tvGrandTotal.setText(Html.fromHtml("<b>" + "Grand Total : " + "</b> " + AppConstants.RS + CommonUtils.priceFormat(price)));
+
+        //Add This when user's grpid-6 And Invoicesetting is 0 so display subtotal value of order
+        if(itemArrayList.get(i).getInvoiceSetting() == "0" && GroupId == "6"){
+            holder.tvGrandTotal.setText(Html.fromHtml("<b>" + "Sub Total : " + "</b> " + AppConstants.RS + CommonUtils.priceFormat(price)));
+        }else if(itemArrayList.get(i).getInvoiceSetting() == null){
+            holder.tvGrandTotal.setText(Html.fromHtml("<b>" + "Grand Total : " + "</b> " + AppConstants.RS + CommonUtils.priceFormat(price)));
+        }else {
+            holder.tvGrandTotal.setText(Html.fromHtml("<b>" + "Grand Total : " + "</b> " + AppConstants.RS + CommonUtils.priceFormat(price)));
+        }
+
         holder.tvStatus.setText(itemArrayList.get(i).getOrderStatus());
 
         if (itemArrayList.get(i).getOrderStatus().equalsIgnoreCase("Canceled")) {
@@ -150,7 +161,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
 
         if (itemArrayList.get(i).getOrderStatus().equalsIgnoreCase("Pending")) {
             holder.imgPrint.setVisibility(View.GONE);
-            holder.imgCancel.setVisibility(View.GONE);
+            holder.imgCancel.setVisibility(View.VISIBLE);
             holder.imgView.setVisibility(View.VISIBLE);
             AppLogger.e("pending", "------");
         }
@@ -222,12 +233,10 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
                 activity.startActivity(intent);
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
-
         return itemArrayList.size();
     }
 
@@ -351,4 +360,15 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
             }
         });
     }
+
+////   Not working this
+//    public void onBackPressed(){
+//        AppLogger.e("MyOrderAdapter ","Back Pressed---");
+//        if(Orderflag == 1){
+//            Orderflag = 0;
+////            startNewActivity(MainActivity.class);
+//        }else {
+////            startNewActivity(MainActivity.class);
+//        }
+//    }
 }

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -67,16 +68,18 @@ public class SortByListRecyclerAdapter extends RecyclerView.Adapter<SortByListRe
 
     @Override
     public int getItemCount() {
-
         return itemArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         final TextView tvSortTitle;
+//        Button cancel1;
+
         ViewHolder(View itemView) {
             super(itemView);
             tvSortTitle=itemView.findViewById(R.id.tvSortTitle);
+//            cancel1=itemView.findViewById(R.id.cancel1);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
@@ -90,6 +93,5 @@ public class SortByListRecyclerAdapter extends RecyclerView.Adapter<SortByListRe
         public boolean onLongClick(View v) {
             return false;
         }
-
     }
 }

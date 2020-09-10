@@ -23,6 +23,7 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
     private final Activity activity;
     private final List<ProductDetailItem.BangleSize> itemArrayList;
     public static String bangleProductId = "";
+    public static String SizeValue = "";
     private ThemePreferences themePreferences;
 
     public BangleAdapter(Activity activity, List<ProductDetailItem.BangleSize> itemArrayList) {
@@ -41,6 +42,7 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int i) {
+
         holder.tvName.setText(itemArrayList.get(i).getLabel());
 
         if (themePreferences.getTheme().equalsIgnoreCase("black")) {
@@ -48,6 +50,8 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select_black));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
+                bangleProductId  = itemArrayList.get(i).getProductId();
+                SizeValue = itemArrayList.get(i).getValue();
             } else {
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect_black));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.white));
@@ -58,6 +62,8 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
+                bangleProductId  = itemArrayList.get(i).getProductId();
+                SizeValue = itemArrayList.get(i).getValue();
             } else {
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
@@ -67,6 +73,8 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
+                bangleProductId  = itemArrayList.get(i).getProductId();
+                SizeValue = itemArrayList.get(i).getValue();
             } else {
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
@@ -96,7 +104,7 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
 
         @Override
         public void onClick(View v) {
-            AppLogger.e("click", "-------" + getAdapterPosition());
+            AppLogger.e("Bangle_Adapter_click", "-------" + getAdapterPosition());
             int pos = getAdapterPosition();
             for (int i = 0; i < itemArrayList.size(); i++) {
                 ProductDetailItem.BangleSize bangleSize = itemArrayList.get(i);
@@ -107,8 +115,9 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
                 }
             }
             bangleProductId=itemArrayList.get(getAdapterPosition()).getProductId();
+            SizeValue=itemArrayList.get(getAdapterPosition()).getValue();
             ((ProductDetailAct) activity).cBangle=itemArrayList.get(getAdapterPosition()).getLabel();
-            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");
+            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"Bangle");
             notifyDataSetChanged();
         }
 

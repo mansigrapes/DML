@@ -141,58 +141,58 @@
 
     </RelativeLayout>
 
-    <View
-        style="@style/dotted_view_style_detail_page"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/two_dp" />
+<!--    <View-->
+<!--        style="@style/dotted_view_style_detail_page"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/two_dp" />-->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten_padding_margin"
-        android:paddingBottom="5sp">
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/ten_padding_margin"-->
+<!--        android:paddingBottom="5sp">-->
 
-        <com.dealermela.utility.DmlTextView
-            style="@style/product_full_detail_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/carat_rate" />
+<!--        <com.dealermela.utility.DmlTextView-->
+<!--            style="@style/product_full_detail_text"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/carat_rate" />-->
 
-        <com.dealermela.utility.DmlTextView
-            style="@style/product_full_detail_text"
-            android:id="@+id/tvDiamondCaratRate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            tools:ignore="RelativeOverlap" />
+<!--        <com.dealermela.utility.DmlTextView-->
+<!--            style="@style/product_full_detail_text"-->
+<!--            android:id="@+id/tvDiamondCaratRate"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            tools:ignore="RelativeOverlap" />-->
 
-    </RelativeLayout>
+<!--    </RelativeLayout>-->
 
-    <View
-        style="@style/dotted_view_style_detail_page"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/two_dp" />
+<!--    <View-->
+<!--        style="@style/dotted_view_style_detail_page"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/two_dp" />-->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten_padding_margin"
-        android:paddingBottom="5sp">
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/ten_padding_margin"-->
+<!--        android:paddingBottom="5sp">-->
 
-        <com.dealermela.utility.DmlTextView
-            style="@style/product_full_detail_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/estimated_value" />
+<!--        <com.dealermela.utility.DmlTextView-->
+<!--            style="@style/product_full_detail_text"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/estimated_value" />-->
 
-        <com.dealermela.utility.DmlTextView
-            style="@style/product_full_detail_text"
-            android:id="@+id/tvDiamondEstimatedPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            tools:ignore="RelativeOverlap" />
+<!--        <com.dealermela.utility.DmlTextView-->
+<!--            style="@style/product_full_detail_text"-->
+<!--            android:id="@+id/tvDiamondEstimatedPrice"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            tools:ignore="RelativeOverlap" />-->
 
-    </RelativeLayout>
+<!--    </RelativeLayout>-->
 
 </LinearLayout>

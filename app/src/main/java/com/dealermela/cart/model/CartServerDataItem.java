@@ -21,6 +21,9 @@ public class CartServerDataItem {
     @SerializedName("tax")
     @Expose
     private Integer tax;
+    @SerializedName("shipping_charge")
+    @Expose
+    private Integer shippingCharge;
 
     public String getStatus() {
         return status;
@@ -60,6 +63,14 @@ public class CartServerDataItem {
 
     public void setTax(Integer tax) {
         this.tax = tax;
+    }
+
+    public Integer getShippingCharge() {
+        return shippingCharge;
+    }
+
+    public void setShippingCharge(Integer shippingCharge) {
+        this.shippingCharge = shippingCharge;
     }
 
     public class Datum {

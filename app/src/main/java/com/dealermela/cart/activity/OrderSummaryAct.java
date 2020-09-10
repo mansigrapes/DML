@@ -1,6 +1,7 @@
 package com.dealermela.cart.activity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.activity.ForgotPasswordAct;
+import com.dealermela.authentication.myaccount.activity.ManageAddressAct;
 import com.dealermela.authentication.myaccount.dialog.MaintenanceDialogClass;
 import com.dealermela.authentication.myaccount.dialog.SuccessDialogClass;
 import com.dealermela.authentication.myaccount.dialog.SuccessOrderDialogClass;
@@ -30,6 +32,7 @@ import com.dealermela.cart.model.OrderSummaryItem;
 import com.dealermela.ccavenue.activity.WebViewActivity;
 import com.dealermela.ccavenue.utility.AvenuesParams;
 import com.dealermela.ccavenue.utility.ServiceUtility;
+import com.dealermela.home.activity.MainActivity;
 import com.dealermela.order.activity.OrderTabActivity;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
@@ -39,6 +42,7 @@ import com.dealermela.util.CommonUtils;
 import com.dealermela.util.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,8 +60,10 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
     private Button btnPlaceOrder;
     private TextView tvDefaultBillingAddress, tvDefaultShippingAddress, tvPaymentMethod, tvSubTotal, tvShippingCharge, tvTax, tvGrandTotal;
     private SharedPreferences sharedPreferences;
-    private String total,orderId;
+    private String total,orderId,order_flag;
     private String websiteOrderId,billingName,billingEmail,billingTel,billingAddress,billingZip,billingCity,billingState,billingCountry;
+    private String paymentMethod;
+    public static int Orderflag = 0;
 
     @Override
     protected int getLayoutResourceId() {
@@ -66,6 +72,7 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
 
     @Override
     public void init() {
+        paymentMethod = getIntent().getStringExtra(AppConstants.PAYMENT_TYPE);
         Integer randomNum = ServiceUtility.randInt(0, 9999999);
         orderId=String.valueOf(randomNum.toString());
         sharedPreferences = new SharedPreferences(OrderSummaryAct.this);
@@ -103,6 +110,13 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
 
     @Override
     public void loadData() {
+
+        if(!paymentMethod.equalsIgnoreCase("ccavenuepay")){
+            btnPlaceOrder.setText("Place Order");
+        }else {
+            btnPlaceOrder.setText("Continue");
+        }
+
         orderSummary();
     }
 
@@ -157,10 +171,10 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
         });
     }
 
-    private void placeOrder() {
+    private void placeOrder(String order_flag) {
         showProgressDialog(AppConstants.PLEASE_WAIT);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<JsonObject> callApi = apiInterface.placeOrder(customerId);
+        Call<JsonObject> callApi = apiInterface.placeOrder(customerId,order_flag);
         callApi.enqueue(new Callback<JsonObject>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -172,15 +186,32 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
-                        SuccessOrderDialogClass successDialogClass = new SuccessOrderDialogClass(OrderSummaryAct.this, jsonObject.getString("message"));
-                        successDialogClass.setCancelable(false);
-                        successDialogClass.show();
-                        Objects.requireNonNull(successDialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                        Objects.requireNonNull(successDialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                        SuccessOrderDialogClass successDialogClass = new SuccessOrderDialogClass(OrderSummaryAct.this, jsonObject.getString("message"));
+//                        successDialogClass.setCancelable(false);
+//                        successDialogClass.onClick();
+//                        successDialogClass.show();
+//                        Objects.requireNonNull(successDialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+//                        Objects.requireNonNull(successDialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                        cartCount = 0;
-                        Intent intent = new Intent(OrderSummaryAct.this, OrderTabActivity.class);
-                        startActivity(intent);
+                        new IOSDialog.Builder(OrderSummaryAct.this)
+                                .setTitle(jsonObject.getString("status"))
+                                .setMessage(jsonObject.getString("message"))
+                                .setCancelable(false)
+                                .setPositiveButton(OrderSummaryAct.this.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        cartCount = 0;
+                                        Orderflag = 1;
+                                        Intent intent = new Intent(OrderSummaryAct.this, OrderTabActivity.class);
+                                        startActivity(intent);
+//                                        finish();
+                                    }
+                                }).show();
+
+//                        cartCount = 0;
+//                        Intent intent = new Intent(OrderSummaryAct.this, OrderTabActivity.class);
+//                        startActivity(intent);
+
                     } else {
                     }
 
@@ -197,26 +228,39 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        AppLogger.e("OrderSummaryAct -","Resume---");
+        if(Orderflag == 1){
+            Orderflag = 0;
+            Intent intent = new Intent(OrderSummaryAct.this, MainActivity.class);
+            startActivity(intent);
+//            startNewActivity(MainActivity.class);
+//            finish();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnPlaceOrder:
                 if (tvPaymentMethod.getText().toString().equalsIgnoreCase("NEFT OR RTGS")){
-                    placeOrder();
+                    placeOrder(order_flag);
                 }else{
-                    ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-                    Call<JsonObject> callApi = apiInterface.placeOrder(customerId);
-                    callApi.enqueue(new Callback<JsonObject>() {
-                        @SuppressLint("SetTextI18n")
-                        @Override
-                        public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
-                            AppLogger.e(AppConstants.RESPONSE, "--------------" + response.body());
-                            hideProgressDialog();
-                            assert response.body() != null;
-                            hideProgressDialog();
-                            if(response.body() != null) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response.body().toString());
-                                    websiteOrderId  =  jsonObject.getString("order_id");
+//                    ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+//                    Call<JsonObject> callApi = apiInterface.placeOrder(customerId,order_flag);
+//                    callApi.enqueue(new Callback<JsonObject>() {
+//                        @SuppressLint("SetTextI18n")
+//                        @Override
+//                        public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+//                            AppLogger.e(AppConstants.RESPONSE, "--------------" + response.body());
+//                            hideProgressDialog();
+//                            assert response.body() != null;
+//                            hideProgressDialog();
+//                            if(response.body() != null) {
+//                                try {
+//                                    JSONObject jsonObject = new JSONObject(response.body().toString());
+//                                    websiteOrderId  =  jsonObject.getString("order_id");
                                     AppLogger.e("OrderSummarypage","Orderid ------"+orderId.toString());
                                     String vAccessCode = ServiceUtility.chkNull(AppConstants.ACCESS_CODE).toString().trim();
                                     String vMerchantId = ServiceUtility.chkNull(AppConstants.MERCHANT_ID).toString().trim();
@@ -244,32 +288,32 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
                                         intent.putExtra(AvenuesParams.billing_country, ServiceUtility.chkNull(billingCountry).toString().trim());
                                         intent.putExtra(AvenuesParams.billing_tel, ServiceUtility.chkNull(billingTel).toString().trim());
                                         intent.putExtra(AvenuesParams.billing_email, ServiceUtility.chkNull(billingEmail).toString().trim());
-
-                                        intent.putExtra(AvenuesParams.website_order_id, ServiceUtility.chkNull(websiteOrderId).toString().trim());
+                                        intent.putExtra(AvenuesParams.customer_id, ServiceUtility.chkNull(customerId).toString().trim());
+//                                        intent.putExtra(AvenuesParams.website_order_id, ServiceUtility.chkNull(websiteOrderId).toString().trim());
 
                                         startActivity(intent);
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }else {
-                                MaintenanceDialogClass dialogClass = new MaintenanceDialogClass(OrderSummaryAct.this);
-                                dialogClass.show();
-                                Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                                Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
-                            hideProgressDialog();
-                            MaintenanceDialogClass dialogClass = new MaintenanceDialogClass(OrderSummaryAct.this);
-                            dialogClass.show();
-                            Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                            Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        }
-                    });
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }else {
+//                                MaintenanceDialogClass dialogClass = new MaintenanceDialogClass(OrderSummaryAct.this);
+//                                dialogClass.show();
+//                                Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+//                                Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+//                            hideProgressDialog();
+//                            MaintenanceDialogClass dialogClass = new MaintenanceDialogClass(OrderSummaryAct.this);
+//                            dialogClass.show();
+//                            Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+//                            Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                        }
+//                    });
 
                 }
 
@@ -297,5 +341,4 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
 
         return super.onOptionsItemSelected(item);
     }
-
 }

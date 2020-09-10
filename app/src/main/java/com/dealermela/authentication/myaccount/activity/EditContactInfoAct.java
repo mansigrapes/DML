@@ -212,7 +212,12 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                 boolean valid = validateContactInfo();
                 if (valid) {
                     if (countryId.equalsIgnoreCase("IN")) {
-                        editContactInfo("abc", customerId, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), Objects.requireNonNull(edPanCard.getText()).toString(), Objects.requireNonNull(edGstIn.getText()).toString());
+                        if (spinnerState.getSelectedItem() == "Select State") {
+                            CommonUtils.showInfoToast(EditContactInfoAct.this, "Please select state.");
+                        } else {
+                            editContactInfo("abc", customerId, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), Objects.requireNonNull(edPanCard.getText()).toString(), Objects.requireNonNull(edGstIn.getText()).toString());
+                        }
+
                     }else{
                         if (TextUtils.isEmpty(Objects.requireNonNull(edState.getText()).toString())) {
                             edState.setError("Please enter state name.");
@@ -391,6 +396,7 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
         List<String> spinnerArray = new ArrayList<>();
 
         if (!stateArray.isEmpty()) {
+//            spinnerArray.add(0,"Select State");
             for (int i = 0; i <= stateArray.size() - 1; i++) {
                 spinnerArray.add(stateArray.get(i).getName());
             }
@@ -405,7 +411,6 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                 int spinnerPosition = adapter.getPosition(compareValue);
                 spinnerState.setSelection(spinnerPosition);
             }
-
         }
     }
 

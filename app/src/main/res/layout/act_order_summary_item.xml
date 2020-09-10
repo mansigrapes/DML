@@ -28,6 +28,13 @@
                 android:text="name" />
 
             <com.dealermela.utility.DmlTextView
+                android:id="@+id/tvcertificateNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Certificate No"
+                style="@style/order_table_text"/>
+
+            <com.dealermela.utility.DmlTextView
                 android:id="@+id/tvStoneQuality"
                 style="@style/order_table_text"
                 android:layout_width="match_parent"

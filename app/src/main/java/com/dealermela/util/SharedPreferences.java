@@ -85,6 +85,28 @@ public class SharedPreferences {
         editor.commit();
     }
 
+    //Get and Save  Order Changed Billing Address
+    public String getOrderBillingAddress() {
+        return sharedPreferences.getString(BILLING, "");
+    }
+
+    public void saveOrderBillingAddress(String data) {
+        editor.putString(BILLING, data);
+        editor.commit();
+    }
+
+
+    //Get and Save  Order Changed Shipping Address
+    public String getOrderShippingAddress() {
+        return sharedPreferences.getString(SHIPPING, "");
+    }
+
+    public void saveOrderShipping(String data) {
+        editor.putString(SHIPPING, data);
+        editor.commit();
+    }
+
+
     //Get and Save Shipping Address
     public String getPopularProducts() {
         return sharedPreferences.getString(POPULAR_PRODUCTS, "");

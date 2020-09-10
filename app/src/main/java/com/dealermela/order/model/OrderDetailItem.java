@@ -29,12 +29,17 @@ public class OrderDetailItem {
         this.data = data;
     }
 
-
     public class Datum {
 
+        @SerializedName("order_number")
+        @Expose
+        private String orderNumber;
+        @SerializedName("order_status")
+        @Expose
+        private String orderStatus;
         @SerializedName("order_date")
         @Expose
-        private String order_date;
+        private String orderDate;
         @SerializedName("order_subtotal")
         @Expose
         private String orderSubtotal;
@@ -43,10 +48,10 @@ public class OrderDetailItem {
         private String orderShippingamount;
         @SerializedName("oder_taxamount")
         @Expose
-        private String oderTaxamount;
+        private Integer oderTaxamount;
         @SerializedName("order_grandtotal")
         @Expose
-        private String orderGrandtotal;
+        private Integer orderGrandtotal;
         @SerializedName("order_item")
         @Expose
         private List<OrderItem> orderItem = null;
@@ -63,12 +68,28 @@ public class OrderDetailItem {
         @Expose
         private String paymentMethod;
 
-        public String getOrder_date() {
-            return order_date;
+        public String getOrderNumber() {
+            return orderNumber;
         }
 
-        public void setOrder_date(String order_date) {
-            this.order_date = order_date;
+        public void setOrderNumber(String orderNumber) {
+            this.orderNumber = orderNumber;
+        }
+
+        public String getOrderStatus() {
+            return orderStatus;
+        }
+
+        public void setOrderStatus(String orderStatus) {
+            this.orderStatus = orderStatus;
+        }
+
+        public String getOrderDate() {
+            return orderDate;
+        }
+
+        public void setOrderDate(String orderDate) {
+            this.orderDate = orderDate;
         }
 
         public String getOrderSubtotal() {
@@ -87,19 +108,19 @@ public class OrderDetailItem {
             this.orderShippingamount = orderShippingamount;
         }
 
-        public String getOderTaxamount() {
+        public Integer getOderTaxamount() {
             return oderTaxamount;
         }
 
-        public void setOderTaxamount(String oderTaxamount) {
+        public void setOderTaxamount(Integer oderTaxamount) {
             this.oderTaxamount = oderTaxamount;
         }
 
-        public String getOrderGrandtotal() {
+        public Integer getOrderGrandtotal() {
             return orderGrandtotal;
         }
 
-        public void setOrderGrandtotal(String orderGrandtotal) {
+        public void setOrderGrandtotal(Integer orderGrandtotal) {
             this.orderGrandtotal = orderGrandtotal;
         }
 
@@ -142,7 +163,6 @@ public class OrderDetailItem {
         public void setPaymentMethod(String paymentMethod) {
             this.paymentMethod = paymentMethod;
         }
-
     }
 
     public class OrderItem {
@@ -150,6 +170,18 @@ public class OrderDetailItem {
         @SerializedName("product_img")
         @Expose
         private String productImg;
+        @SerializedName("ringsize")
+        @Expose
+        private Object ringsize;
+        @SerializedName("bangleSize")
+        @Expose
+        private Object bangleSize;
+        @SerializedName("braceletsSize")
+        @Expose
+        private Object braceletsSize;
+        @SerializedName("pendentSize")
+        @Expose
+        private Object pendentSize;
         @SerializedName("product_name")
         @Expose
         private String productName;
@@ -182,7 +214,7 @@ public class OrderDetailItem {
         private String productRawtotal;
         @SerializedName("product_qty")
         @Expose
-        private String product_qty;
+        private String productQty;
         @SerializedName("CertificateNo")
         @Expose
         private String certificateNo;
@@ -193,6 +225,38 @@ public class OrderDetailItem {
 
         public void setProductImg(String productImg) {
             this.productImg = productImg;
+        }
+
+        public Object getRingsize() {
+            return ringsize;
+        }
+
+        public void setRingsize(Object ringsize) {
+            this.ringsize = ringsize;
+        }
+
+        public Object getBangleSize() {
+            return bangleSize;
+        }
+
+        public void setBangleSize(Object bangleSize) {
+            this.bangleSize = bangleSize;
+        }
+
+        public Object getBraceletsSize() {
+            return braceletsSize;
+        }
+
+        public void setBraceletsSize(Object braceletsSize) {
+            this.braceletsSize = braceletsSize;
+        }
+
+        public Object getPendentSize() {
+            return pendentSize;
+        }
+
+        public void setPendentSize(Object pendentSize) {
+            this.pendentSize = pendentSize;
         }
 
         public String getProductName() {
@@ -275,12 +339,12 @@ public class OrderDetailItem {
             this.productRawtotal = productRawtotal;
         }
 
-        public String getProduct_qty() {
-            return product_qty;
+        public String getProductQty() {
+            return productQty;
         }
 
-        public void setProduct_qty(String product_qty) {
-            this.product_qty = product_qty;
+        public void setProductQty(String productQty) {
+            this.productQty = productQty;
         }
 
         public String getCertificateNo() {

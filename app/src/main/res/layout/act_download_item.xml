@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground">
-
+    >
+<!--    android:background="?attr/selectableItemBackground"-->
     <LinearLayout
         android:id="@+id/linearLayout7"
         android:layout_width="0dp"
@@ -47,6 +47,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-5dp"
                 android:padding="@dimen/five_sp"
+                android:visibility="gone"
                 app:srcCompat="@drawable/ic_new_black_24dp" />
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -73,7 +74,8 @@
                 android:id="@+id/checkDownloadProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/two_dp" />
+                android:layout_marginStart="@dimen/two_dp"
+                android:buttonTint="?editTextTextColor"/>
 
         </RelativeLayout>
 

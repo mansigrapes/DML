@@ -30,7 +30,7 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
     private final Activity activity;
     private final List<ProductDetailItem.RtsSlider> itemArrayList;
     private ProductDetailItem.RtsSlider rtsSlider;
-    private int flag = 0;
+    public static int Rtsflag = 0;
     private ThemePreferences themePreferences;
 
     public RTSRecyclerAdapter(Activity activity, List<ProductDetailItem.RtsSlider> itemArrayList) {
@@ -66,17 +66,37 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
 
         if(itemArrayList.get(i).getRtsRingSize() != null) {
             holder.tvSize.setText(itemArrayList.get(i).getRtsRingSize());
-        }else{
+        }else if(itemArrayList.get(i).getRtsBangleSize() != null){
+            holder.tvSize.setText( itemArrayList.get(i).getRtsBangleSize().toString());
+        } else {
             holder.tvSize.setText("-");
         }
 
         rtsSlider = itemArrayList.get(i);
 
-        if (flag == 0) {
+        if (Rtsflag == 0) {
             if (((ProductDetailAct) activity).productType.equalsIgnoreCase("simple")) {
                 if (rtsSlider.getEntityId().equalsIgnoreCase(((ProductDetailAct) activity).productId)) {
                     rtsSlider.setSelected(true);
-                    flag = 1;
+                    Rtsflag = 1;
+                    AppLogger.e("selected item", "----------" + rtsSlider.getEntityId());
+
+                    ((ProductDetailAct) activity).cProductId = rtsSlider.getEntityId();
+                    ((ProductDetailAct) activity).cSku = rtsSlider.getOriginalSku();
+                    ((ProductDetailAct) activity).cRingSize = rtsSlider.getRtsRingSize();
+                    ((ProductDetailAct) activity).cBangle = String.valueOf(rtsSlider.getRtsBangleSize());
+                    ((ProductDetailAct) activity).cBracelet = String.valueOf(rtsSlider.getRtsBraceletSize());
+                    ((ProductDetailAct) activity).cMetalDetail = rtsSlider.getMetalQualityValue();
+                    ((ProductDetailAct) activity).cStoneDetail = rtsSlider.getRtsStoneQuality();
+                    ((ProductDetailAct) activity).cStoneWeight = String.valueOf(rtsSlider.getDiamondWeight());
+                    ((ProductDetailAct) activity).cPrice = rtsSlider.getCustomPrice();
+                    ((ProductDetailAct) activity).rtsClick(rtsSlider.getEntityId());
+                    ((ProductDetailAct) activity).tvColorGold.setText(itemArrayList.get(i).getMetalQualityValue());
+                }
+            } else{  // Add this condition bcz when product is customize than also any 1 RTS slider is selected at page load time so thats why give this condition on listing's product id
+                if (rtsSlider.getEntityId().equalsIgnoreCase(((ProductDetailAct) activity).productId)) {
+                    rtsSlider.setSelected(true);
+                    Rtsflag = 1;
                     AppLogger.e("selected item", "----------" + rtsSlider.getEntityId());
 
                     ((ProductDetailAct) activity).cProductId = rtsSlider.getEntityId();
@@ -164,7 +184,6 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
                 holder.tvStoneTitle.setTextColor(activity.getResources().getColor(R.color.black));
                 holder.tvDiamondWeightTitle.setTextColor(activity.getResources().getColor(R.color.black));
                 holder.tvSizeTitle.setTextColor(activity.getResources().getColor(R.color.black));
-
             }
         }
     }
@@ -222,6 +241,7 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
             ((ProductDetailAct) activity).cPrice = itemArrayList.get(getAdapterPosition()).getCustomPrice();
             ((ProductDetailAct) activity).rtsClick(itemArrayList.get(getAdapterPosition()).getEntityId());
             ((ProductDetailAct) activity).tvColorGold.setText(itemArrayList.get(getAdapterPosition()).getMetalQualityValue());
+            ((ProductDetailAct) activity).productType = itemArrayList.get(getAdapterPosition()).getTypeId();
 
             notifyDataSetChanged();
         }

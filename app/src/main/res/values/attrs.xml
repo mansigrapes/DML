@@ -19,7 +19,7 @@
     </declare-styleable>
 
     <attr name="login_signup_text_color" format="color"/>
-
+    <attr name="dropdown_color" format="color"/>
     <attr name="drawer_view_color" format="color"/>
 
     <attr name="active_item_color" format="color"/>

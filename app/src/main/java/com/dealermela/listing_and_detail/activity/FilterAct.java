@@ -33,7 +33,6 @@ import java.util.List;
 import static com.dealermela.inventary.activity.InventoryListAct.InvfilterSelectItems;
 import static com.dealermela.listing_and_detail.activity.ListAct.filterSelectItems;
 
-
 public class FilterAct extends DealerMelaBaseActivity implements View.OnClickListener {
     private ListView listViewFilter;
     private FilterTitleListAdapter adapter;
@@ -50,7 +49,9 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     public static HashMap<String, String> mapFilter = new HashMap<String, String>();
     public static HashMap<String, String> selectFilter = new HashMap<String, String>();
     public static String paramKey;
+    public static String skuFilterString;
     public static int filterFlag = 0;
+    public static int pagecountflag = 0 ;
     private ProgressBar progressBarFilter;
 //    private HorizontalScrollView hsView;
 //    private GridLayout linContainer;
@@ -92,12 +93,12 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         linearLayoutManager = new LinearLayoutManager(FilterAct.this);
         recycleViewFilterData.setLayoutManager(linearLayoutManager);
 
-        if (mapFilter.isEmpty()) {
-
-        } else {
-//            bindSelectFilter();
-            countFilter();
-        }
+//        if (mapFilter.isEmpty()) {
+//
+//        } else {
+////            bindSelectFilter();
+//            countFilter();
+//        }
     }
 
     @Override
@@ -106,17 +107,16 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         tvReset.setOnClickListener(this);
         btnApply.setOnClickListener(this);
 
-        if (mapFilter.containsKey(paramKey)) {
-            //key exists
-            String key = mapFilter.get(paramKey);
-            edText.setText(key);
-//            adapter.items.get(0).setFiltercount(1);
-        } else {
-            //key does not exists
-            mapFilter.put(paramKey, "");
-            selectFilter.put(paramKey, "");
-
-        }
+//        if (mapFilter.containsKey(paramKey)) {
+//            //key exists
+//            String key = mapFilter.get(paramKey);
+//            edText.setText(key);
+////            adapter.items.get(0).setFiltercount(1);
+//        } else {
+//            //key does not exists
+////            mapFilter.put(paramKey, "");
+////            selectFilter.put(paramKey, "");
+//        }
 
         listViewFilter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -129,35 +129,52 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                     edText.setVisibility(View.VISIBLE);
                     recycleViewFilterData.setVisibility(View.GONE);
 
-                    paramKey = filterSelectItems.get(position).getOptionName();
-                    if (mapFilter.containsKey(paramKey)) {
-                        //key exists
-                        String key = mapFilter.get(paramKey);
-                        edText.setText(key);
-                        adapter.items.get(position).setFiltercount(1);
-                    } else {
-                        //key does not exists
-                        mapFilter.put(paramKey, "");
-                        selectFilter.put(paramKey, "");
-                        adapter.items.get(position).setFiltercount(0);
-                    }
+                    if(!edText.getText().toString().isEmpty()) {
 
+//                        paramKey = filterSelectItems.get(position).getOptionName();
+//                        if (mapFilter.containsKey(paramKey)) {
+//                            //key exists
+//                            String key = mapFilter.get(paramKey);
+//                            edText.setText(key);
+//                            adapter.items.get(position).setFiltercount(1);
+//                        } else {
+//                            //key does not exists
+//                            mapFilter.put(paramKey, "");
+//                            selectFilter.put(paramKey, "");
+//                            adapter.items.get(position).setFiltercount(0);
+//                        }
+
+                        if(!skuFilterString.isEmpty()){
+                            edText.setText(skuFilterString);
+                            adapter.items.get(position).setFiltercount(1);
+                        }else{
+                            adapter.items.get(position).setFiltercount(0);
+                        }
+                    }else {
+                        if(skuFilterString.isEmpty()){
+                            adapter.items.get(position).setFiltercount(0);
+                        }
+                    }
                 } else {
 
                     edText.setVisibility(View.GONE);
                     recycleViewFilterData.setVisibility(View.VISIBLE);
 
-                    paramKey = filterSelectItems.get(position).getOptionName();
-                    if (mapFilter.containsKey(paramKey)) {
-                        //key exists
-                    } else {
-                        //key does not exists
-                        mapFilter.put(paramKey, "");
-                    }
+//                    paramKey = filterSelectItems.get(position).getOptionName();
+//                    if (mapFilter.containsKey(paramKey)) {
+//                        //key exists
+//                    } else {
+//                        //key does not exists
+//                        mapFilter.put(paramKey, "");
+//                    }
                     pos = position;
                     filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, filterSelectItems.get(position).getOptionData());
                     recycleViewFilterData.setAdapter(filterRecyclerAdapter);
                 }
+
+//                btnApply.setEnabled(true);
+//                btnApply.setBackgroundColor(getResources().getColor(R.color.dml_logo_color));
+//                btnApply.setTextColor(getResources().getColor(R.color.white));
             }
         });
 
@@ -166,28 +183,76 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         edText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                mapFilter.put(paramKey, edText.getText().toString());
-                selectFilter.put(paramKey, edText.getText().toString());
+//                mapFilter.put(paramKey, edText.getText().toString());
+//                selectFilter.put(paramKey, edText.getText().toString());
+                skuFilterString = edText.getText().toString();
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                btnApply.setEnabled(true);
+                btnApply.setBackgroundColor(getResources().getColor(R.color.dml_logo_color));
+                btnApply.setTextColor(getResources().getColor(R.color.white));
             }
             @Override
             public void afterTextChanged(Editable s) {
-
+                if(edText.getText().toString().isEmpty()){
+                    skuFilterString = "";
+                    adapter.items.get(4).setFiltercount(0);
+                    for(int k = 0 ; k < filterSelectItems.size() ; k++){
+                        if(filterSelectItems.get(k).getFiltercount() > 0) {
+                            btnApply.setEnabled(true);
+                            btnApply.setBackgroundColor(getResources().getColor(R.color.dml_logo_color));
+                            btnApply.setTextColor(getResources().getColor(R.color.white));
+                        }
+//                        else {
+//                            btnApply.setEnabled(false);
+//                            btnApply.setBackgroundColor(getResources().getColor(R.color.in_active_item_color));
+//                            btnApply.setTextColor(getResources().getColor(R.color.colorBack));
+//                        }
+                    }
+                }else {
+                    skuFilterString = edText.getText().toString();
+                    adapter.items.get(4).setFiltercount(1);
+                    btnApply.setEnabled(true);
+                    btnApply.setBackgroundColor(getResources().getColor(R.color.dml_logo_color));
+                    btnApply.setTextColor(getResources().getColor(R.color.white));
+                }
             }
         });
     }
 
     @Override
     public void loadData() {
+
+//        if (mapFilter.containsKey(paramKey)) {
+//            //key exists
+//            String key = mapFilter.get(paramKey);
+//            edText.setText(key);
+////            adapter.items.get(0).setFiltercount(1);
+//        } else {
+//            //key does not exists
+////            mapFilter.put(paramKey, "");
+////            selectFilter.put(paramKey, "");
+//        }
+
         adapter = new FilterTitleListAdapter(FilterAct.this, filterSelectItems);
         listViewFilter.setAdapter(adapter);
         tvReset.setEnabled(true);
         filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, filterSelectItems.get(0).getOptionData());
         recycleViewFilterData.setAdapter(filterRecyclerAdapter);
-        btnApply.setEnabled(true);
+
+        if(filterFlag == 0) {
+            skuFilterString = "";
+            adapter.items.get(4).setFiltercount(0);
+            btnApply.setEnabled(false);
+            btnApply.setBackgroundColor(getResources().getColor(R.color.in_active_item_color));
+            btnApply.setTextColor(getResources().getColor(R.color.colorBack));
+        }else if (filterFlag == 1){
+            if(skuFilterString != ""){
+                edText.setText(skuFilterString);
+                adapter.items.get(4).setFiltercount(1);
+            }
+        }
         countFilter();
     }
 
@@ -202,15 +267,36 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, filterSelectItems.get(0).getOptionData());
                 recycleViewFilterData.setAdapter(filterRecyclerAdapter);
                 edText.setText("");
-                mapFilter.put(paramKey, "");
-                selectFilter.put(paramKey, "");
+                edText.setVisibility(View.GONE);
+                recycleViewFilterData.setVisibility(View.VISIBLE);
+                skuFilterString = "";
+                adapter.items.get(4).setFiltercount(0);
+//                mapFilter.clear();
+//                paramKey = "";
+                selectFilter.clear();
+
+                pagecountflag = 1;
+
+                btnApply.setEnabled(false);
+                btnApply.setBackgroundColor(getResources().getColor(R.color.in_active_item_color));
+                btnApply.setTextColor(getResources().getColor(R.color.colorBack));
+
+//                mapFilter.put(paramKey, "");
+//                selectFilter.put(paramKey, "");
 //                bindSelectFilter();
                 countFilter();
 //                filterFlag = 0;
                 break;
 
             case R.id.imgBack:
-
+                if(filterFlag != 1){
+                    resetFilter();
+                    edText.setText("");
+                    edText.setVisibility(View.GONE);
+                    recycleViewFilterData.setVisibility(View.VISIBLE);
+                    skuFilterString = "";
+                    adapter.items.get(4).setFiltercount(0);
+                }
                 finish();
                 break;
 
@@ -220,13 +306,24 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
 //                }else{
 //                    filterFlag = 0;
 //                }
+
                 for(int j = 0 ; j < filterSelectItems.size() ; j++){          // Filter: click reset button & then click apply,without selecting any filter then all listing items display
                     if(filterSelectItems.get(j).getFiltercount()!= 0) {
                         filterFlag = 1;
+                        pagecountflag = 1;
+                        finish();
                     }
-                    if (mapFilter.containsKey(paramKey)) {
-                        filterFlag =  1;
 
+//                    if (mapFilter.containsKey(paramKey)) {
+//                        filterFlag =  1;
+//                        finish();
+//                    }
+
+                    if(!skuFilterString.isEmpty()){
+                        filterFlag = 1;
+                        pagecountflag = 1;
+//                        adapter.items.get(4).setFiltercount(1);
+                        finish();
                     }
                 }
 //                if(edText.getText().toString()!=null){
@@ -235,8 +332,6 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
 //                    }
 //                    filterFlag = 1;
 //                }
-
-                finish();
                 break;
         }
     }
@@ -278,6 +373,24 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         if(filterFlag == 0){
             resetFilter();
             countFilter();
+
+            btnApply.setEnabled(false);
+            btnApply.setBackgroundColor(getResources().getColor(R.color.in_active_item_color));
+            btnApply.setTextColor(getResources().getColor(R.color.colorBack));
+
+        }else if(filterFlag == 1){
+            if(skuFilterString != ""){
+                edText.setText(skuFilterString);
+                adapter.items.get(4).setFiltercount(1);
+            }
+            btnApply.setEnabled(true);
+            btnApply.setBackgroundColor(getResources().getColor(R.color.dml_logo_color));
+            btnApply.setTextColor(getResources().getColor(R.color.white));
+
+        } else if(filterFlag == 2){
+            btnApply.setEnabled(false);
+            btnApply.setBackgroundColor(getResources().getColor(R.color.in_active_item_color));
+            btnApply.setTextColor(getResources().getColor(R.color.colorBack));
         }
     }
 
@@ -418,6 +531,24 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
 
     public void updateFilterData(int position, boolean selectFlag) {
         filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).setSelected(selectFlag);
-
+        if(selectFlag == true){
+            btnApply.setEnabled(true);
+            btnApply.setBackgroundColor(getResources().getColor(R.color.dml_logo_color));
+            btnApply.setTextColor(getResources().getColor(R.color.white));
+        }
+        else {
+            for(int k = 0 ; k < filterSelectItems.size() ; k++) {
+                if (filterSelectItems.get(k).getFiltercount() == 0) {
+                    btnApply.setEnabled(false);
+                    btnApply.setBackgroundColor(getResources().getColor(R.color.in_active_item_color));
+                    btnApply.setTextColor(getResources().getColor(R.color.colorBack));
+                }else {
+                    btnApply.setEnabled(true);
+                    btnApply.setBackgroundColor(getResources().getColor(R.color.dml_logo_color));
+                    btnApply.setTextColor(getResources().getColor(R.color.white));
+                    break;
+                }
+            }
+        }
     }
 }

@@ -49,6 +49,4 @@ public class SuccessDialogClass extends Dialog implements View.OnClickListener {
         }
         dismiss();
     }
-
-
 }

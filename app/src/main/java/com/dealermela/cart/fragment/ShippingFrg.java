@@ -83,6 +83,8 @@ public class ShippingFrg extends DealerMelaBaseFragment implements View.OnClickL
 
     @Override
     public void loadData() {
+        tvDefaultBillingAddress.setText(sharedPreferences.getBillingAddress());
+        tvDefaultShippingAddress.setText(sharedPreferences.getShippingAddress());
     }
 
     @Override
@@ -112,11 +114,10 @@ public class ShippingFrg extends DealerMelaBaseFragment implements View.OnClickL
         }
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
-        tvDefaultBillingAddress.setText(sharedPreferences.getBillingAddress());
-        tvDefaultShippingAddress.setText(sharedPreferences.getShippingAddress());
+        tvDefaultBillingAddress.setText(sharedPreferences.getOrderBillingAddress());
+        tvDefaultShippingAddress.setText(sharedPreferences.getOrderShippingAddress());
     }
 }

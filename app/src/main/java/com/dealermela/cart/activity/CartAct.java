@@ -16,6 +16,8 @@ import com.dealermela.cart.fragment.ShippingFrg;
 import com.dealermela.cart.fragment.ShoppingFrg;
 
 import static com.dealermela.authentication.myaccount.activity.LoginAct.cartbackFlag;
+import static com.dealermela.authentication.myaccount.activity.LoginAct.fragment;
+
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.cartCheckBugNowFlag;
 import static com.dealermela.other.activity.SplashAct.loginFlag;
 
@@ -46,7 +48,8 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+//        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,18 +108,25 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
 //                fragment = new ShoppingFrg();
 //                replaceCartFragment(fragment);
 //                imgMyCart.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+//                tvShipping.setTextColor(R.color.in_active_item_color);
+//                tvShipping.setTextColor(getResources().getColor(R.color.in_active_item_color));
+//                tvPayment.setTextColor(getResources().getColor(R.color.in_active_item_color));
                 break;
 
             case R.id.tvShipping:
 //                fragment = new ShippingFrg();
 //                replaceCartFragment(fragment);
 //                imgShipping.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+//                tvMyCart.setTextColor(getResources().getColor(R.color.in_active_item_color));
+//                tvPayment.setTextColor(getResources().getColor(R.color.in_active_item_color));
                 break;
 
             case R.id.tvPayment:
 //                fragment = new PaymentFrg();
 //                replaceCartFragment(fragment);
 //               imgPayment.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+//                tvMyCart.setTextColor(getResources().getColor(R.color.in_active_item_color));
+//                tvShipping.setTextColor(getResources().getColor(R.color.in_active_item_color));
                 break;
         }
     }
@@ -133,22 +143,30 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
         cartCheckBugNowFlag=0;
 
         if(cartbackFlag == 1){
-            cartbackFlag = 0;
-            finish();
-
+//            cartbackFlag = 0;
+//            finish();
             int fragments = getSupportFragmentManager().getBackStackEntryCount();
             if (fragments == 1) {
-                getFragmentManager().popBackStack();
-                super.onBackPressed();
+                cartbackFlag = 2;
+                Fragment fragment = null;
+                fragment = new ShoppingFrg();
+                replaceCartFragment(fragment);
+
+//                finish();
+//                getSupportFragmentManager().popBackStack();
+//                super.onBackPressed();
             } else if (getFragmentManager().getBackStackEntryCount() > 1) {
                 getFragmentManager().popBackStack();
-                super.onBackPressed();
+//                super.onBackPressed();
             } else {
                 super.onBackPressed();
             }
-            super.onBackPressed();
-        } else {
+//            super.onBackPressed();
+        }else if(cartbackFlag == 2){
+            cartbackFlag = 0;
             finish();
+        } else {
+//            finish();
             int fragments = getSupportFragmentManager().getBackStackEntryCount();
             if (fragments == 1) {
                 finish();
@@ -158,7 +176,7 @@ public class CartAct extends DealerMelaBaseActivity implements View.OnClickListe
                 super.onBackPressed();
             }
         }
-        finish();
+//        finish();
     }
 
     //Option menu

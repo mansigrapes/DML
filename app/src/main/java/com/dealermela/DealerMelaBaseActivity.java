@@ -144,7 +144,8 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
 
         }
 
-        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+//        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -332,7 +333,6 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -341,7 +341,12 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
         if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
             databaseCartAdapter.openDatabase();
             Cursor c = databaseCartAdapter.getAllValues();
-            cartCount = c.getCount();
+//            cartCount = c.getCount();
+            if(c.getCount() > 0 ) {
+                cartCount = Integer.parseInt(c.getString(c.getColumnIndex("total_item")));
+            }else {
+                cartCount = 0;
+            }
 //            cartCount = totalqty;           //comment this bcz it increase every time when this page & shipping cart opens
   /*          for (int i = 0; i < c.getCount(); i++) {
                 totalitem = totalitem + Integer.parseInt(c.getString(c.getColumnIndex("qty")));
@@ -389,8 +394,6 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
             }
-
         });
     }
-
 }

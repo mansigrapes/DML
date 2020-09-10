@@ -1,6 +1,7 @@
 package com.dealermela.cart.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.dealermela.cart.adapter.PaymentSelectAdapter;
 import com.dealermela.cart.adapter.ShippingChargeAdapter;
 import com.dealermela.cart.fragment.PaymentFrg;
 import com.dealermela.cart.model.SelectPaymentItem;
+import com.dealermela.home.activity.MainActivity;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
@@ -27,19 +29,21 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dealermela.cart.activity.OrderSummaryAct.Orderflag;
 import static com.dealermela.home.activity.MainActivity.customerId;
 
 public class ShippingChargeAct extends DealerMelaBaseActivity implements View.OnClickListener {
 
     private RecyclerView recycleViewShippingCharge;
     private Button btnContinue;
-    private String paymentType;
+    private String paymentType,refreshcode,refreshprice;
 
     @Override
     protected int getLayoutResourceId() {
@@ -91,14 +95,16 @@ public class ShippingChargeAct extends DealerMelaBaseActivity implements View.On
     public void getSelectShipping(String code, String price) {
 
         paymentSave(paymentType, code, price);
-
+        refreshcode = code;
+        refreshprice = price;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnContinue:
-                startNewActivity(OrderSummaryAct.class);
+                refreshPaymentsave(paymentType, refreshcode, refreshprice);  // called second time method because  From API side not saving data 1st time proper
+//                startNewActivity(OrderSummaryAct.class);
                 break;
         }
     }
@@ -130,9 +136,47 @@ public class ShippingChargeAct extends DealerMelaBaseActivity implements View.On
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 hideProgressDialog();
+                AppLogger.e("Error Saving Shipping Method ","---" + t.getMessage());
             }
         });
     }
+
+   private void refreshPaymentsave(String payment_method, String shipping_method, String shipping_price){
+       showProgressDialog(AppConstants.PLEASE_WAIT);
+       ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+       Call<JsonObject> callApi = apiInterface.savePayment(customerId, payment_method, shipping_method, shipping_price);
+       callApi.enqueue(new Callback<JsonObject>() {
+           @SuppressLint("SetTextI18n")
+           @Override
+           public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+               AppLogger.e(AppConstants.RESPONSE, "--------------" + response.body());
+               hideProgressDialog();
+               assert response.body() != null;
+               try {
+                   JSONObject jsonObject = new JSONObject(response.body().toString());
+                   if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+//                       btnContinue.setEnabled(true);
+//                       btnContinue.setVisibility(View.VISIBLE);
+                       Intent intent = new Intent(ShippingChargeAct.this, OrderSummaryAct.class);
+                       intent.putExtra(AppConstants.PAYMENT_TYPE, paymentType);
+                       startNewActivityWithIntent(intent);
+//                       startNewActivity(OrderSummaryAct.class);
+                   } else {
+//                       btnContinue.setEnabled(false);
+                   }
+               } catch (JSONException e) {
+                   e.printStackTrace();
+               }
+           }
+
+           @Override
+           public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+               hideProgressDialog();
+               AppLogger.e("Error Saving Refresh Payment save Method ","---" + t.getMessage());
+           }
+       });
+
+   }
 
     //Option menu
     @Override
@@ -153,4 +197,16 @@ public class ShippingChargeAct extends DealerMelaBaseActivity implements View.On
         }
         return super.onOptionsItemSelected(item);
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        AppLogger.e("ShippingChargeAct -","Resume---");
+//        if(Orderflag == 1){
+//            Intent intent = new Intent(ShippingChargeAct.this,MainActivity.class);
+//            startActivity(intent);
+////            startNewActivity(MainActivity.class);
+////            finish();
+//        }
+//    }
 }

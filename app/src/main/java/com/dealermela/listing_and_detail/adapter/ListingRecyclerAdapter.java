@@ -10,10 +10,12 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -72,102 +74,114 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
 
-        if (itemArrayList.get(i).getTypeId().equalsIgnoreCase("simple")) {
-            if (Integer.parseInt(itemArrayList.get(i).getQty()) > 1) {
-                holder.tvQty.setVisibility(View.VISIBLE);
-                holder.tvQty.setText("QTY " + itemArrayList.get(i).getQty());
-            } else {
-                holder.tvQty.setVisibility(View.GONE);
+//        if(!itemArrayList.get(i).getEntityId().equalsIgnoreCase("1430433")) {
+            holder.mainLayout.setVisibility(View.VISIBLE);
+
+            //Commented On 02/09/2020  Bcz Qty Label Not displaying from now
+//            if (itemArrayList.get(i).getTypeId().equalsIgnoreCase("simple")) {
+//                if (Integer.parseInt(itemArrayList.get(i).getQty()) > 1) {
+//                    holder.tvQty.setVisibility(View.VISIBLE);
+//                    holder.tvQty.setText("QTY " + itemArrayList.get(i).getQty());
+//                } else {
+//                    holder.tvQty.setVisibility(View.GONE);
+//                }
+//            } else {
+//                holder.tvQty.setVisibility(View.GONE);
+//            }
+
+            sharedPreferences = new SharedPreferences(activity);
+            if(sharedPreferences.getLoginData().equalsIgnoreCase("")){
+                holder.imgDownload.setVisibility(View.GONE);
+            }else
+            {
+                AppLogger.e("DownloadFlag_Sharedpreference","---" + sharedPreferences.getDownloadFlag());
+                holder.imgDownload.setVisibility(View.VISIBLE);
             }
-        } else {
-            holder.tvQty.setVisibility(View.GONE);
-        }
 
-        sharedPreferences = new SharedPreferences(activity);
-        if(sharedPreferences.getLoginData().equalsIgnoreCase("")){
-            holder.imgDownload.setVisibility(View.GONE);
-        }else
-        {
-            AppLogger.e("DownloadFlag_Sharedpreference","---" + sharedPreferences.getDownloadFlag());
-            holder.imgDownload.setVisibility(View.VISIBLE);
-        }
+            //Temporarly Comment on 09-09-2020 bcz no use of stock parameter in listing page
+//            if (itemArrayList.get(i).getStock().equalsIgnoreCase("0")) {
+////            holder.tvSoldOut.setVisibility(View.VISIBLE);
+//                holder.tvSoldOut.setVisibility(View.GONE);
+//                holder.tvStockIn.setVisibility(View.GONE);
+//            } else if (itemArrayList.get(i).getStock().equalsIgnoreCase("1")) {
+//                holder.tvSoldOut.setVisibility(View.GONE);
+//                holder.tvStockIn.setVisibility(View.GONE);
+////            holder.tvStockIn.setVisibility(View.VISIBLE);
+//            }
 
-        if (itemArrayList.get(i).getStock().equalsIgnoreCase("0")) {
-//            holder.tvSoldOut.setVisibility(View.VISIBLE);
-            holder.tvSoldOut.setVisibility(View.GONE);
-            holder.tvStockIn.setVisibility(View.GONE);
-        } else if (itemArrayList.get(i).getStock().equalsIgnoreCase("1")) {
-            holder.tvSoldOut.setVisibility(View.GONE);
-            holder.tvStockIn.setVisibility(View.GONE);
-//            holder.tvStockIn.setVisibility(View.VISIBLE);
-        }
+            holder.tvName.setText(itemArrayList.get(i).getName());
+            String[] sku = itemArrayList.get(i).getSku().split(" ");
 
-        holder.tvName.setText(itemArrayList.get(i).getName());
-        String[] sku = itemArrayList.get(i).getSku().split(" ");
+            AppLogger.e("sku", "------------" + itemArrayList.get(i).getSku());
+            AppLogger.e("sku", "------------" + sku);
+            StringBuilder stringBuilder = new StringBuilder();
 
-        AppLogger.e("sku", "------------" + itemArrayList.get(i).getSku());
-        AppLogger.e("sku", "------------" + sku);
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (int j = 0; j <= sku.length - 1; j++) {
-            if (j == 1) {
-                stringBuilder.append(sku[j]);
-                stringBuilder.append(" ");
-            }
+            for (int j = 0; j <= sku.length - 1; j++) {
+                if (j == 1) {
+                    stringBuilder.append(sku[j]);
+                    stringBuilder.append(" ");
+                }
             /*if (j > 1) {
                 stringBuilder.append(sku[j].charAt(0));
             }*/
-        }
-
-        float price = itemArrayList.get(i).getCustomPrice();
-        holder.tvSku.setText(sku[0]);
-        holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
-        holder.tvGold.setText(stringBuilder);
-
-        Glide.with(activity)
-                .load(AppConstants.IMAGE_URL + "catalog/product" + itemArrayList.get(i).getThumbnail())
-//                .load(itemArrayList.get(i).getImages())
-                .apply(new RequestOptions().placeholder(R.drawable.diamondmela_logo).error(R.drawable.diamondmela_logo))
-                .into(holder.imgProduct);
-
-        AppLogger.e("getDownload_flag()","-----------"+itemArrayList.get(i).getDownloadFlag());
-
-        if (itemArrayList.get(i).getDownloadFlag() == 1) {
-            holder.imgDownload.setEnabled(false);
-            holder.imgDownload.setColorFilter(ContextCompat.getColor(activity, R.color.download_disabled), android.graphics.PorterDuff.Mode.SRC_IN);
-        } else if (itemArrayList.get(i).getDownloadFlag() == 0) {
-            holder.imgDownload.setEnabled(true);
-            holder.imgDownload.setColorFilter(ContextCompat.getColor(activity, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
-        }
-
-        holder.imgDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (sharedPreferences.getLoginData().equalsIgnoreCase("")){
-                    Snackbar snackBar = Snackbar
-                            .make(v, "Please first login", Snackbar.LENGTH_LONG)
-                            .setAction("Login", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    loginFlag = 0;
-                                    Intent intent = new Intent(activity, LoginAct.class);
-                                    activity.startActivity(intent);
-                                }
-                            });
-                    snackBar.setActionTextColor(Color.RED);
-                    View snackBarView = snackBar.getView();
-//                    snackBarView.setBackgroundColor(Color.DKGRAY);
-                    TextView textView = snackBarView.findViewById(android.support.design.R.id.snackbar_text);
-                    textView.setTextColor(Color.WHITE);
-                    snackBar.show();
-
-                }else {
-                    downloadProduct(customerId, itemArrayList.get(i).getEntityId());
-                    itemArrayList.get(i).setDownloadFlag(1);
-                    notifyItemChanged(i);
-                }
             }
-        });
+
+            float price = itemArrayList.get(i).getCustomPrice();
+            holder.tvSku.setText(sku[0]);
+            holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
+            holder.tvGold.setText(stringBuilder);
+
+            Glide.with(activity)
+                    .load(AppConstants.IMAGE_URL + "catalog/product" + itemArrayList.get(i).getThumbnail())
+//                .load(itemArrayList.get(i).getImages())
+                    .apply(new RequestOptions().placeholder(R.drawable.diamondmela_logo).error(R.drawable.diamondmela_logo))
+                    .into(holder.imgProduct);
+
+            AppLogger.e("getDownload_flag()","-----------"+itemArrayList.get(i).getDownloadFlag());
+
+            if (itemArrayList.get(i).getDownloadFlag() == 1) {
+                holder.imgDownload.setEnabled(false);
+                holder.imgDownload.setColorFilter(ContextCompat.getColor(activity, R.color.download_disabled), android.graphics.PorterDuff.Mode.SRC_IN);
+            } else if (itemArrayList.get(i).getDownloadFlag() == 0) {
+                holder.imgDownload.setEnabled(true);
+                holder.imgDownload.setColorFilter(ContextCompat.getColor(activity, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
+            }
+
+            holder.imgDownload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (sharedPreferences.getLoginData().equalsIgnoreCase("")){
+                        Snackbar snackBar = Snackbar
+                                .make(v, "Please first login", Snackbar.LENGTH_LONG)
+                                .setAction("Login", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        loginFlag = 0;
+                                        Intent intent = new Intent(activity, LoginAct.class);
+                                        activity.startActivity(intent);
+                                    }
+                                });
+                        snackBar.setActionTextColor(Color.RED);
+                        View snackBarView = snackBar.getView();
+//                    snackBarView.setBackgroundColor(Color.DKGRAY);
+                        TextView textView = snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+                        textView.setTextColor(Color.WHITE);
+                        snackBar.show();
+
+                    }else {
+                        downloadProduct(customerId, itemArrayList.get(i).getEntityId());
+                        itemArrayList.get(i).setDownloadFlag(1);
+                        notifyItemChanged(i);
+                    }
+                }
+            });
+//        }else {
+//            itemArrayList.remove(i);
+////            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+////            notifyItemRemoved(i);
+////            notifyItemChanged(i);
+//            holder.mainLayout.setVisibility(View.GONE);
+//        }
     }
 
     @Override
@@ -185,10 +199,12 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
         final TextView tvGold;
         final ImageView imgDownload;
         final ImageView imgProduct;
+        final RelativeLayout mainLayout;
 
         ViewHolder(View itemView) {
             super(itemView);
 
+            mainLayout = itemView.findViewById(R.id.mainLayout);
             tvQty = itemView.findViewById(R.id.tvQty);
             tvStockIn = itemView.findViewById(R.id.tvStockIn);
             tvSoldOut = itemView.findViewById(R.id.tvSoldOut);
@@ -207,6 +223,7 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
 //            filterFlag = 0;
             Intent intent = new Intent(activity, ProductDetailAct.class);
             intent.putExtra(AppConstants.NAME, itemArrayList.get(getAdapterPosition()).getEntityId());
+            intent.putExtra(AppConstants.ID,itemArrayList.get(getAdapterPosition()).getAttributeSetId());
             activity.startActivity(intent);
             activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }

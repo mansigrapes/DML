@@ -24,6 +24,7 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
     private final List<ProductDetailItem.PendentEarring> itemArrayList;
     private int flag=0;
     public static String pendentProId = "";
+    public static String TypeValue = "";
     private ThemePreferences themePreferences;
 
     public PendentSetsAdapter(Activity activity, List<ProductDetailItem.PendentEarring> itemArrayList) {
@@ -43,25 +44,25 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int i) {
 
-        if (flag==0) {
-                if (itemArrayList.get(i).getLabel().equalsIgnoreCase("PENDANT WITH EARRINGS")) {
-                    flag=1;
-                    pendentProId=itemArrayList.get(i).getProductId();
-                    ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(i).getLabel();
-//                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
-
-                }else if(itemArrayList.get(i).getLabel().equalsIgnoreCase("ONLY EARRINGS")){
-                    flag=1;
-                    pendentProId=itemArrayList.get(i).getProductId();
-                    ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(i).getLabel();
-//                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
-                }else{
-                    flag=1;
-                    pendentProId=itemArrayList.get(i).getProductId();
-                    ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(i).getLabel();
-//                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
-                }
-        }
+//        if (flag==0) {
+//                if (itemArrayList.get(i).getLabel().equalsIgnoreCase("PENDANT WITH EARRINGS")) {
+//                    flag=1;
+//                    pendentProId=itemArrayList.get(i).getProductId();
+//                    ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(i).getLabel();
+////                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
+//
+//                }else if(itemArrayList.get(i).getLabel().equalsIgnoreCase("ONLY EARRINGS")){
+//                    flag=1;
+//                    pendentProId=itemArrayList.get(i).getProductId();
+//                    ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(i).getLabel();
+////                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
+//                }else{
+//                    flag=1;
+//                    pendentProId=itemArrayList.get(i).getProductId();
+//                    ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(i).getLabel();
+////                    ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getProductId(),"");
+//                }
+//        }
 
         holder.tvName.setText(itemArrayList.get(i).getLabel());
 
@@ -71,6 +72,8 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
                 pendentProId=itemArrayList.get(i).getProductId();
+                TypeValue=itemArrayList.get(i).getValue();
+                ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(i).getLabel();
             } else {
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect_black));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.white));
@@ -82,17 +85,17 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
                 pendentProId=itemArrayList.get(i).getProductId();
+                TypeValue=itemArrayList.get(i).getValue();
+                ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(i).getLabel();
             } else {
                 holder.linBangle.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
             }
         }
-
     }
 
     @Override
     public int getItemCount() {
-
         return itemArrayList.size();
     }
 
@@ -123,8 +126,8 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
                     pendentEarring.setSelected(true);
                 }
             }
-
             pendentProId=itemArrayList.get(getAdapterPosition()).getProductId();
+            TypeValue=itemArrayList.get(getAdapterPosition()).getValue();
             ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(getAdapterPosition()).getLabel();
             ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");
             notifyDataSetChanged();
@@ -135,5 +138,4 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
             return false;
         }
     }
-
 }

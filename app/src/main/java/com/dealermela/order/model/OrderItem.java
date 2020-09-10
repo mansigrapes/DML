@@ -40,7 +40,6 @@ public class OrderItem {
         this.data = data;
     }
 
-
     public class Datum {
 
         @SerializedName("orderno")
@@ -49,6 +48,9 @@ public class OrderItem {
         @SerializedName("grand_total")
         @Expose
         private String grandTotal;
+        @SerializedName("invoice_setting")
+        @Expose
+        private Object invoiceSetting;
         @SerializedName("order_items")
         @Expose
         private List<OrderSubItem> orderItems = null;
@@ -73,6 +75,14 @@ public class OrderItem {
 
         public void setGrandTotal(String grandTotal) {
             this.grandTotal = grandTotal;
+        }
+
+        public Object getInvoiceSetting() {
+            return invoiceSetting;
+        }
+
+        public void setInvoiceSetting(Object invoiceSetting) {
+            this.invoiceSetting = invoiceSetting;
         }
 
         public List<OrderSubItem> getOrderItems() {

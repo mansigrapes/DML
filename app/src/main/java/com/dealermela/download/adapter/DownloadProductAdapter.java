@@ -92,18 +92,18 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
 
         holder.checkDownloadProduct.setChecked(itemArrayList.get(i).isSelected() ? true : false);
 
-        if (itemArrayList.get(i).getFlag().equalsIgnoreCase("1")) {
-            holder.imgDeleteFlag.setVisibility(View.VISIBLE);
-        } else {
-            holder.imgDeleteFlag.setVisibility(View.GONE);
-        }
-
-        holder.imgDeleteFlag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommonUtils.showWarningToast(activity, "Already Downloaded.");
-            }
-        });
+//        if (itemArrayList.get(i).getFlag().equalsIgnoreCase("1")) {
+//            holder.imgDeleteFlag.setVisibility(View.VISIBLE);
+//        } else {
+//            holder.imgDeleteFlag.setVisibility(View.GONE);
+//        }
+//
+//        holder.imgDeleteFlag.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                CommonUtils.showWarningToast(activity, "Already Downloaded.");
+//            }
+//        });
 
         //using for download product image
         holder.imgDownload.setOnClickListener(new View.OnClickListener() {

@@ -31,6 +31,7 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="create_account">Create Account</string>
     <string name="please_enter_string">Please enter string</string>
+    <string name="login_enter_required_data">This is required</string>
     <string name="login_please_enter_email">Please enter email.</string>
     <string name="login_please_enter_password">Please enter password.</string>
     <string name="login_please_enter_valid_email">Please enter valid email.</string>
@@ -40,6 +41,7 @@
     <string name="get_country">Get Country</string>
     <string name="get_state">Get State</string>
     <string name="sign_up_please_enter_fnm">Please enter first name.</string>
+    <string name="sign_up_please_enter_company">Please enter company name.</string>
     <string name="my_account">My Account</string>
     <string name="create_referral">Create Referral</string>
 
@@ -50,6 +52,7 @@
     </string-array>
 
     <string-array name="entity_array">
+        <item>Select</item>
         <item>Company</item>
         <item>Individual</item>
     </string-array>
@@ -80,6 +83,8 @@
     <string name="contact_information">CONTACT INFORMATION</string>
     <string name="billing_address">DEFAULT BILLING</string>
     <string name="shipping_address">DEFAULT SHIPPING</string>
+    <string name="order_billing_address">BILLING ADDRESS</string>
+    <string name="order_shipping_address">SHIPPING ADDRESS</string>
     <string name="change_password">Change Password</string>
     <string name="manage_address">Manage Address</string>
     <string name="add_bank_detail">Add Bank Detail</string>
@@ -104,7 +109,7 @@
     <string name="branch_name">Branch Name</string>
     <string name="manage_bank_detail">Manage Bank Detail</string>
     <string name="delete_msg">Are you sure to delete?</string>
-    <string name="remove_cartitem_msg">Are you sure to remove?</string>
+    <string name="remove_cartitem_msg">Are you sure to remove this product?</string>
     <string name="referral_code_colon">REFERRAL CODE :</string>
     <string name="default_billing_address">Default Billing Address</string>
     <string name="default_shipping_address">Default Shipping Address</string>
@@ -123,6 +128,7 @@
     <string name="home">HOME</string>
     <string name="our_collection">OUR COLLECTION</string>
     <string name="orders">ORDERS</string>
+    <string name="orderlist">ORDER LIST</string>
     <string name="testimonial">TESTIMONIAL</string>
     <string name="cart">CART</string>
     <string name="faq">FAQ</string>
@@ -199,6 +205,7 @@
     <string name="without_price">Without Price</string>
     <string name="with_price">With Price</string>
     <string name="image">Image</string>
+    <string name="downloadimage">Product</string>
     <string name="price">PRICE</string>
     <string name="prices">Price</string>
     <string name="delete_all">Delete All</string>
@@ -206,6 +213,7 @@
     <string name="view_detail">View Detail</string>
     <string name="sub_total">Sub Total</string>
     <string name="tax">Tax</string>
+    <string name="shipping_charge">Shipping Charge</string>
     <string name="grand_total">Grand Total</string>
     <string name="gemstone_detail">GEMSTONE DETAIL</string>
     <string name="stock_in">Stock In</string>

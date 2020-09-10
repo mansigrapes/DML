@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:layout_margin="@dimen/activity_horizontal_margin"
     android:background="@drawable/ten_size_black_round_border"
     android:padding="@dimen/activity_horizontal_margin">
+
+    <ScrollView
+        android:id="@+id/scrollViewEditBank"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
 
     <LinearLayout
         android:id="@+id/linBank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:ignore="UselessParent">
+        >
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/tilBankName"
@@ -99,34 +110,41 @@
 
         </android.support.design.widget.TextInputLayout>
 
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_sp"
-            android:gravity="center"
-            android:orientation="horizontal">
+    </ScrollView>
 
-            <com.dealermela.utility.DmlButton
-                style="@style/All_Dmlbutton"
-                android:id="@+id/btnSave"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/thirty_five_sp"
-                android:text="@string/save"
-                android:background="@drawable/ten_size_black_button_round"
-                android:textColor="@color/white" />
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ten_sp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollViewEditBank">
 
-            <com.dealermela.utility.DmlButton
-                style="@style/All_Dmlbutton"
-                android:id="@+id/btnCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/thirty_five_sp"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:background="@drawable/ten_size_black_button_round"
-                android:text="@string/cancel"
-                android:textColor="@color/white" />
+        <com.dealermela.utility.DmlButton
+            style="@style/All_Dmlbutton"
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/thirty_five_sp"
+            android:text="@string/save"
+            android:background="@drawable/ten_size_black_button_round"
+            android:textColor="@color/white" />
 
-        </LinearLayout>
+        <com.dealermela.utility.DmlButton
+            style="@style/All_Dmlbutton"
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/thirty_five_sp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:background="@drawable/ten_size_black_button_round"
+            android:text="@string/cancel"
+            android:textColor="@color/white" />
 
     </LinearLayout>
-</LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

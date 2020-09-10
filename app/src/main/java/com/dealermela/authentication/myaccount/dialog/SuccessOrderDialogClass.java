@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.dealermela.R;
+import com.dealermela.cart.activity.OrderSummaryAct;
 import com.dealermela.home.activity.MainActivity;
+import com.dealermela.order.activity.OrderTabActivity;
 
-public class SuccessOrderDialogClass extends Dialog implements View.OnClickListener {
+public class SuccessOrderDialogClass extends Dialog {
 
     private final Activity activity;
     private String message;
@@ -32,24 +34,26 @@ public class SuccessOrderDialogClass extends Dialog implements View.OnClickListe
         Button btnOk = findViewById(R.id.btnOk);
         TextView tvMsg = findViewById(R.id.tvMsg);
         tvMsg.setText(message);
-        btnOk.setOnClickListener(this);
+//        btnOk.setOnClickListener(this);
 
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnOk:
-                Intent intent=new Intent(activity,MainActivity.class);
-                activity.startActivity(intent);
-                activity.finishAffinity();
-                break;
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.btnOk:
+//                cartCount = 0;
+//                Intent intent = new Intent(this, OrderTabActivity.class);
+//                startActivity(intent);
+//                break;
+//
+//            default:
+//                break;
+//        }
+//        dismiss();
+//    }
 
-            default:
-                break;
-        }
-        dismiss();
+    public void onClick() {
+
     }
-
-
 }

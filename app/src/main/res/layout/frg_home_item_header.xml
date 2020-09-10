@@ -9,8 +9,8 @@
 
     <com.dealermela.utility.DmlImageView
         android:id="@+id/imgMenuIcon"
-        android:layout_width="70sp"
-        android:layout_height="56sp"
+        android:layout_width="60sp"
+        android:layout_height="46sp"
         android:layout_marginStart="@dimen/eight_margin_padding"
         android:layout_marginTop="@dimen/eight_margin_padding"
         android:layout_marginEnd="@dimen/eight_margin_padding"

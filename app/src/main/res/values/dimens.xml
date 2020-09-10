@@ -54,6 +54,7 @@
     <dimen name="transaction_card_height">120dp</dimen>
     <dimen name="transaction_card_margin_top">24dp</dimen>
     <dimen name="thirty_dp">30dp</dimen>
+    <dimen name="fifteen_dp">15dp</dimen>
     <dimen name="sixty_dp">60dp</dimen>
     <dimen name="sort_by_filter_width">100dp</dimen>
     <dimen name="five_dp">5dp</dimen>

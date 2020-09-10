@@ -159,7 +159,7 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
 
     @Override
     public void loadData() {
-        showProgressDialog("Loading", getString(R.string.please_wait));
+//        showProgressDialog("Loading", getString(R.string.please_wait));
         AppLogger.e("loadData", "----------");
         addHeader();
         getBanner();
@@ -197,7 +197,6 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
             public void onFailure(@NonNull Call<HeaderItem> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
             }
-
         });
     }
 
@@ -270,7 +269,6 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
             }
         });
     }
-
 
     @Override
     public void onClick(View v) {

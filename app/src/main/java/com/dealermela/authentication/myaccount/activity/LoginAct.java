@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.cart.activity.CartAct;
 import com.dealermela.cart.adapter.CartAdapter;
+import com.dealermela.cart.fragment.ShippingFrg;
 import com.dealermela.cart.fragment.ShoppingFrg;
 import com.dealermela.cart.model.CartLocalDataItem;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
@@ -44,11 +48,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.dealermela.home.activity.MainActivity.customerId;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.cartCheckBugNowFlag;
 import static com.dealermela.other.activity.SplashAct.loginFlag;
 
 public class LoginAct extends DealerMelaBaseActivity implements View.OnClickListener {
 
     public static int cartbackFlag = 0;
+    public static int fragment = 0;
     private final String TAG = this.getClass().getSimpleName();
     private EditText edEmail, edPassword;
     private TextView tvRemPwd, tvForgotPwd, tvNewAccount;
@@ -123,7 +129,11 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnLogin:
-                validateLogin();
+                if(!Validator.checkEmpty(edEmail,getString(R.string.login_enter_required_data)) && !Validator.checkEmpty(edPassword,getString(R.string.login_enter_required_data))) {
+
+                }else {
+                    validateLogin();
+                }
                 break;
 //            case R.id.tvRemPwd:
 //                break;
@@ -220,10 +230,8 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
 
 //                            CommonUtils.showErrorToast(LoginAct.this, jsonObject.getString("message"));
 //                            AppLogger.e(AppConstants.RESPONSE, "-----------------" + jsonObject.getString("message"));
-
                             CommonUtils.showErrorToast(LoginAct.this, response.body().getMessage());
                             AppLogger.e(AppConstants.RESPONSE, "-----------------" + response.body().getMessage());
-
     ////                        CommonUtils.showErrorToast(LoginAct.this, message);
                         } else {
 //                            CommonUtils.showErrorToast(LoginAct.this, jsonObject.getString("message"));
@@ -231,7 +239,6 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
 
                             CommonUtils.showErrorToast(LoginAct.this, response.body().getMessage());
                             AppLogger.e(AppConstants.RESPONSE, "-----------------" + response.body().getMessage());
-
                         }
 
 //                    } catch (JSONException e) {
@@ -272,6 +279,7 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                         count--;
                         if (count == 0) {
                             hideProgressDialog();
+
                             databaseCartAdapter.openDatabase();
                             databaseCartAdapter.deleteAllRecord();
                             databaseCartAdapter.closeDatabase();
@@ -279,15 +287,49 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                             if (loginFlag == 0) {
                                 startNewActivity(MainActivity.class);
                                 finish();
-                            } else {
+                            } else if(loginFlag == 1) {   //W/O login ProceedTocheckout-> flag
                                 loginFlag = 0;
                                 cartbackFlag = 1;
-//                                startNewActivity(CartAct.class);
-                                ShoppingFrg frg = new ShoppingFrg();
-                                getSupportFragmentManager().beginTransaction().replace(R.id.frameCart,frg).commit();
+                                cartCheckBugNowFlag = 1;
+
+                                startNewActivity(CartAct.class);
+//                                ShoppingFrg frg = new ShoppingFrg();
+//                                getSupportFragmentManager().beginTransaction().replace(R.id.frameCart,frg).commit();
+                                finish();
+                            }else if(loginFlag == 2){   //W/O Login BuyNow -> flag
+                                loginFlag = 0;
+                                cartbackFlag = 1;
+                                cartCheckBugNowFlag = 1;
+
+                                startNewActivity(CartAct.class);
+//                                ShippingFrg frg = new ShippingFrg();
+//                                getSupportFragmentManager().beginTransaction().replace(R.id.frameCart,frg).commit();
                                 finish();
                             }
                         }
+                    }else if(jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_FAIL)) {
+                        CommonUtils.showWarningToast(LoginAct.this,jsonObject.getString("message"));
+                       if(loginFlag == 2)
+                       {
+                           count--;
+                           if(count == 0){
+                               loginFlag = 0;
+                               cartbackFlag = 1;
+                               cartCheckBugNowFlag = 1;
+                               startNewActivity(CartAct.class);
+                               finish();
+                           }
+                       }else if (loginFlag == 1){
+                           count--;
+                           if(count == 0){
+                               loginFlag = 0;
+                               cartbackFlag = 1;
+                               cartCheckBugNowFlag = 1;
+                               startNewActivity(CartAct.class);
+                               finish();
+                           }
+//                           startNewActivity(CartAct.class);
+                       }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -325,14 +367,17 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                     }
                 } */
             }
-            databaseCartAdapter.closeDatabase();
-            if (loginFlag == 0) {
-                startNewActivity(MainActivity.class);
-                finish();
-            } else {
-                startNewActivity(CartAct.class);
-                finish();
-            }
+            //Why this call bcz allready we set redirection in Addtocart function so not required this
+//            databaseCartAdapter.closeDatabase();
+//            if (loginFlag == 0) {
+//                startNewActivity(MainActivity.class);
+//                finish();
+//            } else if(loginFlag == 1){
+//                startNewActivity(CartAct.class);
+//                finish();
+//            } else if(loginFlag == 2){
+//
+//            }
         } else {
             AppLogger.e("table", "-----------table is empty");
             if (loginFlag == 0) {

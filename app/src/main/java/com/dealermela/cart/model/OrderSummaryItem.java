@@ -111,6 +111,9 @@ public class OrderSummaryItem {
         @SerializedName("bracelets")
         @Expose
         private Object bracelets;
+        @SerializedName("certificate_no")
+        @Expose
+        private String certificateNo;
         @SerializedName("qty")
         @Expose
         private Integer qty;
@@ -228,6 +231,14 @@ public class OrderSummaryItem {
 
         public void setBracelets(Object bracelets) {
             this.bracelets = bracelets;
+        }
+
+        public String getCertificateNo() {
+            return certificateNo;
+        }
+
+        public void setCertificateNo(String certificateNo) {
+            this.certificateNo = certificateNo;
         }
 
         public Integer getQty() {

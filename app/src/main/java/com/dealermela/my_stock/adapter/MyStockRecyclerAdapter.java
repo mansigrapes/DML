@@ -146,7 +146,7 @@ public class MyStockRecyclerAdapter extends RecyclerView.Adapter<MyStockRecycler
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
 
 
-        Call<JsonObject> callApi = apiInterface.placeOrder(product, customerId);
+        Call<JsonObject> callApi = apiInterface.MyStockplaceOrder(product, customerId);
         callApi.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {

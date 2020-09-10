@@ -148,7 +148,7 @@
                     <com.dealermela.utility.DmlTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/billing_address" />
+                        android:text="@string/order_billing_address" />
 
                     <com.dealermela.utility.DmlTextView
                         android:id="@+id/tvBillingAddress"
@@ -173,7 +173,7 @@
                     <com.dealermela.utility.DmlTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/shipping_address" />
+                        android:text="@string/order_shipping_address" />
 
                     <com.dealermela.utility.DmlTextView
                         android:id="@+id/tvShippingAddress"
@@ -273,7 +273,6 @@
                     android:layout_weight="0.7"
                     android:gravity="center"
                     android:text="AMOUNT" />
-
 
             </LinearLayout>
 
@@ -390,7 +389,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
 
         </LinearLayout>
 

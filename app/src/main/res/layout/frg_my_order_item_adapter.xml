@@ -18,7 +18,9 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayout8"
         app:placeholderImage="@mipmap/ic_launcher"
         app:placeholderImageScaleType="fitCenter"
-        app:roundAsCircle="true" />
+        app:roundedCornerRadius="@dimen/ten_sp"
+         />
+<!--    app:roundAsCircle="true"-->
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline7"
@@ -38,7 +40,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <com.dealermela.utility.DmlTextViewBold
             android:id="@+id/tvTitle"
@@ -134,7 +135,8 @@
             style="@style/order_item_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_eye_view" />
+            app:srcCompat="@drawable/ic_visibility" />
+<!--        app:srcCompat="@drawable/ic_eye_view"-->
 
         <com.dealermela.utility.DmlImageView
             android:id="@+id/imgPrint"
@@ -148,8 +150,8 @@
             style="@style/order_item_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_delete" />
-
+            app:srcCompat="@drawable/ic_cancel_order" />
+<!--        app:srcCompat="@drawable/ic_delete"-->
     </LinearLayout>
 
     <com.dealermela.utility.DmlTextViewBold

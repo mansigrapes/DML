@@ -58,7 +58,6 @@ public class PaymentFrg extends DealerMelaBaseFragment implements View.OnClickLi
 
     @Override
     public void init() {
-
     }
 
     @Override
@@ -68,7 +67,6 @@ public class PaymentFrg extends DealerMelaBaseFragment implements View.OnClickLi
         btnContinue = rootView.findViewById(R.id.btnContinue);
         progressBarPayment = rootView.findViewById(R.id.progressBarPayment);
         btnContinue.setVisibility(View.INVISIBLE);
-
     }
 
     @Override
@@ -128,6 +126,7 @@ public class PaymentFrg extends DealerMelaBaseFragment implements View.OnClickLi
             @Override
             public void onFailure(@NonNull Call<SelectPaymentItem> call, @NonNull Throwable t) {
                 progressBarPayment.setVisibility(View.GONE);
+                AppLogger.e("Error PaymentMeyhod API :","---" + t.getMessage());
             }
         });
     }

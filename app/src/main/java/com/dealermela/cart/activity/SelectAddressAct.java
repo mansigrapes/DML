@@ -71,7 +71,6 @@ public class SelectAddressAct extends DealerMelaBaseActivity implements View.OnC
 
     @Override
     public void loadData() {
-
     }
 
     private void getAddress(String customerId) {
@@ -90,6 +89,7 @@ public class SelectAddressAct extends DealerMelaBaseActivity implements View.OnC
                         tvnoaddress.setVisibility(View.VISIBLE);
                     }
                     else {
+                        tvnoaddress.setVisibility(View.GONE);
                         SelectAddressAdapter selectAddressAdapter = new SelectAddressAdapter(SelectAddressAct.this, response.body().getData());
                         recycleViewAddress.setAdapter(selectAddressAdapter);
                         recycleViewAddress.scrollToPosition(response.body().getData().size() - 1);
@@ -102,7 +102,6 @@ public class SelectAddressAct extends DealerMelaBaseActivity implements View.OnC
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 hideProgressDialog();
             }
-
         });
     }
 

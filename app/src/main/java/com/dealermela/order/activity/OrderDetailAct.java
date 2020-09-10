@@ -128,7 +128,7 @@ public class OrderDetailAct extends DealerMelaBaseActivity implements View.OnCli
                 AppLogger.e(AppConstants.RESPONSE, "----------" + response.body());
                 if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                     progressBar.setVisibility(View.GONE);
-                    tvOrderDate.setText("ORDER DATE : " + response.body().getData().get(0).getOrder_date());
+                    tvOrderDate.setText("ORDER DATE : " + response.body().getData().get(0).getOrderDate());
                     tvOrderStatus.setText("ORDER STATUS : " + status);
                     tvBillingAddress.setText(response.body().getData().get(0).getBillingAddress());
                     tvShippingAddress.setText(response.body().getData().get(0).getShiipingAddress());
@@ -136,14 +136,17 @@ public class OrderDetailAct extends DealerMelaBaseActivity implements View.OnCli
                     tvShippingMethod.setText(Html.fromHtml(response.body().getData().get(0).getShippingDescription()));
 //                    tvShippingMethod.setText(response.body().getData().get(0).getShippingDescription());
 
-                    tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOrderSubtotal())));
+                    float subtotal = Float.parseFloat(response.body().getData().get(0).getOrderSubtotal());
+                    tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subtotal));
                     tvShippingCharge.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOrderShippingamount())));
-                    tvTax.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOderTaxamount())));
+//                    tvTax.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOderTaxamount())));
+                    tvTax.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(String.valueOf(response.body().getData().get(0).getOderTaxamount()))));
 
                     if (response.body().getData().get(0).getOrderGrandtotal()==null){
 
                     }else{
-                        tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getData().get(0).getOrderGrandtotal())));
+                        float grandtotal = Float.parseFloat(String.valueOf(response.body().getData().get(0).getOrderGrandtotal()));
+                        tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(grandtotal));
                     }
                     OrderDetailAdapter orderDetailAdapter = new OrderDetailAdapter(OrderDetailAct.this, response.body().getData().get(0).getOrderItem());
                     recycleViewOrderList.setAdapter(orderDetailAdapter);

@@ -42,7 +42,6 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.act_order_detail_item, viewGroup, false);
-
         return new ViewHolder(v);
     }
 
@@ -78,10 +77,25 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             holder.tvcertificate.setText(Html.fromHtml("<b>" + "Certificate : " + " N/A " + "</b>"));
         }
 
-        holder.tvQty.setText(Html.fromHtml("<b>" + "QTY : " + "</b> " + Math.round(Float.parseFloat(itemArrayList.get(i).getProduct_qty()))));
+        holder.tvQty.setText(Html.fromHtml("<b>" + "QTY : " + "</b> " + Math.round(Float.parseFloat(itemArrayList.get(i).getProductQty()))));
 //        holder.tvSubPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getProductPrice())));
         holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getProductRawtotal())));
         holder.imgProduct.setImageURI(itemArrayList.get(i).getProductImg());
+
+        if(itemArrayList.get(i).getRingsize() != null){
+            holder.tvproductsize.setVisibility(View.VISIBLE);
+            holder.tvproductsize.setText(Html.fromHtml("<b>" + "Ring Size : " + "</b>" + itemArrayList.get(i).getRingsize()));
+        }else if(itemArrayList.get(i).getBangleSize() != null){
+            holder.tvproductsize.setVisibility(View.VISIBLE);
+            holder.tvproductsize.setText(Html.fromHtml("<b>" + "Bangle Size : " + "</b>" + itemArrayList.get(i).getBangleSize()));
+        }else if (itemArrayList.get(i).getBraceletsSize() != null){
+            holder.tvproductsize.setVisibility(View.VISIBLE);
+            holder.tvproductsize.setText(Html.fromHtml("<b>" + "Bracelet Size : " + "</b>" + itemArrayList.get(i).getBraceletsSize()));
+        }
+//        else if(itemArrayList.get(i).getPendentSize() != null){
+//            holder.tvproductsize.setText(Html.fromHtml("<b>" + "Pendent Type : " + "</b>" + itemArrayList.get(i).getPendentSize()));
+//        }
+
 //        int height = holder.linProductContent.getMeasuredHeight();
 //        AppLogger.e("height","-------"+height);
 //        ViewGroup.LayoutParams layoutParams = holder.viewHori.getLayoutParams();
@@ -101,7 +115,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        final TextView tvProductName, tvSku, tvMetalWeight, tvStoneWeight, tvStoneQuality, tvQty, tvSubPrice, tvPrice, tvcertificate;
+        final TextView tvProductName, tvSku, tvMetalWeight, tvStoneWeight, tvStoneQuality, tvQty, tvSubPrice, tvPrice, tvcertificate, tvproductsize;
         final SimpleDraweeView imgProduct;
         LinearLayout linProductContent;
         View viewHori;
@@ -120,6 +134,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvcertificate = itemView.findViewById(R.id.tvCertificateno);
             imgProduct = itemView.findViewById(R.id.imgProduct);
+            tvproductsize = itemView.findViewById(R.id.tvproductsize);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -127,14 +142,11 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
         @Override
         public void onClick(View v) {
-
         }
 
         @Override
         public boolean onLongClick(View v) {
             return false;
         }
-
     }
-
 }

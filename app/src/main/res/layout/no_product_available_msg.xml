@@ -24,6 +24,8 @@
             app:layout_constraintBottom_toTopOf="@+id/dmlTextViewBold7"
             app:layout_constraintEnd_toEndOf="@+id/dmlTextViewBold7"
             app:layout_constraintStart_toStartOf="@+id/dmlTextViewBold7" />
+<!--        android:src="@drawable/no_data_search"
+            android:src="@drawable/ic_no_data_amico"-->
 
         <com.dealermela.utility.DmlTextViewBold
             android:id="@+id/dmlTextViewBold7"

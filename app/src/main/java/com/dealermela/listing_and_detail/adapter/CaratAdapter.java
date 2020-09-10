@@ -105,7 +105,5 @@ public class CaratAdapter extends RecyclerView.Adapter<CaratAdapter.ViewHolder> 
         public boolean onLongClick(View v) {
             return false;
         }
-
     }
-
 }

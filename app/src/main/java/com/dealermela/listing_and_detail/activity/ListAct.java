@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -62,8 +63,10 @@ import static com.dealermela.home.activity.MainActivity.customerId;
 
 import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
 import static com.dealermela.listing_and_detail.activity.FilterAct.mapFilter;
+import static com.dealermela.listing_and_detail.activity.FilterAct.pagecountflag;
 import static com.dealermela.listing_and_detail.activity.FilterAct.paramKey;
 import static com.dealermela.listing_and_detail.activity.FilterAct.selectFilter;
+import static com.dealermela.listing_and_detail.activity.FilterAct.skuFilterString;
 
 public class ListAct extends DealerMelaBaseActivity implements View.OnClickListener {
     private RecyclerView recycleViewListing;
@@ -107,6 +110,8 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     private SwipeRefreshLayout swipeRefreshData;
     private ShimmerFrameLayout parentShimmerLayout;
     private FloatingActionButton fabDownload;
+
+    private Button cancelandclear;
 
     @Override
     protected int getLayoutResourceId() {
@@ -176,6 +181,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         mBottomSheetDialog = new BottomSheetDialog(ListAct.this);
         parentShimmerLayout = findViewById(R.id.parentShimmerLayout);
         fabDownload = findViewById(R.id.fabDownload);
+
 //        parentShimmerLayout.startShimmerAnimation();
 
         if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
@@ -192,6 +198,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     public void addListener() {
         linSortBy.setOnClickListener(this);
         linFilter.setOnClickListener(this);
+//        cancelandclear.setOnClickListener(this);
 
         setupBadge();
 
@@ -214,7 +221,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                     }
                 }
                 if (stringBuilder.toString().equals("")) {
-                    CommonUtils.showWarningToast(ListAct.this, "Loaded product is already added in list. Scroll down and add another Products");
+                    CommonUtils.showWarningToast(ListAct.this, "Loaded product is already added in list. Scroll down and add another products");
                 } else {
                     new IOSDialog.Builder(ListAct.this)
                             .setTitle("Download Product")
@@ -226,7 +233,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                     dialog.dismiss();
                                     AppLogger.e("stringBuilder ids", "---------" + stringBuilder);
                                     addToDownloadProduct(stringBuilder.toString(), customerId);
-
                                 }
                             })
                             .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -333,6 +339,22 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                                        if (!sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                                                            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                                                                fabDownload.show();
+                                                               if(id.equalsIgnoreCase("search")){
+                                                                   if(itemArrayList.size() > 1){
+                                                                       fabDownload.show();
+                                                                   }else {
+                                                                       fabDownload.hide();
+                                                                   }
+                                                               }
+                                                               if(filterFlag == 1){
+                                                                   if(itemArrayList.size() == 1){
+                                                                       fabDownload.hide();
+                                                                   }
+                                                               }
+                                                           }
+                                                       }else {
+                                                           if(id.equalsIgnoreCase("search")){
+                                                               fabDownload.hide();
                                                            }
                                                        }
                                                        super.onScrollStateChanged(recyclerView, newState);
@@ -362,6 +384,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             linSortBy.setVisibility(View.GONE);
             linFilter.setVisibility(View.GONE);
             linNoData.setVisibility(View.GONE);
+            fabDownload.hide();
             searchProduct(name, String.valueOf(page_count));
             AppLogger.e("NameInSearch","------"+name);
             AppLogger.e("Page","---------"+String.valueOf(page_count));
@@ -381,15 +404,28 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.linSortBy:
+
                 View sheetView = getLayoutInflater().inflate(R.layout.dialog_bottom_sheet, null);
                 mBottomSheetDialog.setContentView(sheetView);
+                cancelandclear = mBottomSheetDialog.findViewById(R.id.cancelandclear);
+                cancelandclear.setOnClickListener(this);
 
-                RecyclerView recycleViewSortBy = sheetView.findViewById(R.id.recycleViewSortBy);
+                final RecyclerView recycleViewSortBy = sheetView.findViewById(R.id.recycleViewSortBy);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ListAct.this);
                 recycleViewSortBy.setLayoutManager(linearLayoutManager);
 
                 SortByListRecyclerAdapter sortByListRecyclerAdapter = new SortByListRecyclerAdapter(ListAct.this, sortByList);
                 recycleViewSortBy.setAdapter(sortByListRecyclerAdapter);
+
+//                cancelandclear.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        AppLogger.e("Button called","----");
+//                        mBottomSheetDialog.dismiss();
+////                        SortByListRecyclerAdapter sortByListRecyclerAdapter = new SortByListRecyclerAdapter(ListAct.this, sortByList);
+////                        recycleViewSortBy.setAdapter(sortByListRecyclerAdapter);
+//                    }
+//                });
 
                 mBottomSheetDialog.show();
 
@@ -403,7 +439,46 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //                intent.putExtra(AppConstants.NAME, data);
                 startActivity(intent);
                 break;
+
+            case R.id.cancelandclear:
+                sortbyDialog();
+//                SortByListRecyclerAdapter sortByListRecyclerAdapter = new SortByListRecyclerAdapter(ListAct.this, sortByList);
+//                recycleViewSortBy.setAdapter(sortByListRecyclerAdapter);
+                break;
         }
+    }
+
+    private void sortbyDialog() {
+        String value = "";
+        AppLogger.e("Button called","----");
+
+        for (int i=0;i<sortByList.size();i++)
+        {
+            sortByList.get(i).setSelected(false);
+        }
+
+        parentShimmerLayout.setVisibility(View.VISIBLE);
+        linNoData.setVisibility(View.GONE);
+        sort_by.setLength(0);
+        sort_by.append(value);
+        itemArrayList.clear();
+        page_count = 1;
+        flag_scroll = false;
+        previousTotal = 0; // The total number of items in the dataset after the last load
+        loading = true; // True if we are still waiting for the last set of data to load.
+
+        tvSortbyDot.setVisibility(View.GONE);  //Display dot WHen sorting is applied
+
+        listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
+        recycleViewListing.setAdapter(listingRecyclerAdapter);
+        if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+            AppLogger.e("sort by if", "-----------" + sort_by);
+            getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+        } else {
+            AppLogger.e("sort by else ", "-----------" + sort_by);
+            getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+        }
+        mBottomSheetDialog.dismiss();
     }
 
     private void getCategoryProduct(final String categoryId, String groupId, String page, String price, String gold_purity, String diamonod_quality, String diamond_shape, String sku, String availability, String sort_by) {
@@ -424,18 +499,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 } else {
                     progressBottom.setVisibility(View.GONE);
                 }
-                if (id.equalsIgnoreCase(AppConstants.NECKLACE_ID)){     //temporary add on 13/06 Bcz necklace category product data mismatch from backend
-                    linNoData.setVisibility(View.VISIBLE);
-                    linSortBy.setEnabled(false);
-                    linFilter.setEnabled(false);
-                    tvFilter.setTextAppearance(ListAct.this, R.attr.inActive_filer_color);
-                    tvSortby.setTextAppearance(ListAct.this, R.attr.inActive_filer_color);
-                    sortIcon.setColorFilter(getResources().getColor(R.color.in_active_item_color));
-                    filterIcon.setColorFilter(getResources().getColor(R.color.in_active_item_color));
-                    parentShimmerLayout.setVisibility(View.GONE);
-                    fabDownload.hide();
 
-                }else{
                     if (response.isSuccessful()) {
                         if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
 //                        parentShimmerLayout.stopShimmerAnimation();
@@ -451,14 +515,17 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                             itemArrayList.addAll(response.body().getData());
                             listingRecyclerAdapter.notifyDataSetChanged();
 
+                            if (!sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                                if(itemArrayList.size() == 1){    //Apply this condition bcz in only 1 product in Filter result it give bulkdownload icon so For Now when user apply filter & if only 1 result found than hide BulkDownload option
+                                    fabDownload.hide();
+                                }
+                            }
                         } else {
 
                             if (itemArrayList.isEmpty()) {
                                 linNoData.setVisibility(View.VISIBLE);
                                 linSortBy.setEnabled(false);
                                 linFilter.setEnabled(false);
-//                                tvFilter.setTextColor(getResources().getColor(R.color.in_active_item_color));
-//                                tvSortby.setTextColor(getResources().getColor(R.color.in_active_item_color));
                                 tvFilter.setTextColor(getResources().getColor(R.color.in_active_item_color));
                                 tvSortby.setTextColor(getResources().getColor(R.color.in_active_item_color));
                                 sortIcon.setColorFilter(getResources().getColor(R.color.in_active_item_color));
@@ -479,7 +546,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                             }
                         }
                     }
-                }
             }
 
             @Override
@@ -504,7 +570,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 dialogClass.show();
                 Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
                 Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
             }
         });
     }
@@ -594,7 +659,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             parentShimmerLayout.setVisibility(View.VISIBLE);
             linNoData.setVisibility(View.GONE);
             itemArrayList.clear();
-            page_count = 1;
+//            page_count = 1;
             flag_scroll = false;
             previousTotal = 0; // The total number of items in the dataset after the last load
             loading = true; // True if we are still waiting for the last set of data to load.
@@ -605,7 +670,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             diamond_shape.setLength(0);
             sku.setLength(0);
             availability.setLength(0);
-            sort_by.setLength(0);
+//            sort_by.setLength(0);
 
             for (int i = 0; i < filterSelectItems.size(); i++) {
                 if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("price")) {
@@ -634,9 +699,13 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                     }
                 } else if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("sku")){
 //                    sku =
-                    if (mapFilter.containsKey(paramKey)) {
-                        String key = mapFilter.get(paramKey);
-                        sku.append(key);
+//                    if (mapFilter.containsKey(paramKey)) {
+//                        String key = mapFilter.get(paramKey);
+//                        sku.append(key);
+//                    }
+
+                    if(!skuFilterString.isEmpty()){
+                        sku.append(skuFilterString);
                     }
                 }
             }
@@ -653,15 +722,15 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             if (diamond_shape.length() != 0) {
                 diamond_shape.setLength(diamond_shape.length() - 1);
             }
-            if (sku.length() != 0) {
-                sku.setLength(sku.length() - 1);
-            }
+//            if (sku.length() != 0) {
+//                sku.setLength(sku.length() - 1);
+//            }
             if (availability.length() != 0) {
                 availability.setLength(availability.length() - 1);
             }
-            if (sort_by.length() != 0) {
-                sort_by.setLength(sort_by.length() - 1);
-            }
+//            if (sort_by.length() != 0) {
+//                sort_by.setLength(sort_by.length() - 1);
+//            }
 
 //            price.setLength(price.length() - 1);
 //            gold_purity.setLength(gold_purity.length() - 1);
@@ -671,6 +740,11 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //            availability.setLength(availability.length() - 1);
 //            sort_by.setLength(sort_by.length() - 1);
 
+//            if(pagecountflag == 1){     //When filter is applied & go to detail page & back to list page ->>page should not getting refreshed  only refresh data on scrolling
+//                pagecountflag = 0;
+//                page_count = 1;
+//            }
+
             listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
             recycleViewListing.setAdapter(listingRecyclerAdapter);
             if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
@@ -679,7 +753,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
             }
             AppLogger.e(" full string data", "--------" + price + gold_purity + diamond_quality + diamond_shape + sku + availability);
-
 /*
             for (Object key : mapFilter.keySet()) {
                 String value = mapFilter.get(key);
@@ -724,8 +797,16 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             diamond_shape.setLength(0);
             sku.setLength(0);
             availability.setLength(0);
-            sort_by.setLength(0);
+//            sort_by.setLength(0);
             itemArrayList.clear();
+            mapFilter.clear();
+            skuFilterString="";
+//            page_count = 1;
+
+//            if(pagecountflag == 1){     //When reset filter & go to detail page & back to list page ->> page  getting refreshed
+//                pagecountflag = 0;
+//                page_count = 1;
+//            }
 
             if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                 getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
@@ -745,7 +826,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         AppLogger.e("Page","----------"+page);
 
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<ListingItem> callApi = apiInterface.searchProduct(searchTerm, page);
+        Call<ListingItem> callApi = apiInterface.searchProduct(customerId,searchTerm, page);
         callApi.enqueue(new Callback<ListingItem>() {
             @Override
             public void onResponse(@NonNull Call<ListingItem> call, @NonNull Response<ListingItem> response) {
@@ -764,7 +845,12 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                         parentShimmerLayout.setVisibility(View.GONE);
                         itemArrayList.addAll(response.body().getData());
                         listingRecyclerAdapter.notifyDataSetChanged();
-                        AppLogger.e("now got Search result ","--success ");
+                        if (!sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                            if(itemArrayList.size() > 1){    //Apply this condition bcz in only 1 product in search result it give bulkdownload icon so For Now when user search product & if more than 2 result found than show BulkDownload option
+                                fabDownload.show();
+                            }
+                        }
+                        AppLogger.e("now got Search result ","-- success ");
                     } else {
                         linNoData.setVisibility(View.GONE);
                         if (itemArrayList.isEmpty()) {

@@ -194,6 +194,7 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
         public void onClick(View v) {
             Intent intent = new Intent(activity, ProductDetailAct.class);
             intent.putExtra(AppConstants.NAME, itemArrayList.get(getAdapterPosition()).getEntityId());
+            intent.putExtra(AppConstants.ID,itemArrayList.get(getAdapterPosition()).getAttributeSetId());
             activity.startActivity(intent);
             activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }

@@ -40,7 +40,7 @@ public class DatabaseCartAdapter {
     public static final String METAL_CARAT = "metalcarat";
     public static final String TOTAL_ITEM = "total_item";
 
-    private SQLiteDatabase mydb;
+    private static SQLiteDatabase mydb;
     private DHelper helper;
 
     public DatabaseCartAdapter(Context context) {
@@ -59,7 +59,7 @@ public class DatabaseCartAdapter {
     //find record
     public Cursor findRecordCheck(String productId) {
         Cursor cursor = null;
-        String sql = "SELECT product_id FROM " + TABLE_NAME + " WHERE product_id=" + productId;
+        String sql = "SELECT product_id FROM " + TABLE_NAME + " WHERE product_id=" + productId ;
         cursor = mydb.rawQuery(sql, null);
 
         if (cursor.getCount() > 0) {
@@ -71,6 +71,37 @@ public class DatabaseCartAdapter {
         return cursor;
     }
 
+    //find Record for Same productid but different StoneId & StoneOptionId
+    public Cursor findSameRecordCheck(String stoneoptionid, String stoneoptiontypeid) {
+        Cursor cursor = null;
+        String sql = "SELECT product_id FROM " + TABLE_NAME + " WHERE  stone_option_id = " + stoneoptionid + " AND stone_option_type_id = " + stoneoptiontypeid ;
+        AppLogger.e("Query","-----"+sql);
+        cursor = mydb.rawQuery(sql, null);
+
+        if (cursor.getCount() > 0) {
+            //PID Found
+        } else {
+            //PID Not Found
+        }
+        cursor.close();
+        return cursor;
+    }
+
+    //find Record for Same productid but different RingOptionID [Various Ring size]
+    public Cursor SameRecordCheck(String ringoptiontypeid) {
+        Cursor cursor = null;
+        String sql = "SELECT product_id FROM " + TABLE_NAME + " WHERE  option_type_id = " + ringoptiontypeid;
+        AppLogger.e("Query","-----" + sql);
+        cursor = mydb.rawQuery(sql, null);
+
+        if (cursor.getCount() > 0) {
+            //PID Found
+        } else {
+            //PID Not Found
+        }
+        cursor.close();
+        return cursor;
+    }
 
     //count like
     public Cursor countLike(String studid) {
@@ -137,17 +168,18 @@ public class DatabaseCartAdapter {
         mydb.delete(TABLE_NAME, null, null);
     }
 
-    public void updateQTY(String id, String qty) {
+    public void updateQTY(String id, String qty, String totalitem) {
         ContentValues values = new ContentValues();
         values.put(QTY, qty);
+        values.put(TOTAL_ITEM,totalitem);
         mydb.update(TABLE_NAME, values, id + "=" + ID, null);
     }
 
-//    public void updateTotalQTY(){
-//        ContentValues values = new ContentValues();
-//        values.put(TOTAL_ITEM,item);
-//        mydb.update(TABLE_NAME, values, null, null);
-//    }
+    public static void updateTotalQTY(String totalitem){
+        ContentValues values = new ContentValues();
+        values.put(TOTAL_ITEM,totalitem);
+        mydb.update(TABLE_NAME, values, null, null);
+    }
 
     class DHelper extends SQLiteOpenHelper {
 

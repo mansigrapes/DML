@@ -32,7 +32,7 @@ public class ManageReferralAct extends DealerMelaBaseActivity implements View.On
     private RecyclerView recycleViewReferralList;
     private Button btnCreateReferral;
     private ReferralListRecyclerAdapter referralListRecyclerAdapter;
-    private ConstraintLayout constraintNoData;
+    public static ConstraintLayout constraintNoData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

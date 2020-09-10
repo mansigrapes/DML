@@ -91,7 +91,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 
     @Override
     public void initView() {
-        bindToolBar("Download Products");
+        bindToolBar("Download List");
         radioGroup = findViewById(R.id.radioGroupFilter);
         checkBoxSelectAll = findViewById(R.id.checkBoxSelectAll);
         recycleViewDownloadProducts = findViewById(R.id.recycleViewDownloadProducts);
@@ -144,7 +144,6 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                     }
                     AppLogger.e("un select all", "----un checked");
                 }
-
             }
         });
 
@@ -294,7 +293,9 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                     if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
 //                        downloadProductAdapter.selectionItemPosition.clear();
 //                        downloadProductAdapter.deleteItems.clear();
+                        checkBoxSelectAll.setChecked(false);
                         if (integerArrayList.isEmpty()){
+
                             finish();
                         }else {
                             Collections.reverse(integerArrayList);
@@ -307,6 +308,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 
                             }
                         }
+
                         CommonUtils.showSuccessToast(DownloadAct.this, " Product(s) deleted successfully");
                       /*  page_count = 1;
                         detailList = new ArrayList<>();
@@ -360,6 +362,8 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 //                            if(!detailList.isEmpty()) {       //apply this condition For when product downloaded it remove from the list
 //                                detailList.remove(i);
 //                            }
+//                            checkBoxSelectAll.setSelected(false);
+                            checkBoxSelectAll.setChecked(false);
                         }
 
 //                        Collections.reverse(integerArrayList);
@@ -402,6 +406,12 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
         } else {
             return false;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        invalidateOptionsMenu();
     }
 
     public void requestPermission() {

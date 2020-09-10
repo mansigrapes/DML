@@ -251,7 +251,6 @@
 
                 </LinearLayout>
 
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/one_sp_view"
@@ -372,7 +371,6 @@
                             android:textSize="@dimen/eight_sp" />
 
                     </LinearLayout>
-
 
                 </LinearLayout>
 
@@ -507,6 +505,5 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
 
 </LinearLayout>

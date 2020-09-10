@@ -13,6 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
+    <com.dealermela.utility.DmlButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancelandclear"
+        android:text="Cancel and Clear"
+        style="@style/All_Dmlbutton"
+        android:textColor="@color/white"
+        android:background="@color/dml_logo_color"
+        />
 
 </LinearLayout>

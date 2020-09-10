@@ -179,9 +179,13 @@ public class SearchAct extends DealerMelaBaseActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            case R.id.edSearch:
+                
+                break;
             case R.id.imgclose:
                 edSearch.getText().clear();
             break;
+
         }
     }
 

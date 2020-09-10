@@ -72,7 +72,7 @@ public class ReferralListRecyclerAdapter extends RecyclerView.Adapter<ReferralLi
                                 notifyItemRemoved(i);
                                 notifyItemRangeRemoved(i, itemArrayList.size());
                                 if (itemArrayList.isEmpty()){
-                                    activity.finish();
+                                    ManageReferralAct.constraintNoData.setVisibility(View.VISIBLE);
                                 }
                             }
                         })

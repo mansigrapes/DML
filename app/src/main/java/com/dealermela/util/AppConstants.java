@@ -5,7 +5,7 @@ import android.app.Activity;
 import com.dealermela.R;
 
 public final class AppConstants {
-    //    API base url
+    //    API base urlpr
 //    public static final String BASE_URL = "http://www.diamondmela.com/";
     public static final String BASE_URL = "http://123.108.51.11/index.php/";
     public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftwaretest/";

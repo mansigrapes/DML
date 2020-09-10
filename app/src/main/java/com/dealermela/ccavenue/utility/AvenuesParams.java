@@ -14,6 +14,7 @@ public class AvenuesParams {
 
     public static final String website_order_id = "website_order_id";
 
+    public static final String customer_id = "customer_id";
     public static final String billing_name = "billing_name";
     public static final String product_id = "product_id";
     public static final String billing_address = "billing_address";

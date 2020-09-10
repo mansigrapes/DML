@@ -24,7 +24,7 @@ public class TermsConditionAct extends DealerMelaBaseActivity {
 
     @Override
     public void initView() {
-        bindToolBar("Terms & Condition");
+        bindToolBar("Terms and Condition");
     }
 
     @Override

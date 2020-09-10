@@ -52,8 +52,11 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
         holder.tvProductName.setText(itemArrayList.get(i).getName());
 
+//        itemArrayList.get(i).getCertificate
+
         float price = itemArrayList.get(i).getPrice();
         holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
+        holder.tvCertificate.setText(Html.fromHtml("<b>" + "Certificate No. : " +"</b>" + itemArrayList.get(i).getCertificateNo()));
         if(itemArrayList.get(i).getStonequality() != null){
             holder.tvStoneQuality.setText(Html.fromHtml("<b>" + "Stone Quality : " + "</b> " + itemArrayList.get(i).getStonequality()));
         }
@@ -67,7 +70,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
         if (itemArrayList.get(i).getRingsize() != null) {
             holder.tvSize.setText(Html.fromHtml("<b>" + "Ring Size : " + "</b> " + String.valueOf(itemArrayList.get(i).getRingsize())));
         } else if (itemArrayList.get(i).getPendents() != null) {
-            holder.tvSize.setText(Html.fromHtml("<b>" + "Pendents : " + "</b> " + String.valueOf(itemArrayList.get(i).getPendents())));
+            holder.tvSize.setText(Html.fromHtml("<b>" + "Pendents Type : " + "</b> " + String.valueOf(itemArrayList.get(i).getPendents())));
         } else if (itemArrayList.get(i).getBangles() != null) {
             holder.tvSize.setText(Html.fromHtml("<b>" + "Bangle Size : " + "</b> " + String.valueOf(itemArrayList.get(i).getBangles())));
         } else if (itemArrayList.get(i).getBracelets() != null) {
@@ -75,7 +78,6 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
         } else {
             holder.tvSize.setVisibility(View.GONE);
         }
-
     }
 
     @Override
@@ -84,7 +86,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        final TextView tvPrice, tvProductName, tvStoneQuality, tvMetalQuality, tvQty, tvSubPrice, tvSize;
+        final TextView tvPrice, tvProductName, tvStoneQuality, tvMetalQuality, tvQty, tvSubPrice, tvSize,  tvCertificate;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -95,6 +97,8 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
             tvQty = itemView.findViewById(R.id.tvQty);
             tvSubPrice = itemView.findViewById(R.id.tvSubPrice);
             tvSize = itemView.findViewById(R.id.tvSize);
+            tvCertificate = itemView.findViewById(R.id.tvcertificateNo);
+
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

@@ -85,12 +85,12 @@ public class PopularProductCoverFlowAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, ProductDetailAct.class);
                 intent.putExtra(AppConstants.NAME, data.get(position).getEntityId());
+                intent.putExtra(AppConstants.ID, data.get(position).getAttributeSetId());
                 activity.startActivity(intent);
                 activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
         };
     }
-
 
     private static class ViewHolder {
         private ImageView imgPopularProduct;

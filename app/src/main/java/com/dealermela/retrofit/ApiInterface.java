@@ -13,6 +13,7 @@ import com.dealermela.home.model.BannerSliderItem;
 import com.dealermela.home.model.HeaderItem;
 import com.dealermela.home.model.MostSellingItem;
 import com.dealermela.home.model.PopularProductItem;
+import com.dealermela.home.model.QrCodeResponse;
 import com.dealermela.inventary.model.InventoryActionItem;
 import com.dealermela.inventary.model.InventoryFilterItem;
 import com.dealermela.inventary.model.InventoryInvoiceItem;
@@ -30,6 +31,8 @@ import com.dealermela.order.model.OrderItem;
 import com.dealermela.referral.model.ReferralResponse;
 import com.dealermela.transaction.model.TransactionItem;
 import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -89,6 +92,9 @@ public interface ApiInterface {
     @POST("dmlapi/customers/getallregionlist/")
     Call<StateResponse> getState(@Field("country_id") String countryId);
 
+    /* Get Dealership guideline URL  */
+    @GET("dmlapi/customers/geturlfordealership")
+    Call<JsonObject> getDealershipURL();
 
     /*    Using for My Account  */
 
@@ -311,7 +317,9 @@ public interface ApiInterface {
                                              @Field("stone_quality") String stoneQuality,
                                              @Field("bangle_pro_id") String bangleProId,
                                              @Field("bracelet_pro_id") String braceletProId,
-                                             @Field("pendent_pro_id") String pendentProId);
+                                             @Field("pendent_pro_id") String pendentProId,
+                                             @Field("SelectedBangleValue") String SelectedBangleValue,
+                                             @Field("SelectedPEValue") String SelectedPEValue);
 
     //rtsslider           /**/
     @FormUrlEncoded
@@ -438,7 +446,8 @@ public interface ApiInterface {
     // place order                              /**/
     @FormUrlEncoded
     @POST("dmlapi/addtocart/createorders")
-    Call<JsonObject> placeOrder(@Field("customer_id") String customerId);
+    Call<JsonObject> placeOrder(@Field("customer_id") String customerId,
+                                @Field("order_flag") String order_flag);
 
 
     //    My Stock
@@ -460,7 +469,7 @@ public interface ApiInterface {
     // sale product       /**/
     @FormUrlEncoded
     @POST("dmlapi/Mystock/addmystockproduct")
-    Call<JsonObject> placeOrder(@Field("product") String product, @Field("customer_id") String customer_id);
+    Call<JsonObject> MyStockplaceOrder(@Field("product") String product, @Field("customer_id") String customer_id);
 
 
     //Cart ,Download Count                              /** /
@@ -485,7 +494,8 @@ public interface ApiInterface {
     //Listing                        /**/
     @FormUrlEncoded
     @POST("dmlapi/product/search")
-    Call<ListingItem> searchProduct(@Field("search_term") String searchTerm,
+    Call<ListingItem> searchProduct(@Field("customer_id ") String customer_id,
+                                    @Field("search_term") String searchTerm,
                                     @Field("page") String page);
 
 
@@ -560,5 +570,11 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("public/api/getQuotationList")
     Call<InventoryQuotationItem> getQuotationList(@Field("page") String page, @Field("customer_id") String customer_id);
+
+
+    //**************************Qr Code Scanning & Get Product Id *******************************
+    @FormUrlEncoded
+    @POST("public/api/Qrscangetproduct")
+    Call<QrCodeResponse> getProductId(@Field("certificate_no") String certificate_no);
 
 }

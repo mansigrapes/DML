@@ -140,7 +140,7 @@ public class ForgotPasswordAct extends DealerMelaBaseActivity {
     }
 
     private boolean validateData() {
-        if (!Validator.checkEmpty(edEmail, getString(R.string.login_please_enter_email))) {
+        if (!Validator.checkEmpty(edEmail, getString(R.string.login_enter_required_data))) {
             return false;
         } else if (!Validator.checkEmail(edEmail)) {
             edEmail.setError(getString(R.string.login_please_enter_valid_email));

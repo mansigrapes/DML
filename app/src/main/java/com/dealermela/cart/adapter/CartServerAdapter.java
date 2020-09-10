@@ -98,7 +98,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
             holder.tvRingSize.setText(Html.fromHtml(sourceString));
 
         } else if (itemArrayList.get(i).getPendents() != null) {
-            sourceString = "<b>" + "Pendent Size : " + "</b> " + itemArrayList.get(i).getPendents();
+            sourceString = "<b>" + "Pendent Type : " + "</b> " + itemArrayList.get(i).getPendents();
             holder.tvRingSize.setText(Html.fromHtml(sourceString));
         } else {
             holder.tvRingSize.setVisibility(View.GONE);
@@ -119,6 +119,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
             public void onClick(View v) {
                 int qty = Integer.parseInt(itemArrayList.get(i).getQty());
                 qty++;
+//                updateProductQty(customerId, itemArrayList.get(i).getItemid(), String.valueOf(qty));
                 holder.tvQuantity.setText(String.valueOf(qty));
                 itemArrayList.get(i).setQty(String.valueOf(qty));
                 cartCount++;         //Added this line to update cartcount for every item  But count not updated from API SIDE.
@@ -276,11 +277,9 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
                         JSONObject jsonObject = new JSONObject(response.body().toString());
                         if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                             if (cartCount == 0) {
-
                             } else {
                                 cartCount--;
                             }
-
                             hud.dismiss();
                             shoppingFrg.updateCart(customerId);
                         }
@@ -299,6 +298,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
 
     private void updateProductQty(final String customersId, String itemId, String qty) {
         //show progress
+        // Hide this progressbar Bcz of 2 APIs call in cart update & 2 times display progressbar so
         hud = KProgressHUD.create(activity)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
         hud.show();

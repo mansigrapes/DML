@@ -67,18 +67,15 @@ public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdap
             public void onClick(View v) {
                 if (((SelectAddressAct) activity).addressFlag.equalsIgnoreCase("Billing")) {
                     SharedPreferences sharedPreferences = new SharedPreferences(activity);
-                    sharedPreferences.saveBillingAddress(itemArrayList.get(i).getFirstname() + " " + itemArrayList.get(i).getLastname() + ",\n" + itemArrayList.get(i).getStreet() + ",\n" + itemArrayList.get(i).getCity() + ", " + itemArrayList.get(i).getRegion() + ", " + itemArrayList.get(i).getPostcode() + ",\n" + itemArrayList.get(i).getCountryId() + "\nT: " + itemArrayList.get(i).getTelephone());
+                    sharedPreferences.saveOrderBillingAddress(itemArrayList.get(i).getFirstname() + " " + itemArrayList.get(i).getLastname() + ",\n" + itemArrayList.get(i).getStreet() + ",\n" + itemArrayList.get(i).getCity() + ", " + itemArrayList.get(i).getRegion() + ", " + itemArrayList.get(i).getPostcode() + ",\n" + itemArrayList.get(i).getCountryId() + "\nT: " + itemArrayList.get(i).getTelephone());
                     setAddress(itemArrayList.get(i).getEntityId(), "billing");
                 } else if (((SelectAddressAct) activity).addressFlag.equalsIgnoreCase("Shipping")) {
                     SharedPreferences sharedPreferences = new SharedPreferences(activity);
-                    sharedPreferences.saveShipping(itemArrayList.get(i).getFirstname() + " " + itemArrayList.get(i).getLastname() + ",\n" + itemArrayList.get(i).getStreet() + ",\n" + itemArrayList.get(i).getCity() + ", " + itemArrayList.get(i).getRegion() + ", " + itemArrayList.get(i).getPostcode() + ",\n" + itemArrayList.get(i).getCountryId() + "\nT: " + itemArrayList.get(i).getTelephone());
+                    sharedPreferences.saveOrderShipping(itemArrayList.get(i).getFirstname() + " " + itemArrayList.get(i).getLastname() + ",\n" + itemArrayList.get(i).getStreet() + ",\n" + itemArrayList.get(i).getCity() + ", " + itemArrayList.get(i).getRegion() + ", " + itemArrayList.get(i).getPostcode() + ",\n" + itemArrayList.get(i).getCountryId() + "\nT: " + itemArrayList.get(i).getTelephone());
                     setAddress(itemArrayList.get(i).getEntityId(), "shipping");
                 }
-
             }
         });
-
-
     }
 
     @Override
@@ -107,8 +104,6 @@ public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdap
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
 
     private void setAddress(String address_id, String flag_shipping) {
@@ -142,9 +137,6 @@ public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdap
                 AppLogger.e("", "------------" + t.getMessage());
                 hud.dismiss();
             }
-
         });
     }
-
-
 }

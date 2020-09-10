@@ -51,7 +51,6 @@ public class ManageAddressAct extends DealerMelaBaseActivity implements View.OnC
     private AddressRecyclerAdapter addressRecyclerAdapter;
     public static TextView tvNoAddress;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

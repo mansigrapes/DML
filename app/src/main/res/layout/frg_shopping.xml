@@ -98,6 +98,25 @@
                     <com.dealermela.utility.DmlTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/shipping_charge" />
+
+                    <com.dealermela.utility.DmlTextView
+                        android:id="@+id/tvShippingCharge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="RelativeOverlap" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                    <com.dealermela.utility.DmlTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/tax" />
 
                     <com.dealermela.utility.DmlTextView
@@ -328,11 +347,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
+<!--        <com.dealermela.utility.DmlImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:src="@drawable/ic_shopping_cart_empty_side_view" />-->
+
         <com.dealermela.utility.DmlImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/ic_shopping_cart_empty_side_view" />
+            android:src="@drawable/cart_empty" />
 
         <com.dealermela.utility.DmlTextViewBold
             android:layout_width="wrap_content"

@@ -3,10 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/main_layout"
-
-
-    >
+    android:id="@+id/main_layout">
 
     <com.dealermela.utility.DmlImageView
         android:layout_marginStart="5dp"

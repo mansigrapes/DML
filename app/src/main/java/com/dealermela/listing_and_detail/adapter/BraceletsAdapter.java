@@ -49,6 +49,7 @@ public class BraceletsAdapter extends RecyclerView.Adapter<BraceletsAdapter.View
                 holder.linBracelet.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select_black));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
+
             } else {
                 holder.linBracelet.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect_black));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.white));
@@ -59,16 +60,17 @@ public class BraceletsAdapter extends RecyclerView.Adapter<BraceletsAdapter.View
                 holder.linBracelet.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
+                ((ProductDetailAct) activity).cBracelet=itemArrayList.get(i).getLabel();
             } else {
                 holder.linBracelet.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
             }
         } else {
-
             if (itemArrayList.get(i).isSelected()) {
                 holder.linBracelet.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
+                ((ProductDetailAct) activity).cBracelet=itemArrayList.get(i).getLabel();
             } else {
                 holder.linBracelet.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));

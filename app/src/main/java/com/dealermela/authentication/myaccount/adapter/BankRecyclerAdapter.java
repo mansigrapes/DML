@@ -154,6 +154,7 @@ public class BankRecyclerAdapter extends RecyclerView.Adapter<BankRecyclerAdapte
                                 if(itemArrayList.isEmpty()){
                                     ManageBankAct.constraintNoData.setVisibility(View.VISIBLE);
                                 }
+                                CommonUtils.showSuccessToast(activity,"Deleted successfully");
                             }
                         })
                         .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {

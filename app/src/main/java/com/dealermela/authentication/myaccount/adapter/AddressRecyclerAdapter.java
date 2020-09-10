@@ -21,6 +21,7 @@ import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.CommonUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ligl.android.widget.iosdialog.IOSDialog;
@@ -96,6 +97,7 @@ public class AddressRecyclerAdapter extends RecyclerView.Adapter<AddressRecycler
                                 if(itemArrayList.size() == 0){
                                     ManageAddressAct.tvNoAddress.setVisibility(View.VISIBLE);
                                 }
+                                CommonUtils.showSuccessToast(activity,"Deleted successfully");
                             }
                         })
                         .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {

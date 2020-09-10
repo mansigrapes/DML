@@ -327,6 +327,7 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
+        invalidateOptionsMenu();
         getAddress(customerId);
         SharedPreferences sharedPreferences = new SharedPreferences(EditProfileAct.this);
         Gson gson = new Gson();

@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
+import com.dealermela.home.activity.MainActivity;
 import com.dealermela.listing_and_detail.activity.ListAct;
 import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.retrofit.APIClient;
@@ -115,14 +116,19 @@ public class ContactUsAct extends DealerMelaBaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSubmit:
-                boolean valid = validateData();
-                if (valid) {
-                    AppLogger.e("valid", "-------");
-                    addContactUs(Objects.requireNonNull(edName.getText()).toString(), edComment.getText().toString(), edEmail.getText().toString());
-                } else {
-                    AppLogger.e("not valid", "-------");
+
+                if(!Validator.checkEmpty(edEmail,getString(R.string.login_enter_required_data)) && !Validator.checkEmpty(edName,getString(R.string.login_enter_required_data)) && !Validator.checkEmpty(edTelephone,getString(R.string.login_enter_required_data)) && !Validator.checkEmpty(edComment,getString(R.string.login_enter_required_data))){
+
+                }else {
+                    boolean valid = validateData();
+                    if (valid) {
+                        AppLogger.e("valid", "-------");
+                        addContactUs(Objects.requireNonNull(edName.getText()).toString(), edComment.getText().toString(), edEmail.getText().toString());
+                    } else {
+                        AppLogger.e("not valid", "-------");
+                    }
+                    break;
                 }
-                break;
         }
     }
 
@@ -154,7 +160,7 @@ public class ContactUsAct extends DealerMelaBaseActivity implements View.OnClick
                                         edComment.setText("");
                                         edTelephone.setText("");
                                         edEmail.setText("");
-
+                                        startNewActivity(MainActivity.class);
                                     }
                                 })
                                 .show();

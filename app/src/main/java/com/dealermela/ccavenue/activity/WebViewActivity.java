@@ -6,9 +6,13 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,32 +25,53 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dealermela.R;
+import com.dealermela.authentication.myaccount.activity.ForgotPasswordAct;
+import com.dealermela.authentication.myaccount.dialog.SuccessOrderDialogClass;
+import com.dealermela.cart.activity.OrderSummaryAct;
 import com.dealermela.ccavenue.utility.AvenuesParams;
 import com.dealermela.ccavenue.utility.Constants;
 import com.dealermela.ccavenue.utility.LoadingDialog;
 import com.dealermela.ccavenue.utility.RSAUtility;
 import com.dealermela.ccavenue.utility.ServiceUtility;
+import com.dealermela.order.activity.OrderTabActivity;
+import com.dealermela.retrofit.APIClient;
+import com.dealermela.retrofit.ApiInterface;
+import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.CommonUtils;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+
+import static com.dealermela.home.activity.MainActivity.customerId;
 
 public class WebViewActivity extends AppCompatActivity {
     Intent mainIntent;
     String encVal;
     String vResponse;
+    WebView webview;
+    String order_flag;
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_webview);
         mainIntent = getIntent();
-
+        webview = (WebView) findViewById(R.id.webview);
 //get rsa key method
         AppLogger.e("access code", "------------" + mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE));
         AppLogger.e("ORDER_ID", "------------" + mainIntent.getStringExtra(AvenuesParams.ORDER_ID));
+        AppLogger.e("Customer_Id", "------------" + mainIntent.getStringExtra(AvenuesParams.customer_id));
 
         get_RSA_key(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), mainIntent.getStringExtra(AvenuesParams.ORDER_ID));
     }
@@ -101,11 +126,13 @@ public class WebViewActivity extends AppCompatActivity {
                     //Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), StatusActivity.class);
                     intent.putExtra("transStatus", status);
+                    intent.putExtra("customerId", mainIntent.getStringExtra(AvenuesParams.customer_id));
                     startActivity(intent);
                 }
             }
 
-            final WebView webview = (WebView) findViewById(R.id.webview);
+//            final WebView webview = (WebView) findViewById(R.id.webview);
+
             webview.getSettings().setJavaScriptEnabled(true);
             webview.addJavascriptInterface(new MyJavaScriptInterface(),"HTMLOUT");
             webview.setWebViewClient(new WebViewClient() {
@@ -134,8 +161,9 @@ public class WebViewActivity extends AppCompatActivity {
                 AppLogger.e(AvenuesParams.CANCEL_URL, "-----------" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.CANCEL_URL)));
                 AppLogger.e(AvenuesParams.ENC_VAL, "-----------" + URLEncoder.encode(encVal));
 
-                AppLogger.e("post url", "-----------" + AvenuesParams.ACCESS_CODE + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), "UTF-8") + "&" + AvenuesParams.MERCHANT_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.MERCHANT_ID), "UTF-8") + "&" + AvenuesParams.ORDER_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ORDER_ID), "UTF-8") + "&" + AvenuesParams.REDIRECT_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.REDIRECT_URL), "UTF-8") + "&" + AvenuesParams.CANCEL_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.CANCEL_URL), "UTF-8") + "&" + AvenuesParams.ENC_VAL + "=" + URLEncoder.encode(encVal, "UTF-8") + "&"+ AvenuesParams.website_order_id + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.website_order_id),"UTF-8"));
-                String postData = AvenuesParams.ACCESS_CODE + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), "UTF-8") + "&" + AvenuesParams.MERCHANT_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.MERCHANT_ID), "UTF-8") + "&" + AvenuesParams.ORDER_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ORDER_ID), "UTF-8") + "&" + AvenuesParams.REDIRECT_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.REDIRECT_URL), "UTF-8") + "&" + AvenuesParams.CANCEL_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.CANCEL_URL), "UTF-8") + "&" + AvenuesParams.ENC_VAL + "=" + URLEncoder.encode(encVal, "UTF-8") + "&billing_name=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_name),"UTF-8") + "&billing_address=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_address),"UTF-8") + "&billing_zip="+ URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_zip),"UTF-8") + "&billing_city=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_city),"UTF-8") + "&billing_state=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_state),"UTF-8") + "&billing_country=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_country),"UTF-8") + "&billing_tel=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_tel),"UTF-8") + "&billing_email=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_email),"UTF-8") + "&" + AvenuesParams.website_order_id + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.website_order_id),"UTF-8") ;
+                AppLogger.e("post url", "-----------" + AvenuesParams.ACCESS_CODE + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), "UTF-8") + "&" + AvenuesParams.MERCHANT_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.MERCHANT_ID), "UTF-8") + "&" + AvenuesParams.ORDER_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ORDER_ID), "UTF-8") + "&" + AvenuesParams.REDIRECT_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.REDIRECT_URL), "UTF-8") + "&" + AvenuesParams.CANCEL_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.CANCEL_URL), "UTF-8") + "&" + AvenuesParams.ENC_VAL + "=" + URLEncoder.encode(encVal, "UTF-8") );
+//                String postData = AvenuesParams.ACCESS_CODE + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), "UTF-8") + "&" + AvenuesParams.MERCHANT_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.MERCHANT_ID), "UTF-8") + "&" + AvenuesParams.ORDER_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ORDER_ID), "UTF-8") + "&" + AvenuesParams.REDIRECT_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.REDIRECT_URL), "UTF-8") + "&" + AvenuesParams.CANCEL_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.CANCEL_URL), "UTF-8") + "&" + AvenuesParams.ENC_VAL + "=" + URLEncoder.encode(encVal, "UTF-8") + "&billing_name=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_name),"UTF-8") + "&billing_address=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_address),"UTF-8") + "&billing_zip="+ URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_zip),"UTF-8") + "&billing_city=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_city),"UTF-8") + "&billing_state=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_state),"UTF-8") + "&billing_country=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_country),"UTF-8") + "&billing_tel=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_tel),"UTF-8") + "&billing_email=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_email),"UTF-8") + "&" + AvenuesParams.website_order_id + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.website_order_id),"UTF-8") ;
+                String postData = AvenuesParams.ACCESS_CODE + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), "UTF-8") + "&" + AvenuesParams.MERCHANT_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.MERCHANT_ID), "UTF-8") + "&" + AvenuesParams.ORDER_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ORDER_ID), "UTF-8") + "&" + AvenuesParams.REDIRECT_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.REDIRECT_URL), "UTF-8") + "&" + AvenuesParams.CANCEL_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.CANCEL_URL), "UTF-8") + "&" + AvenuesParams.ENC_VAL + "=" + URLEncoder.encode(encVal, "UTF-8") + "&billing_name=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_name),"UTF-8") + "&billing_address=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_address),"UTF-8") + "&billing_zip="+ URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_zip),"UTF-8") + "&billing_city=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_city),"UTF-8") + "&billing_state=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_state),"UTF-8") + "&billing_country=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_country),"UTF-8") + "&billing_tel=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_tel),"UTF-8") + "&billing_email=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_email),"UTF-8");
                 webview.postUrl(Constants.TRANS_URL, postData.getBytes());
 
             } catch (UnsupportedEncodingException e) {
@@ -210,5 +238,57 @@ public class WebViewActivity extends AppCompatActivity {
             }
         });
         alertDialog.show();
+    }
+
+   public void onBackPressed(){
+        //Call API for without paying payment and user press back button so that order has not been completed and show as it is in cart page
+       if (webview.canGoBack()) {
+           finish();
+           webview.goBack();
+       } else {
+           super.onBackPressed();
+       }
+
+//       order_flag = "0";
+//       ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+//       Call<JsonObject> callApi = apiInterface.placeOrder(customerId,order_flag);
+//       callApi.enqueue(new Callback<JsonObject>() {
+//           @SuppressLint("SetTextI18n")
+//           @Override
+//           public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
+//               AppLogger.e(AppConstants.RESPONSE, "--------------" + response.body());
+//               assert response.body() != null;
+//               try {
+//                   AppLogger.e("Response from API when press back","---- " + response.body().toString());
+//                   JSONObject jsonObject = new JSONObject(response.body().toString());
+//                   if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_FAIL)) {
+//                       AppLogger.e("Response from API when press back","---- " + response.body().toString());
+//
+//                       new AlertDialog.Builder(WebViewActivity.this,R.style.AppCompatAlertDialogStyle)
+//                               .setTitle(CommonUtils.capitalizeString(jsonObject.getString("status")))
+//                               .setMessage(jsonObject.getString("message"))
+//                               .setCancelable(false)
+//                               .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+//                                   @Override
+//                                   public void onClick(DialogInterface dialog, int which) {
+//                                       finish();
+//                                       webview.goBack();
+//                                   }
+//                               })
+//                               .show();
+//
+//                   } else {
+//                   }
+//
+//               } catch (JSONException e) {
+//                   e.printStackTrace();
+//               }
+//           }
+//
+//           @Override
+//           public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+//               AppLogger.e("Error Webview back pressed API ","--" + t.getMessage());
+//           }
+//       });
     }
 }
