@@ -113,7 +113,6 @@ public class SearchAct extends DealerMelaBaseActivity implements View.OnClickLis
                         startNewActivityWithIntent(intent);
                         AppLogger.e("search", edSearch.getText().toString());
                     }
-
                 }
                 return false;
             }

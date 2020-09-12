@@ -258,14 +258,14 @@
                     android:background="?transaction_line_color"
                     android:visibility="gone" />
 
-                <ImageView
-                    android:id="@+id/imgSingleBanner"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/banner_height"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/background_image"
-                    tools:ignore="ContentDescription" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/imgSingleBanner"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/banner_height"-->
+<!--                    android:layout_marginTop="@dimen/activity_vertical_margin"-->
+<!--                    android:scaleType="fitXY"-->
+<!--                    android:src="@drawable/background_image"-->
+<!--                    tools:ignore="ContentDescription" />-->
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"

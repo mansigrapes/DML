@@ -175,7 +175,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         gridLayoutManager = new GridLayoutManager(ListAct.this, 2);
         recycleViewListing = findViewById(R.id.recycleViewListing);
         recycleViewListing.setLayoutManager(gridLayoutManager);
-        linNoData = findViewById(R.id.linNoData);
+        linNoData = findViewById(R.id.searchNoData);
         swipeRefreshData = findViewById(R.id.swipeRefreshData);
 
         mBottomSheetDialog = new BottomSheetDialog(ListAct.this);
@@ -740,10 +740,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //            availability.setLength(availability.length() - 1);
 //            sort_by.setLength(sort_by.length() - 1);
 
-//            if(pagecountflag == 1){     //When filter is applied & go to detail page & back to list page ->>page should not getting refreshed  only refresh data on scrolling
+            if(pagecountflag == 1){     //When filter is applied & go to detail page & back to list page ->>page should not getting refreshed  only refresh data on scrolling
 //                pagecountflag = 0;
-//                page_count = 1;
-//            }
+                page_count = 1;
+            }
 
             listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
             recycleViewListing.setAdapter(listingRecyclerAdapter);
@@ -801,7 +801,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             itemArrayList.clear();
             mapFilter.clear();
             skuFilterString="";
-//            page_count = 1;
+            page_count = 1;
 
 //            if(pagecountflag == 1){     //When reset filter & go to detail page & back to list page ->> page  getting refreshed
 //                pagecountflag = 0;

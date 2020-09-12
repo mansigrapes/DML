@@ -90,6 +90,7 @@ public class ManageReferralAct extends DealerMelaBaseActivity implements View.On
 
 //                    if (!response.body().getData().isEmpty()) {
                     if(response.body().getData() != null)  {
+                        constraintNoData.setVisibility(View.GONE);
                         referralListRecyclerAdapter = new ReferralListRecyclerAdapter(ManageReferralAct.this, response.body().getData());
                         recycleViewReferralList.setAdapter(referralListRecyclerAdapter);
                     }else{

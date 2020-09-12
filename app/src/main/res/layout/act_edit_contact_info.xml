@@ -229,9 +229,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/pancard_no"
                     android:maxLength="10"
-                    android:inputType="text"
-                    android:textAllCaps="true"
-                    />
+                    android:inputType="textCapCharacters"
+                    android:textAllCaps="true"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -248,8 +247,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/gstin"
-                    android:textAllCaps="true"
-                    android:inputType="text" />
+                    android:inputType="textCapCharacters"
+                    android:textAllCaps="true"/>
 
             </android.support.design.widget.TextInputLayout>
 

@@ -117,7 +117,7 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
         recycleViewHeader = rootView.findViewById(R.id.recycleViewHeader);
         recycleViewBestProducts = rootView.findViewById(R.id.recycleViewBestProducts);
         recycleViewMostSelling = rootView.findViewById(R.id.recycleViewMostSelling);
-        imgSingleBanner = rootView.findViewById(R.id.imgSingleBanner);
+//        imgSingleBanner = rootView.findViewById(R.id.imgSingleBanner);
         linBackGrad = rootView.findViewById(R.id.linBackGrad);
         btnViewAll = rootView.findViewById(R.id.btnViewAll);
 //        coverFlowPopularProduct = rootView.findViewById(R.id.coverFlowPopularProduct);
@@ -214,10 +214,10 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
 
                     if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)){
                         try {
-                            Glide.with(Objects.requireNonNull(getActivity()))
-                                    .load(response.body().getBannerImage())
-                                    .apply(new RequestOptions().placeholder(R.drawable.dml_logo).error(R.drawable.dml_logo))
-                                    .into(imgSingleBanner);
+//                            Glide.with(Objects.requireNonNull(getActivity()))
+//                                    .load(response.body().getBannerImage())
+//                                    .apply(new RequestOptions().placeholder(R.drawable.dml_logo).error(R.drawable.dml_logo))
+//                                    .into(imgSingleBanner);
 
                             HomePageSliderAdapter homePageSliderAdapter = new HomePageSliderAdapter(getActivity(), response.body().getSliderImage());
                             viewpagerSlider.setAdapter(homePageSliderAdapter);

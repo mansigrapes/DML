@@ -67,17 +67,20 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
-        if (itemArrayList.get(i).getTypeId().equalsIgnoreCase("simple")) {
-            if (Integer.parseInt(itemArrayList.get(i).getQty()) > 1) {
-                holder.tvQty.setVisibility(View.VISIBLE);
-                holder.tvQty.setText("QTY " + itemArrayList.get(i).getQty());
-            } else {
-                holder.tvQty.setVisibility(View.GONE);
-            }
-        } else {
-            holder.tvQty.setVisibility(View.GONE);
-        }
+    public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
+
+        //Commented On 02/09/2020  Bcz Qty Label Not displaying from now
+
+//        if (itemArrayList.get(i).getTypeId().equalsIgnoreCase("simple")) {
+//            if (Integer.parseInt(itemArrayList.get(i).getQty()) > 1) {
+//                holder.tvQty.setVisibility(View.VISIBLE);
+//                holder.tvQty.setText("QTY " + itemArrayList.get(i).getQty());
+//            } else {
+//                holder.tvQty.setVisibility(View.GONE);
+//            }
+//        } else {
+//            holder.tvQty.setVisibility(View.GONE);
+//        }
 
         sharedPreferences = new SharedPreferences(activity);
         if(sharedPreferences.getLoginData().equalsIgnoreCase("")){

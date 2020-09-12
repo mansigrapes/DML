@@ -147,15 +147,12 @@ public class ReferralListRecyclerAdapter extends RecyclerView.Adapter<ReferralLi
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 AppLogger.e(AppConstants.RESPONSE, "-----------------" + response.body());
                 assert response.body() != null;
-
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("", "------------" + t.getMessage());
             }
-
         });
     }
-
 }

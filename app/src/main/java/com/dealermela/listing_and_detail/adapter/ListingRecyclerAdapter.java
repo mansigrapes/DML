@@ -72,7 +72,7 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
 
 //        if(!itemArrayList.get(i).getEntityId().equalsIgnoreCase("1430433")) {
             holder.mainLayout.setVisibility(View.VISIBLE);

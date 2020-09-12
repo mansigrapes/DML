@@ -62,7 +62,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
         holder.imgMinus.setVisibility(View.GONE);
         holder.imgPlus.setVisibility(View.GONE);
         holder.tvSku.setText(Html.fromHtml("<b>" + "SKU : " + "</b> " + itemArrayList.get(i).getSku()));
@@ -81,20 +81,40 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         String sourceString = "";
         if (itemArrayList.get(i).getCategoryId().equalsIgnoreCase(AppConstants.RING_ID)) {
-            sourceString = "<b>" + "Ring Size : " + "</b> " + itemArrayList.get(i).getRing_size();
-            holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            if(!itemArrayList.get(i).getRing_size().equalsIgnoreCase("null")){
+                sourceString = "<b>" + "Ring Size : " + "</b> " + itemArrayList.get(i).getRing_size();
+                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            }else {
+                sourceString = "<b>" + "Ring Size : - " + "</b> " ;
+                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            }
 
         } else if (itemArrayList.get(i).getCategoryId().equalsIgnoreCase(AppConstants.BRACELETS_ID)) {
-            sourceString = "<b>" + "Bracelet Size : " + "</b> " + itemArrayList.get(i).getBracelet_size();
-            holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            if(!itemArrayList.get(i).getBracelet_size().equalsIgnoreCase("null")){
+                sourceString = "<b>" + "Bracelet Size : " + "</b> " + itemArrayList.get(i).getBracelet_size();
+                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            }else {
+                sourceString = "<b>" + "Bracelet Size : N/A " + "</b> " ;
+                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            }
 
         } else if (itemArrayList.get(i).getCategoryId().equalsIgnoreCase(AppConstants.BANGLE_ID)) {
-            sourceString = "<b>" + "Bangle Size : " + "</b> " + itemArrayList.get(i).getBangle_size();
-            holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            if(!itemArrayList.get(i).getBangle_size().equalsIgnoreCase("null")){
+                sourceString = "<b>" + "Bangle Size : " + "</b> " + itemArrayList.get(i).getBangle_size();
+                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            }else {
+                sourceString = "<b>" + "Bangle Size : N/A " + "</b> " ;
+                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            }
 
         } else if (itemArrayList.get(i).getCategoryId().equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
-            sourceString = "<b>" + "Pendent Type : " + "</b> " + itemArrayList.get(i).getPendent_set_type();
-            holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            if(itemArrayList.get(i).getPendent_set_type() != null){
+                sourceString = "<b>" + "Pendent Type : " + "</b> " + itemArrayList.get(i).getPendent_set_type();
+                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            }else {
+                sourceString = "<b>" + "Pendent Type : - " + "</b> " ;
+                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            }
         } else {
             holder.tvRingSize.setVisibility(View.GONE);
         }

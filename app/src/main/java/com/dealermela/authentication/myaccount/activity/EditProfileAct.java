@@ -334,7 +334,12 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
         loginResponse = gson.fromJson(sharedPreferences.getLoginData(), LoginResponse.class);
         tvName.setText(loginResponse.getData().getFirstname() + " " + loginResponse.getData().getLastname());
         tvEmail.setText(loginResponse.getData().getEmail());
-        tvReferralCode.setText(" " + loginResponse.getData().getRefcode());
+
+        if(loginResponse.getData().getRefcode() == null){
+            tvReferralCode.setText(" N/A");
+        }else {
+            tvReferralCode.setText(" " + loginResponse.getData().getRefcode());
+        }
     }
 
     public class ViewDialog {

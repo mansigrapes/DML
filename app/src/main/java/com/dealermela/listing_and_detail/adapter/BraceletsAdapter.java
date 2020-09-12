@@ -60,7 +60,7 @@ public class BraceletsAdapter extends RecyclerView.Adapter<BraceletsAdapter.View
                 holder.linBracelet.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
-                ((ProductDetailAct) activity).cBracelet=itemArrayList.get(i).getLabel();
+//                ((ProductDetailAct) activity).cBracelet=itemArrayList.get(i).getLabel();
             } else {
                 holder.linBracelet.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
@@ -70,7 +70,7 @@ public class BraceletsAdapter extends RecyclerView.Adapter<BraceletsAdapter.View
                 holder.linBracelet.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
 //            ((ProductDetailAct)activity).recycleViewRingSize.scrollToPosition(i);
-                ((ProductDetailAct) activity).cBracelet=itemArrayList.get(i).getLabel();
+//                ((ProductDetailAct) activity).cBracelet=itemArrayList.get(i).getLabel();  //set this value in refresh API call
             } else {
                 holder.linBracelet.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect));
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));

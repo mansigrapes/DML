@@ -156,6 +156,7 @@ public class ManageAddressAct extends DealerMelaBaseActivity implements View.OnC
                         recycleViewAdditionalAddress.setAdapter(addressRecyclerAdapter);
                         tvNoAddress.setVisibility(View.GONE);
                     } else {
+                        recycleViewAdditionalAddress.setVisibility(View.GONE);
                         tvNoAddress.setVisibility(View.VISIBLE);
                     }
                     tvBName.setText(response.body().getDefaultBilling().getFirstname() + " " + response.body().getDefaultBilling().getLastname());

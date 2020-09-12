@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/list_item_card_height"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/eight_margin_padding"
             android:layout_marginTop="@dimen/eight_sp"
             android:background="@drawable/list_item_border"

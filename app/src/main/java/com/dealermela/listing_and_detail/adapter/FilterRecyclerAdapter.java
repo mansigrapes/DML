@@ -71,16 +71,18 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
                 AppLogger.e("if title position", "------------" + filterCurrentPosition);
                 AppLogger.e("if current position", "------------" + getAdapterPosition());
                 itemArrayList.get(getAdapterPosition()).setSelected(false);
+                notifyItemChanged(getAdapterPosition());
                 ((FilterAct) activity).updateFilterData(getAdapterPosition(), false);
 //                filterSelectItems.get(filterCurrentPosition).getOptionData().get(getAdapterPosition()).setSelected(true);
-                notifyItemChanged(getAdapterPosition());
+
             } else {
                 AppLogger.e("else title position", "------------" + filterCurrentPosition);
                 AppLogger.e("else current position", "------------" + getAdapterPosition());
                 itemArrayList.get(getAdapterPosition()).setSelected(true);
+                notifyItemChanged(getAdapterPosition());
                 ((FilterAct) activity).updateFilterData(getAdapterPosition(), true);
 //                filterSelectItems.get(filterCurrentPosition).getOptionData().get(getAdapterPosition()).setSelected(false);
-                notifyItemChanged(getAdapterPosition());
+
             }
             ((FilterAct) activity).countFilter();
 //            ((FilterAct) activity).bindSelectFilter();

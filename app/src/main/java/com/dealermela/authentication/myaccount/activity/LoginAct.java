@@ -317,6 +317,9 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                                cartbackFlag = 1;
                                cartCheckBugNowFlag = 1;
                                startNewActivity(CartAct.class);
+                               databaseCartAdapter.openDatabase();
+                               databaseCartAdapter.deleteAllRecord();
+                               databaseCartAdapter.closeDatabase();
                                finish();
                            }
                        }else if (loginFlag == 1){
@@ -326,6 +329,9 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                                cartbackFlag = 1;
                                cartCheckBugNowFlag = 1;
                                startNewActivity(CartAct.class);
+                               databaseCartAdapter.openDatabase();
+                               databaseCartAdapter.deleteAllRecord();
+                               databaseCartAdapter.closeDatabase();
                                finish();
                            }
 //                           startNewActivity(CartAct.class);

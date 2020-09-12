@@ -82,6 +82,7 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
                     AppLogger.e("selected item", "----------" + rtsSlider.getEntityId());
 
                     ((ProductDetailAct) activity).cProductId = rtsSlider.getEntityId();
+                    ((ProductDetailAct) activity).productType = rtsSlider.getTypeId();
                     ((ProductDetailAct) activity).cSku = rtsSlider.getOriginalSku();
                     ((ProductDetailAct) activity).cRingSize = rtsSlider.getRtsRingSize();
                     ((ProductDetailAct) activity).cBangle = String.valueOf(rtsSlider.getRtsBangleSize());
@@ -92,6 +93,7 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
                     ((ProductDetailAct) activity).cPrice = rtsSlider.getCustomPrice();
                     ((ProductDetailAct) activity).rtsClick(rtsSlider.getEntityId());
                     ((ProductDetailAct) activity).tvColorGold.setText(itemArrayList.get(i).getMetalQualityValue());
+
                 }
             } else{  // Add this condition bcz when product is customize than also any 1 RTS slider is selected at page load time so thats why give this condition on listing's product id
                 if (rtsSlider.getEntityId().equalsIgnoreCase(((ProductDetailAct) activity).productId)) {
@@ -100,6 +102,7 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
                     AppLogger.e("selected item", "----------" + rtsSlider.getEntityId());
 
                     ((ProductDetailAct) activity).cProductId = rtsSlider.getEntityId();
+                    ((ProductDetailAct) activity).productType = rtsSlider.getTypeId();
                     ((ProductDetailAct) activity).cSku = rtsSlider.getOriginalSku();
                     ((ProductDetailAct) activity).cRingSize = rtsSlider.getRtsRingSize();
                     ((ProductDetailAct) activity).cBangle = String.valueOf(rtsSlider.getRtsBangleSize());
@@ -110,6 +113,7 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
                     ((ProductDetailAct) activity).cPrice = rtsSlider.getCustomPrice();
                     ((ProductDetailAct) activity).rtsClick(rtsSlider.getEntityId());
                     ((ProductDetailAct) activity).tvColorGold.setText(itemArrayList.get(i).getMetalQualityValue());
+
                 }
             }
         }

@@ -726,8 +726,10 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     if (response.body().getProducts().equalsIgnoreCase("simple")) {
                         includeCustomise.setVisibility(View.GONE);
                         recycleViewReadyToShip.setVisibility(View.VISIBLE);
+
                         for (int i = 0; i < response.body().getRtsSlider().size(); i++) {
                             if (response.body().getRtsSlider().get(i).getEntityId().equalsIgnoreCase(productId)) {
+                                Rtsflag = 0;
                                 AppLogger.e("scroll position", "----------" + i);
                                 recycleViewReadyToShip.scrollToPosition(i - 1);
                             }
@@ -739,22 +741,6 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     } else {
                         cProductId = response.body().getSimpleProductId();
                         includeCustomise.setVisibility(View.VISIBLE);
-
-                        //using for rts adapter
-                        if (!response.body().getRtsSlider().isEmpty()) {
-                            recycleViewReadyToShip.setVisibility(View.VISIBLE);
-                            for (int i = 0; i < response.body().getRtsSlider().size(); i++) {
-                                if (response.body().getRtsSlider().get(i).getEntityId().equalsIgnoreCase(productId)) {
-                                    Rtsflag = 0;
-                                    AppLogger.e("scroll position", "----------" + i);
-                                    recycleViewReadyToShip.scrollToPosition(i - 1);
-                                }
-                            }
-                            RTSRecyclerAdapter rtsRecyclerAdapter = new RTSRecyclerAdapter(ProductDetailAct.this, response.body().getRtsSlider());
-                            recycleViewReadyToShip.setAdapter(rtsRecyclerAdapter);
-                        }else {
-                            recycleViewReadyToShip.setVisibility(View.GONE);
-                        }
 
                         //using for ring adapter
                         ringAdapter = new RingAdapter(ProductDetailAct.this, response.body().getRingsize());
@@ -798,7 +784,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         if (!response.body().getBraceletsSize().isEmpty()) {
                             response.body().getBraceletsSize().get(0).setSelected(true);
                             braceletProductId = response.body().getBraceletsSize().get(0).getProductId();
-                            cBracelet = response.body().getBraceletsSize().get(0).getLabel();
+//                            cBracelet = response.body().getBraceletsSize().get(0).getLabel();
                             BraceletsAdapter braceletsAdapter = new BraceletsAdapter(ProductDetailAct.this, response.body().getBraceletsSize());
                             recycleViewBraceletSize.setAdapter(braceletsAdapter);
                         }
@@ -854,6 +840,23 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         MetalAdapter metalAdapter = new MetalAdapter(ProductDetailAct.this, metalList);
                         recycleViewMetal.setAdapter(metalAdapter);
 
+                        //using for rts adapter
+                        if (!response.body().getRtsSlider().isEmpty()) {
+                            recycleViewReadyToShip.setVisibility(View.VISIBLE);
+                            for (int i = 0; i < response.body().getRtsSlider().size(); i++) {
+                                if (response.body().getRtsSlider().get(i).getEntityId().equalsIgnoreCase(productId)) {
+                                    Rtsflag = 0;
+                                    productType=response.body().getRtsSlider().get(i).getTypeId();
+                                    AppLogger.e("scroll position", "----------" + i);
+                                    recycleViewReadyToShip.scrollToPosition(i - 1);
+                                }
+                            }
+                            RTSRecyclerAdapter rtsRecyclerAdapter = new RTSRecyclerAdapter(ProductDetailAct.this, response.body().getRtsSlider());
+                            recycleViewReadyToShip.setAdapter(rtsRecyclerAdapter);
+
+                        }else {
+                            recycleViewReadyToShip.setVisibility(View.GONE);
+                        }
                     }
 
                     //using for Diamond detail adapter
@@ -1044,7 +1047,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     //using for rts adapter
                     if (!response.body().getRtsSlider().isEmpty()) {
                         recycleViewReadyToShip.setVisibility(View.VISIBLE);
-                        Rtsflag = 1;      // set value of this flag 1 bcz when we customize products than don't need to Bydefault selected any RTS slider
+                        Rtsflag = 1;      // set value of this flag 2 bcz when we customize products than don't need to Bydefault selected any RTS slider
                         RTSRecyclerAdapter rtsRecyclerAdapter = new RTSRecyclerAdapter(ProductDetailAct.this, response.body().getRtsSlider());
                         recycleViewReadyToShip.setAdapter(rtsRecyclerAdapter);
                     }else{
@@ -1110,10 +1113,21 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                 response.body().getBraceletsSize().get(0).setSelected(true);
                                 braceletProductId = response.body().getBraceletsSize().get(0).getProductId();
                                 cBracelet = response.body().getBraceletsSize().get(0).getLabel();
+                                AppLogger.e("Bracelet value at Refresh API ","----"+cBracelet);
                                 BraceletsAdapter braceletsAdapter = new BraceletsAdapter(ProductDetailAct.this, response.body().getBraceletsSize());
                                 recycleViewBraceletSize.setAdapter(braceletsAdapter);
                             }
                         }
+                    }
+
+                    //using for Bracelets adapter   // add this when user only change color & stone quality AT that time -> update Bracelet data
+                    if (!response.body().getBraceletsSize().isEmpty()) {
+                        response.body().getBraceletsSize().get(0).setSelected(true);
+                        braceletProductId = response.body().getBraceletsSize().get(0).getProductId();
+                        cBracelet = response.body().getBraceletsSize().get(0).getLabel();
+                        AppLogger.e("Bracelet value at Refresh API ","----"+cBracelet);
+                        BraceletsAdapter braceletsAdapter = new BraceletsAdapter(ProductDetailAct.this, response.body().getBraceletsSize());
+                        recycleViewBraceletSize.setAdapter(braceletsAdapter);
                     }
 
                     //Call secondtime refreshAPI because firsttime change in color product get not changed //Commented on 31/08/2020
@@ -1435,6 +1449,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 // //                       tvProductPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
                     }
 //                tvColorGold.setText("(" + caratValue + " " + metalValue + ")");
+
                 }
             }
 
@@ -1450,6 +1465,11 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     public void addRecord() {
 
         if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+
+//            if(Rtsflag == 1 ){
+//                rtsClick(cProductId);
+//                RTSRecyclerAdapter.onClick
+//            }
 
             if (productType.equalsIgnoreCase("simple")) {
                 ringOptionId = "null";
@@ -1503,6 +1523,12 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                 if(cursor.getCount() > 0){
                                     CommonUtils.showWarningToast(ProductDetailAct.this, "Product has already in cart ");
                                 }else {
+//                                    if(productCategoryId.equalsIgnoreCase(AppConstants.BRACELETS_ID)){
+//                                        cBracelet = ProductDetailItem.RtsSlider
+//
+//                                        AppLogger.e("AddToCart","cProductId---pendentProId----" + cProductId);
+//                                    }
+
                                     AppLogger.e("Record-------", "Not found for same productID bt diffrent Ring id.");
                                     cmetalQualityColor = metalValue;
                                     cmetalCarat =  caratValue;

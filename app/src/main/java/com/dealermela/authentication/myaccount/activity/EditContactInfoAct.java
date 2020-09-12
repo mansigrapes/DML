@@ -110,8 +110,8 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
         edFnm.setText(loginResponse.getData().getFirstname());
         edLnm.setText(loginResponse.getData().getLastname());
         edEmail.setText(loginResponse.getData().getEmail());
-        edContact.setText(loginResponse.getData().getContactNumber());
-//        edContact.setText(loginResponse.getData().getTelephone());
+//        edContact.setText(loginResponse.getData().getContactNumber());
+        edContact.setText(loginResponse.getData().getTelephone());
         edAddress.setText(loginResponse.getData().getStreet());
         edCity.setText(loginResponse.getData().getCity());
         edZipCode.setText(loginResponse.getData().getPostcode());
@@ -266,11 +266,11 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
         return true;
     }
 
-    private void editContactInfo(String token, String customerId, String firstName, String lastName, String email, String contactNumber, String street, String countryId, String region, String city, String postCode, String panCardNo, String gstIn) {
+    private void editContactInfo(String token, String customerId, String firstName, String lastName, String email, String telephone, String street, String countryId, String region, String city, String postCode, String panCardNo, String gstIn) {
 
         showProgressDialog(AppConstants.PLEASE_WAIT);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<JsonObject> callApi = apiInterface.editContactInfo(token, customerId, firstName, lastName, email, contactNumber, street, countryId, region, city, postCode, panCardNo, gstIn);
+        Call<JsonObject> callApi = apiInterface.editContactInfo(token, customerId, firstName, lastName, email, telephone, street, countryId, region, city, postCode, panCardNo, gstIn);
         callApi.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {

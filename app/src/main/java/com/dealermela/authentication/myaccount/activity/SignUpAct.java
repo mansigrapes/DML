@@ -265,11 +265,11 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
         });
     }
 
-    private void signUp(String firstName, String lastName, String email, String contactNumber, String community, String street, String countryId, String region, String city, String postcode, String entityCustomer, String password, String confirmPassword) {
+    private void signUp(String firstName, String lastName, String email, String telephone, String community, String street, String countryId, String region, String city, String postcode, String entityCustomer, String password, String confirmPassword) {
 
         showProgressDialog(AppConstants.PLEASE_WAIT);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<JsonObject> callApi = apiInterface.signUp(firstName, lastName, email, contactNumber, community, street, countryId, region, city, postcode, entityCustomer, password, confirmPassword);
+        Call<JsonObject> callApi = apiInterface.signUp(firstName, lastName, email, telephone, community, street, countryId, region, city, postcode, entityCustomer, password, confirmPassword);
         callApi.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {

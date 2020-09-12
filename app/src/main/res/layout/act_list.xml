@@ -102,7 +102,7 @@
     </LinearLayout>
 
     <include
-        layout="@layout/no_product_available_msg"
+        layout="@layout/search_no_data_msg"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"

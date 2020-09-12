@@ -123,6 +123,7 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 adapter.selectedPosition = position;
                 filterCurrentPosition = position;
+                AppLogger.e("listViewFilter--Item Click--filterCurrentPosition","---"+filterCurrentPosition);
                 adapter.notifyDataSetChanged();
 
                 if (adapter.items.get(position).getOption_type().equalsIgnoreCase("text")) {
@@ -362,6 +363,15 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if(filterFlag != 1){
+            resetFilter();
+            edText.setText("");
+            edText.setVisibility(View.GONE);
+            recycleViewFilterData.setVisibility(View.VISIBLE);
+            skuFilterString = "";
+            adapter.items.get(4).setFiltercount(0);
+        }
+        finish();
 //        filterFlag = 0;
 //        finish();
     }
@@ -530,7 +540,9 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     }
 
     public void updateFilterData(int position, boolean selectFlag) {
-        filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).setSelected(selectFlag);
+        AppLogger.e("listViewFilter--Item Click--filterCurrentPosition","---"+filterCurrentPosition);
+//        filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).setSelected(selectFlag);
+        AppLogger.e("Check selected or not","---"+filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).isSelected());
         if(selectFlag == true){
             btnApply.setEnabled(true);
             btnApply.setBackgroundColor(getResources().getColor(R.color.dml_logo_color));
