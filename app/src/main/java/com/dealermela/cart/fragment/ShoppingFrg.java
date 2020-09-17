@@ -182,6 +182,7 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                 AppLogger.e("STONE_OPTION_ID", "-----------" + c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_ID)));
                 AppLogger.e("STONE_OPTION_TYPE_ID", "-----------" + c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_TYPE_ID)));
                 AppLogger.e("TOTAL_ITEM", "-----------" + c.getString(c.getColumnIndex(DatabaseCartAdapter.TOTAL_ITEM)));
+                AppLogger.e("PRODUCT_CATEGORY_TYPE", "-----------" + c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_CATEGORY_TYPE)));
 
                 float price = Float.parseFloat(c.getString(c.getColumnIndex(DatabaseCartAdapter.PRICE))) * Float.parseFloat(c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)));
                 cartLocalDataItems.add(new CartLocalDataItem(c.getInt(c.getColumnIndex(DatabaseCartAdapter.ID)),
@@ -199,7 +200,8 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
                         c.getString(c.getColumnIndex(DatabaseCartAdapter.PRICE)),
                         c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)),
                         c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_IMAGE)),
-                        c.getString(c.getColumnIndex(DatabaseCartAdapter.TOTAL_ITEM))));
+                        c.getString(c.getColumnIndex(DatabaseCartAdapter.TOTAL_ITEM)),
+                        c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_CATEGORY_TYPE))));
 
                 AppLogger.e("price", "---------" + price);
 

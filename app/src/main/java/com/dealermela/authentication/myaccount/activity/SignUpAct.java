@@ -59,7 +59,7 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
     private TextView tvState, tvTermsCondition, tvDealership;
     private List<CountryResponse.Datum> countryArray = new ArrayList<>();
     private List<StateResponse.Datum> stateArray = new ArrayList<>();
-    private String countryId = "",stateId="";
+    private String countryId = "",stateId="",stateCode="";
     private CheckBox checkBox;
 
     @Override
@@ -170,6 +170,7 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
                 stateId = stateArray.get(position).getRegionId();
+                stateCode = stateArray.get(position).getCode();
                 AppLogger.e("state id","-----------"+stateId);
             }
 
@@ -265,11 +266,11 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
         });
     }
 
-    private void signUp(String firstName, String lastName, String email, String telephone, String community, String street, String countryId, String region, String city, String postcode, String entityCustomer, String password, String confirmPassword) {
+    private void signUp(String firstName, String lastName, String email, String telephone, String community, String street, String countryId,String region, String regionId, String city, String postcode, String entityCustomer, String password, String confirmPassword) {
 
         showProgressDialog(AppConstants.PLEASE_WAIT);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<JsonObject> callApi = apiInterface.signUp(firstName, lastName, email, telephone, community, street, countryId, region, city, postcode, entityCustomer, password, confirmPassword);
+        Call<JsonObject> callApi = apiInterface.signUp(firstName, lastName, email, telephone, community, street, countryId, region, regionId, city, postcode, entityCustomer, password, confirmPassword);
         callApi.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
@@ -344,7 +345,9 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
 //                                    signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(),String.valueOf(result) , Objects.requireNonNull(edAddress.getText()).toString(), countryId, stateId, Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), String.valueOf(spinnerEntity.getSelectedItemPosition()), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
 //                                }
                                 if(spinnerEntity.getSelectedItem().toString().equalsIgnoreCase("company")){
-                                    if(!Validator.checkEmptyInputEditText(edCompany,tilCompany,getString(R.string.sign_up_please_enter_company))){
+                                    if(!Validator.checkEmptyInputEditText(edCompany,tilCompany,getString(R.string.sign_up_please_enter_company)))
+                                    {
+
                                     }else{
 //                                        if(spinnerEntity.getSelectedItem().toString().equalsIgnoreCase("company")){
 //                                            int result = 0;
@@ -354,11 +357,11 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
 //                                            signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(),"1" , Objects.requireNonNull(edAddress.getText()).toString(), countryId, stateId, Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), String.valueOf(result), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
 //                                        }
                                         int result = 0;
-                                        signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(),"1" , Objects.requireNonNull(edAddress.getText()).toString(), countryId, stateId, Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), String.valueOf(result), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
+                                        signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(),"1" , Objects.requireNonNull(edAddress.getText()).toString(), countryId, stateCode, stateId, Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), String.valueOf(result), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
                                     }
                                 }else {
                                     int result = 1;
-                                    signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(),"1" , Objects.requireNonNull(edAddress.getText()).toString(), countryId, stateId, Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), String.valueOf(result), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
+                                    signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(),"1" , Objects.requireNonNull(edAddress.getText()).toString(), countryId, stateCode, stateId, Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), String.valueOf(result), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
                                 }
                             }
 //                            }
@@ -368,7 +371,7 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
                                 edState.requestFocus();
                             } else {
 //                                int result = spinnerCommunity.getSelectedItemPosition() + 1;
-                                signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(),"1", Objects.requireNonNull(edAddress.getText()).toString(), countryId, edState.getText().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), String.valueOf(spinnerEntity.getSelectedItemPosition()), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
+                                signUp(Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(),"1", Objects.requireNonNull(edAddress.getText()).toString(), countryId, stateCode,edState.getText().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), String.valueOf(spinnerEntity.getSelectedItemPosition()), Objects.requireNonNull(edPassword.getText()).toString(), Objects.requireNonNull(edConfirmPassword.getText()).toString());
                             }
                         }
                     } else {

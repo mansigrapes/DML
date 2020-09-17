@@ -10,6 +10,7 @@
     <attr name="toolbarTextColor" format="color" />
     <attr name="toolbarViewColor" format="color" />
     <attr name="inActive_filer_color" format="color" />
+    <attr name="no_data_text" format="color"/>
 
     <attr name="top_bottom_icon_tint_color" format="color" />
     <attr name="bottom_icon_inActive_tint_color" format="color" />
@@ -33,6 +34,8 @@
     <attr name="common_line_color" format="color"/>
     <attr name="common_round_back" format="color"/>
 
+<!-- Toggle Button design -->
+    <attr name="togglebuttonlinecolor" format="color"/>
 
     <attr name="list_item_qty_round" format="color"/>
 

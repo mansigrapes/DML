@@ -385,6 +385,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             linFilter.setVisibility(View.GONE);
             linNoData.setVisibility(View.GONE);
             fabDownload.hide();
+            //Add following 3 flag for scrolling the listing when we scroll the page Otherwise not scrolled.
+            flag_scroll = true;  //Previous this flag set to false and when search time result display two times in single page
+            previousTotal = 0; // The total number of items in the dataset after the last load
+            loading = true; // True if we are still waiting for the last set of data to load.
             searchProduct(name, String.valueOf(page_count));
             AppLogger.e("NameInSearch","------"+name);
             AppLogger.e("Page","---------"+String.valueOf(page_count));
@@ -437,6 +441,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //                Gson gson = new Gson();
 //                String data = gson.toJson(filterItems);
 //                intent.putExtra(AppConstants.NAME, data);
+                intent.putExtra(AppConstants.NAME,id);
                 startActivity(intent);
                 break;
 
@@ -588,6 +593,12 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
                 if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                     if(filterSelectItems.isEmpty()){
+//                        if(id.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
+//                            filterSelectItems.add(0,response.body().getData().get(4));
+////                             filterSelectItems.addAll(response.body().getData(4));
+//                        }else {
+//                            filterSelectItems.addAll(response.body().getData());
+//                        }
                         filterSelectItems.addAll(response.body().getData());
                     }
                     sortByList.addAll(response.body().getSortBy());
@@ -824,25 +835,26 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         }
         AppLogger.e("SearchTerm","----------"+searchTerm);
         AppLogger.e("Page","----------"+page);
-
+        linNoData.setVisibility(View.GONE);  //Add this here bcz API take time to load so NO data placeholder not be display
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<ListingItem> callApi = apiInterface.searchProduct(customerId,searchTerm, page);
         callApi.enqueue(new Callback<ListingItem>() {
             @Override
             public void onResponse(@NonNull Call<ListingItem> call, @NonNull Response<ListingItem> response) {
                 assert response.body() != null;
-                parentShimmerLayout.setVisibility(View.VISIBLE);
-                recycleViewListing.setVisibility(View.VISIBLE);
                 if (page_count == 1) {
                     progressCenter.setVisibility(View.GONE);
+                    progressBottom.setVisibility(View.GONE);
                 } else {
                     progressBottom.setVisibility(View.GONE);
                 }
+                parentShimmerLayout.setVisibility(View.VISIBLE);
                 linNoData.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                         linNoData.setVisibility(View.GONE);
                         parentShimmerLayout.setVisibility(View.GONE);
+                        recycleViewListing.setVisibility(View.VISIBLE);
                         itemArrayList.addAll(response.body().getData());
                         listingRecyclerAdapter.notifyDataSetChanged();
                         if (!sharedPreferences.getLoginData().equalsIgnoreCase("")) {

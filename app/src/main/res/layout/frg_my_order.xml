@@ -83,8 +83,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+<!--    layout="@layout/no_product_available_msg"-->
     <include
-        layout="@layout/no_product_available_msg"
+        layout="@layout/allorderlist_empty_screen"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

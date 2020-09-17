@@ -57,7 +57,7 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
     private String orderFilter="all";
     private LinearLayout linFilterOrder;
     private TextView tvstatuscount,tvstatus;
-    private ImageView orderfilter;
+    private ImageView orderfilter,dmlOrderImageView;
 
     public MyOrderFrg() {
         // Required empty public constructor
@@ -88,7 +88,8 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
         recycleViewMyOrder = rootView.findViewById(R.id.recycleViewMyOrder);
         progressBarBottom = rootView.findViewById(R.id.progressBarBottom);
         progressBarCenter = rootView.findViewById(R.id.progressBarCenter);
-        linNoData = rootView.findViewById(R.id.linNoData);
+        linNoData = rootView.findViewById(R.id.allOrderListNoData);
+        dmlOrderImageView = rootView.findViewById(R.id.dmlOrderImageView);
         linFilterOrder=rootView.findViewById(R.id.linFilterOrder);
         progressBarCenter.setVisibility(View.VISIBLE);
         tvstatuscount = rootView.findViewById(R.id.tvstatuscount);
@@ -335,6 +336,17 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
 
                     }else if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)){
                         linNoData.setVisibility(View.VISIBLE);
+
+                        if(orderFilter.equalsIgnoreCase("canceled")) {
+                            dmlOrderImageView.setImageResource(R.drawable.ic_cancelorder);
+                        } else if(orderFilter.equalsIgnoreCase("pending")){
+                            dmlOrderImageView.setImageResource(R.drawable.ic_pendingorder);
+                        } else if(orderFilter.equalsIgnoreCase("complete")){
+                            dmlOrderImageView.setImageResource(R.drawable.ic_allorder);
+                        } else {
+                            dmlOrderImageView.setImageResource(R.drawable.ic_noorder);
+                        }
+
                         if(tvstatuscount.getVisibility() != View.VISIBLE){
                             linFilterOrder.setEnabled(false);
                             tvstatus.setTextColor(getResources().getColor(R.color.in_active_item_color));
@@ -346,6 +358,16 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                     } else {
                         if (detailList.isEmpty()) {
                             linNoData.setVisibility(View.VISIBLE);
+
+                            if(orderFilter.equalsIgnoreCase("canceled")) {
+                                dmlOrderImageView.setImageResource(R.drawable.ic_cancelorder);
+                            } else if(orderFilter.equalsIgnoreCase("pending")){
+                                dmlOrderImageView.setImageResource(R.drawable.ic_pendingorder);
+                            } else if(orderFilter.equalsIgnoreCase("complete")){
+                                dmlOrderImageView.setImageResource(R.drawable.ic_allorder);
+                            } else {
+                                dmlOrderImageView.setImageResource(R.drawable.ic_noorder);
+                            }
 
                             if(orderFilter.isEmpty()){
                                 linFilterOrder.setEnabled(false);
@@ -365,6 +387,15 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
             public void onFailure(@NonNull Call<OrderItem> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
                 linNoData.setVisibility(View.VISIBLE);
+                if(orderFilter.equalsIgnoreCase("canceled")) {
+                    dmlOrderImageView.setImageResource(R.drawable.ic_cancelorder);
+                } else if(orderFilter.equalsIgnoreCase("pending")){
+                    dmlOrderImageView.setImageResource(R.drawable.ic_pendingorder);
+                } else if(orderFilter.equalsIgnoreCase("complete")){
+                    dmlOrderImageView.setImageResource(R.drawable.ic_allorder);
+                } else {
+                    dmlOrderImageView.setImageResource(R.drawable.ic_noorder);
+                }
                 linFilterOrder.setEnabled(false);
                 tvstatus.setTextColor(getResources().getColor(R.color.in_active_item_color));
                 orderfilter.setColorFilter(getResources().getColor(R.color.in_active_item_color));

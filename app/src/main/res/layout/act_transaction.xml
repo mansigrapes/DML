@@ -14,6 +14,7 @@
         android:layout_height="wrap_content" />
 
     <RelativeLayout
+        android:id="@+id/transactionLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -269,7 +270,6 @@
                         android:layout_weight="0.01"
                         android:background="?transaction_line_color" />
 
-
                 </LinearLayout>
 
                 <View
@@ -335,10 +335,12 @@
 
         </android.support.v4.widget.NestedScrollView>
 
-
         <include
-            layout="@layout/no_product_available_msg"
+            layout="@layout/new_no_product_screen"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
+
     </RelativeLayout>
+
 </LinearLayout>

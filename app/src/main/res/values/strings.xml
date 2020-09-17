@@ -200,7 +200,7 @@
 
     <string name="no_product_title">No Data Available</string>
     <string name="no_product_title_desc"><![CDATA[There are no products matching the selection.]]></string>
-    <string name="no_product_cart"><![CDATA[There are no products added in cart.]]></string>
+    <string name="no_product_cart"><![CDATA[Start to Shop.]]></string>
     <string name="type">Type</string>
     <string name="without_price">Without Price</string>
     <string name="with_price">With Price</string>
@@ -270,13 +270,13 @@
     <string name="lifetime_n_exchange">Lifetime\n  Exchange</string>
     <string name="certified_n_jewellery">Certified\n  Jewellery</string>
     <string name="proceed_to_checkout">Proceed To Checkout</string>
-    <string name="cart_is_empty">Cart is empty</string>
+    <string name="cart_is_empty">No Product added into Cart</string>
     <string name="submit">Submit</string>
     <string name="more">more</string>
     <string name="you_have_not_added_any_additional_address">You have not added any Additional Address</string>
     <string name="sorry">Sorry...</string>
     <string name="no_detail">No Detail Found</string>
-    <string name="search_no_detail">Try With Other Keywords</string>
+    <string name="search_no_detail">Try With Other Options</string>
     <string name="one">1</string>
     <string name="total_paid">Total Paid</string>
     <string name="total_remaining">Total Remaining</string>

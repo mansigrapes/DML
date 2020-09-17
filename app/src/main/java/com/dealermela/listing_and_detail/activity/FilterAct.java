@@ -21,6 +21,7 @@ import com.dealermela.R;
 import com.dealermela.listing_and_detail.adapter.FilterRecyclerAdapter;
 import com.dealermela.listing_and_detail.adapter.FilterTitleListAdapter;
 import com.dealermela.listing_and_detail.model.FilterItem;
+import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -58,6 +59,7 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     private int pos = 0;
     public static int filterCurrentPosition = 0;
     private ArrayList<FilterItem.OptionDatum> selectFilterArray = new ArrayList<>();
+    private String categoryId;
 
     @Override
     protected int getLayoutResourceId() {
@@ -68,6 +70,7 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     public void init() {
         Gson gson = new Gson();
         Intent intent = getIntent();
+        categoryId = getIntent().getStringExtra(AppConstants.NAME);
         Type listType = new TypeToken<List<FilterItem.Datum>>() {
         }.getType();
 //        filterSelectItems= gson.fromJson(intent.getStringExtra(AppConstants.NAME), listType);
@@ -198,7 +201,14 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
             public void afterTextChanged(Editable s) {
                 if(edText.getText().toString().isEmpty()){
                     skuFilterString = "";
+
+//                    if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//                        adapter.items.get(0).setFiltercount(0);
+//                    }else {
+//                        adapter.items.get(4).setFiltercount(0);
+//                    }
                     adapter.items.get(4).setFiltercount(0);
+
                     for(int k = 0 ; k < filterSelectItems.size() ; k++){
                         if(filterSelectItems.get(k).getFiltercount() > 0) {
                             btnApply.setEnabled(true);
@@ -213,6 +223,11 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                     }
                 }else {
                     skuFilterString = edText.getText().toString();
+//                    if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//                        adapter.items.get(0).setFiltercount(1);
+//                    }else {
+//                        adapter.items.get(4).setFiltercount(1);
+//                    }
                     adapter.items.get(4).setFiltercount(1);
                     btnApply.setEnabled(true);
                     btnApply.setBackgroundColor(getResources().getColor(R.color.dml_logo_color));
@@ -244,6 +259,11 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
 
         if(filterFlag == 0) {
             skuFilterString = "";
+//            if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){       //apply this condition bcz in this category we have only SKU filter no other filter's are available
+//                adapter.items.get(0).setFiltercount(0);
+//            }else {
+//                adapter.items.get(4).setFiltercount(0);
+//            }
             adapter.items.get(4).setFiltercount(0);
             btnApply.setEnabled(false);
             btnApply.setBackgroundColor(getResources().getColor(R.color.in_active_item_color));
@@ -251,6 +271,11 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         }else if (filterFlag == 1){
             if(skuFilterString != ""){
                 edText.setText(skuFilterString);
+//                if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//                    adapter.items.get(0).setFiltercount(1);
+//                }else {
+//                    adapter.items.get(4).setFiltercount(1);
+//                }
                 adapter.items.get(4).setFiltercount(1);
             }
         }
@@ -271,7 +296,13 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 edText.setVisibility(View.GONE);
                 recycleViewFilterData.setVisibility(View.VISIBLE);
                 skuFilterString = "";
+//                if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//                    adapter.items.get(0).setFiltercount(0);
+//                }else {
+//                    adapter.items.get(4).setFiltercount(0);
+//                }
                 adapter.items.get(4).setFiltercount(0);
+
 //                mapFilter.clear();
 //                paramKey = "";
                 selectFilter.clear();
@@ -296,6 +327,11 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                     edText.setVisibility(View.GONE);
                     recycleViewFilterData.setVisibility(View.VISIBLE);
                     skuFilterString = "";
+//                    if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//                        adapter.items.get(0).setFiltercount(0);
+//                    }else {
+//                        adapter.items.get(4).setFiltercount(0);
+//                    }
                     adapter.items.get(4).setFiltercount(0);
                 }
                 finish();
@@ -369,6 +405,11 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
             edText.setVisibility(View.GONE);
             recycleViewFilterData.setVisibility(View.VISIBLE);
             skuFilterString = "";
+//            if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//                adapter.items.get(0).setFiltercount(0);
+//            }else {
+//                adapter.items.get(4).setFiltercount(0);
+//            }
             adapter.items.get(4).setFiltercount(0);
         }
         finish();
@@ -391,6 +432,11 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         }else if(filterFlag == 1){
             if(skuFilterString != ""){
                 edText.setText(skuFilterString);
+//                if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//                    adapter.items.get(0).setFiltercount(1);
+//                }else {
+//                    adapter.items.get(4).setFiltercount(1);
+//                }
                 adapter.items.get(4).setFiltercount(1);
             }
             btnApply.setEnabled(true);

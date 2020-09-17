@@ -18,6 +18,7 @@
         <item name="editTextColor">@color/black</item>
 
         <!--used attr.xml-->
+        <item name="no_data_text">@color/download_disabled</item>
         <item name="inActive_filer_color">@color/in_active_item_color</item>
         <item name="toolbarTextColor">@color/black</item>
         <item name="toolbarViewColor">@color/black</item>
@@ -57,6 +58,7 @@
         <item name="in_active_item_color">@color/in_active_item_color</item>
         <item name="bottom_navigation_background_color">#FFF3F2F2</item>
         <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
+        <item name="togglebuttonlinecolor">@color/black</item>
 
         <!--<item name="colorControlNormal">?login_signup_text_color</item>-->
 
@@ -74,6 +76,7 @@
         <item name="editTextColor">@color/white</item>
 
         <!--used attr.xml-->
+        <item name="no_data_text">@color/download_disabled</item>
         <item name="inActive_filer_color">@color/in_active_item_color</item>
         <item name="toolbarTextColor">@color/white</item>
         <item name="toolbarViewColor">@color/white</item>
@@ -116,8 +119,9 @@
         <item name="bottom_navigation_background_color">#222222</item>
         <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
 
-        <!--<item name="colorControlNormal">?login_signup_text_color</item>-->
+        <item name="togglebuttonlinecolor">@color/grey</item>
 
+        <!--<item name="colorControlNormal">?login_signup_text_color</item>-->
 
     </style>
 

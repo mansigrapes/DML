@@ -15,6 +15,9 @@ public class ProductDetailItem {
     @SerializedName("simpleproductid")
     @Expose
     private String simpleProductId;
+    @SerializedName("product_category_type")
+    @Expose
+    private String productCategoryType;
     @SerializedName("category_id")
     @Expose
     private String categoryId;
@@ -101,6 +104,14 @@ public class ProductDetailItem {
 
     public void setSimpleProductId(String simpleProductId) {
         this.simpleProductId = simpleProductId;
+    }
+
+    public String getProductCategoryType() {
+        return productCategoryType;
+    }
+
+    public void setProductCategoryType(String productCategoryType) {
+        this.productCategoryType = productCategoryType;
     }
 
     public String getCategoryId() {
@@ -476,6 +487,9 @@ public class ProductDetailItem {
         @SerializedName("price")
         @Expose
         private String price;
+        @SerializedName("product_sku")
+        @Expose
+        private String productSku;
         @SerializedName("sku")
         @Expose
         private String sku;
@@ -497,6 +511,14 @@ public class ProductDetailItem {
 
         public void setPrice(String price) {
             this.price = price;
+        }
+
+        public String getProductSku() {
+            return productSku;
+        }
+
+        public void setProductSku(String productSku) {
+            this.productSku = productSku;
         }
 
         public String getSku() {

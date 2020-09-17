@@ -69,7 +69,7 @@ public class TransactionAct extends DealerMelaBaseActivity {
         recycleViewTransaction = findViewById(R.id.recycleViewTransaction);
         progressBarBottom = findViewById(R.id.progressBarBottom);
         progressBarCenter = findViewById(R.id.progressBarCenter);
-        linNoData = findViewById(R.id.linNoData);
+        linNoData = findViewById(R.id.newlinNoData);
         nestedScrollView = findViewById(R.id.nestedScrollView);
         tvTotalDebit = findViewById(R.id.tvTotalDebit);
         tvTotalDeposit = findViewById(R.id.tvTotalDeposit);

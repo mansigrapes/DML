@@ -131,7 +131,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     private View viewRing, viewBangle, viewBracelet, viewPendentSets;
     private TextView tvRingSizeHeading, tvBangleSizeHeading, tvBraceletsHeading, tvPendentHeading;
 
-    public String cProductId, cCategoryId, cProductType, cSku, cRingSize = "", cBangle, cBracelet, cPendentSet, cMetalDetail, cMetalWeight, cStoneDetail, cStoneWeight, cPrice, cQty = "1", cImageUrl, cmetalQualityColor, cmetalCarat, ctotalItem ;
+    public String cProductId, cCategoryId, cProductType, cSku, cRingSize = "", cBangle, cBracelet, cPendentSet, cMetalDetail, cMetalWeight, cStoneDetail, cStoneWeight, cPrice, cQty = "1", cImageUrl, cmetalQualityColor, cmetalCarat, ctotalItem, cProductCategoryType, cProductSKU ;
 
     private DatabaseCartAdapter databaseCartAdapter;
 
@@ -421,7 +421,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                                         databaseCartAdapter.addValues(cProductId,
                                                                 cCategoryId,
                                                                 cProductType,
-                                                                cSku,
+                                                                cProductSKU,
                                                                 cRingSize,
                                                                 cBangle,
                                                                 cBracelet,
@@ -437,7 +437,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                                                 stoneOptionTypeId,
                                                                 cmetalQualityColor,
                                                                 cmetalCarat,
-                                                                ctotalItem);
+                                                                ctotalItem,
+                                                                cProductCategoryType);
 
                                                         //  Toast.makeText(getApplicationContext(), "item added to cart", Toast.LENGTH_SHORT).show();
 //                                                        CommonUtils.showSuccessToast(ProductDetailAct.this, "Product added in cart.");
@@ -473,7 +474,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                                     databaseCartAdapter.addValues(cProductId,
                                                             cCategoryId,
                                                             cProductType,
-                                                            cSku,
+                                                            cProductSKU,
                                                             cRingSize,
                                                             cBangle,
                                                             cBracelet,
@@ -489,7 +490,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                                             stoneOptionTypeId,
                                                             cmetalQualityColor,
                                                             cmetalCarat,
-                                                            ctotalItem);
+                                                            ctotalItem,
+                                                            cProductCategoryType);
 
 //                                                  Toast.makeText(getApplicationContext(), "item added to cart", Toast.LENGTH_SHORT).show();
 //                                                  CommonUtils.showSuccessToast(ProductDetailAct.this, "Product added in cart.");
@@ -546,7 +548,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                         databaseCartAdapter.addValues(cProductId,
                                                 cCategoryId,
                                                 cProductType,
-                                                cSku,
+                                                cProductSKU,
                                                 cRingSize,
                                                 cBangle,
                                                 cBracelet,
@@ -562,7 +564,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                                 stoneOptionTypeId,
                                                 cmetalQualityColor,
                                                 cmetalCarat,
-                                                ctotalItem);
+                                                ctotalItem,
+                                                cProductCategoryType);
 
 //                                      Toast.makeText(getApplicationContext(), "item added to cart", Toast.LENGTH_SHORT).show();
 //                                        CommonUtils.showSuccessToast(ProductDetailAct.this, "Product added in cart.");
@@ -616,6 +619,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                 {
                     AppLogger.e("Detail_Response-1st click on product","-------" + response.body());
                     productCategoryId = response.body().getCategoryId();
+                    cProductCategoryType = response.body().getProductCategoryType();
                     if (response.body().getStock().equalsIgnoreCase("0")) {
                         linButton.setVisibility(View.GONE);
                         btnSoldOut.setVisibility(View.VISIBLE);
@@ -719,8 +723,9 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     inflateThumbnails();
 
                     productType = response.body().getProducts();
-
                     AppLogger.e("product type", "----------" + productType);
+
+                    cProductSKU = response.body().getProductDetails().get(0).getProductSku();
 
                     //using for Image slider
                     if (response.body().getProducts().equalsIgnoreCase("simple")) {
@@ -743,6 +748,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         includeCustomise.setVisibility(View.VISIBLE);
 
                         //using for ring adapter
+                        ringValue = "12";
                         ringAdapter = new RingAdapter(ProductDetailAct.this, response.body().getRingsize());
                         recycleViewRingSize.setAdapter(ringAdapter);
 
@@ -812,14 +818,17 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         }
 
                         //using for diamond adapter
+                        diamondValue = "SI-IJ";
                         diamondAdapter = new DiamondAdapter(ProductDetailAct.this, response.body().getStoneClarity());
                         recycleViewDiamond.setAdapter(diamondAdapter);
 
                         //using for carat adapter
+                        caratValue = "14K";
                         CaratAdapter caratAdapter = new CaratAdapter(ProductDetailAct.this, response.body().getCarat());
                         recycleViewCarat.setAdapter(caratAdapter);
 
                         //using for metal adapter
+                        metalValue="Yellow Gold";
                         metalList = new ArrayList<>();
                         metalList.addAll(response.body().getMetal());
                         metalListCopy.addAll(response.body().getMetal());
@@ -1016,8 +1025,10 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     }
 
                     productType = response.body().getProducts();
-
                     AppLogger.e("product type", "----------" + productType);
+
+                    cProductCategoryType = response.body().getProductCategoryType();
+                    cProductSKU = response.body().getProductDetails().get(0).getProductSku();
 
                     ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(ProductDetailAct.this, response.body().getSlider());
                     cImageUrl = response.body().getSlider().get(0);
@@ -1552,7 +1563,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                     databaseCartAdapter.addValues(cProductId,
                                             cCategoryId,
                                             cProductType,
-                                            cSku,
+                                            cProductSKU,
                                             cRingSize,
                                             cBangle,
                                             cBracelet,
@@ -1568,7 +1579,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                             stoneOptionTypeId,
                                             cmetalQualityColor,
                                             cmetalCarat,
-                                            ctotalItem);
+                                            ctotalItem,
+                                            cProductCategoryType);
 
     //                              Toast.makeText(getApplicationContext(), "item added to cart", Toast.LENGTH_SHORT).show();
                                     CommonUtils.showSuccessToast(ProductDetailAct.this, "Product added in cart.");
@@ -1604,7 +1616,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                 databaseCartAdapter.addValues(cProductId,
                                         cCategoryId,
                                         cProductType,
-                                        cSku,
+                                        cProductSKU,
                                         cRingSize,
                                         cBangle,
                                         cBracelet,
@@ -1620,7 +1632,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                         stoneOptionTypeId,
                                         cmetalQualityColor,
                                         cmetalCarat,
-                                        ctotalItem);
+                                        ctotalItem,
+                                        cProductCategoryType);
 
     //                           Toast.makeText(getApplicationContext(), "item added to cart", Toast.LENGTH_SHORT).show();
                                 CommonUtils.showSuccessToast(ProductDetailAct.this, "Product added in cart.");
@@ -1679,7 +1692,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                 databaseCartAdapter.addValues(cProductId,
                         cCategoryId,
                         cProductType,
-                        cSku,
+                        cProductSKU,
                         cRingSize,
                         cBangle,
                         cBracelet,
@@ -1695,7 +1708,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         stoneOptionTypeId,
                         cmetalQualityColor,
                         cmetalCarat,
-                        ctotalItem);
+                        ctotalItem,
+                        cProductCategoryType);
 
 //                Toast.makeText(getApplicationContext(), "item added to cart", Toast.LENGTH_SHORT).show();
                 CommonUtils.showSuccessToast(ProductDetailAct.this, "Product added in cart.");

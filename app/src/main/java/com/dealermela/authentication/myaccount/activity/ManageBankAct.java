@@ -30,7 +30,7 @@ public class ManageBankAct extends DealerMelaBaseActivity {
     private RecyclerView recycleViewBankList;
     private BankRecyclerAdapter bankRecyclerAdapter;
     public static ConstraintLayout constraintNoData;
-    private TextView tvNoData;
+    private TextView tvNoData,tvnewNoData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,8 +51,9 @@ public class ManageBankAct extends DealerMelaBaseActivity {
     public void initView() {
         bindToolBar("Bank details");
         recycleViewBankList = findViewById(R.id.recycleViewBankList);
-        constraintNoData = findViewById(R.id.constraintNoData);
+        constraintNoData = findViewById(R.id.constraintlayoutNoData);
         tvNoData = findViewById(R.id.tvNoData);
+        tvnewNoData = findViewById(R.id.tvnewNoData);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ManageBankAct.this);
         recycleViewBankList.setLayoutManager(linearLayoutManager);
     }
@@ -88,6 +89,7 @@ public class ManageBankAct extends DealerMelaBaseActivity {
                         recycleViewBankList.setAdapter(bankRecyclerAdapter);
                     }else{
                         constraintNoData.setVisibility(View.VISIBLE);
+                        tvnewNoData.setText("Add Your BankDetail");
                     }
                 }
             }

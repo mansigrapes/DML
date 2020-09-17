@@ -272,7 +272,7 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
 
-                        CommonUtils.showSuccessToast(LoginAct.this, "Item added in cart.");
+                        CommonUtils.showSuccessToastShort(LoginAct.this, "Item added in cart.");
 //                        cartCount++;
 //                        setupBadge();
 
@@ -308,7 +308,7 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                             }
                         }
                     }else if(jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_FAIL)) {
-                        CommonUtils.showWarningToast(LoginAct.this,jsonObject.getString("message"));
+                        CommonUtils.showWarningToastShort(LoginAct.this,jsonObject.getString("message"));
                        if(loginFlag == 2)
                        {
                            count--;

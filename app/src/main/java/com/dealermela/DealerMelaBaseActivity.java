@@ -237,7 +237,6 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
             hud.dismiss();
             hud = null;
         }
-
     }
 
     @Override

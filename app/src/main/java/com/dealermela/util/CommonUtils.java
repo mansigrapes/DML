@@ -160,6 +160,10 @@ public final class CommonUtils {
         Toasty.success(context, message, Toast.LENGTH_LONG, true).show();
     }
 
+    public static void showSuccessToastShort(Context context, String message) {
+        Toasty.success(context, message, Toast.LENGTH_SHORT, true).show();
+    }
+
     public static void showErrorToast(Context context, String message) {
         Toasty.error(context, message, Toast.LENGTH_LONG, true).show();
 
@@ -176,7 +180,10 @@ public final class CommonUtils {
 
     public static void showWarningToast(Context context, String message) {
         Toasty.warning(context, message, Toast.LENGTH_LONG, true).show();
+    }
 
+    public static void showWarningToastShort(Context context, String message) {
+        Toasty.warning(context, message, Toast.LENGTH_SHORT, true).show();
     }
 
     @SuppressLint("HardwareIds")

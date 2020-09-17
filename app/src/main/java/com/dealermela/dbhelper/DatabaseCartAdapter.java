@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class DatabaseCartAdapter {
     private static final String DATABASE_NAME = "cart_db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;  // version updated last On 14/09/2020
 
     //Stud table
     private static final String TABLE_NAME = "cart_table";
@@ -39,6 +39,7 @@ public class DatabaseCartAdapter {
     public static final String METAL_QUALITY_COLOR = "metalqualitycolor";
     public static final String METAL_CARAT = "metalcarat";
     public static final String TOTAL_ITEM = "total_item";
+    public static final String PRODUCT_CATEGORY_TYPE = "product_category_type";
 
     private static SQLiteDatabase mydb;
     private DHelper helper;
@@ -110,7 +111,7 @@ public class DatabaseCartAdapter {
     }
 
     //Insert Record stud
-    public void addValues(String productId, String categoryId, String productType, String sku, String ringSize, String bangle, String bracelet, String pendent_set, String metalDetail, String stoneDetail, String price, String qty, String image, String ringOptionId, String ringOptionTypeId, String stoneOptionId, String stoneOptionTypeId, String metalqualitycolor, String metalcarat, String totalItem) {
+    public void addValues(String productId, String categoryId, String productType, String sku, String ringSize, String bangle, String bracelet, String pendent_set, String metalDetail, String stoneDetail, String price, String qty, String image, String ringOptionId, String ringOptionTypeId, String stoneOptionId, String stoneOptionTypeId, String metalqualitycolor, String metalcarat, String totalItem, String productCategoryType) {
         ContentValues values = new ContentValues();
         values.put(PRODUCT_ID, productId);
         values.put(CATEGORY_ID, categoryId);
@@ -132,6 +133,7 @@ public class DatabaseCartAdapter {
         values.put(METAL_QUALITY_COLOR,  metalqualitycolor);
         values.put(METAL_CARAT,  metalcarat);
         values.put(TOTAL_ITEM,totalItem);
+        values.put(PRODUCT_CATEGORY_TYPE,productCategoryType);
 
 //        mydb.insert(TABLE_NAME, null, values);
         long rowInserted = mydb.insert(TABLE_NAME, null, values);
@@ -143,7 +145,7 @@ public class DatabaseCartAdapter {
 
     //View all stud data
     public Cursor getAllValues() {
-        String[] columns = {ID, PRODUCT_ID, CATEGORY_ID, PRODUCT_TYPE, SKU, RING_SIZE, BANGLE_SIZE, BRACELET_SIZE, PENDENT_SET_TYPE, METAL_DETAIL, STONE_DETAIL, PRICE, QTY, PRODUCT_IMAGE, RING_OPTION_ID, RING_OPTION_TYPE_ID, STONE_OPTION_ID, STONE_OPTION_TYPE_ID, METAL_QUALITY_COLOR, METAL_CARAT, TOTAL_ITEM};
+        String[] columns = {ID, PRODUCT_ID, CATEGORY_ID, PRODUCT_TYPE, SKU, RING_SIZE, BANGLE_SIZE, BRACELET_SIZE, PENDENT_SET_TYPE, METAL_DETAIL, STONE_DETAIL, PRICE, QTY, PRODUCT_IMAGE, RING_OPTION_ID, RING_OPTION_TYPE_ID, STONE_OPTION_ID, STONE_OPTION_TYPE_ID, METAL_QUALITY_COLOR, METAL_CARAT, TOTAL_ITEM, PRODUCT_CATEGORY_TYPE};
         Cursor c = mydb.query(true, TABLE_NAME, columns, null, null, ID, null, null, null);
         c.moveToNext();
 
@@ -211,12 +213,12 @@ public class DatabaseCartAdapter {
                         + STONE_OPTION_TYPE_ID + " TEXT, "
                         + METAL_QUALITY_COLOR + " TEXT,"
                         + METAL_CARAT + " TEXT,"
-                        + TOTAL_ITEM + " TEXT ); ");
+                        + TOTAL_ITEM + " TEXT,"
+                        + PRODUCT_CATEGORY_TYPE + " TEXT ); ");
 
             } catch (SQLException se) {
                 Log.e("Sql Exception", se.toString());
             }
-
         }
 
         @Override
@@ -228,5 +230,4 @@ public class DatabaseCartAdapter {
             onCreate(db);
         }
     }
-
 }

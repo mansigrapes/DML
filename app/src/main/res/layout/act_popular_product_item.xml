@@ -41,6 +41,7 @@
                         android:paddingBottom="@dimen/two_dp"
                         android:layout_marginStart="@dimen/one_sp_view"
                         android:textSize="12sp"
+                        android:visibility="gone"
                         tools:ignore="RelativeOverlap" />
 
                     <com.dealermela.utility.DmlImageView

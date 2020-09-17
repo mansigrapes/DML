@@ -67,6 +67,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.imgPlus.setVisibility(View.GONE);
         holder.tvSku.setText(Html.fromHtml("<b>" + "SKU : " + "</b> " + itemArrayList.get(i).getSku()));
 
+        holder.tv_product_category_type.setText(Html.fromHtml("<b>" + "Product Type : " + "</b> " + itemArrayList.get(i).getProduct_category_type()));
+
         holder.tvMetalDetail.setText(Html.fromHtml("<b>" + "Metal Detail : " + "</b> " + itemArrayList.get(i).getMetal_detail()));
 
         if(itemArrayList.get(i).getStone_detail() != null){
@@ -85,8 +87,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 sourceString = "<b>" + "Ring Size : " + "</b> " + itemArrayList.get(i).getRing_size();
                 holder.tvRingSize.setText(Html.fromHtml(sourceString));
             }else {
-                sourceString = "<b>" + "Ring Size : - " + "</b> " ;
-                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+                holder.tvRingSize.setVisibility(View.GONE);
             }
 
         } else if (itemArrayList.get(i).getCategoryId().equalsIgnoreCase(AppConstants.BRACELETS_ID)) {
@@ -94,8 +95,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 sourceString = "<b>" + "Bracelet Size : " + "</b> " + itemArrayList.get(i).getBracelet_size();
                 holder.tvRingSize.setText(Html.fromHtml(sourceString));
             }else {
-                sourceString = "<b>" + "Bracelet Size : N/A " + "</b> " ;
-                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+                holder.tvRingSize.setVisibility(View.GONE);
             }
 
         } else if (itemArrayList.get(i).getCategoryId().equalsIgnoreCase(AppConstants.BANGLE_ID)) {
@@ -103,18 +103,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 sourceString = "<b>" + "Bangle Size : " + "</b> " + itemArrayList.get(i).getBangle_size();
                 holder.tvRingSize.setText(Html.fromHtml(sourceString));
             }else {
-                sourceString = "<b>" + "Bangle Size : N/A " + "</b> " ;
-                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+                holder.tvRingSize.setVisibility(View.GONE);
             }
 
         } else if (itemArrayList.get(i).getCategoryId().equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
-            if(itemArrayList.get(i).getPendent_set_type() != null){
-                sourceString = "<b>" + "Pendent Type : " + "</b> " + itemArrayList.get(i).getPendent_set_type();
-                holder.tvRingSize.setText(Html.fromHtml(sourceString));
-            }else {
-                sourceString = "<b>" + "Pendent Type : - " + "</b> " ;
-                holder.tvRingSize.setText(Html.fromHtml(sourceString));
-            }
+            holder.tvRingSize.setVisibility(View.GONE);
+            //hide On 15/09/2020 this one for pendent&sets category Bcz parameter Product_Category_Type display same value for this category
+//            if(itemArrayList.get(i).getPendent_set_type() != null){
+//                sourceString = "<b>" + "Pendent Type : " + "</b> " + itemArrayList.get(i).getPendent_set_type();
+//                holder.tvRingSize.setText(Html.fromHtml(sourceString));
+//            }
         } else {
             holder.tvRingSize.setVisibility(View.GONE);
         }
@@ -265,7 +263,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        final TextView tvRemove, tvSku, tvRingSize, tvMetalDetail, tvStoneDetail, tvPrice, tvQuantity;
+        final TextView tvRemove, tvSku, tvRingSize, tvMetalDetail, tvStoneDetail, tvPrice, tvQuantity, tv_product_category_type;
         final ImageView imgPlus, imgMinus;
         final SimpleDraweeView imgProduct;
         ViewHolder(View itemView) {
@@ -282,6 +280,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             imgProduct = itemView.findViewById(R.id.imgProduct);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+            tv_product_category_type = itemView.findViewById(R.id.tv_product_category_type);
         }
 
         @Override

@@ -62,12 +62,12 @@ public interface ApiInterface {
                             @Field("street") String street,
                             @Field("country_id") String countryId,
                             @Field("region") String region,
+                            @Field("region_id") String region_id,
                             @Field("city") String city,
                             @Field("postcode") String postcode,
                             @Field("entity_customer") String entityCustomer,
                             @Field("password") String password,
                             @Field("confirmation") String confirmation);
-
 
     //    Forgot Password        /**/
     @FormUrlEncoded

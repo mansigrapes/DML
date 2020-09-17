@@ -83,6 +83,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
         holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getStonedetails()));
         holder.tvPrice.setText(Html.fromHtml("<b>" + AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getPrice())) + "</b> "));
         holder.tvQuantity.setText(itemArrayList.get(i).getQty());
+        holder.tv_product_category_type.setText(Html.fromHtml("<b>" + "Product Type : " + "</b> " + itemArrayList.get(i).getProductCategoryType()));
 
         String sourceString = "";
         if (itemArrayList.get(i).getRingsize() != null) {
@@ -98,8 +99,10 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
             holder.tvRingSize.setText(Html.fromHtml(sourceString));
 
         } else if (itemArrayList.get(i).getPendents() != null) {
-            sourceString = "<b>" + "Pendent Type : " + "</b> " + itemArrayList.get(i).getPendents();
-            holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            //Hide on 16/09/2020 bcz
+//            sourceString = "<b>" + "Pendent Type : " + "</b> " + itemArrayList.get(i).getPendents();
+//            holder.tvRingSize.setText(Html.fromHtml(sourceString));
+            holder.tvRingSize.setVisibility(View.GONE);
         } else {
             holder.tvRingSize.setVisibility(View.GONE);
         }
@@ -228,7 +231,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        final TextView tvRemove, tvSku, tvRingSize, tvMetalDetail, tvStoneDetail, tvPrice, tvQuantity;
+        final TextView tvRemove, tvSku, tvRingSize, tvMetalDetail, tvStoneDetail, tvPrice, tvQuantity, tv_product_category_type;
         final ImageView imgPlus, imgMinus;
         final SimpleDraweeView imgProduct;
 
@@ -244,6 +247,7 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
             imgPlus = itemView.findViewById(R.id.imgPlus);
             imgMinus = itemView.findViewById(R.id.imgMinus);
             imgProduct = itemView.findViewById(R.id.imgProduct);
+            tv_product_category_type = itemView.findViewById(R.id.tv_product_category_type);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

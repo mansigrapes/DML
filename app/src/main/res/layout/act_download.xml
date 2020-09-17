@@ -222,7 +222,7 @@
         tools:visibility="gone" />
 
     <include
-        layout="@layout/no_product_available_msg"
+        layout="@layout/downloadlist_empty_screen"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

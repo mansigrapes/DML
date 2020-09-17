@@ -10,8 +10,13 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:thumbTint="?toolbarTextColor"
         android:checked="false"
+        android:thumbTint="?toolbarTextColor"
         android:trackTint="?transaction_line_color"
-        />
+    />
+
+<!--         android:trackTint="?togglebuttonlinecolor"
+android:thumbTint="?toolbarTextColor"
+    android:trackTint="?transaction_line_color" -->
+
 </RelativeLayout>

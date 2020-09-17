@@ -99,7 +99,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
         btnDeleteAll = findViewById(R.id.btnDeleteAll);
         progressBarBottom = findViewById(R.id.progressBarBottom);
         progressBarCenter = findViewById(R.id.progressBarCenter);
-        linNoData = findViewById(R.id.linNoData);
+        linNoData = findViewById(R.id.downloadlistNoData);
         progressBarBottom.setVisibility(View.GONE);
     }
 
@@ -129,7 +129,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
         });
 
         checkBoxSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
+                @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     for (int j = 0; j < downloadProductAdapter.itemArrayList.size(); j++) {

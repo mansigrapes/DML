@@ -90,15 +90,13 @@ public class MyStockAct extends DealerMelaBaseActivity implements View.OnClickLi
         gridLayoutManager = new GridLayoutManager(MyStockAct.this, 2);
         recycleViewListing = findViewById(R.id.recycleViewListing);
         recycleViewListing.setLayoutManager(gridLayoutManager);
-        linNoData = findViewById(R.id.linNoData);
+        linNoData = findViewById(R.id.newlinNoData);
         mBottomSheetDialog = new BottomSheetDialog(MyStockAct.this);
         linSortBy.setVisibility(View.GONE);
-
     }
 
     @Override
     public void postInitView() {
-
     }
 
     @Override
@@ -147,8 +145,6 @@ public class MyStockAct extends DealerMelaBaseActivity implements View.OnClickLi
                                                }
 
         );
-
-
     }
 
     @Override
@@ -213,7 +209,6 @@ public class MyStockAct extends DealerMelaBaseActivity implements View.OnClickLi
                             linNoData.setVisibility(View.VISIBLE);
                         }
                     }
-
                 }
             }
 

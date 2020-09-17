@@ -2,10 +2,10 @@ package com.dealermela.cart.model;
 
 public class CartLocalDataItem {
     private int id;
-    private String productId,productType,categoryId,sku,ring_size,bangle_size,bracelet_size,pendent_set_type,metal_detail,stone_detail,price,qty,total_item;
+    private String productId,productType,categoryId,sku,ring_size,bangle_size,bracelet_size,pendent_set_type,metal_detail,stone_detail,price,qty,total_item,product_category_type;
     private String proImage;
 
-    public CartLocalDataItem(int id, String productId, String productType, String categoryId, String sku, String ring_size, String bangle_size, String bracelet_size, String pendent_set_type, String metal_detail, String stone_detail, String price, String qty, String proImage, String totalItem ) {
+    public CartLocalDataItem(int id, String productId, String productType, String categoryId, String sku, String ring_size, String bangle_size, String bracelet_size, String pendent_set_type, String metal_detail, String stone_detail, String price, String qty, String proImage, String totalItem, String product_category_type) {
         this.id = id;
         this.productId = productId;
         this.productType = productType;
@@ -21,6 +21,7 @@ public class CartLocalDataItem {
         this.qty = qty;
         this.proImage = proImage;
         this.total_item = totalItem;
+        this.product_category_type = product_category_type;
     }
 
     public int getId() {
@@ -141,5 +142,13 @@ public class CartLocalDataItem {
 
     public void setTotal_item(String total_item) {
         this.total_item = total_item;
+    }
+
+    public String getProduct_category_type(){
+        return product_category_type;
+    }
+
+    public void setProduct_category_type(String product_category_type){
+        this.product_category_type = product_category_type;
     }
 }

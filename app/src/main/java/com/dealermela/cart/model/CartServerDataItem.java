@@ -114,6 +114,9 @@ public class CartServerDataItem {
         @SerializedName("image")
         @Expose
         private String image;
+        @SerializedName("product_category_type")
+        @Expose
+        private String productCategoryType;
 
         public String getProduct_type() {
             return product_type;
@@ -218,6 +221,15 @@ public class CartServerDataItem {
         public void setImage(String image) {
             this.image = image;
         }
+
+        public String getProductCategoryType() {
+            return productCategoryType;
+        }
+
+        public void setProductCategoryType(String productCategoryType) {
+            this.productCategoryType = productCategoryType;
+        }
+
     }
 
 }

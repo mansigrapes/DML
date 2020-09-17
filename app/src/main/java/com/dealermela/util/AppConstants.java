@@ -5,9 +5,9 @@ import android.app.Activity;
 import com.dealermela.R;
 
 public final class AppConstants {
-    //    API base urlpr
-//    public static final String BASE_URL = "http://www.diamondmela.com/";
-    public static final String BASE_URL = "http://123.108.51.11/index.php/";
+    //    API base urlprli
+    public static final String BASE_URL = "http://www.diamondmela.com/";
+//    public static final String BASE_URL = "http://123.108.51.11/index.php/";
     public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftwaretest/";
   //Temporary set on 29/02/2020
 //    public static final String BASE_URL_LARAVEL = "http://www.diamondmela.com/";
@@ -61,6 +61,8 @@ public final class AppConstants {
     public static final String COLLECTION_ID = "291";
     public static final String RUBBER_ID = "295";
     public static final String COLON = " : ";
+    // New category Added Necklaces&sets On 17/09/2020
+    public static final String NECKLACES_SETS_ID = "8";
 
     public static final String ACCESS_CODE="AVUR78FF89CI31RUIC";
     public static final String MERCHANT_ID="180765";

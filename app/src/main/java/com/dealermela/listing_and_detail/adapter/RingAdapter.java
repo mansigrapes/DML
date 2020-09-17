@@ -88,7 +88,6 @@ public class RingAdapter extends RecyclerView.Adapter<RingAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-
         return itemArrayList.size();
     }
 
