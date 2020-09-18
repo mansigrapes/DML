@@ -200,7 +200,7 @@
 
     <string name="no_product_title">No Data Available</string>
     <string name="no_product_title_desc"><![CDATA[There are no products matching the selection.]]></string>
-    <string name="no_product_cart"><![CDATA[Start to Shop.]]></string>
+    <string name="no_product_cart"><![CDATA[start to shop]]></string>
     <string name="type">Type</string>
     <string name="without_price">Without Price</string>
     <string name="with_price">With Price</string>
@@ -276,7 +276,7 @@
     <string name="you_have_not_added_any_additional_address">You have not added any Additional Address</string>
     <string name="sorry">Sorry...</string>
     <string name="no_detail">No Detail Found</string>
-    <string name="search_no_detail">Try With Other Options</string>
+    <string name="search_no_detail">try with other options</string>
     <string name="one">1</string>
     <string name="total_paid">Total Paid</string>
     <string name="total_remaining">Total Remaining</string>

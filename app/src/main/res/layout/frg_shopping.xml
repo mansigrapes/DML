@@ -337,7 +337,7 @@
         android:id="@+id/linNoData"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:background="?login_signup_text_color"
         android:gravity="center"
         android:orientation="vertical"
@@ -359,21 +359,21 @@
 <!--            android:layout_gravity="center"-->
 <!--            android:src="@drawable/ic_shopping_cart" />-->
 
-        <com.dealermela.utility.DmlTextViewBold
+        <com.dealermela.utility.DmlTextViewSemiBold
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/fifteen_sp"
-            android:layout_marginTop="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/ten_sp"
             android:layout_marginRight="@dimen/fifteen_sp"
             android:ellipsize="end"
             android:gravity="center"
             android:letterSpacing="0.03"
             android:lines="1"
             android:text="@string/cart_is_empty"
-            android:textSize="@dimen/sixteen_sp" />
+            android:textSize="14dp" />
 
-        <com.dealermela.utility.DmlTextView
+        <com.dealermela.utility.DmlTextViewBold
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -383,7 +383,8 @@
             android:gravity="center"
             android:letterSpacing="0.03"
             android:text="@string/no_product_cart"
-            android:textSize="14sp" />
+            android:textSize="12sp"
+            android:textColor="?no_data_text"/>
 
     </LinearLayout>
 

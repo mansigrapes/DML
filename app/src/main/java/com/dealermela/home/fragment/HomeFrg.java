@@ -91,6 +91,18 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
             coverFlow = rootView.findViewById(R.id.coverflow);
             PopularProductCoverFlowAdapter adapter = new PopularProductCoverFlowAdapter(getActivity(), arrayListPopularProduct);
             coverFlow.setAdapter(adapter);
+
+            coverFlow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
+                @Override
+                public void onScrolledToPosition(int position) {
+                    //TODO CoverFlow stopped to position
+                }
+
+                @Override
+                public void onScrolling() {
+                    //TODO CoverFlow began scrolling
+                }
+            });
         }
         return rootView;
     }

@@ -1665,10 +1665,10 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     stoneOptionId = diamondAdapter.stoneOptionId;
                     stoneOptionTypeId = diamondAdapter.stoneOptionTypeId;
 //                    if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID)){
-                    if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
-                        cProductId= pendentProId.toString();
-                        AppLogger.e("AddToCart","cProductId---pendentProId----" + cProductId);
-                    }
+//                    if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//                        cProductId= pendentProId.toString();
+//                        AppLogger.e("AddToCart","cProductId---pendentProId----" + cProductId);
+//                    }
                 }
                 cmetalQualityColor = metalValue;
                 cmetalCarat =  caratValue;
@@ -1776,10 +1776,10 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
             stoneOptionId = diamondAdapter.stoneOptionId;
             stoneOptionTypeId = diamondAdapter.stoneOptionTypeId;
 //            if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID)){
-            if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
-                cProductId= pendentProId;
-                AppLogger.e("BuyNow","cProductId---pendentProId----" + cProductId);
-            }
+//            if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
+//                cProductId= pendentProId;
+//                AppLogger.e("BuyNow","cProductId---pendentProId----" + cProductId);
+//            }
         }
 
         buyNow(cProductId, customerId, ringOptionId, ringOptionTypeId, stoneOptionId, stoneOptionTypeId, "1", metalValue, caratValue);

@@ -74,7 +74,6 @@ public class HorizontalList extends ViewGroup {
 			removeAllViews();
 			invalidate();
 		}
-		
 	};
 	
 	/**

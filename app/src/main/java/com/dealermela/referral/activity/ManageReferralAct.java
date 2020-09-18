@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -34,7 +35,8 @@ public class ManageReferralAct extends DealerMelaBaseActivity implements View.On
     private Button btnCreateReferral;
     private TextView tvnewNoData;
     private ReferralListRecyclerAdapter referralListRecyclerAdapter;
-    public static ConstraintLayout constraintNoData;
+//    public static ConstraintLayout constraintNoData;
+    public static LinearLayout constraintNoData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,6 @@ public class ManageReferralAct extends DealerMelaBaseActivity implements View.On
 
     @Override
     public void init() {
-
     }
 
     @Override
@@ -98,7 +99,7 @@ public class ManageReferralAct extends DealerMelaBaseActivity implements View.On
                         recycleViewReferralList.setAdapter(referralListRecyclerAdapter);
                     }else{
                         constraintNoData.setVisibility(View.VISIBLE);
-                        tvnewNoData.setText("Add Your Referral");
+                        tvnewNoData.setText("add your referral");
                     }
                 }
             }
@@ -108,7 +109,7 @@ public class ManageReferralAct extends DealerMelaBaseActivity implements View.On
                 AppLogger.e(TAG, "------------" + t.getMessage());
                 progressBar.setVisibility(View.GONE);
                 constraintNoData.setVisibility(View.VISIBLE);
-                tvnewNoData.setText("Add Your Referral");
+                tvnewNoData.setText("add your referral");
             }
         });
     }

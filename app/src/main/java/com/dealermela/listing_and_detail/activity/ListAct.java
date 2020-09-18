@@ -349,6 +349,8 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                                                if(filterFlag == 1){
                                                                    if(itemArrayList.size() == 1){
                                                                        fabDownload.hide();
+                                                                   }else if(itemArrayList.isEmpty()){
+                                                                       fabDownload.hide();
                                                                    }
                                                                }
                                                            }
@@ -525,6 +527,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                     fabDownload.hide();
                                 }
                             }
+
                         } else {
 
                             if (itemArrayList.isEmpty()) {

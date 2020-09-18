@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dealermela.DealerMelaBaseActivity;
@@ -29,7 +30,7 @@ import static com.dealermela.home.activity.MainActivity.customerId;
 public class ManageBankAct extends DealerMelaBaseActivity {
     private RecyclerView recycleViewBankList;
     private BankRecyclerAdapter bankRecyclerAdapter;
-    public static ConstraintLayout constraintNoData;
+    public static LinearLayout constraintNoData;
     private TextView tvNoData,tvnewNoData;
 
     @Override
@@ -89,7 +90,7 @@ public class ManageBankAct extends DealerMelaBaseActivity {
                         recycleViewBankList.setAdapter(bankRecyclerAdapter);
                     }else{
                         constraintNoData.setVisibility(View.VISIBLE);
-                        tvnewNoData.setText("Add Your BankDetail");
+                        tvnewNoData.setText("add your bank details");
                     }
                 }
             }

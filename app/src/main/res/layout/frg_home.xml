@@ -146,6 +146,8 @@
                     coverflow:rotationThreshold="0.9"
                     coverflow:scalingThreshold="0.5"
                     coverflow:spacing="0.6" />
+
+<!-- remove the shadow effect from this code : coverflow:reflectionOpacity = "0"-->
             </LinearLayout>
 
             <com.dealermela.utility.DmlButtonBold
