@@ -596,13 +596,34 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
                 if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                     if(filterSelectItems.isEmpty()){
-//                        if(id.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
-//                            filterSelectItems.add(0,response.body().getData().get(4));
+                        if(id.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || id.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)) {
+////                           filterSelectItems.add(0,response.body().getData().get(4));
 ////                             filterSelectItems.addAll(response.body().getData(4));
-//                        }else {
-//                            filterSelectItems.addAll(response.body().getData());
-//                        }
-                        filterSelectItems.addAll(response.body().getData());
+                            filterSelectItems.addAll(response.body().getData());
+
+                            filterSelectItems.remove(0);
+                            filterSelectItems.remove(0);
+                            filterSelectItems.remove(0);
+                            filterSelectItems.remove(0);
+                        }else {
+                            filterSelectItems.addAll(response.body().getData());
+                        }
+//                        filterSelectItems.addAll(response.body().getData());
+                    }else {
+                        if(id.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || id.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)) {
+////                           filterSelectItems.add(0,response.body().getData().get(4));
+////                             filterSelectItems.addAll(response.body().getData(4));
+                            filterSelectItems.clear();
+                            filterSelectItems.addAll(response.body().getData());
+
+                            filterSelectItems.remove(0);
+                            filterSelectItems.remove(0);
+                            filterSelectItems.remove(0);
+                            filterSelectItems.remove(0);
+                        }else {
+                            filterSelectItems.clear();
+                            filterSelectItems.addAll(response.body().getData());
+                        }
                     }
                     sortByList.addAll(response.body().getSortBy());
 //                    filterItems.addAll(response.body().getData());
@@ -628,6 +649,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 sortByList.get(i).setSelected(false);
             }
         }
+
         itemArrayList.clear();
         parentShimmerLayout.setVisibility(View.VISIBLE);
         linNoData.setVisibility(View.GONE);
@@ -986,5 +1008,4 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
-
 }

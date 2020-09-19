@@ -265,11 +265,13 @@
             android:layout_marginBottom="10dp">
 
             <com.dealermela.utility.DmlImageView
+                android:id="@+id/image_gia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/gia_new" />
 
             <com.dealermela.utility.DmlImageView
+                android:id="@+id/image_igi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"

@@ -33,6 +33,7 @@ import com.dealermela.authentication.myaccount.activity.LoginAct;
 import com.dealermela.authentication.myaccount.dialog.MaintenanceDialogClass;
 import com.dealermela.cart.activity.CartAct;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
+import com.dealermela.home.activity.MainActivity;
 import com.dealermela.interfaces.ProductDetailClickListener;
 import com.dealermela.listing_and_detail.adapter.BangleAdapter;
 import com.dealermela.listing_and_detail.adapter.BraceletsAdapter;
@@ -54,6 +55,7 @@ import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
 import com.dealermela.util.SharedPreferences;
+import com.dealermela.util.ThemePreferences;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -100,7 +102,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     public TextView tvColorGold;
 
     //using next previous RTS item
-    private ImageView imgPrevious, imgNext;
+    private ImageView imgPrevious, imgNext, image_gia, image_igi;
 
     //using Ring,Diamond,RTS,Metal layout
     private RecyclerView recycleViewReadyToShip, recycleViewRingSize, recycleViewDiamond, recycleViewCarat, recycleViewMetal, recycleViewDiamondDetail, recycleViewBangleSize, recycleViewBraceletSize, recycleViewPendentSets, recycleViewGemstoneDetail, recycleViewTestPendentsets;
@@ -154,9 +156,20 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
     private String ringOptionId, ringOptionTypeId, stoneOptionId, stoneOptionTypeId, categoryid;
 
+    private ThemePreferences themePreferences;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        themePreferences = new ThemePreferences(ProductDetailAct.this);
+
+        if(themePreferences.getTheme().equalsIgnoreCase("black")){
+            image_igi.setImageResource(R.drawable.igi_logo_full_white);
+            image_gia.setImageResource(R.drawable.gia_white);
+        }else {
+            image_igi.setImageResource(R.drawable.igi_new);
+            image_gia.setImageResource(R.drawable.gia_new);
+        }
     }
 
     @Override
@@ -238,6 +251,9 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
         btnSoldOut = findViewById(R.id.btnSoldOut);
         linButton = findViewById(R.id.linButton);
+
+        image_gia = findViewById(R.id.image_gia);
+        image_igi = findViewById(R.id.image_igi);
     }
 
     @Override
@@ -325,6 +341,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
     @Override
     public void loadData() {
+
         if(categoryid.equalsIgnoreCase(AppConstants.RING_ID)){
             getProductDetail(productId, caratValue, metalValue, ringValue, "SI-IJ", "", "", "", "","");
         }else {

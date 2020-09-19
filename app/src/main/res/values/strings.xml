@@ -270,7 +270,7 @@
     <string name="lifetime_n_exchange">Lifetime\n  Exchange</string>
     <string name="certified_n_jewellery">Certified\n  Jewellery</string>
     <string name="proceed_to_checkout">Proceed To Checkout</string>
-    <string name="cart_is_empty">No Product added into Cart</string>
+    <string name="cart_is_empty">No Product Added into Cart</string>
     <string name="submit">Submit</string>
     <string name="more">more</string>
     <string name="you_have_not_added_any_additional_address">You have not added any Additional Address</string>

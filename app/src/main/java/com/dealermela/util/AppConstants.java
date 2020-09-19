@@ -35,7 +35,8 @@ public final class AppConstants {
     public static final String STATUS_CODE_FAIL = "fail";
 
     public static final String MY_PREF = "MyPrefs";
-    public static final String WHITE_THEME = "whiteTheme";
+//    public static final String WHITE_THEME = "whiteTheme";
+    public static final String WHITE_THEME = "white";
     public static final String PREF_LOGIN = "login";
     public static final String REMEMBER_PWD = "REMEMBER_PWD";
     public static final String PREF_BILLING_ADDRESS = "billing";

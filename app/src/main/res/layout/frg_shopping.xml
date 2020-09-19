@@ -384,8 +384,9 @@
             android:letterSpacing="0.03"
             android:text="@string/no_product_cart"
             android:textSize="12sp"
-            android:textColor="?no_data_text"/>
+            android:textColor="@color/download_disabled" />
 
+<!--        android:textColor="?no_data_text"-->
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

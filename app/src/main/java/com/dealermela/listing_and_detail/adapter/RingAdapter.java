@@ -52,7 +52,7 @@ public class RingAdapter extends RecyclerView.Adapter<RingAdapter.ViewHolder> {
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.dml_logo_color));
                 ringOptionId=itemArrayList.get(i).getOptionId();
                 ringOptionTypeId=itemArrayList.get(i).getOptionTypeId();
-                ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getTitle(),"");
+//                ((ProductDetailAct) activity).filterClick(itemArrayList.get(i).getTitle(),"");
 
             } else {
                 holder.linRing.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_unselect_black));

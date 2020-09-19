@@ -136,12 +136,22 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                             downloadProductAdapter.itemArrayList.get(j).setSelected(true);
                             downloadProductAdapter.updatecheckbox(j);
                     }
+
+//                    for (int j = 0; j < detailList.size(); j++) {
+//                        detailList.get(j).setSelected(true);
+//                        downloadProductAdapter.updatecheckbox(j);
+//                    }
+
                     AppLogger.e("select all", "----checked");
                 } else {
                     for (int j = 0; j < downloadProductAdapter.itemArrayList.size(); j++) {
                         downloadProductAdapter.itemArrayList.get(j).setSelected(false);
                         downloadProductAdapter.updatecheckbox(j);
                     }
+//                    for (int j = 0; j < detailList.size(); j++) {
+//                        detailList.get(j).setSelected(false);
+//                        downloadProductAdapter.updatecheckbox(j);
+//                    }
                     AppLogger.e("un select all", "----un checked");
                 }
             }
@@ -305,7 +315,6 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                                 if (i == integerArrayList.size() - 1) {
                                     downloadProductAdapter.notifyDataSetChanged();
                                 }
-
                             }
                         }
 
@@ -503,7 +512,6 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                 } else {
                     downloadAllProduct(customerId, listString.toString());
                 }
-
             }
         });
         alertDownloadAll.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -529,6 +537,15 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
             }
         }
 
+//        for (int j = 0; j < detailList.size(); j++) {
+//            if (detailList.get(j).isSelected()) {
+//                listString.append(detailList.get(j).getProductId()).append(",");
+//                AppLogger.e("position", "----------" + j);
+//                integerArrayList.add(j);
+////                        downloadProductAdapter.removeAt(j);
+//            }
+//        }
+
         if (listString.toString().equals("")) {
             new IOSDialog.Builder(DownloadAct.this)
                     .setTitle(getString(R.string.Alert))
@@ -552,7 +569,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                             dialog.dismiss();
                             AppLogger.e("string data", "------" + listString);
 
-                                deleteAllProduct(customerId, listString.toString());
+                            deleteAllProduct(customerId, listString.toString());
                         }
                     })
                     .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
