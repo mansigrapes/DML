@@ -399,6 +399,11 @@ public interface ApiInterface {
                                @Field("qty") String qty,
                                @Field("metalqualitycolor") String metalQualityColor,
                                @Field("metalcarat") String metalCarat);
+    //Addtocart For multiple products
+    @FormUrlEncoded
+    @POST("dmlapi/addtocart/bulkaddtocart")
+    Call<JsonObject> bulkaddToCart(@Field("product_data") String productdata,
+                                   @Field("customer_id") String customerId);
 
     //List cart product                          /**/
     @FormUrlEncoded

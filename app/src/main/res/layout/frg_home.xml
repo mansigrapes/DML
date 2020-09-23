@@ -282,7 +282,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <ImageView
                             style="@style/pop_product_image_tint"
@@ -295,8 +295,8 @@
                         <com.dealermela.utility.DmlTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/ten_sp"
+                            android:gravity="center"
+                            android:lines="2"
                             android:text="@string/free_shpping_and_delivery"
                             android:textColor="?buttonTextColor"
                             android:textSize="@dimen/eight_sp" />
@@ -314,23 +314,22 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <ImageView
                             style="@style/pop_product_image_tint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             app:srcCompat="@drawable/lifetime_ic"
                             tools:ignore="ContentDescription" />
 
                         <com.dealermela.utility.DmlTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/ten_sp"
+                            android:gravity="center"
+                            android:lines="2"
                             android:text="@string/lifetime_exchange_policy"
                             android:textColor="?buttonTextColor"
                             android:textSize="@dimen/eight_sp" />
@@ -348,17 +347,16 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_marginEnd="@dimen/five_sp"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:id="@+id/imageView15"
                             style="@style/pop_product_image_tint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             app:srcCompat="@drawable/gift_ic"
                             tools:ignore="ContentDescription" />
 
@@ -366,8 +364,8 @@
                             android:id="@+id/textView15"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/ten_sp"
+                            android:gravity="center"
+                            android:lines="2"
                             android:text="@string/promotional_and_gift_codes"
                             android:textColor="?buttonTextColor"
                             android:textSize="@dimen/eight_sp" />

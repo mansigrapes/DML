@@ -100,10 +100,10 @@ dependencies {
 
     //Qr Code scanning
 //    3.4
-//    implementation 'com.google.zxing:core:3.4.0'
-//    implementation 'com.journeyapps:zxing-android-embedded:3.4.0@aar'
-    implementation 'com.google.zxing:core:3.2.1'
-    implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+    implementation 'com.google.zxing:core:3.4.0'
+    implementation 'com.journeyapps:zxing-android-embedded:3.4.0@aar'
+//    implementation 'com.google.zxing:core:3.2.1'
+//    implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
 //    implementation 'androidx.appcompat:appcompat:1.0.2'
 //    implementation 'com.journeyapps:zxing-android-embedded:3.4.0@aar'
 

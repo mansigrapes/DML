@@ -3,30 +3,21 @@ package com.dealermela.authentication.myaccount.activity;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.cart.activity.CartAct;
-import com.dealermela.cart.adapter.CartAdapter;
-import com.dealermela.cart.fragment.ShippingFrg;
-import com.dealermela.cart.fragment.ShoppingFrg;
 import com.dealermela.cart.model.CartLocalDataItem;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
 import com.dealermela.home.activity.MainActivity;
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
-import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
@@ -42,7 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -282,26 +272,31 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                         if (count == 0) {
                             hideProgressDialog();
 
-//                            databaseCartAdapter.openDatabase();
-//                            databaseCartAdapter.deleteAllRecord();
-//                            databaseCartAdapter.closeDatabase();
+                            databaseCartAdapter.openDatabase();
+                            databaseCartAdapter.deleteAllRecord();
+                            databaseCartAdapter.closeDatabase();
 
                             if (loginFlag == 0) {
                                 startNewActivity(MainActivity.class);
                                 finish();
                             } else if(loginFlag == 1) {   //W/O login ProceedTocheckout-> flag
                                 loginFlag = 0;
-                                cartbackFlag = 1;
-                                cartCheckBugNowFlag = 1;
+//                                cartbackFlag = 1;
+//                                cartCheckBugNowFlag = 1;
 
+                                cartbackFlag = 0;
+                                cartCheckBugNowFlag = 0;
                                 startNewActivity(CartAct.class);
 //                                ShoppingFrg frg = new ShoppingFrg();
 //                                getSupportFragmentManager().beginTransaction().replace(R.id.frameCart,frg).commit();
                                 finish();
                             }else if(loginFlag == 2){   //W/O Login BuyNow -> flag
                                 loginFlag = 0;
-                                cartbackFlag = 1;
-                                cartCheckBugNowFlag = 1;
+//                                cartbackFlag = 1;
+//                                cartCheckBugNowFlag = 1;
+
+                                cartbackFlag = 0;
+                                cartCheckBugNowFlag = 0;
 
                                 startNewActivity(CartAct.class);
 //                                ShippingFrg frg = new ShippingFrg();
@@ -316,8 +311,10 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                            count--;
                            if(count == 0){
                                loginFlag = 0;
-                               cartbackFlag = 1;
-                               cartCheckBugNowFlag = 1;
+//                               cartbackFlag = 1;
+//                               cartCheckBugNowFlag = 1;
+                               cartbackFlag = 0;
+                               cartCheckBugNowFlag = 0;
                                startNewActivity(CartAct.class);
                                databaseCartAdapter.openDatabase();
                                databaseCartAdapter.deleteAllRecord();
@@ -328,8 +325,10 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                            count--;
                            if(count == 0){
                                loginFlag = 0;
-                               cartbackFlag = 1;
-                               cartCheckBugNowFlag = 1;
+//                               cartbackFlag = 1;
+//                               cartCheckBugNowFlag = 1;
+                               cartbackFlag = 0;
+                               cartCheckBugNowFlag = 0;
                                startNewActivity(CartAct.class);
                                databaseCartAdapter.openDatabase();
                                databaseCartAdapter.deleteAllRecord();
@@ -351,6 +350,109 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
             }
         });
     }
+
+    // //Addtocart For multiple products
+    private void bulkaddtocart(String productdata, String customerId){
+        ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+        Call<JsonObject> callApi = apiInterface.bulkaddToCart(productdata, customerId);
+        callApi.enqueue(new Callback<JsonObject>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+                AppLogger.e(AppConstants.RESPONSE, "--------------" + response.body());
+                hideProgressDialog();
+                try {
+                    assert response.body() != null;
+                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                    if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+
+                        CommonUtils.showSuccessToastShort(LoginAct.this, "Items added in cart.");
+//                        cartCount++;
+//                        setupBadge();
+                        AppLogger.e("CartCount","---CartCount "+count);
+//                        count--;
+//                        if (count == 0) {
+                            hideProgressDialog();
+
+                            databaseCartAdapter.openDatabase();
+                            databaseCartAdapter.deleteAllRecord();
+                            databaseCartAdapter.closeDatabase();
+
+                            if (loginFlag == 0) {
+                                startNewActivity(MainActivity.class);
+                                finish();
+                            } else if(loginFlag == 1) {   //W/O login ProceedTocheckout-> flag
+                                loginFlag = 0;
+//                                cartbackFlag = 1;
+//                                cartCheckBugNowFlag = 1;
+
+                                cartbackFlag = 0;
+                                cartCheckBugNowFlag = 0;
+
+                                startNewActivity(CartAct.class);
+//                                ShoppingFrg frg = new ShoppingFrg();
+//                                getSupportFragmentManager().beginTransaction().replace(R.id.frameCart,frg).commit();
+                                finish();
+                            }else if(loginFlag == 2){   //W/O Login BuyNow -> flag
+                                loginFlag = 0;
+//                                cartbackFlag = 1;
+//                                cartCheckBugNowFlag = 1;
+                                cartbackFlag = 0;
+                                cartCheckBugNowFlag = 0;
+
+                                startNewActivity(CartAct.class);
+//                                ShippingFrg frg = new ShippingFrg();
+//                                getSupportFragmentManager().beginTransaction().replace(R.id.frameCart,frg).commit();
+                                finish();
+                            }
+//                        }
+                    }else if(jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_FAIL)) {
+                        CommonUtils.showWarningToastShort(LoginAct.this,jsonObject.getString("message"));
+                        if(loginFlag == 2)
+                        {
+//                            count--;
+//                            if(count == 0){
+                                loginFlag = 0;
+//                                cartbackFlag = 1;
+//                                cartCheckBugNowFlag = 1;
+                                cartbackFlag = 0;
+                                cartCheckBugNowFlag = 0;
+                                startNewActivity(CartAct.class);
+                                databaseCartAdapter.openDatabase();
+                                databaseCartAdapter.deleteAllRecord();
+                                databaseCartAdapter.closeDatabase();
+                                finish();
+//                            }
+                        }else if (loginFlag == 1){
+//                            count--;
+//                            if(count == 0){
+                                loginFlag = 0;
+//                                cartbackFlag = 1;
+//                                cartCheckBugNowFlag = 1;
+                                cartbackFlag = 0;
+                                cartCheckBugNowFlag = 0;
+                                startNewActivity(CartAct.class);
+                                databaseCartAdapter.openDatabase();
+                                databaseCartAdapter.deleteAllRecord();
+                                databaseCartAdapter.closeDatabase();
+                                finish();
+//                            }
+//                           startNewActivity(CartAct.class);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+                hideProgressDialog();
+                AppLogger.e("Login AddingtoCart ","----" + t.getMessage());
+            }
+        });
+    }
+
     //View all data in local database
     private void fillListView() {
         List<CartLocalDataItem> cartLocalDataItems = new ArrayList<>();
@@ -360,33 +462,61 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
         count = c.getCount();
 
         if (c.getCount() > 0) {
-            int timer = 500;
+//            int timer = 300;
             showProgressDialog(AppConstants.PLEASE_WAIT);
 
-            for (int i = 0; i < c.getCount() ; i++) {
-                AppLogger.e("BeforePostDelayed","----"+ Calendar.getInstance().getTime());
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            AppLogger.e("Delayed","---"+ Calendar.getInstance().getTime());
-//                            handler.postDelayed(this,AppConstants.ADD_TIME_OUT);
-                            addToCart(c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_ID)), customerId, c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_TYPE_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_TYPE_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)), c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_QUALITY_COLOR)), c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_CARAT)));
-                            c.moveToNext();
-                        }
-                    },  timer += 500);
+//            for (int i = 0; i < c.getCount() ; i++) {
+//                AppLogger.e("BeforePostDelayed","----"+ Calendar.getInstance().getTime());
+//                final Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            AppLogger.e("Delayed","---"+ Calendar.getInstance().getTime());
+////                            handler.postDelayed(this,AppConstants.ADD_TIME_OUT);
+//                            addToCart(c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_ID)), customerId, c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_TYPE_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_TYPE_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)), c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_QUALITY_COLOR)), c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_CARAT)));
+//                            c.moveToNext();
+//                        }
+//                    },  timer += 300);
+//
+//                 AppLogger.e("CursorCount","---"+ Calendar.getInstance().getTime());
+//            }
+//
+            if(c.getCount() == 1){
+                addToCart(c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_ID)), customerId, c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_TYPE_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_TYPE_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)), c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_QUALITY_COLOR)), c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_CARAT)));
+            }else {
+//                int size = c.getCount();
+//                String[] product_id = new String[size];
 
-                 AppLogger.e("CursorCount","---"+ Calendar.getInstance().getTime());
-              /*  if (i == c.getCount() - 1) {
-                    if (loginFlag == 0) {
-                        startNewActivity(MainActivity.class);
-                        finish();
-                    } else {
-                        startNewActivity(CartAct.class);
-                        finish();
+                JSONObject jsonObject;
+                JSONArray jsonArray = new JSONArray();
+                for(int i = 0; i < c.getCount(); i++){
+                    jsonObject = new JSONObject();
+//                    product_id[i] = c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_ID));
+
+                    try{
+                        jsonObject.put("product_id",c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_ID)));
+                        jsonObject.put("customer_id",customerId);
+                        jsonObject.put("option_id",c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_ID)));
+                        jsonObject.put("option_type_id",c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_TYPE_ID)));
+                        jsonObject.put("stone_option_id",c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_ID)));
+                        jsonObject.put("stone_option_type_id",c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_TYPE_ID)));
+                        jsonObject.put("qty",c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)));
+                        jsonObject.put("metalqualitycolor",c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_QUALITY_COLOR)));
+                        jsonObject.put("metalcarat",c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_CARAT)));
+
+                        jsonArray.put(i,jsonObject);
+                    }catch(JSONException e){
+                        e.printStackTrace();
+                        AppLogger.e("CatchEroor","----"+e.getMessage());
                     }
-                } */
+                    c.moveToNext();
+                }
+                AppLogger.e("JsonArray Data","----" + jsonArray);
+                String jsonStr = jsonArray.toString();
+                AppLogger.e("CartDataInString","----" + jsonStr);
+                bulkaddtocart(jsonStr,customerId);
             }
+
             //Why this call bcz allready we set redirection in Addtocart function so not required this
 //            databaseCartAdapter.closeDatabase();
 //            if (loginFlag == 0) {

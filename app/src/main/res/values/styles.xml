@@ -401,8 +401,12 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
+<!--    <style name="imgDrawer">-->
+<!--        <item name="android:layout_marginStart">@dimen/activity_horizontal_margin</item>-->
+<!--        <item name="android:tint">?toolbarTextColor</item>-->
+<!--    </style>-->
+<!--Copy of upper style for 3 image display in home screen & detail screen at bottom view -->
     <style name="imgDrawer">
-        <item name="android:layout_marginStart">@dimen/activity_horizontal_margin</item>
         <item name="android:tint">?toolbarTextColor</item>
     </style>
 
