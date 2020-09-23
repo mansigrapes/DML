@@ -187,7 +187,7 @@
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/cardDiamondBox"
-                    android:layout_width="@dimen/one_three_five_dp"
+                    android:layout_width="145dp"
                     android:layout_height="@dimen/ninenty_dp"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     app:cardBackgroundColor="?transaction_round_back"
@@ -209,7 +209,6 @@
                             android:layout_height="wrap_content"
                             android:padding="@dimen/two_dp"
                             android:textColor="?dml_logo_color"
-
                             />
 
                         <View
@@ -225,7 +224,6 @@
                             android:layout_height="wrap_content"
                             android:padding="@dimen/two_dp"
                             android:textColor="?toolbarTextColor"
-
                             />
 
                     </LinearLayout>

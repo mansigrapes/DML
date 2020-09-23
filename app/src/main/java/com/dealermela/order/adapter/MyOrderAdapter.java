@@ -82,7 +82,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
 
 //        AppLogger.e("item", "----------------" + itemArrayList.get(i).getOrderItems().get(0).getProductName());
 //        AppLogger.e("position", "----------------" + i);

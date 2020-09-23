@@ -290,7 +290,8 @@
                 android:id="@+id/tilPassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:theme="@style/TextInputLayoutAppearance">
+                android:theme="@style/TextInputLayoutAppearance"
+                app:passwordToggleEnabled="true">
 
                 <com.dealermela.utility.DmlTextInputEditText
                     android:id="@+id/edPassword"
@@ -307,7 +308,8 @@
                 android:id="@+id/tilConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:theme="@style/TextInputLayoutAppearance">
+                android:theme="@style/TextInputLayoutAppearance"
+                app:passwordToggleEnabled="true">
 
                 <com.dealermela.utility.DmlTextInputEditText
                     android:id="@+id/edConfirmPassword"

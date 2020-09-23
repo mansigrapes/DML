@@ -72,11 +72,9 @@ import retrofit2.Response;
 import static com.dealermela.home.activity.MainActivity.customerId;
 import static com.dealermela.home.activity.QRCodeScanningAct.scan_flag;
 import static com.dealermela.listing_and_detail.adapter.BangleAdapter.bangleProductId;
-import static com.dealermela.listing_and_detail.adapter.BangleAdapter.SizeValue;
 import static com.dealermela.listing_and_detail.adapter.BraceletsAdapter.braceletProductId;
 import static com.dealermela.listing_and_detail.adapter.CaratAdapter.caratValue;
 import static com.dealermela.listing_and_detail.adapter.CaratAdapter.metalValue;
-import static com.dealermela.listing_and_detail.adapter.PendentSetsAdapter.TypeValue;
 import static com.dealermela.listing_and_detail.adapter.PendentSetsAdapter.pendentProId;
 import static com.dealermela.listing_and_detail.adapter.RingAdapter.ringValue;
 import static com.dealermela.other.activity.SplashAct.loginFlag;
@@ -157,6 +155,9 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     private String ringOptionId, ringOptionTypeId, stoneOptionId, stoneOptionTypeId, categoryid;
 
     private ThemePreferences themePreferences;
+
+    public static String TypeValue = "";
+    public static String SizeValue = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -416,8 +417,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //                                                        CommonUtils.showWarningToast(ProductDetailAct.this, "Product has already in cart ");
                                                     }else {
                                                         AppLogger.e("Record-------", "Not found for same productID bt diffrent Ring id.");
-                                                        cmetalQualityColor = metalValue;
-                                                        cmetalCarat =  caratValue;
+//                                                        cmetalQualityColor = metalValue;
+//                                                        cmetalCarat =  caratValue;
                                                         cProductType = productType;
                                                         cCategoryId = productCategoryId;
                                                         //                              cImageUrl = "https://images-na.ssl-images-amazon.com/images/I/41fDhXqeURL.jpg";
@@ -469,8 +470,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                             }else {
                                                 AppLogger.e("Record-------", "Not found for same productID bt diffrent Stone id.");
 
-                                                    cmetalQualityColor = metalValue;
-                                                    cmetalCarat =  caratValue;
+//                                                    cmetalQualityColor = metalValue;
+//                                                    cmetalCarat =  caratValue;
                                                     cProductType = productType;
                                                     cCategoryId = productCategoryId;
 //                                                  cImageUrl = "https://images-na.ssl-images-amazon.com/images/I/41fDhXqeURL.jpg";
@@ -543,8 +544,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //                                                AppLogger.e("AddToCart","cProductId---pendentProId----" + cProductId);
 //                                            }
                                         }
-                                        cmetalQualityColor = metalValue;
-                                        cmetalCarat =  caratValue;
+//                                        cmetalQualityColor = metalValue;
+//                                        cmetalCarat =  caratValue;
                                         cProductType = productType;
                                         cCategoryId = productCategoryId;
 //                                      cImageUrl = "https://images-na.ssl-images-amazon.com/images/I/41fDhXqeURL.jpg";
@@ -801,6 +802,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                             BangleAdapter bangleAdapter = new BangleAdapter(ProductDetailAct.this, response.body().getBangleSize());
                             recycleViewBangleSize.setAdapter(bangleAdapter);
+                        }else {
+                            SizeValue = "";
                         }
 
                         //using for Bracelets adapter
@@ -832,6 +835,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                             PendentSetsAdapter pendentSetsAdapter = new PendentSetsAdapter(ProductDetailAct.this, response.body().getPendentEarring());
                             recycleViewPendentSets.setAdapter(pendentSetsAdapter);
+                        }else{
+                            TypeValue = "";
                         }
 
                         //using for diamond adapter
@@ -866,6 +871,9 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         MetalAdapter metalAdapter = new MetalAdapter(ProductDetailAct.this, metalList);
                         recycleViewMetal.setAdapter(metalAdapter);
 
+                        cmetalCarat = caratValue;
+                        cmetalQualityColor = metalValue;
+
                         //using for rts adapter
                         if (!response.body().getRtsSlider().isEmpty()) {
                             recycleViewReadyToShip.setVisibility(View.VISIBLE);
@@ -883,6 +891,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         }else {
                             recycleViewReadyToShip.setVisibility(View.GONE);
                         }
+
                     }
 
                     //using for Diamond detail adapter
@@ -1082,6 +1091,9 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         recycleViewReadyToShip.setVisibility(View.GONE);
                     }
 
+                    cmetalCarat = caratValue;
+                    cmetalQualityColor = metalValue;
+
                     //using for diamond adapter
                     if (!response.body().getStoneClarity().isEmpty()) {
                         diamondAdapter = new DiamondAdapter(ProductDetailAct.this, response.body().getStoneClarity());
@@ -1109,6 +1121,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                             }
                             BangleAdapter bangleAdapter = new BangleAdapter(ProductDetailAct.this, response.body().getBangleSize());
                             recycleViewBangleSize.setAdapter(bangleAdapter);
+                        }else {
+                            SizeValue = "";
                         }
 
                     if (productCategoryId.equalsIgnoreCase(AppConstants.BANGLE_ID) || productCategoryId.equalsIgnoreCase(AppConstants.BRACELETS_ID)) {
@@ -1134,6 +1148,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                 }
                                 BangleAdapter bangleAdapter = new BangleAdapter(ProductDetailAct.this, response.body().getBangleSize());
                                 recycleViewBangleSize.setAdapter(bangleAdapter);
+                            }else {
+                                SizeValue = "";
                             }
 
                             //using for Bracelets adapter
@@ -1188,6 +1204,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                             PendentSetsAdapter pendentSetsAdapter = new PendentSetsAdapter(ProductDetailAct.this, response.body().getPendentEarring());
                             recycleViewPendentSets.setAdapter(pendentSetsAdapter);
+                    } else{
+                        TypeValue = "";
                     }
 
 //                    if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID)) {
@@ -1425,6 +1443,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     //Product Detail
                     assert response.body() != null;
                     tvProductName.setText(response.body().getProductDetails().get(0).getProductName());
+                    cProductSKU = response.body().getProductDetails().get(0).getProductSku();
 
                     if(response.body().getProductDetails().get(0).getPrice() == "0"){
                         tvProductPrice.setText(AppConstants.RS + "0");
@@ -1435,7 +1454,20 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     cSku = response.body().getProductDetails().get(0).getSku();
                     tvCertificateNo.setText(response.body().getProductDetails().get(0).getCertificateNo());
                     cMetalWeight = response.body().getMetaldetails().get(0).getMetalweight();
+
                     //Metal Diamond Detail
+//                    metalValue , caratValue
+                    String allmetalquality= response.body().getMetaldetails().get(0).getMetalquality();
+//                    StringBuilder sb = new StringBuilder();
+                    String[] value1 = allmetalquality.split(" ");
+//                    for(int i = 0 ; i < allmetalquality.length() ; i++){
+
+                        cmetalCarat = value1[0];
+                        AppLogger.e("Split Caratvalue","" + cmetalCarat);
+                        cmetalQualityColor = value1[1] + " " + value1[2];
+//                        sb.append(value1[1]);
+//                    }
+                    AppLogger.e("Split metalvalue","" + cmetalQualityColor);
                     Float metalPrice = Float.parseFloat(response.body().getMetalprice().toString());
    //                metalPrice = metalPrice.substring(1, metalPrice.length() - 1);
                     tvMetalPrice.setText(String.valueOf(CommonUtils.priceFormat(metalPrice)));
@@ -1558,8 +1590,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //                                    }
 
                                     AppLogger.e("Record-------", "Not found for same productID bt diffrent Ring id.");
-                                    cmetalQualityColor = metalValue;
-                                    cmetalCarat =  caratValue;
+//                                    cmetalQualityColor = metalValue;
+//                                    cmetalCarat =  caratValue;
                                     cProductType = productType;
                                     cCategoryId = productCategoryId;
     //                              cImageUrl = "https://images-na.ssl-images-amazon.com/images/I/41fDhXqeURL.jpg";
@@ -1611,8 +1643,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         }else {
                             AppLogger.e("Record-------", "Not found for same productID bt diffrent Stone id. Or RingID");
 
-                                cmetalQualityColor = metalValue;
-                                cmetalCarat =  caratValue;
+//                                cmetalQualityColor = metalValue;
+//                                cmetalCarat =  caratValue;
                                 cProductType = productType;
                                 cCategoryId = productCategoryId;
     //                          cImageUrl = "https://images-na.ssl-images-amazon.com/images/I/41fDhXqeURL.jpg";
@@ -1657,8 +1689,6 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                 cartCount++;
                                 setupBadge();
                                 databaseCartAdapter.closeDatabase();
-
-
                         }
                 }
             } else {
@@ -1687,8 +1717,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //                        AppLogger.e("AddToCart","cProductId---pendentProId----" + cProductId);
 //                    }
                 }
-                cmetalQualityColor = metalValue;
-                cmetalCarat =  caratValue;
+//                cmetalQualityColor = metalValue;
+//                cmetalCarat =  caratValue;
                 cProductType = productType;
                 cCategoryId = productCategoryId;
 //                cImageUrl = "https://images-na.ssl-images-amazon.com/images/I/41fDhXqeURL.jpg";

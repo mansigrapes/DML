@@ -15,6 +15,7 @@ import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.listing_and_detail.model.ProductDetailItem;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.ThemePreferences;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.TypeValue;
 
 import java.util.List;
 
@@ -24,7 +25,6 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
     private final List<ProductDetailItem.PendentEarring> itemArrayList;
     private int flag=0;
     public static String pendentProId = "";
-    public static String TypeValue = "";
     private ThemePreferences themePreferences;
 
     public PendentSetsAdapter(Activity activity, List<ProductDetailItem.PendentEarring> itemArrayList) {

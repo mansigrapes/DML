@@ -3,6 +3,7 @@ package com.dealermela.authentication.myaccount.activity;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -41,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -275,14 +277,14 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                         CommonUtils.showSuccessToastShort(LoginAct.this, "Item added in cart.");
 //                        cartCount++;
 //                        setupBadge();
-
+                        AppLogger.e("CartCount","---CartCount "+count);
                         count--;
                         if (count == 0) {
                             hideProgressDialog();
 
-                            databaseCartAdapter.openDatabase();
-                            databaseCartAdapter.deleteAllRecord();
-                            databaseCartAdapter.closeDatabase();
+//                            databaseCartAdapter.openDatabase();
+//                            databaseCartAdapter.deleteAllRecord();
+//                            databaseCartAdapter.closeDatabase();
 
                             if (loginFlag == 0) {
                                 startNewActivity(MainActivity.class);
@@ -345,6 +347,7 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 hideProgressDialog();
+                AppLogger.e("Login AddingtoCart ","----" + t.getMessage());
             }
         });
     }
@@ -357,12 +360,23 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
         count = c.getCount();
 
         if (c.getCount() > 0) {
-
+            int timer = 500;
             showProgressDialog(AppConstants.PLEASE_WAIT);
-            for (int i = 0; i < c.getCount(); i++) {
 
-                addToCart(c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_ID)), customerId, c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_TYPE_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_TYPE_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)), c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_QUALITY_COLOR)), c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_CARAT)));
-                c.moveToNext();
+            for (int i = 0; i < c.getCount() ; i++) {
+                AppLogger.e("BeforePostDelayed","----"+ Calendar.getInstance().getTime());
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            AppLogger.e("Delayed","---"+ Calendar.getInstance().getTime());
+//                            handler.postDelayed(this,AppConstants.ADD_TIME_OUT);
+                            addToCart(c.getString(c.getColumnIndex(DatabaseCartAdapter.PRODUCT_ID)), customerId, c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.RING_OPTION_TYPE_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.STONE_OPTION_TYPE_ID)), c.getString(c.getColumnIndex(DatabaseCartAdapter.QTY)), c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_QUALITY_COLOR)), c.getString(c.getColumnIndex(DatabaseCartAdapter.METAL_CARAT)));
+                            c.moveToNext();
+                        }
+                    },  timer += 500);
+
+                 AppLogger.e("CursorCount","---"+ Calendar.getInstance().getTime());
               /*  if (i == c.getCount() - 1) {
                     if (loginFlag == 0) {
                         startNewActivity(MainActivity.class);

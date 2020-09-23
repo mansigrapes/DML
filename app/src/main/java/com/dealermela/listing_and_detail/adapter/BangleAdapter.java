@@ -15,6 +15,7 @@ import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.listing_and_detail.model.ProductDetailItem;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.ThemePreferences;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.SizeValue;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
     private final Activity activity;
     private final List<ProductDetailItem.BangleSize> itemArrayList;
     public static String bangleProductId = "";
-    public static String SizeValue = "";
+
     private ThemePreferences themePreferences;
 
     public BangleAdapter(Activity activity, List<ProductDetailItem.BangleSize> itemArrayList) {

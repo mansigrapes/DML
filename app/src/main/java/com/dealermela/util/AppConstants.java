@@ -23,6 +23,7 @@ public final class AppConstants {
 
     // Splash screen timer
     public static final int SPLASH_TIME_OUT = 3000;
+    public static final int ADD_TIME_OUT = 10000;  //adding for Login Addtocart API calling in delayed
 
     public static final String BUNDLE = "BUNDLE";
     public static final String NAME = "name";

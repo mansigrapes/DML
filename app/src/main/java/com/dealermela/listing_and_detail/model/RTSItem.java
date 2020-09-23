@@ -261,12 +261,24 @@ public class RTSItem {
         @SerializedName("price")
         @Expose
         private String price;
+        @SerializedName("product_sku")
+        @Expose
+        private String productSku;
         @SerializedName("sku")
         @Expose
         private String sku;
         @SerializedName("certificate_no")
         @Expose
         private String certificateNo;
+        @SerializedName("rts_ring_size")
+        @Expose
+        private String rtsRingSize;
+        @SerializedName("rts_bangle_size")
+        @Expose
+        private Object rtsBangleSize;
+        @SerializedName("rts_bracelet_size")
+        @Expose
+        private Object rtsBraceletSize;
 
         public String getProductName() {
             return productName;
@@ -284,6 +296,14 @@ public class RTSItem {
             this.price = price;
         }
 
+        public String getProductSku() {
+            return productSku;
+        }
+
+        public void setProductSku(String productSku) {
+            this.productSku = productSku;
+        }
+
         public String getSku() {
             return sku;
         }
@@ -298,6 +318,30 @@ public class RTSItem {
 
         public void setCertificateNo(String certificateNo) {
             this.certificateNo = certificateNo;
+        }
+
+        public String getRtsRingSize() {
+            return rtsRingSize;
+        }
+
+        public void setRtsRingSize(String rtsRingSize) {
+            this.rtsRingSize = rtsRingSize;
+        }
+
+        public Object getRtsBangleSize() {
+            return rtsBangleSize;
+        }
+
+        public void setRtsBangleSize(Object rtsBangleSize) {
+            this.rtsBangleSize = rtsBangleSize;
+        }
+
+        public Object getRtsBraceletSize() {
+            return rtsBraceletSize;
+        }
+
+        public void setRtsBraceletSize(Object rtsBraceletSize) {
+            this.rtsBraceletSize = rtsBraceletSize;
         }
 
     }
