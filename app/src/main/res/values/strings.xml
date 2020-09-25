@@ -206,6 +206,7 @@
     <string name="with_price">With Price</string>
     <string name="image">Image</string>
     <string name="downloadimage">Product</string>
+
     <string name="price">PRICE</string>
     <string name="prices">Price</string>
     <string name="delete_all">Delete All</string>
@@ -287,6 +288,7 @@
     <string name="metal_details">Metal Details</string>
     <string name="stone_details">Stone Details</string>
     <string name="login_fail">Something want to wrong please try again.</string>
+    <string name="select_all">Select All</string>
 
     <string-array name="inventory_action">
         <item>with price and with logo</item>

@@ -6,8 +6,8 @@ import com.dealermela.R;
 
 public final class AppConstants {
     //    API base urlprli
-    public static final String BASE_URL = "http://www.diamondmela.com/";
-//    public static final String BASE_URL = "http://123.108.51.11/index.php/";
+//    public static final String BASE_URL = "http://www.diamondmela.com/";
+    public static final String BASE_URL = "http://123.108.51.11/index.php/";
     public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftwaretest/";
   //Temporary set on 29/02/2020
 //    public static final String BASE_URL_LARAVEL = "http://www.diamondmela.com/";

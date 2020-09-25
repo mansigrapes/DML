@@ -134,8 +134,8 @@
                 android:layout_gravity="center"
                 android:drawableEnd="@drawable/ic_arrow_right_black_24dp"
                 android:text="@string/our_collection"
-                android:tint="?toolbarTextColor"/>
-
+                />
+<!--            android:tint="?toolbarTextColor"-->
         </LinearLayout>
 
         <ScrollView

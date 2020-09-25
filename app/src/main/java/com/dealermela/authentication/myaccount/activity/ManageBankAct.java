@@ -50,7 +50,7 @@ public class ManageBankAct extends DealerMelaBaseActivity {
 
     @Override
     public void initView() {
-        bindToolBar("Bank details");
+        bindToolBar("Bank Details");
         recycleViewBankList = findViewById(R.id.recycleViewBankList);
         constraintNoData = findViewById(R.id.constraintlayoutNoData);
         tvNoData = findViewById(R.id.tvNoData);

@@ -59,6 +59,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dealermela.home.activity.MainActivity.GroupId;
 import static com.dealermela.home.activity.MainActivity.customerId;
 
 import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
@@ -106,12 +107,14 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     private StringBuilder availability = new StringBuilder();
     private StringBuilder sort_by = new StringBuilder();
 
-    private String id, name;
+    private String id, name, group_id;
     private SwipeRefreshLayout swipeRefreshData;
     private ShimmerFrameLayout parentShimmerLayout;
     private FloatingActionButton fabDownload;
 
     private Button cancelandclear;
+    private int totalproduct;
+    private double value = 0;
 
     @Override
     protected int getLayoutResourceId() {
@@ -277,7 +280,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             }
         });
 
-        recycleViewListing.addOnScrollListener(new RecyclerView.OnScrollListener() {
+    /*    recycleViewListing.addOnScrollListener(new RecyclerView.OnScrollListener() {
                                                    @Override
                                                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                                                        super.onScrolled(recyclerView, dx, dy);
@@ -362,6 +365,104 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                                        super.onScrollStateChanged(recyclerView, newState);
                                                    }
                                                }
+        );  */
+
+        recycleViewListing.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                                                   @Override
+                                                   public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                                                       super.onScrolled(recyclerView, dx, dy);
+                                                       if (!sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                                                           if (dy > 0 ||dy<0 && fabDownload.isShown())
+                                                           {
+                                                               fabDownload.hide();
+                                                           }
+                                                       }
+
+                                                       visibleItemCount = recyclerView.getChildCount();
+                                                       totalItemCount = gridLayoutManager.getItemCount();
+                                                       firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
+
+                                                       if (flag_scroll) {
+                                                           AppLogger.e("flag-Scroll", flag_scroll + "");
+                                                       } else {
+                                                           if (loading) {
+                                                               Log.e("flag-Loading", loading + "");
+                                                               if (totalItemCount > previousTotal) {
+                                                                   loading = false;
+                                                                   previousTotal = totalItemCount;
+                                                                   //Log.e("flag-IF", (totalItemCount > previousTotal) + "");
+                                                               }
+                                                           }
+                                                           if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                                                               // End has been reached
+                                                               // Do something
+                                                               Log.e("flag-Loading_second_if", loading + "");
+                                                               if (NetworkUtils.isNetworkConnected(ListAct.this)) {
+                                                                   Log.e("total count", "--------------------" + page_count);
+//                                                                   page_count++;
+
+                                                                   if (id.equalsIgnoreCase("search")) {
+                                                                       value = (double) totalproduct / 12 ;
+                                                                       AppLogger.e("SearchTotalPage","-------"+value);
+                                                                       if(value > page_count){
+                                                                           page_count++;
+                                                                           linSortBy.setVisibility(View.GONE);
+                                                                           linFilter.setVisibility(View.GONE);
+                                                                           linNoData.setVisibility(View.GONE);
+                                                                           searchProduct(name, String.valueOf(page_count));
+                                                                       }else {
+                                                                           linSortBy.setVisibility(View.GONE);
+                                                                           linFilter.setVisibility(View.GONE);
+                                                                           linNoData.setVisibility(View.GONE);
+//                                                                           searchProduct(name, String.valueOf(page_count));
+                                                                       }
+
+                                                                   } else {
+                                                                       page_count++;
+                                                                       if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                                                                           getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                                                                       } else {
+                                                                           getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                                                                       }
+                                                                   }
+
+                                                               } else {
+                                                                   //internet not connected
+                                                                   AppLogger.e("connection", "-------internet connection is off");
+                                                               }
+                                                               loading = true;
+                                                           }
+                                                       }
+                                                   }
+
+                                                   @Override
+                                                   public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                                                       if (!sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                                                           if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                                                               fabDownload.show();
+                                                               if(id.equalsIgnoreCase("search")){
+                                                                   if(itemArrayList.size() > 1){
+                                                                       fabDownload.show();
+                                                                   }else {
+                                                                       fabDownload.hide();
+                                                                   }
+                                                               }
+                                                               if(filterFlag == 1){
+                                                                   if(itemArrayList.size() == 1){
+                                                                       fabDownload.hide();
+                                                                   }else if(itemArrayList.isEmpty()){
+                                                                       fabDownload.hide();
+                                                                   }
+                                                               }
+                                                           }
+                                                       }else {
+                                                           if(id.equalsIgnoreCase("search")){
+                                                               fabDownload.hide();
+                                                           }
+                                                       }
+                                                       super.onScrollStateChanged(recyclerView, newState);
+                                                   }
+                                               }
         );
 
         swipeRefreshData.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -388,7 +489,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             linNoData.setVisibility(View.GONE);
             fabDownload.hide();
             //Add following 3 flag for scrolling the listing when we scroll the page Otherwise not scrolled.
-            flag_scroll = true;  //Previous this flag set to false and when search time result display two times in single page
+            flag_scroll = false;  //Previous this flag set to false and when search time result display two times in single page
             previousTotal = 0; // The total number of items in the dataset after the last load
             loading = true; // True if we are still waiting for the last set of data to load.
             searchProduct(name, String.valueOf(page_count));
@@ -852,7 +953,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         }
     }
 
-    private void searchProduct(String searchTerm, String page) {
+/*    private void searchProduct(String searchTerm, String page) {
         if (page_count == 1) {
 //            progressCenter.setVisibility(View.VISIBLE);
         } else {
@@ -880,6 +981,72 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                         linNoData.setVisibility(View.GONE);
                         parentShimmerLayout.setVisibility(View.GONE);
                         recycleViewListing.setVisibility(View.VISIBLE);
+                        itemArrayList.addAll(response.body().getData());
+                        listingRecyclerAdapter.notifyDataSetChanged();
+                        if (!sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                            if(itemArrayList.size() > 1){    //Apply this condition bcz in only 1 product in search result it give bulkdownload icon so For Now when user search product & if more than 2 result found than show BulkDownload option
+                                fabDownload.show();
+                            }
+                        }
+                        AppLogger.e("now got Search result ","-- success ");
+                    } else {
+                        linNoData.setVisibility(View.GONE);
+                        if (itemArrayList.isEmpty()) {
+                            AppLogger.e("Search result fail ","------");
+                            linNoData.setVisibility(View.VISIBLE);
+                            parentShimmerLayout.setVisibility(View.GONE);
+                            progressCenter.setVisibility(View.GONE);
+                            progressBottom.setVisibility(View.GONE);
+                        } else {
+                            linNoData.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ListingItem> call, @NonNull Throwable t) {
+                AppLogger.e("error", "------------" + t.getMessage());
+                linNoData.setVisibility(View.VISIBLE);
+                if (page_count == 1) {
+                    progressCenter.setVisibility(View.GONE);
+                } else {
+                    progressBottom.setVisibility(View.GONE);
+                }
+            }
+        });
+    }  */
+
+    private void searchProduct(String searchTerm, String page) {
+        if (page_count == 1) {
+//            progressCenter.setVisibility(View.VISIBLE);
+        } else {
+            progressBottom.setVisibility(View.VISIBLE);
+        }
+        AppLogger.e("SearchTerm","----------"+searchTerm);
+        AppLogger.e("Page","----------"+page);
+        linNoData.setVisibility(View.GONE);  //Add this here bcz API take time to load so NO data placeholder not be display
+        ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+        Call<ListingItem> callApi = apiInterface.searchNewProduct(customerId,GroupId,searchTerm, page);
+        callApi.enqueue(new Callback<ListingItem>() {
+            @Override
+            public void onResponse(@NonNull Call<ListingItem> call, @NonNull Response<ListingItem> response) {
+                assert response.body() != null;
+                if (page_count == 1) {
+                    progressCenter.setVisibility(View.GONE);
+                    progressBottom.setVisibility(View.GONE);
+                } else {
+                    progressBottom.setVisibility(View.GONE);
+                }
+                parentShimmerLayout.setVisibility(View.VISIBLE);
+                linNoData.setVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                        linNoData.setVisibility(View.GONE);
+                        parentShimmerLayout.setVisibility(View.GONE);
+                        recycleViewListing.setVisibility(View.VISIBLE);
+                        totalproduct = response.body().getTotal();
+                        AppLogger.e("SearchAPI","TotalResult---"+ response.body().getTotal());
                         itemArrayList.addAll(response.body().getData());
                         listingRecyclerAdapter.notifyDataSetChanged();
                         if (!sharedPreferences.getLoginData().equalsIgnoreCase("")) {

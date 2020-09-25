@@ -723,6 +723,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                             } else {
                                 tvDownloadCount.setVisibility(View.VISIBLE);
                                 tvDownloadCount.setText(String.valueOf(jsonObject.getInt("download_count")));
+                                downloadCount = jsonObject.getInt("download_count");
                             }
                         } else {
                             tvDownloadCount.setVisibility(View.GONE);

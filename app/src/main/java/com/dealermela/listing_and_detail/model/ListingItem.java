@@ -10,6 +10,9 @@ public class ListingItem {
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("total")
+    @Expose
+    private Integer total;
     @SerializedName("data")
     @Expose
     private List<Datum> data = null;
@@ -20,6 +23,14 @@ public class ListingItem {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
     public List<Datum> getData() {

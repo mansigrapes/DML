@@ -99,11 +99,13 @@ dependencies {
     implementation 'com.onesignal:OneSignal:3.15.1'
 
     //Qr Code scanning
-//    3.4
-    implementation 'com.google.zxing:core:3.4.0'
-    implementation 'com.journeyapps:zxing-android-embedded:3.4.0@aar'
-//    implementation 'com.google.zxing:core:3.2.1'
-//    implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+//    3.4  Not working from 24/09 - app get crash in invalid QR & Some java system error
+//    implementation 'com.google.zxing:core:3.4.0'
+//    implementation 'com.journeyapps:zxing-android-embedded:3.4.0@aar'
+
+    implementation 'com.google.zxing:core:3.2.1'
+    implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+
 //    implementation 'androidx.appcompat:appcompat:1.0.2'
 //    implementation 'com.journeyapps:zxing-android-embedded:3.4.0@aar'
 

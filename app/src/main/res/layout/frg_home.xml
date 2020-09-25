@@ -282,7 +282,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="5sp">
 
                         <ImageView
                             style="@style/pop_product_image_tint"
@@ -309,14 +310,16 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/eight_sp"
                         android:layout_marginEnd="@dimen/eight_sp"
-                        android:background="@drawable/line_ic_one" />
+                        android:background="@drawable/line_ic_one"
+                        android:backgroundTint="?toolbarTextColor"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="5sp">
 
                         <ImageView
                             style="@style/pop_product_image_tint"
@@ -342,7 +345,8 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/eight_sp"
                         android:layout_marginEnd="@dimen/eight_sp"
-                        android:background="@drawable/line_ic_one" />
+                        android:background="@drawable/line_ic_one"
+                        android:backgroundTint="?toolbarTextColor"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -350,7 +354,8 @@
                         android:gravity="center"
                         android:layout_marginEnd="@dimen/five_sp"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="5sp">
 
                         <ImageView
                             android:id="@+id/imageView15"

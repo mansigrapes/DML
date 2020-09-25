@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dealermela.DealerMelaBaseActivity;
@@ -53,11 +54,12 @@ import static com.dealermela.home.activity.MainActivity.customerId;
 public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickListener {
 
     private RadioGroup radioGroup;
-    private CheckBox checkBoxSelectAll;
+    private CheckBox checkBoxSelectAll,checkBoxAll;
     private RecyclerView recycleViewDownloadProducts;
     private Button btnDownload, btnDeleteAll;
     private ProgressBar progressBarBottom, progressBarCenter;
     private LinearLayout linNoData;
+    private TextView downloadlistcount;
 
     //page count
     private int page_count = 1;
@@ -78,6 +80,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private ArrayList<Integer> integerArrayList;
+    private String checkboxallselected;
 
     @Override
     protected int getLayoutResourceId() {
@@ -94,6 +97,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
         bindToolBar("Download List");
         radioGroup = findViewById(R.id.radioGroupFilter);
         checkBoxSelectAll = findViewById(R.id.checkBoxSelectAll);
+        checkBoxAll = findViewById(R.id.checkBoxAll);
         recycleViewDownloadProducts = findViewById(R.id.recycleViewDownloadProducts);
         btnDownload = findViewById(R.id.btnDownload);
         btnDeleteAll = findViewById(R.id.btnDeleteAll);
@@ -101,6 +105,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
         progressBarCenter = findViewById(R.id.progressBarCenter);
         linNoData = findViewById(R.id.downloadlistNoData);
         progressBarBottom.setVisibility(View.GONE);
+        downloadlistcount = findViewById(R.id.downloadlistcount);
     }
 
     @Override
@@ -143,6 +148,8 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 //                    }
 
                     AppLogger.e("select all", "----checked");
+                    downloadlistcount.setText(String.valueOf(downloadProductAdapter.itemArrayList.size()));
+                    checkboxallselected=" ";
                 } else {
                     for (int j = 0; j < downloadProductAdapter.itemArrayList.size(); j++) {
                         downloadProductAdapter.itemArrayList.get(j).setSelected(false);
@@ -153,6 +160,43 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 //                        downloadProductAdapter.updatecheckbox(j);
 //                    }
                     AppLogger.e("un select all", "----un checked");
+                    downloadlistcount.setText("");
+                    checkboxallselected=" ";
+                }
+            }
+        });
+
+        checkBoxAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    for (int j = 0; j < downloadProductAdapter.itemArrayList.size(); j++) {
+                        downloadProductAdapter.itemArrayList.get(j).setSelected(true);
+                        downloadProductAdapter.updatecheckbox(j);
+                    }
+
+//                    for (int j = 0; j < detailList.size(); j++) {
+//                        detailList.get(j).setSelected(true);
+//                        downloadProductAdapter.updatecheckbox(j);
+//                    }
+
+                    AppLogger.e("select all", "----checked");
+                    checkBoxSelectAll.setChecked(true);
+                    checkboxallselected="all";
+                    downloadlistcount.setText(String.valueOf(downloadCount));
+                } else {
+                    for (int j = 0; j < downloadProductAdapter.itemArrayList.size(); j++) {
+                        downloadProductAdapter.itemArrayList.get(j).setSelected(false);
+                        downloadProductAdapter.updatecheckbox(j);
+                    }
+//                    for (int j = 0; j < detailList.size(); j++) {
+//                        detailList.get(j).setSelected(false);
+//                        downloadProductAdapter.updatecheckbox(j);
+//                    }
+                    AppLogger.e("un select all", "----un checked");
+                    checkBoxSelectAll.setChecked(false);
+                    checkboxallselected=" ";
+                    downloadlistcount.setText("");
                 }
             }
         });
@@ -283,7 +327,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
         });
     }
 
-    private void deleteAllProduct(String customerId, String productId) {
+    private void deleteAllProduct(String customerId, String productId, String chkAllSelected) {
         //show progress
         hud = KProgressHUD.create(DownloadAct.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
@@ -291,7 +335,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
         AppLogger.e("customerId", customerId);
         AppLogger.e("productId", productId);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<JsonObject> callApi = apiInterface.deleteAllProductImage(customerId, productId);
+        Call<JsonObject> callApi = apiInterface.deleteAllProductImage(customerId, productId, chkAllSelected);
         callApi.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
@@ -304,9 +348,10 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 //                        downloadProductAdapter.selectionItemPosition.clear();
 //                        downloadProductAdapter.deleteItems.clear();
                         checkBoxSelectAll.setChecked(false);
+                        checkBoxAll.setChecked(false);
                         if (integerArrayList.isEmpty()){
 
-                            finish();
+//                            finish();
                         }else {
                             Collections.reverse(integerArrayList);
                             for (int i = 0; i < integerArrayList.size(); i++) {
@@ -336,13 +381,13 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
         });
     }
 
-    private void downloadAllProduct(String customerId, String productId) {
+    private void downloadAllProduct(String customerId, String productId, String chkAllSelected) {
         //show progress
         showProgressDialog(AppConstants.PLEASE_WAIT);
         AppLogger.e("customerId", customerId);
         AppLogger.e("productId", productId);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<JsonObject> callApi = apiInterface.downloadAllProductImage(customerId, productId, flag);
+        Call<JsonObject> callApi = apiInterface.downloadAllProductImage(customerId, productId, flag, chkAllSelected);
         callApi.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
@@ -371,8 +416,9 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 //                            if(!detailList.isEmpty()) {       //apply this condition For when product downloaded it remove from the list
 //                                detailList.remove(i);
 //                            }
-//                            checkBoxSelectAll.setSelected(false);
+
                             checkBoxSelectAll.setChecked(false);
+                            checkBoxAll.setChecked(false);
                         }
 
 //                        Collections.reverse(integerArrayList);
@@ -485,7 +531,15 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 
                             listString.deleteCharAt(listString.length() - 1);
                             AppLogger.e("list string","----------"+listString);
-                            downloadAllProduct(customerId, listString.toString());
+
+                            if(checkboxallselected.equalsIgnoreCase("all")){
+                                int last = listString.length();
+                                listString.delete(0,last);
+                                downloadAllProduct(customerId, listString.toString(),checkboxallselected);
+                            }else {
+                                downloadAllProduct(customerId, listString.toString(),checkboxallselected);
+                            }
+//                            downloadAllProduct(customerId, listString.toString(),checkboxallselected);
                         }
                     })
                     .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -569,7 +623,14 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                             dialog.dismiss();
                             AppLogger.e("string data", "------" + listString);
 
-                            deleteAllProduct(customerId, listString.toString());
+                            if(checkboxallselected.equalsIgnoreCase("all")){
+                                int last =listString.length();
+                                listString.delete(0,last);
+                                deleteAllProduct(customerId, listString.toString(),checkboxallselected);
+                            }else {
+                                deleteAllProduct(customerId, listString.toString(),checkboxallselected);
+                            }
+//                            deleteAllProduct(customerId, listString.toString(), checkboxallselected);
                         }
                     })
                     .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {

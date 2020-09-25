@@ -342,12 +342,16 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
     @Override
     public void loadData() {
-
-        if(categoryid.equalsIgnoreCase(AppConstants.RING_ID)){
-            getProductDetail(productId, caratValue, metalValue, ringValue, "SI-IJ", "", "", "", "","");
+        if(categoryid!=null){
+            if(categoryid.equalsIgnoreCase(AppConstants.RING_ID)){
+                getProductDetail(productId, caratValue, metalValue, ringValue, "SI-IJ", "", "", "", "","");
+            }else {
+                getProductDetail(productId, caratValue, metalValue, "", "SI-IJ", "", "", "", "","");
+            }
         }else {
             getProductDetail(productId, caratValue, metalValue, "", "SI-IJ", "", "", "", "","");
         }
+
 //        getProductDetail(productId, caratValue, metalValue, "", "", productId, "", "");
     }
 

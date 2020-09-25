@@ -131,7 +131,8 @@
 
             <include
                 android:id="@+id/includeCustomise"
-                layout="@layout/act_product_detail_include_customise" />
+                layout="@layout/act_product_detail_include_customise"
+             />
 
             <LinearLayout
                 android:layout_width="match_parent"

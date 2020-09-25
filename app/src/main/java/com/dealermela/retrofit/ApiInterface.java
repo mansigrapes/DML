@@ -356,14 +356,16 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("dmlapi/downloadproduct/DeleteAllProduct/")
     Call<JsonObject> deleteAllProductImage(@Field("customer_id") String customerId,
-                                           @Field("product_ids") String productIds);
+                                           @Field("product_ids") String productIds,
+                                           @Field("chkselected_all") String chkAllSelected);
 
     //download All Product              /**/
     @FormUrlEncoded
     @POST("dmlapi/downloadproduct/DownloadAllImage/")
     Call<JsonObject> downloadAllProductImage(@Field("customer_id") String customerId,
                                              @Field("product_ids") String productId,
-                                             @Field("price") String price);
+                                             @Field("price") String price,
+                                             @Field("chkselected_all") String chkAllSelected);
 
     //TRANSACTION
     @FormUrlEncoded
@@ -503,6 +505,12 @@ public interface ApiInterface {
                                     @Field("search_term") String searchTerm,
                                     @Field("page") String page);
 
+    @FormUrlEncoded
+    @POST("dmlapi/product/searchnew")
+    Call<ListingItem> searchNewProduct(@Field("customer_id ") String customer_id,
+                                    @Field("group_id") String group_id,
+                                    @Field("search_term") String searchTerm,
+                                    @Field("page") String page);
 
     //print order
     @FormUrlEncoded

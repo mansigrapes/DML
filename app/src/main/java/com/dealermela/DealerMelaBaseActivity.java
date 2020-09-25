@@ -63,6 +63,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
     public static TextView textCartItemCount ;
     Switch switchAB;
     public static int cartCount = 0;
+    public static int downloadCount = 0;
 //    int totalitem = 0;
 
     private SharedPreferences sharedPreferences;
