@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
-public class DmlTextViewSemiBold extends android.support.v7.widget.AppCompatTextView {
+public class DmlTextViewSemiBold extends androidx.appcompat.widget.AppCompatTextView {
     public DmlTextViewSemiBold(Context context) {
         super(context);
         setFont();

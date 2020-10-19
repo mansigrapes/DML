@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,50 +15,75 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/checkBoxAll"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:orientation="horizontal"
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="@dimen/eight_sp"
-        tools:layout_editor_absoluteX="8dp"
-        android:buttonTint="?editTextTextColor"
-        app:layout_constraintTop_toBottomOf="@+id/include12"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginLeft="7sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include12">
 
-    <com.dealermela.utility.DmlTextView
-        style="@style/download_text_title"
-        android:id="@+id/downloadlisttext"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/select_all"
-        android:textColor="?toolbarTextColor"
-        android:textSize="14sp"
-        android:gravity="center"
-        app:layout_constraintStart_toEndOf="@+id/checkBoxAll"
-        app:layout_constraintTop_toBottomOf="@+id/include12" />
+        <CheckBox
+            android:id="@+id/checkBoxAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="?editTextTextColor" />
 
-    <com.dealermela.utility.DmlTextView
-        style="@style/download_text_title"
-        android:id="@+id/downloadlistcount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text=""
-        android:textColor="?toolbarTextColor"
-        android:textSize="12sp"
-        android:gravity="center"
-        app:layout_constraintStart_toEndOf="@+id/downloadlisttext"
-        app:layout_constraintTop_toBottomOf="@+id/include12" />
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/downloadlisttext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_all"
+            android:textColor="?toolbarTextColor"
+            android:textSize="13sp" />
+
+        <com.dealermela.utility.DmlTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="("
+            android:textColor="?toolbarTextColor"
+            android:textSize="12sp" />
+
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvselectedcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="?toolbarTextColor"
+            android:textSize="12sp" />
+
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/"
+            android:textColor="?toolbarTextColor"
+            android:textSize="12sp" />
+
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvtotaldownloadcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="?toolbarTextColor"
+            android:textSize="12sp" />
+
+        <com.dealermela.utility.DmlTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=")"
+            android:textColor="?toolbarTextColor"
+            android:textSize="12sp" />
+
+    </LinearLayout>
 
     <RadioGroup
         android:id="@+id/radioGroupFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="3dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include12">
@@ -131,7 +156,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:buttonTint="?editTextTextColor"/>
+            android:buttonTint="?editTextTextColor"
+            />
 
         <com.dealermela.utility.DmlTextView
             android:id="@+id/dmlTextViewBold2"
@@ -213,7 +239,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnDownload" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewDownloadProducts"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -227,7 +253,7 @@
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/act_download_item">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <ProgressBar
         android:id="@+id/progressBarCenter"
@@ -268,4 +294,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include12" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

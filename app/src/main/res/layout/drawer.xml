@@ -138,7 +138,7 @@
 <!--            android:tint="?toolbarTextColor"-->
         </LinearLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollViewCollection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -148,43 +148,55 @@
                 android:id="@+id/linContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
+                android:orientation="vertical" >
+
+<!--                <ScrollView-->
+<!--                    android:id="@+id/scrollViewsubcategory"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:visibility="gone"></ScrollView>-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/linSubContainer"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"/>-->
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/one_sp_view"
             android:background="?transaction_line_color" />
 
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linMyStock"-->
+<!--            style="@style/linDrawer"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
 
-        <LinearLayout
-            android:id="@+id/linMyStock"
-            style="@style/linDrawer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+<!--            <com.dealermela.utility.DmlImageView-->
+<!--                style="@style/imgDrawer"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/ic_new_my_stock" />-->
 
-            <com.dealermela.utility.DmlImageView
-                style="@style/imgDrawer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_new_my_stock" />
+<!--            <com.dealermela.utility.DmlTextView-->
+<!--                style="@style/tvDrawer"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:text="@string/my_stock" />-->
 
-            <com.dealermela.utility.DmlTextView
-                style="@style/tvDrawer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/my_stock" />
+<!--        </LinearLayout>-->
 
-        </LinearLayout>
-
-        <View
-            android:id="@+id/viewBottomMyStock"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/one_sp_view"
-            android:background="?transaction_line_color" />
-
+<!--        <View-->
+<!--            android:id="@+id/viewBottomMyStock"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/one_sp_view"-->
+<!--            android:background="?transaction_line_color" />-->
 
         <LinearLayout
             android:id="@+id/linOrders"

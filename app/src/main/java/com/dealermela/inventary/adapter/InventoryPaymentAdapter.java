@@ -1,8 +1,8 @@
 package com.dealermela.inventary.adapter;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.dealermela.R;
 import com.dealermela.interfaces.RecyclerViewClickListener;
-import com.dealermela.inventary.model.InventoryInvoiceItem;
 import com.dealermela.inventary.model.InventoryPaymentItem;
 import com.dealermela.util.CommonUtils;
 

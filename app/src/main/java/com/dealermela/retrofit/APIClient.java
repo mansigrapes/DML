@@ -1,7 +1,7 @@
 package com.dealermela.retrofit;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dealermela.util.AppConstants;
 

@@ -2,10 +2,8 @@ package com.dealermela.utility;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.design.widget.TextInputEditText;
+import com.google.android.material.textfield.TextInputEditText;
 import android.util.AttributeSet;
-
-import com.dealermela.R;
 
 public class DmlTextInputEditText extends TextInputEditText {
     public DmlTextInputEditText(Context context) {

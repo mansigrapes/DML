@@ -2,7 +2,7 @@ package com.dealermela.listing_and_detail.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +14,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dealermela.R;
 import com.dealermela.listing_and_detail.activity.FullProductDetailImageAct;
-import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class ImageSliderAdapter extends android.support.v4.view.PagerAdapter {
+public class ImageSliderAdapter extends androidx.viewpager.widget.PagerAdapter {
 
     private final Context mContext;
     private final LayoutInflater layoutInflater;

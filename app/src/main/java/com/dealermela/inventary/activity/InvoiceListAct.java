@@ -2,12 +2,12 @@ package com.dealermela.inventary.activity;
 
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -42,7 +42,7 @@ public class InvoiceListAct extends DealerMelaBaseActivity {
     boolean isLoading = false;
     private ProgressBar progressBar;
     private ConstraintLayout constraintNoData;
-    private android.support.v7.widget.SearchView searchViewInvoice;
+    private androidx.appcompat.widget.SearchView searchViewInvoice;
     private String action = "complete";
 
     @Override
@@ -62,8 +62,8 @@ public class InvoiceListAct extends DealerMelaBaseActivity {
         recycleViewInvoiceList = findViewById(R.id.recycleViewInvoiceList);
         progressBar = findViewById(R.id.progressBar);
         ThemePreferences themePreferences = new ThemePreferences(InvoiceListAct.this);
-        TextView searchText = searchViewInvoice.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        ImageView searchIcon = searchViewInvoice.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
+        TextView searchText = searchViewInvoice.findViewById(R.id.search_src_text);
+        ImageView searchIcon = searchViewInvoice.findViewById(R.id.search_mag_icon);
         if (themePreferences.getTheme().equalsIgnoreCase("black")) {
             searchText.setTextColor(getResources().getColor(R.color.white));
             searchIcon.setImageDrawable(ContextCompat.getDrawable(InvoiceListAct.this, R.drawable.ic_search_new));

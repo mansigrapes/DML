@@ -9,8 +9,9 @@
     android:layout_marginLeft="5dp"
     android:gravity="center"
     android:layout_marginRight="5dp">
+<!--    android:layout_height="wrap_content"-->
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cardMetalColor"
         android:layout_width="30sp"
         android:layout_height="30sp"

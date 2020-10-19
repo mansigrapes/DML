@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".home.fragment.HomeFrg">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,7 +23,7 @@
                 android:orientation="vertical"
                 android:visibility="visible">
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycleViewHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -42,7 +42,7 @@
                 android:layout_marginTop="@dimen/ten_sp"
                 android:visibility="visible">
 
-                <android.support.v4.view.ViewPager
+                <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewpagerSlider"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -245,7 +245,7 @@
                     android:orientation="vertical"
                     android:background="@drawable/back_gradiant">
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycleViewBestProducts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -456,7 +456,7 @@
 
             </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycleViewMostSelling"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/two_hundred_dp"
@@ -509,6 +509,6 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

@@ -32,6 +32,7 @@ public class FilterTitleListAdapter extends BaseAdapter {
     public final ArrayList<FilterItem.Datum> items; //data source of the list adapter
     public int selectedPosition = 0;
     private ThemePreferences themePreferences;
+    public static TextView tvinvcount;
 
     //public constructor
     public FilterTitleListAdapter(Activity context, ArrayList<FilterItem.Datum> items) {
@@ -70,7 +71,7 @@ public class FilterTitleListAdapter extends BaseAdapter {
 //        ImageView imgIcon = convertView.findViewById(R.id.imgIcon);
 
         TextView tvTitle = convertView.findViewById(R.id.tvTitle);
-        TextView tvinvcount = convertView.findViewById(R.id.tvinvcount);
+        tvinvcount = convertView.findViewById(R.id.tvinvcount);
 
         RelativeLayout relArrow = convertView.findViewById(R.id.relArrow);
 
@@ -97,8 +98,10 @@ public class FilterTitleListAdapter extends BaseAdapter {
                 relArrow.setVisibility(View.INVISIBLE);
 //                imgIcon.setColorFilter(context.getResources().getColor(R.color.black), PorterDuff.Mode.SRC_IN);
             }
+
         }
 
+//        //Comment on 06/10/2020 for checking count refreshed at a time of select/deselect recyclelist
         if (items.get(position).getFiltercount() == 0) {
                 tvinvcount.setVisibility(View.GONE);
         } else {

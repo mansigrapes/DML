@@ -5,7 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,9 +16,7 @@ import android.widget.EditText;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
-import com.dealermela.authentication.myaccount.dialog.LogoutDialogClass;
 import com.dealermela.authentication.myaccount.dialog.SuccessDialogClass;
-import com.dealermela.home.activity.MainActivity;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;

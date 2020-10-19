@@ -27,6 +27,9 @@ public class RTSItem {
     @SerializedName("product_details")
     @Expose
     private List<ProductDetail> productDetails = null;
+    @SerializedName("gemstonedetails")
+    @Expose
+    private List<Gemstonedetail> gemstonedetails = null;
     @SerializedName("diamonddetails")
     @Expose
     private List<Diamonddetail> diamonddetails = null;
@@ -96,6 +99,14 @@ public class RTSItem {
 
     public void setDiamonddetails(List<Diamonddetail> diamonddetails) {
         this.diamonddetails = diamonddetails;
+    }
+
+    public List<Gemstonedetail> getGemstonedetails() {
+        return gemstonedetails;
+    }
+
+    public void setGemstonedetails(List<Gemstonedetail> gemstonedetails) {
+        this.gemstonedetails = gemstonedetails;
     }
 
     public List<Metaldetail> getMetaldetails() {
@@ -211,6 +222,77 @@ public class RTSItem {
 
         public void setDimondprice(String dimondprice) {
             this.dimondprice = dimondprice;
+        }
+
+    }
+
+    public class Gemstonedetail {
+
+        @SerializedName("type")
+        @Expose
+        private String type;
+        @SerializedName("shape")
+        @Expose
+        private String shape;
+        @SerializedName("setting")
+        @Expose
+        private String setting;
+        @SerializedName("approx_size")
+        @Expose
+        private String approxSize;
+        @SerializedName("pieces")
+        @Expose
+        private String pieces;
+        @SerializedName("gemstoneprice")
+        @Expose
+        private String gemstoneprice;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getShape() {
+            return shape;
+        }
+
+        public void setShape(String shape) {
+            this.shape = shape;
+        }
+
+        public String getSetting() {
+            return setting;
+        }
+
+        public void setSetting(String setting) {
+            this.setting = setting;
+        }
+
+        public String getApproxSize() {
+            return approxSize;
+        }
+
+        public void setApproxSize(String approxSize) {
+            this.approxSize = approxSize;
+        }
+
+        public String getPieces() {
+            return pieces;
+        }
+
+        public void setPieces(String pieces) {
+            this.pieces = pieces;
+        }
+
+        public String getGemstoneprice() {
+            return gemstoneprice;
+        }
+
+        public void setGemstoneprice(String gemstoneprice) {
+            this.gemstoneprice = gemstoneprice;
         }
 
     }

@@ -1,8 +1,8 @@
 package com.dealermela.listing_and_detail.adapter;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +13,8 @@ import com.dealermela.R;
 import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.listing_and_detail.model.ProductDetailItem;
 import com.dealermela.util.AppLogger;
-import com.dealermela.util.SharedPreferences;
 import com.dealermela.util.ThemePreferences;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.diamondValue;

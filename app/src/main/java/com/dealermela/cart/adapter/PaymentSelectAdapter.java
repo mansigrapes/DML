@@ -2,42 +2,23 @@ package com.dealermela.cart.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.dealermela.R;
 import com.dealermela.cart.fragment.PaymentFrg;
-import com.dealermela.cart.fragment.ShoppingFrg;
-import com.dealermela.cart.model.CartServerDataItem;
 import com.dealermela.cart.model.SelectPaymentItem;
-import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
-import com.dealermela.util.AppConstants;
-import com.dealermela.util.AppLogger;
-import com.dealermela.util.CommonUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.dealermela.home.activity.MainActivity.customerId;
 
 
 public class PaymentSelectAdapter extends RecyclerView.Adapter<PaymentSelectAdapter.ViewHolder> {

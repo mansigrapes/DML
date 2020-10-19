@@ -1,8 +1,8 @@
 package com.dealermela.listing_and_detail.adapter;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.dealermela.R;
 import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.util.ThemePreferences;
+import static com.dealermela.listing_and_detail.adapter.MetalAdapter.metalValue;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class CaratAdapter extends RecyclerView.Adapter<CaratAdapter.ViewHolder> 
     private final Activity activity;
     private final List<String> itemArrayList;
     public static String caratValue="14K";
-    public static String metalValue="Yellow Gold";
+
     private ThemePreferences themePreferences;
 
     public CaratAdapter(Activity activity, List<String> itemArrayList) {

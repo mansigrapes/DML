@@ -1,16 +1,15 @@
 package com.dealermela.download.activity;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -50,16 +49,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.dealermela.home.activity.MainActivity.customerId;
+import static com.dealermela.download.adapter.DownloadProductAdapter.selectedcount;
 
 public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickListener {
 
     private RadioGroup radioGroup;
-    private CheckBox checkBoxSelectAll,checkBoxAll;
+    public CheckBox checkBoxSelectAll;
+    public static CheckBox checkBoxAll;
     private RecyclerView recycleViewDownloadProducts;
     private Button btnDownload, btnDeleteAll;
     private ProgressBar progressBarBottom, progressBarCenter;
     private LinearLayout linNoData;
-    private TextView downloadlistcount;
+    public static TextView tvselectedcount,tvtotaldownloadcount;
+
 
     //page count
     private int page_count = 1;
@@ -80,7 +82,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private ArrayList<Integer> integerArrayList;
-    private String checkboxallselected;
+    public static String checkboxallselected = " ";
 
     @Override
     protected int getLayoutResourceId() {
@@ -105,7 +107,8 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
         progressBarCenter = findViewById(R.id.progressBarCenter);
         linNoData = findViewById(R.id.downloadlistNoData);
         progressBarBottom.setVisibility(View.GONE);
-        downloadlistcount = findViewById(R.id.downloadlistcount);
+        tvselectedcount = findViewById(R.id.tvselectedcount);
+        tvtotaldownloadcount = findViewById(R.id.tvtotaldownloadcount);
     }
 
     @Override
@@ -132,7 +135,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                 }
             }
         });
-
+/*
         checkBoxSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -148,7 +151,9 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 //                    }
 
                     AppLogger.e("select all", "----checked");
-                    downloadlistcount.setText(String.valueOf(downloadProductAdapter.itemArrayList.size()));
+                    selectedcount = downloadProductAdapter.itemArrayList.size();
+                    tvselectedcount.setText(String.valueOf(downloadProductAdapter.itemArrayList.size()));
+                    tvtotaldownloadcount.setText(String.valueOf(downloadCount));
                     checkboxallselected=" ";
                 } else {
                     for (int j = 0; j < downloadProductAdapter.itemArrayList.size(); j++) {
@@ -160,19 +165,31 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 //                        downloadProductAdapter.updatecheckbox(j);
 //                    }
                     AppLogger.e("un select all", "----un checked");
-                    downloadlistcount.setText("");
+                    selectedcount = 0;
+                    tvselectedcount.setText("0");
+                    tvtotaldownloadcount.setText(String.valueOf(downloadCount));
                     checkboxallselected=" ";
                 }
             }
-        });
+        });  */
 
         checkBoxAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    for (int j = 0; j < downloadProductAdapter.itemArrayList.size(); j++) {
-                        downloadProductAdapter.itemArrayList.get(j).setSelected(true);
-                        downloadProductAdapter.updatecheckbox(j);
+
+                    if(downloadCount > detailList.size()){
+                        page_count++;
+                        getDownloadProductList(customerId, String.valueOf(page_count));
+                        AppLogger.e("ArraySize","------"+ downloadProductAdapter.itemArrayList.size());
+                    }
+
+                    if(downloadCount == detailList.size())
+                    {
+                        for (int j = 0; j < detailList.size(); j++) {
+                            detailList.get(j).setSelected(true);
+                            downloadProductAdapter.updatecheckbox(j);
+                        }
                     }
 
 //                    for (int j = 0; j < detailList.size(); j++) {
@@ -181,22 +198,31 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 //                    }
 
                     AppLogger.e("select all", "----checked");
-                    checkBoxSelectAll.setChecked(true);
+//                    checkBoxSelectAll.setChecked(true);
                     checkboxallselected="all";
-                    downloadlistcount.setText(String.valueOf(downloadCount));
+                    selectedcount = downloadCount;
+                    tvselectedcount.setText(String.valueOf(downloadCount));
+                    tvtotaldownloadcount.setText(String.valueOf(downloadCount));
+//                    checkBoxSelectAll.setEnabled(false);
+
                 } else {
-                    for (int j = 0; j < downloadProductAdapter.itemArrayList.size(); j++) {
-                        downloadProductAdapter.itemArrayList.get(j).setSelected(false);
-                        downloadProductAdapter.updatecheckbox(j);
+                    if(checkboxallselected.equalsIgnoreCase("Some")){
+//                        selectedcount = ;
+//                        tvselectedcount.setText();
+                        tvtotaldownloadcount.setText(String.valueOf(downloadCount));
+                    }else {
+                        for (int j = 0; j < detailList.size(); j++) {
+                            detailList.get(j).setSelected(false);
+                            downloadProductAdapter.updatecheckbox(j);
+                        }
+                        AppLogger.e("un select all", "----un checked");
+//                      checkBoxSelectAll.setChecked(false);
+                        checkboxallselected=" ";
+                        selectedcount = 0;
+                        tvselectedcount.setText("0");
+                        tvtotaldownloadcount.setText(String.valueOf(downloadCount));
                     }
-//                    for (int j = 0; j < detailList.size(); j++) {
-//                        detailList.get(j).setSelected(false);
-//                        downloadProductAdapter.updatecheckbox(j);
-//                    }
-                    AppLogger.e("un select all", "----un checked");
-                    checkBoxSelectAll.setChecked(false);
-                    checkboxallselected=" ";
-                    downloadlistcount.setText("");
+//                    checkBoxSelectAll.setEnabled(true);
                 }
             }
         });
@@ -210,31 +236,39 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                                                                 totalItemCount = gridLayout.getItemCount();
                                                                 firstVisibleItem = gridLayout.findFirstVisibleItemPosition();
 
-                                                                if (flag_scroll) {
-                                                                    AppLogger.e("flag-Scroll", flag_scroll + "");
-                                                                } else {
-                                                                    if (loading) {
-                                                                        AppLogger.e("flag-Loading", loading + "");
-                                                                        if (totalItemCount > previousTotal) {
-                                                                            loading = false;
-                                                                            previousTotal = totalItemCount;
-                                                                            //Log.e("flag-IF", (totalItemCount > previousTotal) + "");
+                                                                if(!checkboxallselected.equalsIgnoreCase("all") || !checkboxallselected.equalsIgnoreCase("Some")) {
+                                                                    if (flag_scroll) {
+                                                                        AppLogger.e("flag-Scroll", flag_scroll + "");
+                                                                    } else {
+                                                                        if (loading) {
+                                                                            AppLogger.e("flag-Loading", loading + "");
+                                                                            if (totalItemCount > previousTotal) {
+                                                                                loading = false;
+                                                                                previousTotal = totalItemCount;
+                                                                                //Log.e("flag-IF", (totalItemCount > previousTotal) + "");
+                                                                            }
+                                                                        }
+                                                                        if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                                                                            // End has been reached
+                                                                            // Do something
+                                                                            AppLogger.e("flag-Loading_second_if", loading + "");
+                                                                            if (NetworkUtils.isNetworkConnected(DownloadAct.this)) {
+                                                                                //add this If condition bcz when all checkbox selecetd at that time all products get loaded at that time so On scroll NO need to API call agian
+                                                                                if(!checkboxallselected.equalsIgnoreCase("all")){
+                                                                                    AppLogger.e("total count", "--------------------" + page_count);
+                                                                                    page_count++;
+                                                                                    getDownloadProductList(customerId, String.valueOf(page_count));
+                                                                                }
+
+                                                                            } else {
+                                                                                //internet not connected
+                                                                                AppLogger.e("connection", "-------internet connection is off");
+                                                                            }
+                                                                            loading = true;
                                                                         }
                                                                     }
-                                                                    if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                                                                        // End has been reached
-                                                                        // Do something
-                                                                        AppLogger.e("flag-Loading_second_if", loading + "");
-                                                                        if (NetworkUtils.isNetworkConnected(DownloadAct.this)) {
-                                                                            AppLogger.e("total count", "--------------------" + page_count);
-                                                                            page_count++;
-                                                                            getDownloadProductList(customerId, String.valueOf(page_count));
-                                                                        } else {
-                                                                            //internet not connected
-                                                                            AppLogger.e("connection", "-------internet connection is off");
-                                                                        }
-                                                                        loading = true;
-                                                                    }
+                                                                }else {
+
                                                                 }
                                                             }
                                                         }
@@ -243,6 +277,9 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 
     @Override
     public void loadData() {
+        checkBoxSelectAll.setVisibility(View.INVISIBLE);
+        tvselectedcount.setText("0");
+        tvtotaldownloadcount.setText(String.valueOf(downloadCount));
         downloadProductAdapter = new DownloadProductAdapter(DownloadAct.this, detailList);
         recycleViewDownloadProducts.setAdapter(downloadProductAdapter);
         getDownloadProductList(customerId, String.valueOf(page_count));
@@ -277,7 +314,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
         }
     }
 
-    private void getDownloadProductList(String customerId, String page) {
+    private void getDownloadProductList(final String customerId, String page) {
 
         if (page_count == 1) {
             btnDeleteAll.setVisibility(View.INVISIBLE);
@@ -304,6 +341,16 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                     if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                         detailList.addAll(response.body().getDetail());
                         downloadProductAdapter.notifyDataSetChanged();
+                        if(checkBoxAll.isChecked()){
+                            if(downloadCount > detailList.size()){
+                                page_count++;
+                                getDownloadProductList(customerId, String.valueOf(page_count));
+                            }
+                            for (int j = 0; j < detailList.size(); j++) {
+                                downloadProductAdapter.itemArrayList.get(j).setSelected(true);
+                                downloadProductAdapter.updatecheckbox(j);
+                            }
+                        }
                     } else {
                         if (detailList.isEmpty()) {
                             linNoData.setVisibility(View.VISIBLE);
@@ -362,6 +409,19 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                                 }
                             }
                         }
+                        if(checkboxallselected.equalsIgnoreCase("all")){
+                            selectedcount = 0;
+                            downloadCount = 0;
+                            tvselectedcount.setText(String.valueOf(selectedcount));
+                            tvtotaldownloadcount.setText(String.valueOf(downloadCount));
+                        }else {
+                            downloadCount = downloadCount - selectedcount;
+                            selectedcount = 0;
+                            tvselectedcount.setText(String.valueOf(selectedcount));
+                            tvtotaldownloadcount.setText(String.valueOf(downloadCount));
+                        }
+                        checkBoxSelectAll.setChecked(false);
+                        checkBoxAll.setChecked(false);
 
                         CommonUtils.showSuccessToast(DownloadAct.this, " Product(s) deleted successfully");
                       /*  page_count = 1;
@@ -376,7 +436,6 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
-
             }
         });
     }
@@ -400,7 +459,8 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 
                         String rootDir = Environment.getExternalStorageDirectory().toString();
                         // Set the URL to download image
-                        String photoPictureDirectoryPath = rootDir + "/DownloadAllImage/";
+//                        String photoPictureDirectoryPath = rootDir + "/DownloadAllImage/";
+                        String photoPictureDirectoryPath = rootDir + "/DiamondMela/";
 
                         JSONArray jsonArray = jsonObject.getJSONArray("image");
                         // Call this method in a loop to DOwnLoad Multiple Images.
@@ -411,12 +471,14 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                             AppLogger.e("i", "" + i);
                             new DownloadImages(DownloadAct.this, jsonArray.get(i).toString().trim(), photoPictureDirectoryPath);
 //                            if (i == jsonArray.length() - 2) {
-                                CommonUtils.showSuccessToast(DownloadAct.this, "All image saved in gallery");
+                                CommonUtils.showSuccessToastShort(DownloadAct.this, "All image saved in gallery");
 //                            }
 //                            if(!detailList.isEmpty()) {       //apply this condition For when product downloaded it remove from the list
 //                                detailList.remove(i);
 //                            }
-
+                            selectedcount = 0;
+                            tvselectedcount.setText(String.valueOf(selectedcount));
+                            tvtotaldownloadcount.setText(String.valueOf(downloadCount));
                             checkBoxSelectAll.setChecked(false);
                             checkBoxAll.setChecked(false);
                         }
@@ -449,7 +511,6 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
                 hud.dismiss();
-
             }
         });
     }
@@ -467,10 +528,15 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
     protected void onResume() {
         super.onResume();
         invalidateOptionsMenu();
+        DealerMelaBaseActivity.getCartCount();
+        selectedcount = 0;
     }
 
-    public void requestPermission() {
+//    public void updateSingleChkbox(){
+//
+//    }
 
+    public void requestPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(DownloadAct.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             Toast.makeText(DownloadAct.this, "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
         } else {
@@ -493,6 +559,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 
     private void downloadAll() {
         final StringBuilder listString = new StringBuilder();
+
         for (int j = 0; j < downloadProductAdapter.itemArrayList.size(); j++) {
             if (downloadProductAdapter.itemArrayList.get(j).isSelected()) {
                 listString.append(downloadProductAdapter.itemArrayList.get(j).getProductId()).append(",");
@@ -533,8 +600,9 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                             AppLogger.e("list string","----------"+listString);
 
                             if(checkboxallselected.equalsIgnoreCase("all")){
-                                int last = listString.length();
-                                listString.delete(0,last);
+                                //Bcz we call APIAuto when selected all chckbox then pass all productid
+//                                int last = listString.length();
+//                                listString.delete(0,last);
                                 downloadAllProduct(customerId, listString.toString(),checkboxallselected);
                             }else {
                                 downloadAllProduct(customerId, listString.toString(),checkboxallselected);
@@ -624,7 +692,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                             AppLogger.e("string data", "------" + listString);
 
                             if(checkboxallselected.equalsIgnoreCase("all")){
-                                int last =listString.length();
+                                int last = listString.length();
                                 listString.delete(0,last);
                                 deleteAllProduct(customerId, listString.toString(),checkboxallselected);
                             }else {

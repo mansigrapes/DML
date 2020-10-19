@@ -4,36 +4,24 @@ package com.dealermela.cart.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dealermela.DealerMelaBaseFragment;
 import com.dealermela.R;
-import com.dealermela.authentication.myaccount.activity.ManageAddressAct;
-import com.dealermela.authentication.myaccount.adapter.AddressRecyclerAdapter;
-import com.dealermela.authentication.myaccount.model.AddressManageResponse;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
 import com.dealermela.cart.activity.SelectAddressAct;
-import com.dealermela.home.activity.MainActivity;
-import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
-import com.dealermela.util.AppLogger;
 import com.dealermela.util.SharedPreferences;
 import com.google.gson.Gson;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ShippingFrg extends DealerMelaBaseFragment implements View.OnClickListener {
     private View rootView;

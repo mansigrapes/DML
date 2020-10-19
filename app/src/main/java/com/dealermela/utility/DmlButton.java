@@ -5,7 +5,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 
-public class DmlButton extends android.support.v7.widget.AppCompatButton {
+public class DmlButton extends androidx.appcompat.widget.AppCompatButton {
     public DmlButton(Context context) {
         super(context);
         setFont();

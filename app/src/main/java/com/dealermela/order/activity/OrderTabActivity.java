@@ -1,17 +1,11 @@
 package com.dealermela.order.activity;
 
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
-import com.dealermela.home.activity.MainActivity;
 import com.dealermela.order.adapter.TabOrderAdapter;
-import com.dealermela.util.AppLogger;
-
-import static com.dealermela.cart.activity.OrderSummaryAct.Orderflag;
 
 public class OrderTabActivity extends DealerMelaBaseActivity {
 
@@ -60,4 +54,11 @@ public class OrderTabActivity extends DealerMelaBaseActivity {
 //            startNewActivity(MainActivity.class);
 //        }
 //    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        invalidateOptionsMenu();
+    }
+
 }

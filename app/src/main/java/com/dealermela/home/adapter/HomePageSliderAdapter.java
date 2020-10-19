@@ -2,7 +2,7 @@ package com.dealermela.home.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,7 @@ import com.dealermela.util.AppLogger;
 import java.util.HashMap;
 import java.util.List;
 
-public class HomePageSliderAdapter extends android.support.v4.view.PagerAdapter {
+public class HomePageSliderAdapter extends 	androidx.viewpager.widget.PagerAdapter {
 
     private final Context mContext;
     private final LayoutInflater layoutInflater;

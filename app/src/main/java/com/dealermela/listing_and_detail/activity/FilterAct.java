@@ -1,16 +1,14 @@
 package com.dealermela.listing_and_detail.activity;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -31,7 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.dealermela.inventary.activity.InventoryListAct.InvfilterSelectItems;
 import static com.dealermela.listing_and_detail.activity.ListAct.filterSelectItems;
 
 public class FilterAct extends DealerMelaBaseActivity implements View.OnClickListener {
@@ -369,6 +366,10 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                         adapter.items.get(4).setFiltercount(0);
                     }
 //                    adapter.items.get(4).setFiltercount(0);
+                }else if(filterFlag == 1){
+                    if(!btnApply.isEnabled()){
+                        filterFlag = 2;
+                    }
                 }
                 finish();
                 break;
@@ -448,6 +449,10 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 adapter.items.get(4).setFiltercount(0);
             }
 //            adapter.items.get(4).setFiltercount(0);
+        }else if(filterFlag == 1){
+              if(!btnApply.isEnabled()){
+                 filterFlag = 2;
+              }
         }
         finish();
 //        filterFlag = 0;
@@ -624,17 +629,32 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     }
 
     public void updateFilterData(int position, boolean selectFlag) {
-        AppLogger.e("listViewFilter--Item Click--filterCurrentPosition","---"+filterCurrentPosition);
+        AppLogger.e("listViewFilter--Item Click--filterCurrentPosition","---" + filterCurrentPosition);
 //        filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).setSelected(selectFlag);
-        AppLogger.e("Check selected or not","---"+filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).isSelected());
+        AppLogger.e("Check selected or not","---"+ filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).isSelected());
+        countFilter();
+//        FilterTitleListAdapter.tvinvcount.setVisibility(View.VISIBLE);
+//        FilterTitleListAdapter.tvinvcount.setText(String.valueOf(filterSelectItems.get(filterCurrentPosition).getFiltercount()));
+        AppLogger.e("TotalFilterCount","--" + filterSelectItems.get(filterCurrentPosition).getFiltercount());
+        int totalselected = 0;
         if(selectFlag == true){
+//            for(int k = 0 ; k < filterSelectItems.size() ; k++) {
+//                if (filterSelectItems.get(k).getOptionData().get(k).isSelected()) {
+//                    totalselected = totalselected + 1;
+//                }
+//            }
             btnApply.setEnabled(true);
             btnApply.setBackgroundColor(getResources().getColor(R.color.dml_logo_color));
             btnApply.setTextColor(getResources().getColor(R.color.white));
         }
         else {
             for(int k = 0 ; k < filterSelectItems.size() ; k++) {
+//                if(filterSelectItems.get(k).getOptionData().get(k).isSelected()){
+//
+//                    totalselected = totalselected - 1;
+//                }
                 if (filterSelectItems.get(k).getFiltercount() == 0) {
+//                    filterFlag = 0;
                     btnApply.setEnabled(false);
                     btnApply.setBackgroundColor(getResources().getColor(R.color.in_active_item_color));
                     btnApply.setTextColor(getResources().getColor(R.color.colorBack));
@@ -645,6 +665,7 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                     break;
                 }
             }
+//            AppLogger.e("Overall Count","-------" + totalselected);
         }
     }
 }

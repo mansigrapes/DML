@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_vertical_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        app:cardBackgroundColor="?toolbarTextColor"
+        app:cardBackgroundColor="@color/black"
         app:cardCornerRadius="@dimen/ten_sp"
         app:cardElevation="@dimen/ten_sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:text=":"
                 android:textSize="12sp"
-                android:textColor="?login_signup_text_color"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@+id/txtsku"
                 app:layout_constraintEnd_toStartOf="@+id/tvSkuDialog"
                 app:layout_constraintTop_toTopOf="@+id/txtsku"
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:text=":"
                 android:textSize="12sp"
-                android:textColor="?login_signup_text_color"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@+id/txtMetal"
                 app:layout_constraintEnd_toStartOf="@+id/tvMetalDetail"
                 app:layout_constraintTop_toTopOf="@+id/tvMetalDetail"
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:text=":"
                 android:textSize="12sp"
-                android:textColor="?login_signup_text_color"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@+id/txtStone"
                 app:layout_constraintEnd_toStartOf="@+id/tvStoneDetail"
                 app:layout_constraintTop_toTopOf="@+id/tvStoneDetail"
@@ -178,21 +178,21 @@
                 android:visibility="gone"
                 />
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="15sp" />
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="@dimen/twenty_sp" />
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -205,12 +205,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/eight_sp"
                 android:layout_marginEnd="@dimen/eight_sp"
-                android:tint="?login_signup_text_color"
+                android:tint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_cancel_black_24dp" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.v7.widget.CardView>
-</android.support.constraint.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

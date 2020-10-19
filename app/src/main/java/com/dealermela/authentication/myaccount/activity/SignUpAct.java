@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
+import androidx.annotation.NonNull;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -29,8 +28,6 @@ import com.dealermela.R;
 import com.dealermela.authentication.myaccount.dialog.SuccessDialogClass;
 import com.dealermela.authentication.myaccount.model.CountryResponse;
 import com.dealermela.authentication.myaccount.model.StateResponse;
-import com.dealermela.order.activity.OrderDetailAct;
-import com.dealermela.order.activity.OrderPrintAct;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
@@ -463,6 +460,7 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
             return false;
         } else if(spinnerEntity.getSelectedItem().toString().equalsIgnoreCase("select")){
             CommonUtils.showInfoToast(SignUpAct.this, "Please Select Entity");
+            return false;
         }
         return true;
     }

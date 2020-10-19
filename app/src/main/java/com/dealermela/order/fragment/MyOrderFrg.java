@@ -1,10 +1,10 @@
 package com.dealermela.order.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.dealermela.DealerMelaBaseFragment;
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
-import com.dealermela.home.activity.MainActivity;
 import com.dealermela.order.adapter.MyOrderAdapter;
 import com.dealermela.order.model.OrderItem;
 import com.dealermela.retrofit.APIClient;
@@ -35,7 +34,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.dealermela.cart.activity.OrderSummaryAct.Orderflag;
 import static com.dealermela.home.activity.MainActivity.customerId;
 
 public class MyOrderFrg extends DealerMelaBaseFragment {
@@ -152,7 +150,9 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                         orderFilter="complete";
                         page_count=1;
                         detailList.clear();
-
+                        flag_scroll = false;
+                        previousTotal = 0;
+                        loading = true;
                         myOrderAdapter = new MyOrderAdapter(getActivity(), detailList);
                         recycleViewMyOrder.setAdapter(myOrderAdapter);
                         AppLogger.e("customerId", "----------" + customerId);
@@ -172,7 +172,9 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                         orderFilter="canceled";
                         page_count=1;
                         detailList.clear();
-
+                        flag_scroll = false;
+                        previousTotal = 0;
+                        loading = true;
                         myOrderAdapter = new MyOrderAdapter(getActivity(), detailList);
                         recycleViewMyOrder.setAdapter(myOrderAdapter);
                         AppLogger.e("customerId", "----------" + customerId);
@@ -191,7 +193,9 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                         orderFilter="pending";
                         page_count=1;
                         detailList.clear();
-
+                        flag_scroll = false;
+                        previousTotal = 0;
+                        loading = true;
                         myOrderAdapter = new MyOrderAdapter(getActivity(), detailList);
                         recycleViewMyOrder.setAdapter(myOrderAdapter);
                         AppLogger.e("customerId", "----------" + customerId);
@@ -210,7 +214,9 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                         orderFilter="all";
                         page_count=1;
                         detailList.clear();
-
+                        flag_scroll = false;
+                        previousTotal = 0;
+                        loading = true;
                         myOrderAdapter = new MyOrderAdapter(getActivity(), detailList);
                         recycleViewMyOrder.setAdapter(myOrderAdapter);
                         AppLogger.e("customerId", "----------" + customerId);
@@ -233,32 +239,32 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                                                        totalItemCount = gridLayout.getItemCount();
                                                        firstVisibleItem = gridLayout.findFirstVisibleItemPosition();
 
-//                                                       if (flag_scroll) {
-//                                                           AppLogger.e("flag-Scroll", flag_scroll + "");
-//                                                       } else {
-//                                                           if (loading) {
-//                                                               AppLogger.e("flag-Loading", loading + "");
-//                                                               if (totalItemCount > previousTotal) {
-//                                                                   loading = false;
-//                                                                   previousTotal = totalItemCount;
-//                                                                   //Log.e("flag-IF", (totalItemCount > previousTotal) + "");
-//                                                               }
-//                                                           }
-//                                                           if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-//                                                               // End has been reached
-//                                                               // Do something
-//                                                               AppLogger.e("flag-Loading_second_if", loading + "");
-//                                                               if (NetworkUtils.isNetworkConnected(Objects.requireNonNull(getActivity()))) {
-//                                                                   AppLogger.e("total count", "--------------------" + page_count);
-//                                                                   page_count++;
-//                                                                   getOrderList(customerId, loginResponse.getData().getGroupId(), orderType, String.valueOf(page_count));
-//                                                               } else {
-//                                                                   //internet not connected
-//                                                                   AppLogger.e("connection", "-------internet connection is off");
-//                                                               }
-//                                                               loading = true;
-//                                                           }
-//                                                       }
+                                                       if (flag_scroll) {
+                                                           AppLogger.e("flag-Scroll", flag_scroll + "");
+                                                       } else {
+                                                           if (loading) {
+                                                               AppLogger.e("flag-Loading", loading + "");
+                                                               if (totalItemCount > previousTotal) {
+                                                                   loading = false;
+                                                                   previousTotal = totalItemCount;
+                                                                   //Log.e("flag-IF", (totalItemCount > previousTotal) + "");
+                                                               }
+                                                           }
+                                                           if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                                                               // End has been reached
+                                                               // Do something
+                                                               AppLogger.e("flag-Loading_second_if", loading + "");
+                                                               if (NetworkUtils.isNetworkConnected(Objects.requireNonNull(getActivity()))) {
+                                                                   AppLogger.e("total count", "--------------------" + page_count);
+                                                                   page_count++;
+                                                                   getOrderList(customerId, loginResponse.getData().getGroupId(), orderType, String.valueOf(page_count));
+                                                               } else {
+                                                                   //internet not connected
+                                                                   AppLogger.e("connection", "-------internet connection is off");
+                                                               }
+                                                               loading = true;
+                                                           }
+                                                       }
                                                    }
                                                }
         );
@@ -335,24 +341,27 @@ public class MyOrderFrg extends DealerMelaBaseFragment {
                         myOrderAdapter.notifyDataSetChanged();
 
                     }else if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)){
-                        linNoData.setVisibility(View.VISIBLE);
 
-                        if(orderFilter.equalsIgnoreCase("canceled")) {
-                            dmlOrderImageView.setImageResource(R.drawable.ic_cancelorder);
-                        } else if(orderFilter.equalsIgnoreCase("pending")){
-                            dmlOrderImageView.setImageResource(R.drawable.ic_pendingorder);
-                        } else if(orderFilter.equalsIgnoreCase("complete")){
-                            dmlOrderImageView.setImageResource(R.drawable.ic_allorder);
-                        } else {
-                            dmlOrderImageView.setImageResource(R.drawable.ic_noorder);
-                        }
+                        if(detailList.isEmpty()){
+                            linNoData.setVisibility(View.VISIBLE);
 
-                        if(tvstatuscount.getVisibility() != View.VISIBLE){
-                            linFilterOrder.setEnabled(false);
-                            tvstatus.setTextColor(getResources().getColor(R.color.in_active_item_color));
-                            orderfilter.setColorFilter(getResources().getColor(R.color.in_active_item_color));
-                        }else {
-                            linFilterOrder.setEnabled(true);
+                            if(orderFilter.equalsIgnoreCase("canceled")) {
+                                dmlOrderImageView.setImageResource(R.drawable.ic_cancelorder);
+                            } else if(orderFilter.equalsIgnoreCase("pending")){
+                                dmlOrderImageView.setImageResource(R.drawable.ic_pendingorder);
+                            } else if(orderFilter.equalsIgnoreCase("complete")){
+                                dmlOrderImageView.setImageResource(R.drawable.ic_allorder);
+                            } else {
+                                dmlOrderImageView.setImageResource(R.drawable.ic_noorder);
+                            }
+
+                            if(tvstatuscount.getVisibility() != View.VISIBLE){
+                                linFilterOrder.setEnabled(false);
+                                tvstatus.setTextColor(getResources().getColor(R.color.in_active_item_color));
+                                orderfilter.setColorFilter(getResources().getColor(R.color.in_active_item_color));
+                            }else {
+                                linFilterOrder.setEnabled(true);
+                            }
                         }
 
                     } else {

@@ -3,30 +3,19 @@ package com.dealermela.cart.activity;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
-import com.dealermela.authentication.myaccount.activity.ForgotPasswordAct;
-import com.dealermela.authentication.myaccount.activity.ManageAddressAct;
-import com.dealermela.authentication.myaccount.dialog.MaintenanceDialogClass;
-import com.dealermela.authentication.myaccount.dialog.SuccessDialogClass;
-import com.dealermela.authentication.myaccount.dialog.SuccessOrderDialogClass;
-import com.dealermela.authentication.myaccount.model.LoginResponse;
 import com.dealermela.cart.adapter.OrderSummaryAdapter;
 import com.dealermela.cart.model.OrderSummaryItem;
 import com.dealermela.ccavenue.activity.WebViewActivity;
@@ -40,14 +29,11 @@ import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
 import com.dealermela.util.SharedPreferences;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -116,7 +102,6 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
         }else {
             btnPlaceOrder.setText("Continue");
         }
-
         orderSummary();
     }
 
@@ -145,6 +130,7 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
                     tvSubTotal.setText(AppConstants.RS + CommonUtils.priceFormat(subtotal));
                     tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(grand_total));
                     total=String.valueOf(response.body().getGrandTotal());
+//                    total="1";           //Bydefault set for live Online payment testing
 
                     tvTax.setText(AppConstants.RS + CommonUtils.priceFormat(tax_ammount));
                     tvShippingCharge.setText(AppConstants.RS + CommonUtils.priceFormat(shipping_charges));
@@ -160,7 +146,6 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
                     billingCity = response.body().getData().get(0).getBillingCityIndividual();
                     billingState  = response.body().getData().get(0).getBillingRegionIndividual();
                     billingCountry = response.body().getData().get(0).getBillingCountryIndividual();
-
                 }
             }
 
@@ -183,9 +168,11 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
                 hideProgressDialog();
                 assert response.body() != null;
                 hideProgressDialog();
-                try {
-                    JSONObject jsonObject = new JSONObject(response.body().toString());
-                    if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                if(response.isSuccessful()) {
+                    JSONObject jsonObject = null;
+                    try {
+                         jsonObject = new JSONObject(response.body().toString());
+                        if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
 //                        SuccessOrderDialogClass successDialogClass = new SuccessOrderDialogClass(OrderSummaryAct.this, jsonObject.getString("message"));
 //                        successDialogClass.setCancelable(false);
 //                        successDialogClass.onClick();
@@ -193,30 +180,31 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
 //                        Objects.requireNonNull(successDialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 //                        Objects.requireNonNull(successDialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                        new IOSDialog.Builder(OrderSummaryAct.this)
-                                .setTitle(jsonObject.getString("status"))
-                                .setMessage(jsonObject.getString("message"))
-                                .setCancelable(false)
-                                .setPositiveButton(OrderSummaryAct.this.getString(R.string.ok), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        cartCount = 0;
-                                        Orderflag = 1;
-                                        Intent intent = new Intent(OrderSummaryAct.this, OrderTabActivity.class);
-                                        startActivity(intent);
-//                                        finish();
-                                    }
-                                }).show();
+                            new IOSDialog.Builder(OrderSummaryAct.this)
+                                    .setTitle(jsonObject.getString("status"))
+                                    .setMessage(jsonObject.getString("message"))
+                                    .setCancelable(false)
+                                    .setPositiveButton(OrderSummaryAct.this.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            cartCount = 0;
+                                            Orderflag = 1;
+                                            Intent intent = new Intent(OrderSummaryAct.this, OrderTabActivity.class);
+                                            startActivity(intent);
+//                                            finish();
+                                        }
+                                    }).show();
 
 //                        cartCount = 0;
 //                        Intent intent = new Intent(OrderSummaryAct.this, OrderTabActivity.class);
 //                        startActivity(intent);
 
-                    } else {
-                    }
+                        } else {
+                        }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

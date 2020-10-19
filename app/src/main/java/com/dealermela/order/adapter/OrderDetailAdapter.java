@@ -4,24 +4,20 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dealermela.R;
-import com.dealermela.order.activity.OrderDetailAct;
+import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.order.model.OrderDetailItem;
-import com.dealermela.order.model.OrderItem;
 import com.dealermela.util.AppConstants;
-import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -48,7 +44,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
         holder.tvProductName.setText(itemArrayList.get(i).getProductName());
         holder.tvSku.setText(Html.fromHtml("<b>" + "Sku : " + "</b> " + itemArrayList.get(i).getProductSku()));
         holder.tvMetalWeight.setText(Html.fromHtml("<b>" + "Metal Detail : " + "</b> " + itemArrayList.get(i).getProductMetalquality() + "<b>" + " | "+ "</b>" + itemArrayList.get(i).getProductMetalweight()));
@@ -105,6 +101,14 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
 //        holder.viewHori.setLayoutParams(new ViewGroup.LayoutParams(1, height));
 
+        holder.imgProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, ProductDetailAct.class);
+                intent.putExtra(AppConstants.NAME,itemArrayList.get(i).getProductId());
+                activity.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -142,6 +146,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
         @Override
         public void onClick(View v) {
+
         }
 
         @Override

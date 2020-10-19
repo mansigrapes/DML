@@ -2,17 +2,15 @@ package com.dealermela.transaction.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dealermela.R;
-import com.dealermela.authentication.myaccount.model.BankResponse;
 import com.dealermela.transaction.model.TransactionItem;
-import com.dealermela.util.AppConstants;
 import com.dealermela.util.CommonUtils;
 
 import java.util.List;

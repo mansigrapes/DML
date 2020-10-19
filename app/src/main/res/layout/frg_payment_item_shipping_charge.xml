@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="-15dp"
-            android:text="Order Online and Pick up\n at your store" />
+            android:text="Order online and pick up\n at store" />
 
     </LinearLayout>
 
@@ -52,9 +52,10 @@
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginRight="@dimen/eight_sp"
             android:layout_marginBottom="@dimen/five_sp"
             android:gravity="left"
-            android:text="Order Online and deliver at your store"
+            android:text="Order online and deliver at your location"
             android:textAlignment="textEnd" />
 
         <com.dealermela.utility.DmlImageView
@@ -62,7 +63,6 @@
             android:layout_height="100dp"
             android:src="@drawable/delivery"
             />
-
 
     </LinearLayout>
 
@@ -72,6 +72,5 @@
         android:background="?transaction_line_color"
         android:layout_margin="@dimen/twenty_sp"
         />
-
 
 </LinearLayout>

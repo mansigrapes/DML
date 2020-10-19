@@ -7,13 +7,14 @@ import com.dealermela.R;
 public final class AppConstants {
     //    API base urlprli
 //    public static final String BASE_URL = "http://www.diamondmela.com/";
-    public static final String BASE_URL = "http://123.108.51.11/index.php/";
-    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftwaretest/";
+    public static final String BASE_URL = "http://203.112.144.7/dmlmage/";    //Live url changed on 17/10/2020
+//    public static final String BASE_URL = "http://123.108.51.11/index.php/";
+    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftware/";
   //Temporary set on 29/02/2020
 //    public static final String BASE_URL_LARAVEL = "http://www.diamondmela.com/";
 
-    public static final String INVENTORY_IMAGE = "http://203.112.144.7/media/catalog/product";
-    public static final String IMAGE_URL = "http://203.112.144.7/media/";
+    public static final String INVENTORY_IMAGE = "http://203.112.144.7/dmlmage/media/catalog/product";
+    public static final String IMAGE_URL = "http://203.112.144.7/dmlmage/media/";
 
 //    public static final String IMAGE_URL = "http://www.diamondmela.com/media/";
 //    public static final String IMAGE_URL = "http://123.108.51.11/media/";
@@ -30,6 +31,8 @@ public final class AppConstants {
     public static final String PAYMENT_TYPE = "payment_type";
     public static final String ORDER_ID = "ORDER_ID";
     public static final String ID = "id";
+    public static final String METALCOLOR = "metal_color";
+    public static final String CARATVALUE = "carat_value";
 
     public static final String STATUS_CODE_SUCCESS = "success";
     public static final String STATUS_CODE_FAILED = "failure";
@@ -66,13 +69,25 @@ public final class AppConstants {
     // New category Added Necklaces&sets On 17/09/2020
     public static final String NECKLACES_SETS_ID = "8";
 
-    public static final String ACCESS_CODE="AVUR78FF89CI31RUIC";
-    public static final String MERCHANT_ID="180765";
-    public static final String Encryption_Key="103624400069892DCA0674A6254989C0";
+//    //LIVE
+    public static final String ACCESS_CODE="AVER78FF72BP07REPB";  //LIVE
+    public static final String Encryption_Key="E4A7AA53091F2636621704AD319D9C25";       //LIVE
+//    public static final String redirectUrl="http://www.diamondmela.com/RSA/ccavMobileResponseHandler.php";  //Live
+//    public static final String cancelUrl="http://www.diamondmela.com/RSA/ccavMobileResponseHandler.php";   //Live
+//    public static final String rsaKeyUrl="http://www.diamondmela.com/dmlapi/addtocart/getRSAkey";      //Live
+    public static final String redirectUrl="http://203.112.144.7/dmlmage/RSA/ccavMobileResponseHandler.php";  //Live
+    public static final String cancelUrl="http://203.112.144.7/dmlmage/RSA/ccavMobileResponseHandler.php";   //Live
+    public static final String rsaKeyUrl="http://203.112.144.7/dmlmage/dmlapi/addtocart/getRSAkey";      //Live
+    public static final String MERCHANT_ID="180766";      //live
+
+//    public static final String MERCHANT_ID="180765";    //test
+//    public static final String ACCESS_CODE="AVUR78FF89CI31RUIC";  //test
+//    public static final String Encryption_Key="103624400069892DCA0674A6254989C0";  //TEST
+//    public static final String redirectUrl="http://123.108.51.11/RSA/ccavMobileResponseHandler.php";    //TEST
+//    public static final String cancelUrl="http://123.108.51.11/index.php/RSA/ccavMobileResponseHandler.php";      //TEST
+//    public static final String rsaKeyUrl="http://123.108.51.11/index.php/dmlapi/addtocart/getRSAkey";            //TEST
+
     public static final String CURRENCY="INR";
-    public static final String redirectUrl="http://123.108.51.11/RSA/ccavMobileResponseHandler.php";
-    public static final String cancelUrl="http://123.108.51.11/index.php/ccavMobileResponseHandler.php";
-    public static final String rsaKeyUrl="http://123.108.51.11/index.php/dmlapi/addtocart/getRSAkey";
 
     public static final String bannerListCheck="banner";
     public static final String USER_NAME="dealermela";

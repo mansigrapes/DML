@@ -1,15 +1,14 @@
 package com.dealermela.my_stock.adapter;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dealermela.R;
-import com.dealermela.listing_and_detail.activity.ListAct;
 import com.dealermela.listing_and_detail.model.FilterItem;
 import com.dealermela.my_stock.activity.MyStockAct;
 

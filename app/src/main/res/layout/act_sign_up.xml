@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -42,7 +42,7 @@
             android:paddingTop="@dimen/sign_up_lin_main_top"
             android:paddingBottom="@dimen/sign_up_lin_main_top">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilFnm"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -56,9 +56,9 @@
                     android:hint="@string/first_name"
                     android:inputType="textPersonName" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/sign_up_top_margin"
                 android:id="@+id/tilLnm"
                 android:layout_width="match_parent"
@@ -73,9 +73,9 @@
                     android:hint="@string/last_name"
                     android:inputType="textPersonName" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/sign_up_top_margin"
                 android:id="@+id/tilEmail"
                 android:layout_width="match_parent"
@@ -90,9 +90,9 @@
                     android:hint="@string/email_address"
                     android:inputType="textWebEmailAddress" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/sign_up_top_margin"
                 android:id="@+id/tilContactNumber"
                 android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                     android:maxLength="10"
                     android:inputType="phone" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 <!--            <com.dealermela.utility.DmlTextView-->
 <!--                android:layout_marginTop="10sp"-->
@@ -129,7 +129,7 @@
 <!--                android:layout_marginEnd="20sp"-->
 <!--                android:entries="@array/community" />-->
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/sign_up_top_margin"
                 android:id="@+id/tilAddress"
                 android:layout_width="match_parent"
@@ -144,7 +144,7 @@
                     android:hint="@string/address"
                     android:inputType="text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.dealermela.utility.DmlTextView
                 android:layout_marginTop="10sp"
@@ -191,7 +191,7 @@
                     android:layout_marginBottom="10sp"
                     android:layout_marginEnd="20sp" />
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/sign_up_top_margin"
                     android:id="@+id/tilState"
                     android:layout_width="match_parent"
@@ -207,11 +207,11 @@
                         android:hint="@string/state"
                         android:inputType="text" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </RelativeLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/sign_up_top_margin"
                 android:id="@+id/tilCity"
                 android:layout_width="match_parent"
@@ -226,9 +226,9 @@
                     android:hint="@string/city"
                     android:inputType="text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/sign_up_top_margin"
                 android:id="@+id/tilZipCode"
                 android:layout_width="match_parent"
@@ -244,7 +244,7 @@
                     android:maxLength="6"
                     android:inputType="numberDecimal" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.dealermela.utility.DmlTextView
                 android:layout_marginTop="10sp"
@@ -268,7 +268,7 @@
                 android:entries="@array/entity_array"
                 android:spinnerMode="dropdown" />
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/sign_up_top_margin"
                 android:id="@+id/tilCompany"
                 android:layout_width="match_parent"
@@ -283,9 +283,9 @@
                     android:hint="Company Name"
                     android:inputType="text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/sign_up_top_margin"
                 android:id="@+id/tilPassword"
                 android:layout_width="match_parent"
@@ -301,9 +301,9 @@
                     android:hint="Password"
                     android:inputType="textPassword" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/sign_up_top_margin"
                 android:id="@+id/tilConfirmPassword"
                 android:layout_width="match_parent"
@@ -319,7 +319,7 @@
                     android:hint="@string/confirm_password"
                     android:inputType="textPassword" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -381,4 +381,4 @@
 
     </ScrollView>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

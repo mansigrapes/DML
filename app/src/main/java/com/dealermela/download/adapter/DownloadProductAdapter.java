@@ -2,7 +2,6 @@ package com.dealermela.download.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -13,9 +12,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -55,12 +53,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dealermela.DealerMelaBaseActivity.downloadCount;
+import static com.dealermela.download.activity.DownloadAct.checkboxallselected;
 import static com.dealermela.home.activity.MainActivity.customerId;
+//import static com.dealermela.download.activity.DownloadAct.selectedcount;
 
 public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProductAdapter.ViewHolder> {
     private final Activity activity;
     public List<DownloadItem.Detail> itemArrayList;
     private KProgressHUD hud;
+    public static int selectedcount = 0;
 
     public DownloadProductAdapter(Activity activity, List<DownloadItem.Detail> itemArrayList) {
         super();
@@ -90,6 +92,17 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
             }
         }
 
+//        if(checkboxallselected.equalsIgnoreCase("all")) {
+////            holder.checkDownloadProduct.setEnabled(true);
+//            holder.checkDownloadProduct.setChecked(itemArrayList.get(i).isSelected() ? true : false);
+//        }else if(checkboxallselected.equalsIgnoreCase("some")){
+//            holder.checkDownloadProduct.setChecked(itemArrayList.get(i).isSelected() ? true : false);
+//        }else {
+//            holder.checkDownloadProduct.setChecked(itemArrayList.get(i).isSelected() ? true : false);
+////            holder.checkDownloadProduct.setEnabled(false);
+//        }
+
+        // comment for checking 28/09/2020
         holder.checkDownloadProduct.setChecked(itemArrayList.get(i).isSelected() ? true : false);
 
 //        if (itemArrayList.get(i).getFlag().equalsIgnoreCase("1")) {
@@ -124,6 +137,7 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                     AppLogger.e("init else ", "----call");
                     // Code for Below 23 API Oriented Device
                     // Do next code
+
                     downloadProduct(itemArrayList.get(i).getProductId(), itemArrayList.get(i).getSku(), i);
                 }
             }
@@ -142,11 +156,10 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                deleteProduct(customerId, itemArrayList.get(i).getProductId());
-                                itemArrayList.remove(i);
-                                notifyItemRemoved(i);
-                                notifyItemRangeChanged(i, itemArrayList.size());
-
+                                deleteProduct(customerId, itemArrayList.get(i).getProductId(),i);
+//                                itemArrayList.remove(i);
+//                                notifyItemRemoved(i);
+//                                notifyItemRangeChanged(i, itemArrayList.size());
                             }
                         })
                         .setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -155,7 +168,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                                 dialog.dismiss();
                             }
                         }).show();
-
 
                /* AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.AppCompatAlertDialogStyle);
                 alert.setTitle(activity.getString(R.string.delete));
@@ -181,6 +193,8 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
             }
         });
 
+        //Main code for Product's Checkbox selected or not
+
         holder.checkDownloadProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,10 +204,70 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                 holder.checkDownloadProduct.setChecked(itemArrayList.get(i).isSelected() ? true : false);
 
                 if (itemArrayList.get(i).isSelected()) {
+                    if(!checkboxallselected.equalsIgnoreCase("all")) {
+                        selectedcount = selectedcount + 1;
+                        DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
+                    }else {
+
+                    }
                 } else {
+
+                    if(checkboxallselected.equalsIgnoreCase("all")){
+                        checkboxallselected = "Some";
+                        DownloadAct.checkBoxAll.setChecked(false);
+                        if(selectedcount != 0) {
+                            selectedcount = selectedcount - 1;
+                            DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
+                        }else {
+                            checkboxallselected = "";
+                        }
+                    }else {
+                        if(selectedcount != 0) {
+                            selectedcount = selectedcount - 1;
+                            DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
+                        }
+                    }
                 }
             }
         });
+
+        //Comment on 30/09/2020 bcz when scroll adapter Selectedcount & value automatic changed
+//        holder.checkDownloadProduct.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    itemArrayList.get(i).setSelected(true);
+//                    if(!checkboxallselected.equalsIgnoreCase("all")) {
+//                        selectedcount = selectedcount + 1;
+//                        DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
+//                    }else {
+//
+//                    }
+//                }else {
+//
+//                    itemArrayList.get(i).setSelected(false);
+////                    if(selectedcount != 0) {
+////                        selectedcount = selectedcount - 1;
+////                        DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
+////                    }
+//                    if(checkboxallselected.equalsIgnoreCase("all")){
+//                        checkboxallselected = "Some";
+//                        DownloadAct.checkBoxAll.setChecked(false);
+//                        if(selectedcount != 0) {
+//                            selectedcount = selectedcount - 1;
+//                            DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
+//                        }else {
+//                            checkboxallselected = "";
+//                        }
+//                    }else {
+//                        if(selectedcount != 0) {
+//                            selectedcount = selectedcount - 1;
+//                            DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
+//                        }
+//                    }
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -206,7 +280,7 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
         final ImageView imgDownload, imgDelete, imgDeleteFlag;
         final SimpleDraweeView imgDownloadProduct;
         final TextView tvProductPrice, tvSku;
-        final CheckBox checkDownloadProduct;
+        public CheckBox checkDownloadProduct;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -323,10 +397,39 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                             @SuppressLint("SimpleDateFormat") String fileName = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
                             fileName += "."+fileExtension;
-                            request.setDestinationInExternalPublicDir(folder.getAbsolutePath(), sku + fileName);
+
+                            if (Build.VERSION.SDK_INT >= 29){
+                                request.setDestinationInExternalFilesDir(activity,folder.getAbsolutePath(),sku + fileName);
+                            }else {
+                                request.setDestinationInExternalPublicDir(folder.getAbsolutePath(), sku + fileName);
+                            }
 
                             DownloadManager manager = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
                             manager.enqueue(request);
+                            if(!checkboxallselected.equalsIgnoreCase("all") || !checkboxallselected.equalsIgnoreCase("Some")){
+                              if(itemArrayList.get(position).isSelected()){
+                                  if(selectedcount != 0) {
+                                      selectedcount = selectedcount - 1;
+                                  }
+                                  DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
+                                  itemArrayList.get(position).setSelected(false);
+                                  updatecheckbox(position);
+                              }else {
+                                 //No any slected product is downloaded
+                              }
+
+                            }else  {
+                                if(itemArrayList.get(position).isSelected()){
+                                    if(selectedcount != 0) {
+                                        selectedcount = selectedcount - 1;
+                                    }
+                                    DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
+                                    itemArrayList.get(position).setSelected(false);
+                                    updatecheckbox(position);
+                                }else {
+
+                                }
+                            }
                             CommonUtils.showSuccessToast(activity, "Image is downloaded");
 
                             itemArrayList.get(position).setFlag("0");
@@ -351,7 +454,7 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
         });
     }
 
-    private void deleteProduct(String customersId, String productsId) {
+    private void deleteProduct(String customersId, String productsId, final int position) {
         AppLogger.e("customerId", customersId);
         AppLogger.e("productId", productsId);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
@@ -365,11 +468,42 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                         if (itemArrayList.isEmpty()) {
-                            activity.finish();
+//                            activity.finish();
+
                         }
+                        if(!checkboxallselected.equalsIgnoreCase("all") || !checkboxallselected.equalsIgnoreCase("Some")){
+                            if(itemArrayList.get(position).isSelected()){
+                                downloadCount = downloadCount - 1 ;
+                                DownloadAct.tvtotaldownloadcount.setText(String.valueOf(downloadCount));
+                                if(selectedcount != 0) {
+                                    selectedcount = selectedcount - 1;
+                                }
+                                DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
+                            }else {
+                                //No any selected product is downloaded
+                                downloadCount = downloadCount - 1 ;
+                                DownloadAct.tvtotaldownloadcount.setText(String.valueOf(downloadCount));
+                            }
+
+                        }else  {
+                            if(itemArrayList.get(position).isSelected()){
+                                downloadCount = downloadCount - 1 ;
+                                DownloadAct.tvtotaldownloadcount.setText(String.valueOf(downloadCount));
+                                if(selectedcount != 0) {
+                                    selectedcount = selectedcount - 1;
+                                }
+                                DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
+                            }else {
+                                //No any selected product is downloaded
+                                downloadCount = downloadCount - 1 ;
+                                DownloadAct.tvtotaldownloadcount.setText(String.valueOf(downloadCount));
+                            }
+                        }
+                        itemArrayList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, itemArrayList.size());
                         CommonUtils.showSuccessToast(activity, "Product deleted successfully");
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

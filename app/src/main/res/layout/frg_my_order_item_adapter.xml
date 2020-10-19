@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,7 +22,7 @@
          />
 <!--    app:roundAsCircle="true"-->
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,28 +83,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <android.support.v7.widget.CardView
-            android:visibility="gone"
-            android:id="@+id/cardViewMore"
-            android:layout_width="wrap_content"
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvtotalItem"
+            style="@style/order_item_textView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/ten_sp"
-            app:cardBackgroundColor="?order_menu_color"
-            android:layout_marginTop="@dimen/eight_sp"
-            >
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/btnViewMore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/view_more"
-                android:textAllCaps="false"
-                android:textSize="@dimen/twelve_sp"
-                android:textColor="@color/white"
-                android:visibility="visible"
-                android:padding="@dimen/five_dp"
-                />
-        </android.support.v7.widget.CardView>
+            />
 
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_marginTop="@dimen/eight_sp">-->
+
+<!--            <com.dealermela.utility.DmlTextView-->
+<!--                android:id="@+id/tvtotalItem"-->
+<!--                style="@style/order_item_textView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--            />-->
+
+<!--            <android.support.v7.widget.CardView-->
+<!--                android:visibility="gone"-->
+<!--                android:id="@+id/cardViewMore"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:cardCornerRadius="@dimen/ten_sp"-->
+<!--                app:cardBackgroundColor="?order_menu_color"-->
+<!--                android:layout_marginLeft="@dimen/eight_sp"-->
+<!--                >-->
+<!--                <com.dealermela.utility.DmlTextView-->
+<!--                    android:id="@+id/btnViewMore"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/view_more"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:textSize="@dimen/twelve_sp"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:visibility="visible"-->
+<!--                    android:padding="@dimen/five_dp"-->
+<!--                    />-->
+<!--            </android.support.v7.widget.CardView>-->
+
+<!--        </LinearLayout>-->
 
     </LinearLayout>
 
@@ -182,4 +203,4 @@
         app:layout_constraintStart_toStartOf="@+id/view12"
         app:layout_constraintTop_toBottomOf="@+id/dmlTextViewBold16" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

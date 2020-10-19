@@ -6,13 +6,11 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.view.WindowManager;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -25,35 +23,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dealermela.R;
-import com.dealermela.authentication.myaccount.activity.ForgotPasswordAct;
-import com.dealermela.authentication.myaccount.dialog.SuccessOrderDialogClass;
-import com.dealermela.cart.activity.OrderSummaryAct;
 import com.dealermela.ccavenue.utility.AvenuesParams;
 import com.dealermela.ccavenue.utility.Constants;
 import com.dealermela.ccavenue.utility.LoadingDialog;
 import com.dealermela.ccavenue.utility.RSAUtility;
 import com.dealermela.ccavenue.utility.ServiceUtility;
-import com.dealermela.order.activity.OrderTabActivity;
-import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
-import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
-import com.dealermela.util.CommonUtils;
-import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-
-import static com.dealermela.home.activity.MainActivity.customerId;
 
 public class WebViewActivity extends AppCompatActivity {
     Intent mainIntent;
@@ -111,11 +91,11 @@ public class WebViewActivity extends AppCompatActivity {
 
                     // process the html source code to get final status of transaction
 
-                    AppLogger.e("html","------------"+html);
+                    AppLogger.e("html","------------"+ html);
 
                     String status = null;
                     if (html.contains("Failure")) {
-                        status = "Transaction Declined!";
+                        status = "Transaction Fail!";
                     } else if (html.contains("Success")) {
                         status = "Transaction Successful!";
                     } else if (html.contains("Aborted")) {
@@ -128,10 +108,11 @@ public class WebViewActivity extends AppCompatActivity {
                     intent.putExtra("transStatus", status);
                     intent.putExtra("customerId", mainIntent.getStringExtra(AvenuesParams.customer_id));
                     startActivity(intent);
+                    finish();
                 }
             }
 
-//            final WebView webview = (WebView) findViewById(R.id.webview);
+//            final WebView webview = (WebView) findViewById(R.id.webview);o
 
             webview.getSettings().setJavaScriptEnabled(true);
             webview.addJavascriptInterface(new MyJavaScriptInterface(),"HTMLOUT");
@@ -140,8 +121,14 @@ public class WebViewActivity extends AppCompatActivity {
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(webview, url);
                     LoadingDialog.cancelLoading();
-                    AppLogger.e("url","----------"+url);
-                    if (url.indexOf("/ccavResponseHandler.jsp") != -1) {
+                    AppLogger.e("url","----------"+ url);
+                    //comment on 02-10-2020 Bcz not find ccavResponseHandler.jsp file when we get response URL
+//                    if (url.indexOf("/ccavResponseHandler.jsp") != -1) {
+//                        webview.loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+//                        AppLogger.e("ifCondition","------");
+//                    }
+                    if (url.contains("/ccavMobileResponseHandler.php")) {
+                        AppLogger.e("ifCondition","------");
                         webview.loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
                     }
                 }
@@ -163,7 +150,7 @@ public class WebViewActivity extends AppCompatActivity {
 
                 AppLogger.e("post url", "-----------" + AvenuesParams.ACCESS_CODE + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), "UTF-8") + "&" + AvenuesParams.MERCHANT_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.MERCHANT_ID), "UTF-8") + "&" + AvenuesParams.ORDER_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ORDER_ID), "UTF-8") + "&" + AvenuesParams.REDIRECT_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.REDIRECT_URL), "UTF-8") + "&" + AvenuesParams.CANCEL_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.CANCEL_URL), "UTF-8") + "&" + AvenuesParams.ENC_VAL + "=" + URLEncoder.encode(encVal, "UTF-8") );
 //                String postData = AvenuesParams.ACCESS_CODE + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), "UTF-8") + "&" + AvenuesParams.MERCHANT_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.MERCHANT_ID), "UTF-8") + "&" + AvenuesParams.ORDER_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ORDER_ID), "UTF-8") + "&" + AvenuesParams.REDIRECT_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.REDIRECT_URL), "UTF-8") + "&" + AvenuesParams.CANCEL_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.CANCEL_URL), "UTF-8") + "&" + AvenuesParams.ENC_VAL + "=" + URLEncoder.encode(encVal, "UTF-8") + "&billing_name=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_name),"UTF-8") + "&billing_address=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_address),"UTF-8") + "&billing_zip="+ URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_zip),"UTF-8") + "&billing_city=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_city),"UTF-8") + "&billing_state=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_state),"UTF-8") + "&billing_country=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_country),"UTF-8") + "&billing_tel=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_tel),"UTF-8") + "&billing_email=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_email),"UTF-8") + "&" + AvenuesParams.website_order_id + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.website_order_id),"UTF-8") ;
-                String postData = AvenuesParams.ACCESS_CODE + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), "UTF-8") + "&" + AvenuesParams.MERCHANT_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.MERCHANT_ID), "UTF-8") + "&" + AvenuesParams.ORDER_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ORDER_ID), "UTF-8") + "&" + AvenuesParams.REDIRECT_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.REDIRECT_URL), "UTF-8") + "&" + AvenuesParams.CANCEL_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.CANCEL_URL), "UTF-8") + "&" + AvenuesParams.ENC_VAL + "=" + URLEncoder.encode(encVal, "UTF-8") + "&billing_name=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_name),"UTF-8") + "&billing_address=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_address),"UTF-8") + "&billing_zip="+ URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_zip),"UTF-8") + "&billing_city=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_city),"UTF-8") + "&billing_state=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_state),"UTF-8") + "&billing_country=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_country),"UTF-8") + "&billing_tel=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_tel),"UTF-8") + "&billing_email=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_email),"UTF-8");
+                String postData = AvenuesParams.ACCESS_CODE + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), "UTF-8") + "&" + AvenuesParams.MERCHANT_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.MERCHANT_ID), "UTF-8") + "&" + AvenuesParams.ORDER_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ORDER_ID), "UTF-8") + "&" + AvenuesParams.REDIRECT_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.REDIRECT_URL), "UTF-8") + "&" + AvenuesParams.CANCEL_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.CANCEL_URL), "UTF-8") + "&" + AvenuesParams.ENC_VAL + "=" + URLEncoder.encode(encVal, "UTF-8") + "&billing_name=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_name),"UTF-8") + "&billing_address=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_address),"UTF-8") + "&billing_zip="+ URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_zip),"UTF-8") + "&billing_city=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_city),"UTF-8") + "&billing_state=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_state),"UTF-8") + "&billing_country=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_country),"UTF-8") + "&billing_tel=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_tel),"UTF-8") + "&billing_email=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.billing_email),"UTF-8") ;
                 webview.postUrl(Constants.TRANS_URL, postData.getBytes());
 
             } catch (UnsupportedEncodingException e) {
@@ -240,14 +227,14 @@ public class WebViewActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-   public void onBackPressed(){
-        //Call API for without paying payment and user press back button so that order has not been completed and show as it is in cart page
-       if (webview.canGoBack()) {
-           finish();
-           webview.goBack();
-       } else {
-           super.onBackPressed();
-       }
+//   public void onBackPressed(){
+//        //Call API for without paying payment and user press back button so that order has not been completed and show as it is in cart page
+//       if (webview.canGoBack()) {
+//           finish();
+//           webview.goBack();
+//       } else {
+//           super.onBackPressed();
+//       }
 
 //       order_flag = "0";
 //       ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
@@ -290,5 +277,5 @@ public class WebViewActivity extends AppCompatActivity {
 //               AppLogger.e("Error Webview back pressed API ","--" + t.getMessage());
 //           }
 //       });
-    }
+//    }
 }

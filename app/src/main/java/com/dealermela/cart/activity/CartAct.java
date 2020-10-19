@@ -1,9 +1,9 @@
 package com.dealermela.cart.activity;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +16,6 @@ import com.dealermela.cart.fragment.ShippingFrg;
 import com.dealermela.cart.fragment.ShoppingFrg;
 
 import static com.dealermela.authentication.myaccount.activity.LoginAct.cartbackFlag;
-import static com.dealermela.authentication.myaccount.activity.LoginAct.fragment;
 
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.cartCheckBugNowFlag;
 import static com.dealermela.other.activity.SplashAct.loginFlag;

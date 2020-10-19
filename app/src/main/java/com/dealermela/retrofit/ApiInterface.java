@@ -14,6 +14,7 @@ import com.dealermela.home.model.HeaderItem;
 import com.dealermela.home.model.MostSellingItem;
 import com.dealermela.home.model.PopularProductItem;
 import com.dealermela.home.model.QrCodeResponse;
+import com.dealermela.home.model.SubcategoryItem;
 import com.dealermela.inventary.model.InventoryActionItem;
 import com.dealermela.inventary.model.InventoryFilterItem;
 import com.dealermela.inventary.model.InventoryInvoiceItem;
@@ -42,6 +43,10 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface ApiInterface {
+
+    //MAin SCreen  //
+    @GET("dmlapi/home/getAppVersion")
+    Call<JsonObject> getAppVersion();
 
     //    Login API    /**/
     @FormUrlEncoded
@@ -272,6 +277,10 @@ public interface ApiInterface {
     //Header Slider             /**/
     @GET("dmlapi/home/getallcategorys")
     Call<HeaderItem> getHeader();
+
+    //NavigationDrawer Subcategory dropdown
+    @GET("dmlapi/product/getAllCategoriesForNav")
+    Call<SubcategoryItem> getSubCategory();
 
     //Most Selling Product      /**/
     @GET("dmlapi/home/bestsellerproduct")

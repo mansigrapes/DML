@@ -5,9 +5,9 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
+import androidx.annotation.NonNull;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -56,7 +56,7 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
     private Spinner spinnerCountry, spinnerState;
     private List<CountryResponse.Datum> countryArray = new ArrayList<>();
     private List<StateResponse.Datum> stateArray = new ArrayList<>();
-    private String countryId = "";
+    private String countryId = "",capspanno,capsgst;
     private View view_state;
     private LoginResponse loginResponse;
     private SharedPreferences sharedPreferences;
@@ -211,11 +211,13 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
             case R.id.btnSave:
                 boolean valid = validateContactInfo();
                 if (valid) {
+//                    capspanno = edPanCard.getText().toString().toUpperCase();
+//                    AppLogger.e("PAN CARD Value ","-----" + edPanCard.getText().toString().toUpperCase());
                     if (countryId.equalsIgnoreCase("IN")) {
                         if (spinnerState.getSelectedItem() == "Select State") {
                             CommonUtils.showInfoToast(EditContactInfoAct.this, "Please select state.");
                         } else {
-                            editContactInfo("abc", customerId, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), Objects.requireNonNull(edPanCard.getText()).toString(), Objects.requireNonNull(edGstIn.getText()).toString());
+                            editContactInfo("abc", customerId, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, spinnerState.getSelectedItem().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), Objects.requireNonNull(edPanCard.getText()).toString().toUpperCase(), Objects.requireNonNull(edGstIn.getText()).toString().toUpperCase());
                         }
 
                     }else{
@@ -223,7 +225,7 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
                             edState.setError("Please enter state name.");
                             edState.requestFocus();
                         } else {
-                            editContactInfo("abc", customerId, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, edState.getText().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), Objects.requireNonNull(edPanCard.getText()).toString(), Objects.requireNonNull(edGstIn.getText()).toString());
+                            editContactInfo("abc", customerId, Objects.requireNonNull(edFnm.getText()).toString(), Objects.requireNonNull(edLnm.getText()).toString(), Objects.requireNonNull(edEmail.getText()).toString(), Objects.requireNonNull(edContact.getText()).toString(), Objects.requireNonNull(edAddress.getText()).toString(), countryId, edState.getText().toString(), Objects.requireNonNull(edCity.getText()).toString(), Objects.requireNonNull(edZipCode.getText()).toString(), Objects.requireNonNull(edPanCard.getText()).toString().toUpperCase(), Objects.requireNonNull(edGstIn.getText()).toString().toUpperCase());
                         }
                     }
                 }

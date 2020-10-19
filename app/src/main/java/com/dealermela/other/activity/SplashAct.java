@@ -3,12 +3,12 @@ package com.dealermela.other.activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.crashlytics.android.Crashlytics;
+
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.dialog.MaintenanceDialogClass;
@@ -20,13 +20,13 @@ import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.SharedPreferences;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import io.fabric.sdk.android.Fabric;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,12 +36,14 @@ public class SplashAct extends DealerMelaBaseActivity {
     public static int loginFlag = 0;
     private List<PopularProductItem.ProductImg> arrayListPopularProduct = new ArrayList<>();
     private DatabaseCartAdapter databaseCartAdapter;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         databaseCartAdapter = new DatabaseCartAdapter(SplashAct.this);
+//        throw new RuntimeException("Test Crash");   //testing for check crash reports
     }
 
     @Override

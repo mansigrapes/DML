@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/activity_vertical_margin"
     android:layout_marginEnd="@dimen/activity_vertical_margin"
+    android:layout_marginTop="@dimen/activity_horizontal_margin"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -32,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/create_your_own_customized_jwellery"
+            android:text="@string/create_your_own_customised_jwellery"
             android:textColor="?dml_logo_color"
             android:textSize="12sp" />
 
@@ -44,7 +45,7 @@
             android:text="@string/ring_size"
             android:visibility="gone"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewRingSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,7 +69,7 @@
             android:text="@string/type"
             android:visibility="gone"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewPendentSets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,7 +93,7 @@
             android:text="@string/bangle_size"
             android:visibility="gone"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewBangleSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,7 +117,7 @@
             android:text="@string/length"
             android:visibility="gone"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewBraceletSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -138,7 +139,7 @@
             android:layout_marginTop="20sp"
             android:text="@string/diamond" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewDiamond"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -157,7 +158,7 @@
             android:layout_marginTop="20sp"
             android:text="@string/carat" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewCarat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -176,7 +177,7 @@
             android:layout_marginTop="20sp"
             android:text="@string/metal" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewMetal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -190,10 +191,10 @@
             android:layout_marginTop="20sp" />
 
 <!--    02/09/2020   add this extra recycleview for some device last recycleview skip the adapter & data not displaying-->
-        <com.dealermela.utility.DmlTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           />
+<!--        <com.dealermela.utility.DmlTextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--           />-->
 
 <!--        <android.support.v7.widget.RecyclerView-->
 <!--            android:id="@+id/recycleViewTest"-->
@@ -201,7 +202,8 @@
 <!--            android:layout_height="wrap_content"-->
 <!--            android:layout_marginTop="@dimen/ten_padding_margin"-->
 <!--            android:orientation="horizontal"-->
-<!--            android:visibility="gone"/>-->
+<!--            android:visibility="gone" />-->
+<!--        android:visibility="gone"-->
 
 <!--        <View-->
 <!--            style="@style/view_style_detail_page"-->
@@ -211,4 +213,4 @@
 
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

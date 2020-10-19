@@ -2,33 +2,23 @@ package com.dealermela.order.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
-import com.dealermela.download.activity.DownloadAct;
-import com.dealermela.home.activity.MainActivity;
-import com.dealermela.home.model.HeaderItem;
-import com.dealermela.listing_and_detail.activity.ListAct;
+import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.order.activity.OrderDetailAct;
 import com.dealermela.order.activity.OrderPrintAct;
 import com.dealermela.order.model.OrderItem;
@@ -47,16 +37,12 @@ import com.ligl.android.widget.iosdialog.IOSDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.dealermela.cart.activity.OrderSummaryAct.Orderflag;
 import static com.dealermela.home.activity.MainActivity.GroupId;
 import static com.dealermela.home.activity.MainActivity.customerId;
 
@@ -116,6 +102,8 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
                 holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + " N/A " + "<b> | </b>" + " N/A " ));
             }
 
+            holder.tvtotalItem.setText(Html.fromHtml("<b>" + "Total QTY : " + "</b>" + itemArrayList.get(i).getTotalCount()));
+
 //            if(!itemArrayList.get(i).getOrderItems().get(0).getProductStonequality().isEmpty())
 //            {
 //                holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getOrderItems().get(0).getProductStonequality() + "<b> | </b>" + itemArrayList.get(i).getOrderItems().get(0).getProductStoneweight() ));
@@ -173,11 +161,11 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
             AppLogger.e("Completed", "------");
         }
 
-        if (itemArrayList.get(i).getOrderItems().size() > 1) {
-            holder.cardViewMore.setVisibility(View.VISIBLE);
-        } else {
-            holder.cardViewMore.setVisibility(View.GONE);
-        }
+//        if (itemArrayList.get(i).getOrderItems().size() > 1) {
+//            holder.cardViewMore.setVisibility(View.VISIBLE);
+//        } else {
+//            holder.cardViewMore.setVisibility(View.GONE);
+//        }
         AppLogger.e("size", "----------------" + itemArrayList.get(i).getOrderItems().size());
 
         holder.imgView.setOnClickListener(new View.OnClickListener() {
@@ -224,12 +212,21 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
             }
         });
 
-        holder.cardViewMore.setOnClickListener(new View.OnClickListener() {
+//        holder.cardViewMore.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(activity, OrderDetailAct.class);
+//                intent.putExtra(AppConstants.ORDER_ID, itemArrayList.get(i).getOrderid());
+//                intent.putExtra("status", itemArrayList.get(i).getOrderStatus());
+//                activity.startActivity(intent);
+//            }
+//        });
+
+        holder.imgProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, OrderDetailAct.class);
-                intent.putExtra(AppConstants.ORDER_ID, itemArrayList.get(i).getOrderid());
-                intent.putExtra("status", itemArrayList.get(i).getOrderStatus());
+                Intent intent = new Intent(activity, ProductDetailAct.class);
+                intent.putExtra(AppConstants.NAME,itemArrayList.get(i).getOrderItems().get(0).getProductId());
                 activity.startActivity(intent);
             }
         });
@@ -242,10 +239,10 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        final TextView tvTitle, tvOrderNo, tvSku, tvMetalDetail, tvStoneDetail, tvGrandTotal, tvStatus, tvcertificate;
+        final TextView tvTitle, tvOrderNo, tvSku, tvMetalDetail, tvStoneDetail, tvGrandTotal, tvStatus, tvcertificate, tvtotalItem;
         final ImageView imgView, imgPrint, imgCancel;
         final SimpleDraweeView imgProduct;
-        final CardView cardViewMore;
+//        final CardView cardViewMore;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -261,7 +258,9 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
             imgPrint = itemView.findViewById(R.id.imgPrint);
             imgCancel = itemView.findViewById(R.id.imgCancel);
             imgProduct = itemView.findViewById(R.id.imgProduct);
-            cardViewMore = itemView.findViewById(R.id.cardViewMore);
+//            cardViewMore = itemView.findViewById(R.id.cardViewMore);
+            tvtotalItem = itemView.findViewById(R.id.tvtotalItem);
+
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

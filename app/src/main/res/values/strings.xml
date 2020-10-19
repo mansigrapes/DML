@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">DiamondMela</string>
+<!--    <string name="app_name">DMLTest</string>-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -156,8 +157,8 @@
     <string name="reset">Reset</string>
     <string name="apply">Apply</string>
     <string name="theme">Theme</string>
-    <string name="customise_your_jewellery">Customise your jewellery</string>
-    <string name="create_your_own_customized_jwellery">Create your own customized jewellery</string>
+    <string name="customise_your_jewellery">Customize your jewellery</string>
+    <string name="create_your_own_customised_jwellery">Create your own customized jewellery</string>
     <string name="ring_size">Ring Size</string>
     <string name="diamond">Diamond</string>
     <string name="carat">Carat</string>
@@ -288,7 +289,7 @@
     <string name="metal_details">Metal Details</string>
     <string name="stone_details">Stone Details</string>
     <string name="login_fail">Something want to wrong please try again.</string>
-    <string name="select_all">Select All</string>
+    <string name="select_all">Selected</string>
 
     <string-array name="inventory_action">
         <item>with price and with logo</item>

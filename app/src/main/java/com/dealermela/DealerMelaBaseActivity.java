@@ -7,13 +7,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.view.MenuItemCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,13 +44,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.dealermela.cart.fragment.ShoppingFrg.totalqty;
 import static com.dealermela.home.activity.MainActivity.customerId;
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.diamondValue;
 import static com.dealermela.listing_and_detail.adapter.BangleAdapter.bangleProductId;
 import static com.dealermela.listing_and_detail.adapter.BraceletsAdapter.braceletProductId;
 import static com.dealermela.listing_and_detail.adapter.CaratAdapter.caratValue;
-import static com.dealermela.listing_and_detail.adapter.CaratAdapter.metalValue;
+import static com.dealermela.listing_and_detail.adapter.MetalAdapter.metalValue;
 import static com.dealermela.listing_and_detail.adapter.PendentSetsAdapter.pendentProId;
 import static com.dealermela.listing_and_detail.adapter.RingAdapter.ringValue;
 
@@ -360,7 +359,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
         }
     }
 
-    public void getCartCount() {
+    public static void getCartCount() {
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<JsonObject> callApi = apiInterface.getCartDownloadCount(customerId);
         callApi.enqueue(new Callback<JsonObject>() {
@@ -381,6 +380,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
                         }
 
                         if (jsonObject.getInt("download_count") != 0) {
+                            downloadCount = jsonObject.getInt("download_count");
                         } else {
                         }
                     } else {

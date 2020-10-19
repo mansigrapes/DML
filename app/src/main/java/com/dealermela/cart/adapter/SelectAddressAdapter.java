@@ -2,8 +2,8 @@ package com.dealermela.cart.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +14,6 @@ import android.widget.TextView;
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.model.AddressManageResponse;
 import com.dealermela.cart.activity.SelectAddressAct;
-import com.dealermela.cart.fragment.PaymentFrg;
-import com.dealermela.cart.model.SelectPaymentItem;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
@@ -57,7 +55,7 @@ public class SelectAddressAdapter extends RecyclerView.Adapter<SelectAddressAdap
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
 
         holder.tvName.setText(itemArrayList.get(i).getFirstname() + " " + itemArrayList.get(i).getLastname());
         holder.tvAddress.setText(itemArrayList.get(i).getStreet() + ",\n" + itemArrayList.get(i).getCity() + ", " + itemArrayList.get(i).getRegion() + ", " + itemArrayList.get(i).getPostcode() + ",\n" + itemArrayList.get(i).getCountryId() + "\nT: " + itemArrayList.get(i).getTelephone());

@@ -3,6 +3,8 @@ package com.dealermela.util;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
+import android.webkit.MimeTypeMap;
 
 import java.io.File;
 
@@ -48,7 +50,19 @@ public class DownloadImages {
         String[] split = myDownlaodURL.split("/");
         //Set the local destination for the downloaded file to the folder specified by user.
         File destinationFile = new File(mySdCardSaveImagePath, split[split.length - 1]);
-        request.setDestinationUri(Uri.fromFile(destinationFile));
+
+//        request.setDestinationUri(Uri.fromFile(destinationFile));
+//        Uri uri = Uri.fromFile(destinationFile);
+//
+        if (Build.VERSION.SDK_INT >= 29){
+            File newcheck = new File(mySdCardSaveImagePath);
+            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(myDownlaodURL);
+//            request.setDestinationInExternalFilesDir(this,Uri.fromFile(destinationFile)]);
+//            request.setDestinationUri(uri);
+            request.setDestinationInExternalFilesDir(myContext,newcheck.getAbsolutePath(),split[split.length - 1]);
+        }else {
+            request.setDestinationUri(Uri.fromFile(destinationFile));
+        }
 
         //Set the title of this download, to be displayed in notifications (if enabled).
         request.setTitle(split[split.length - 1]);

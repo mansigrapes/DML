@@ -3,23 +3,19 @@ package com.dealermela.cart.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.dealermela.R;
-import com.dealermela.cart.fragment.PaymentFrg;
 import com.dealermela.cart.model.OrderSummaryItem;
-import com.dealermela.cart.model.SelectPaymentItem;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.CommonUtils;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.util.List;
@@ -50,27 +46,28 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int i) {
-        holder.tvProductName.setText(itemArrayList.get(i).getName());
+        holder.tvProductName.setText(Html.fromHtml("<b>" + "SKU : " + "</b>" + itemArrayList.get(i).getSku()));
 
 //        itemArrayList.get(i).getCertificate
 
         float price = itemArrayList.get(i).getPrice();
         holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
-        holder.tvCertificate.setText(Html.fromHtml("<b>" + "Certificate No. : " +"</b>" + itemArrayList.get(i).getCertificateNo()));
+        holder.tvCertificate.setText(Html.fromHtml("<b>" + "Certificate No. : " + "</b>" + itemArrayList.get(i).getCertificateNo()));
         if(itemArrayList.get(i).getStonequality() != null){
-            holder.tvStoneQuality.setText(Html.fromHtml("<b>" + "Stone Quality : " + "</b> " + itemArrayList.get(i).getStonequality()));
+            holder.tvStoneQuality.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + itemArrayList.get(i).getStonequality()));
         }
         else{
-            holder.tvStoneQuality.setText(Html.fromHtml("<b>" + "Stone Quality : " + "</b> " + " - "));
+            holder.tvStoneQuality.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + " - "));
         }
 
-        holder.tvMetalQuality.setText(Html.fromHtml("<b>" + "Metal Quality : " + "</b> " + itemArrayList.get(i).getMetaldetails()));
+        holder.tvMetalQuality.setText(Html.fromHtml("<b>" + "Metal Detail : " + "</b> " + itemArrayList.get(i).getMetaldetails()));
         holder.tvQty.setText(Html.fromHtml("<b>" + "Qty : " + "</b> " + String.valueOf(itemArrayList.get(i).getQty())));
         holder.tvSubPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
         if (itemArrayList.get(i).getRingsize() != null) {
             holder.tvSize.setText(Html.fromHtml("<b>" + "Ring Size : " + "</b> " + String.valueOf(itemArrayList.get(i).getRingsize())));
         } else if (itemArrayList.get(i).getPendents() != null) {
-            holder.tvSize.setText(Html.fromHtml("<b>" + "Pendents Type : " + "</b> " + String.valueOf(itemArrayList.get(i).getPendents())));
+//            holder.tvSize.setText(Html.fromHtml("<b>" + "Pendents Type : " + "</b> " + String.valueOf(itemArrayList.get(i).getPendents())));
+            holder.tvSize.setVisibility(View.GONE);
         } else if (itemArrayList.get(i).getBangles() != null) {
             holder.tvSize.setText(Html.fromHtml("<b>" + "Bangle Size : " + "</b> " + String.valueOf(itemArrayList.get(i).getBangles())));
         } else if (itemArrayList.get(i).getBracelets() != null) {
@@ -78,6 +75,8 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
         } else {
             holder.tvSize.setVisibility(View.GONE);
         }
+
+        holder.tvtype.setText(Html.fromHtml("<b>" + "Product Type : " + "</b> " + itemArrayList.get(i).getProductCategoryType()));
     }
 
     @Override
@@ -86,7 +85,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        final TextView tvPrice, tvProductName, tvStoneQuality, tvMetalQuality, tvQty, tvSubPrice, tvSize,  tvCertificate;
+        final TextView tvPrice, tvProductName, tvStoneQuality, tvMetalQuality, tvQty, tvSubPrice, tvSize,  tvCertificate, tvtype;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -98,6 +97,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
             tvSubPrice = itemView.findViewById(R.id.tvSubPrice);
             tvSize = itemView.findViewById(R.id.tvSize);
             tvCertificate = itemView.findViewById(R.id.tvcertificateNo);
+            tvtype = itemView.findViewById(R.id.tvtype);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);

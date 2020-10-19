@@ -5,4 +5,7 @@
 
     <dimen name="img_width_height_selector">48px</dimen>
 
+
+    <dimen name="cart_widht_heght">72dp</dimen>
+
 </resources>

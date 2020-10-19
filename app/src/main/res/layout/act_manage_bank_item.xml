@@ -177,7 +177,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/one_sp_view"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/one_sp_view"
         android:background="?transaction_line_color" />
 
 </LinearLayout>

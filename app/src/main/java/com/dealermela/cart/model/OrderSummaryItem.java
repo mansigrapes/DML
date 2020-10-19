@@ -168,6 +168,9 @@ public class OrderSummaryItem {
         @SerializedName("contact_number")
         @Expose
         private String contactNumber;
+        @SerializedName("product_category_type")
+        @Expose
+        private String productCategoryType;
 
         public String getName() {
             return name;
@@ -383,6 +386,14 @@ public class OrderSummaryItem {
 
         public void setContactNumber(String contactNumber) {
             this.contactNumber = contactNumber;
+        }
+
+        public String getProductCategoryType() {
+            return productCategoryType;
+        }
+
+        public void setProductCategoryType(String productCategoryType) {
+            this.productCategoryType = productCategoryType;
         }
     }
 }

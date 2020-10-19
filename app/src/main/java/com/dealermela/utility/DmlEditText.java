@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
-public class DmlEditText extends android.support.v7.widget.AppCompatEditText {
+public class DmlEditText extends androidx.appcompat.widget.AppCompatEditText {
     public DmlEditText(Context context) {
         super(context);
         setFont();

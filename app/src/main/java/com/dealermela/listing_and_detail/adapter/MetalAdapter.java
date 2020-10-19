@@ -1,9 +1,9 @@
 package com.dealermela.listing_and_detail.adapter;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +14,13 @@ import com.dealermela.R;
 import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.util.ThemePreferences;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.dealermela.listing_and_detail.adapter.CaratAdapter.caratValue;
-import static com.dealermela.listing_and_detail.adapter.CaratAdapter.metalValue;
 
 public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> {
     private final Activity activity;
     private final List<String> itemArrayList;
     private ThemePreferences themePreferences;
-
+    public static String metalValue="Yellow Gold";
 
     public MetalAdapter(Activity activity, List<String> itemArrayList) {
         super();

@@ -2,8 +2,8 @@ package com.dealermela.listing_and_detail.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,17 +74,27 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
                 notifyItemChanged(getAdapterPosition());
                 ((FilterAct) activity).updateFilterData(getAdapterPosition(), false);
 //                filterSelectItems.get(filterCurrentPosition).getOptionData().get(getAdapterPosition()).setSelected(true);
-
+//                FilterTitleListAdapter.tvinvcount.setVisibility(View.VISIBLE);
+//                FilterTitleListAdapter.tvinvcount.setText(String.valueOf(filterSelectItems.get(filterCurrentPosition).getFiltercount()));
             } else {
                 AppLogger.e("else title position", "------------" + filterCurrentPosition);
                 AppLogger.e("else current position", "------------" + getAdapterPosition());
                 itemArrayList.get(getAdapterPosition()).setSelected(true);
                 notifyItemChanged(getAdapterPosition());
                 ((FilterAct) activity).updateFilterData(getAdapterPosition(), true);
+//                FilterTitleListAdapter.tvinvcount.setVisibility(View.VISIBLE);
+//                FilterTitleListAdapter.tvinvcount.setText(String.valueOf(filterSelectItems.get(filterCurrentPosition).getFiltercount()));
 //                filterSelectItems.get(filterCurrentPosition).getOptionData().get(getAdapterPosition()).setSelected(false);
-
             }
             ((FilterAct) activity).countFilter();
+
+//            if(filterSelectItems.get(filterCurrentPosition).getFiltercount() == 0){
+//                FilterTitleListAdapter.tvinvcount.setVisibility(View.GONE);
+//            }else {
+//                FilterTitleListAdapter.tvinvcount.setVisibility(View.VISIBLE);
+//                FilterTitleListAdapter.tvinvcount.setText(String.valueOf(filterSelectItems.get(filterCurrentPosition).getFiltercount()));
+//            }
+
 //            ((FilterAct) activity).bindSelectFilter();
         }
 

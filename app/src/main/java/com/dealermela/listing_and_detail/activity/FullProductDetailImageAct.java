@@ -1,9 +1,8 @@
 package com.dealermela.listing_and_detail.activity;
 
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -14,10 +13,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
 import com.dealermela.listing_and_detail.adapter.FullImageSliderAdapter;
-import com.dealermela.listing_and_detail.adapter.ImageSliderAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FullProductDetailImageAct extends DealerMelaBaseActivity {
 

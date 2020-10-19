@@ -50,7 +50,6 @@ public class SearchableListDialog extends DialogFragment implements
     private DialogInterface.OnClickListener _onClickListener;
 
     public SearchableListDialog() {
-
     }
 
     public static SearchableListDialog newInstance(List items) {
@@ -68,7 +67,6 @@ public class SearchableListDialog extends DialogFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override

@@ -7,15 +7,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.viewpager.widget.ViewPager;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -33,7 +33,6 @@ import com.dealermela.authentication.myaccount.activity.LoginAct;
 import com.dealermela.authentication.myaccount.dialog.MaintenanceDialogClass;
 import com.dealermela.cart.activity.CartAct;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
-import com.dealermela.home.activity.MainActivity;
 import com.dealermela.interfaces.ProductDetailClickListener;
 import com.dealermela.listing_and_detail.adapter.BangleAdapter;
 import com.dealermela.listing_and_detail.adapter.BraceletsAdapter;
@@ -42,6 +41,7 @@ import com.dealermela.listing_and_detail.adapter.DiamondAdapter;
 import com.dealermela.listing_and_detail.adapter.DiamondDetailAdapter;
 import com.dealermela.listing_and_detail.adapter.DiamondDetailRTSAdapter;
 import com.dealermela.listing_and_detail.adapter.GemstoneDetailAdapter;
+import com.dealermela.listing_and_detail.adapter.GemstoneDetailRTSAdapter;
 import com.dealermela.listing_and_detail.adapter.ImageSliderAdapter;
 import com.dealermela.listing_and_detail.adapter.MetalAdapter;
 import com.dealermela.listing_and_detail.adapter.PendentSetsAdapter;
@@ -70,11 +70,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.dealermela.home.activity.MainActivity.customerId;
-import static com.dealermela.home.activity.QRCodeScanningAct.scan_flag;
+import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
+import static com.dealermela.listing_and_detail.activity.FilterAct.pagecountflag;
 import static com.dealermela.listing_and_detail.adapter.BangleAdapter.bangleProductId;
 import static com.dealermela.listing_and_detail.adapter.BraceletsAdapter.braceletProductId;
 import static com.dealermela.listing_and_detail.adapter.CaratAdapter.caratValue;
-import static com.dealermela.listing_and_detail.adapter.CaratAdapter.metalValue;
+import static com.dealermela.listing_and_detail.adapter.MetalAdapter.metalValue;
 import static com.dealermela.listing_and_detail.adapter.PendentSetsAdapter.pendentProId;
 import static com.dealermela.listing_and_detail.adapter.RingAdapter.ringValue;
 import static com.dealermela.other.activity.SplashAct.loginFlag;
@@ -109,7 +110,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     private Button btnAddToCart, btnBuyNow;
 
     //using for product detail
-    private TextView tvSku, tvCertificateNo, tvMetalPurity, tvMetalWeightApprox, tvMetalEstimatedTotal, tvMetalPrice, tvDiamondPiecesTitle, tvDiamondPrice, tvGrandTotal, tvEstimatedTotalValue, tvGemStoneDetailTitle;
+    private TextView tvSku, tvCertificateNo, tvMetalPurity, tvMetalWeightApprox, tvMetalEstimatedTotal, tvMetalPrice, tvDiamondPiecesTitle, tvDiamondPrice, tvGemstonePiecesTitle, tvGemstonePrice,tvGrandTotal, tvEstimatedTotalValue, tvGemStoneDetailTitle, tvGemstoneEstimatedValue;
 
     //using hide show MTO RTS items
     private View includeCustomise, includeProductDetail;
@@ -149,10 +150,10 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     public static String diamondValue = "SI-IJ";
     private LinearLayout linDiamondBox;
     private TextView tvDiamondDetailLabel;
-    private RelativeLayout relDiamondDetailTotal;
-    private CardView cardDiamondBox;
+    private RelativeLayout relDiamondDetailTotal,relGemstoneDetailTotal;
+    private CardView cardDiamondBox,cardGemstoneBox;
 
-    private String ringOptionId, ringOptionTypeId, stoneOptionId, stoneOptionTypeId, categoryid;
+    private String ringOptionId, ringOptionTypeId, stoneOptionId, stoneOptionTypeId, categoryid, List_metal_color, List_carat_value;
 
     private ThemePreferences themePreferences;
 
@@ -164,13 +165,13 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         super.onCreate(savedInstanceState);
         themePreferences = new ThemePreferences(ProductDetailAct.this);
 
-        if(themePreferences.getTheme().equalsIgnoreCase("black")){
-            image_igi.setImageResource(R.drawable.igi_logo_full_white);
-            image_gia.setImageResource(R.drawable.gia_white);
-        }else {
-            image_igi.setImageResource(R.drawable.igi_new);
-            image_gia.setImageResource(R.drawable.gia_new);
-        }
+//        if(themePreferences.getTheme().equalsIgnoreCase("black")){
+//            image_igi.setImageResource(R.drawable.igi_logo_full_white);
+//            image_gia.setImageResource(R.drawable.gia_white);
+//        }else {
+//            image_igi.setImageResource(R.drawable.igi_new);
+//            image_gia.setImageResource(R.drawable.gia_new);
+//        }
     }
 
     @Override
@@ -184,6 +185,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //        productImg = (ListingItem.ProductImg) getIntent().getSerializableExtra(AppConstants.NAME);
         productId = getIntent().getStringExtra(AppConstants.NAME);
         categoryid = getIntent().getStringExtra(AppConstants.ID);
+        List_metal_color = getIntent().getStringExtra(AppConstants.METALCOLOR);
+        List_carat_value = getIntent().getStringExtra(AppConstants.CARATVALUE);
         AppLogger.e("product id", "-------------" + productId);
 
         databaseCartAdapter = new DatabaseCartAdapter(ProductDetailAct.this);
@@ -196,7 +199,9 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         linDiamondBox = findViewById(R.id.linDiamondBox);
         tvDiamondDetailLabel = findViewById(R.id.tvDiamondDetail);
         relDiamondDetailTotal = findViewById(R.id.relDiamondDetailTotal);
+        relGemstoneDetailTotal = findViewById(R.id.relGemstoneDetailTotal);
         cardDiamondBox = findViewById(R.id.cardDiamondBox);
+        cardGemstoneBox = findViewById(R.id.cardGemstoneBox);
         relBelt = findViewById(R.id.relBelt);
         tvBeltPrice = findViewById(R.id.tvBeltPrice);
         viewBelt = findViewById(R.id.viewBelt);
@@ -228,9 +233,12 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         tvMetalPrice = findViewById(R.id.tvMetalPrice);
         tvDiamondPiecesTitle = findViewById(R.id.tvDiamondPiecesTitle);
         tvDiamondPrice = findViewById(R.id.tvDiamondPrice);
+        tvGemstonePiecesTitle = findViewById(R.id.tvGemstonePiecesTitle);
+        tvGemstonePrice = findViewById(R.id.tvGemstonePrice);
         tvGrandTotal = findViewById(R.id.tvGrandTotal);
         tvEstimatedTotalValue = findViewById(R.id.tvEstimatedValue);
         tvGemStoneDetailTitle = findViewById(R.id.tvGemStoneDetailTitle);
+        tvGemstoneEstimatedValue = findViewById(R.id.tvGemstoneEstimatedValue);
 
         tvMetalPurity = findViewById(R.id.tvMetalPurity);
         tvMetalWeightApprox = findViewById(R.id.tvMetalWeightApprox);
@@ -345,6 +353,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         if(categoryid!=null){
             if(categoryid.equalsIgnoreCase(AppConstants.RING_ID)){
                 getProductDetail(productId, caratValue, metalValue, ringValue, "SI-IJ", "", "", "", "","");
+            }else if(categoryid.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+                getProductDetail(productId, List_carat_value, List_metal_color, "", "SI-IJ", "", "", "", "","");
             }else {
                 getProductDetail(productId, caratValue, metalValue, "", "SI-IJ", "", "", "", "","");
             }
@@ -604,7 +614,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     snackBar.setActionTextColor(Color.RED);
                     View snackBarView = snackBar.getView();
 //                    snackBarView.setBackgroundColor(Color.DKGRAY);
-                    TextView textView = snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView textView = snackBarView.findViewById(R.id.snackbar_text);
                     textView.setTextColor(Color.WHITE);
                     snackBar.show();
                 } else {
@@ -752,7 +762,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     //using for Image slider
                     if (response.body().getProducts().equalsIgnoreCase("simple")) {
                         includeCustomise.setVisibility(View.GONE);
-                        recycleViewReadyToShip.setVisibility(View.VISIBLE);
+//                        recycleViewReadyToShip.setVisibility(View.VISIBLE);
+                        constraintRTS.setVisibility(View.VISIBLE);
 
                         for (int i = 0; i < response.body().getRtsSlider().size(); i++) {
                             if (response.body().getRtsSlider().get(i).getEntityId().equalsIgnoreCase(productId)) {
@@ -848,13 +859,19 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         diamondAdapter = new DiamondAdapter(ProductDetailAct.this, response.body().getStoneClarity());
                         recycleViewDiamond.setAdapter(diamondAdapter);
 
-                        //using for carat adapter
-                        caratValue = "14K";
+                        if(response.body().getProductDetails().get(0).getProductSku() != null){
+                            String[] data = response.body().getProductDetails().get(0).getProductSku().split(" ");
+
+                            //using for carat adapter
+                            caratValue = data[1];
+
+                            //using for metal adapter
+                            metalValue = data[2] +" "+ data[3];
+                        }
+
                         CaratAdapter caratAdapter = new CaratAdapter(ProductDetailAct.this, response.body().getCarat());
                         recycleViewCarat.setAdapter(caratAdapter);
 
-                        //using for metal adapter
-                        metalValue="Yellow Gold";
                         metalList = new ArrayList<>();
                         metalList.addAll(response.body().getMetal());
                         metalListCopy.addAll(response.body().getMetal());
@@ -869,8 +886,10 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                             metalList.remove("Rose Gold");
                             metalList.remove("White Gold");
                             metalList.remove("Yellow Gold");
+                            metalList.remove("Two Tone");
                             metalList.remove("Two Tone Gold");
                             metalList.remove("Three Tone Gold");
+                            metalList.remove("Three Tone");
                         }
                         MetalAdapter metalAdapter = new MetalAdapter(ProductDetailAct.this, metalList);
                         recycleViewMetal.setAdapter(metalAdapter);
@@ -880,7 +899,9 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                         //using for rts adapter
                         if (!response.body().getRtsSlider().isEmpty()) {
-                            recycleViewReadyToShip.setVisibility(View.VISIBLE);
+//                            recycleViewReadyToShip.setVisibility(View.VISIBLE);
+                            constraintRTS.setVisibility(View.VISIBLE);
+//                            recycleViewTestPendentsets.setVisibility(View.GONE);
                             for (int i = 0; i < response.body().getRtsSlider().size(); i++) {
                                 if (response.body().getRtsSlider().get(i).getEntityId().equalsIgnoreCase(productId)) {
                                     Rtsflag = 0;
@@ -893,9 +914,11 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                             recycleViewReadyToShip.setAdapter(rtsRecyclerAdapter);
 
                         }else {
-                            recycleViewReadyToShip.setVisibility(View.GONE);
+//                            recycleViewReadyToShip.setVisibility(View.GONE);
+                            constraintRTS.setVisibility(View.GONE);
+//                            constraintRTS.setVisibility(View.INVISIBLE);
+//                            recycleViewTestPendentsets.setVisibility(View.VISIBLE);
                         }
-
                     }
 
                     //using for Diamond detail adapter
@@ -917,8 +940,15 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     if (!response.body().getGemstonedetails().isEmpty()) {
                         tvGemStoneDetailTitle.setVisibility(View.VISIBLE);
                         recycleViewGemstoneDetail.setVisibility(View.VISIBLE);
+                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+                        cardGemstoneBox.setVisibility(View.VISIBLE);
                         GemstoneDetailAdapter gemstoneDetailAdapter = new GemstoneDetailAdapter(ProductDetailAct.this, response.body().getGemstonedetails());
                         recycleViewGemstoneDetail.setAdapter(gemstoneDetailAdapter);
+                    }else {
+                        tvGemStoneDetailTitle.setVisibility(View.GONE);
+                        recycleViewGemstoneDetail.setVisibility(View.GONE);
+                        relGemstoneDetailTotal.setVisibility(View.GONE);
+                        cardGemstoneBox.setVisibility(View.GONE);
                     }
 
                     //Product Detail
@@ -968,6 +998,18 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                    }
+
+                    if(response.body().getGemstonemainprice().isEmpty()){
+                        cardGemstoneBox.setVisibility(View.GONE);
+                        relGemstoneDetailTotal.setVisibility(View.GONE);
+                    } else {
+                        cardGemstoneBox.setVisibility(View.VISIBLE);
+                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+
+                        tvGemstonePiecesTitle.setText("Gemstone (" + response.body().getGemstonemainprice().get(0).getPieces() + ")");
+                        tvGemstonePrice.setText(AppConstants.RS + CommonUtils.rupeeFormat(response.body().getGemstonemainprice().get(0).getGemstoneprice()));
+                        tvGemstoneEstimatedValue.setText(AppConstants.RS + CommonUtils.rupeeFormat(response.body().getGemstonemainprice().get(0).getGemstoneprice()));
                     }
 
                     tvMetalPurity.setText(response.body().getMetaldetails().get(0).getMetalquality());
@@ -1087,12 +1129,17 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                     //using for rts adapter
                     if (!response.body().getRtsSlider().isEmpty()) {
-                        recycleViewReadyToShip.setVisibility(View.VISIBLE);
+//                        recycleViewReadyToShip.setVisibility(View.VISIBLE);
+                        constraintRTS.setVisibility(View.VISIBLE);
+//                        recycleViewTestPendentsets.setVisibility(View.GONE);
                         Rtsflag = 1;      // set value of this flag 2 bcz when we customize products than don't need to Bydefault selected any RTS slider
                         RTSRecyclerAdapter rtsRecyclerAdapter = new RTSRecyclerAdapter(ProductDetailAct.this, response.body().getRtsSlider());
                         recycleViewReadyToShip.setAdapter(rtsRecyclerAdapter);
                     }else{
-                        recycleViewReadyToShip.setVisibility(View.GONE);
+//                        recycleViewReadyToShip.setVisibility(View.GONE);
+                        constraintRTS.setVisibility(View.GONE);
+//                        recycleViewTestPendentsets.setVisibility(View.VISIBLE);
+//                        constraintRTS.setVisibility(View.INVISIBLE);
                     }
 
                     cmetalCarat = caratValue;
@@ -1234,6 +1281,21 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         cardDiamondBox.setVisibility(View.GONE);
                     }
 
+                    //using for gemstone detail adapter
+                    if (!response.body().getGemstonedetails().isEmpty()) {
+                        tvGemStoneDetailTitle.setVisibility(View.VISIBLE);
+                        recycleViewGemstoneDetail.setVisibility(View.VISIBLE);
+                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+                        cardGemstoneBox.setVisibility(View.VISIBLE);
+                        GemstoneDetailAdapter gemstoneDetailAdapter = new GemstoneDetailAdapter(ProductDetailAct.this, response.body().getGemstonedetails());
+                        recycleViewGemstoneDetail.setAdapter(gemstoneDetailAdapter);
+                    }else {
+                        tvGemStoneDetailTitle.setVisibility(View.GONE);
+                        recycleViewGemstoneDetail.setVisibility(View.GONE);
+                        relGemstoneDetailTotal.setVisibility(View.GONE);
+                        cardGemstoneBox.setVisibility(View.GONE);
+                    }
+
                     //Product Detail
                     tvProductName.setText(response.body().getProductDetails().get(0).getProductName());
                     tvSku.setText(response.body().getProductDetails().get(0).getSku());
@@ -1250,6 +1312,18 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //                        //                tvMetalPrice.setText(String.valueOf(CommonUtils.priceFormat(metalPrice)));
 //                        tvMetalPrice.setText(AppConstants.RS + CommonUtils.priceFormat(metalPrice));
 //                    }
+
+                    if(response.body().getGemstonemainprice().isEmpty()){
+                        cardGemstoneBox.setVisibility(View.GONE);
+                        relGemstoneDetailTotal.setVisibility(View.GONE);
+                    } else {
+                        cardGemstoneBox.setVisibility(View.VISIBLE);
+                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+
+                        tvGemstonePiecesTitle.setText("Gemstone (" + response.body().getGemstonemainprice().get(0).getPieces() + ")");
+                        tvGemstonePrice.setText(AppConstants.RS + CommonUtils.rupeeFormat(response.body().getGemstonemainprice().get(0).getGemstoneprice()));
+                        tvGemstoneEstimatedValue.setText(AppConstants.RS + CommonUtils.rupeeFormat(response.body().getGemstonemainprice().get(0).getGemstoneprice()));
+                    }
 
                     AppLogger.e("MetalPrice","---" + response.body().getMetalprice());
                     //Metal Diamond Detail
@@ -1493,6 +1567,19 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         AppLogger.e("DiamondPrice ",response.body().getDiamondmainprice().get(0).getDimondprice());
                         tvEstimatedTotalValue.setText(AppConstants.RS + CommonUtils.rupeeFormat(response.body().getDiamondmainprice().get(0).getDimondprice()));
                     }
+
+//                    if(response.body().getGemstonemainprice().isEmpty()){
+//                        cardGemstoneBox.setVisibility(View.GONE);
+//                        relGemstoneDetailTotal.setVisibility(View.GONE);
+//                    } else {
+//                        cardGemstoneBox.setVisibility(View.VISIBLE);
+//                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+//
+//                        tvGemstonePiecesTitle.setText("Gemstone (" + response.body().getGemstonemainprice().get(0).getPieces() + ")");
+//                        tvGemstonePrice.setText(AppConstants.RS + CommonUtils.rupeeFormat(response.body().getGemstonemainprice().get(0).getGemstoneprice()));
+//                        tvGemstoneEstimatedValue.setText(AppConstants.RS + CommonUtils.rupeeFormat(response.body().getGemstonemainprice().get(0).getGemstoneprice()));
+//                    }
+
                     tvMetalPurity.setText(response.body().getMetaldetails().get(0).getMetalquality());
                     tvMetalWeightApprox.setText(response.body().getMetaldetails().get(0).getMetalweight() + " gms");
 //                    tvMetalEstimatedTotal.setText(AppConstants.RS + response.body().getMetaldetails().get(0).getMetalestimatedprice());
@@ -1514,6 +1601,19 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     }
 //                tvColorGold.setText("(" + caratValue + " " + metalValue + ")");
 
+                    if(!response.body().getGemstonedetails().isEmpty()){
+                        tvGemStoneDetailTitle.setVisibility(View.VISIBLE);
+                        recycleViewGemstoneDetail.setVisibility(View.VISIBLE);
+                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+                        cardGemstoneBox.setVisibility(View.VISIBLE);
+                        GemstoneDetailRTSAdapter gemstoneDetailAdapter = new GemstoneDetailRTSAdapter(ProductDetailAct.this, response.body().getGemstonedetails());
+                        recycleViewGemstoneDetail.setAdapter(gemstoneDetailAdapter);
+                    }else {
+                        tvGemStoneDetailTitle.setVisibility(View.GONE);
+                        recycleViewGemstoneDetail.setVisibility(View.GONE);
+                        relGemstoneDetailTotal.setVisibility(View.GONE);
+                        cardGemstoneBox.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -1921,6 +2021,11 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     }
 
     public void onBackPressed(){
+        if(filterFlag == 1){
+            if(pagecountflag == 1){
+                pagecountflag = 0;
+            }
+        }
         finish();
 //        return setupBadge();
     }

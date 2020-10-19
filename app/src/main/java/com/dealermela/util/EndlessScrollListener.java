@@ -1,7 +1,7 @@
 package com.dealermela.util;
 
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.widget.AbsListView;
 
 public abstract class EndlessScrollListener extends RecyclerView.OnScrollListener implements AbsListView.OnScrollListener {

@@ -5,10 +5,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +25,6 @@ import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
-import com.dealermela.util.CommonUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -102,20 +101,26 @@ public class PaymentFrg extends DealerMelaBaseFragment implements View.OnClickLi
                     btnContinue.setVisibility(View.VISIBLE);
                     btnContinue.setEnabled(true);
 
-                    if (response.body().getShippingCharges() == null || response.body().getShippingCharges().isEmpty()) {
-//                        CommonUtils.showToast(getActivity(),"Shipping charges is empty");
-
-                        Snackbar snack = Snackbar.make(rootView, "Shipping charges is empty, you can not continue this order.", Snackbar.LENGTH_LONG);
-                        View view = snack.getView();
-                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                        tv.setTextColor(Color.YELLOW);
-                        snack.show();
-
-                        btnContinue.setEnabled(false);
-                    } else {
+//                    if (response.body().getShippingCharges() == null || response.body().getShippingCharges().isEmpty()) {
+////                        CommonUtils.showToast(getActivity(),"Shipping charges is empty");
+//
+//                        Snackbar snack = Snackbar.make(rootView, "Shipping charges is empty, you can not continue this order.", Snackbar.LENGTH_LONG);
+//                        View view = snack.getView();
+//                        TextView tv = (TextView) view.findViewById(R.id.snackbar_text);
+//                        tv.setTextColor(Color.YELLOW);
+//                        snack.show();
+//
+//                        btnContinue.setEnabled(false);
+//
+//
+//                    } else {
+//                        shippingCharges.addAll(response.body().getShippingCharges());
+//                    }
+                    if(response.body().getShippingCharges() != null || response.body().getShippingCharges().isEmpty()) {
                         shippingCharges.addAll(response.body().getShippingCharges());
-                    }
+                    }else {
 
+                    }
                     PaymentSelectAdapter paymentSelectAdapter = new PaymentSelectAdapter(getActivity(), response.body().getDate(), PaymentFrg.this);
                     recycleViewPayment.setAdapter(paymentSelectAdapter);
 

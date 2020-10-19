@@ -1,9 +1,9 @@
 package com.dealermela.inventary.activity;
 
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -12,12 +12,10 @@ import com.dealermela.R;
 import com.dealermela.interfaces.RecyclerViewClickListener;
 import com.dealermela.inventary.adapter.InventoryProductAdapter;
 import com.dealermela.inventary.model.InventoryProductItem;
-import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.APIClientLaravel;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Objects;

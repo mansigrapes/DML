@@ -48,6 +48,9 @@ public class OrderItem {
         @SerializedName("grand_total")
         @Expose
         private String grandTotal;
+        @SerializedName("total_count")
+        @Expose
+        private String totalCount;
         @SerializedName("invoice_setting")
         @Expose
         private Object invoiceSetting;
@@ -75,6 +78,14 @@ public class OrderItem {
 
         public void setGrandTotal(String grandTotal) {
             this.grandTotal = grandTotal;
+        }
+
+        public String getTotalCount() {
+            return totalCount;
+        }
+
+        public void setTotalCount(String totalCount) {
+            this.totalCount = totalCount;
         }
 
         public Object getInvoiceSetting() {
@@ -116,6 +127,9 @@ public class OrderItem {
         @SerializedName("image")
         @Expose
         private String image;
+        @SerializedName("product_id")
+        @Expose
+        private String productId;
         @SerializedName("product_sku")
         @Expose
         private String productSku;
@@ -147,6 +161,14 @@ public class OrderItem {
 
         public void setImage(String image) {
             this.image = image;
+        }
+
+        public String getProductId() {
+            return productId;
+        }
+
+        public void setProductId(String productId) {
+            this.productId = productId;
         }
 
         public String getProductSku() {

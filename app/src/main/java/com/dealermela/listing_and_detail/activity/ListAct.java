@@ -5,18 +5,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -29,12 +27,10 @@ import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.dialog.MaintenanceDialogClass;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
-import com.dealermela.cart.activity.CartAct;
 import com.dealermela.listing_and_detail.adapter.ListingRecyclerAdapter;
 import com.dealermela.listing_and_detail.adapter.SortByListRecyclerAdapter;
 import com.dealermela.listing_and_detail.model.FilterItem;
 import com.dealermela.listing_and_detail.model.ListingItem;
-import com.dealermela.other.activity.SearchAct;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
@@ -65,9 +61,8 @@ import static com.dealermela.home.activity.MainActivity.customerId;
 import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
 import static com.dealermela.listing_and_detail.activity.FilterAct.mapFilter;
 import static com.dealermela.listing_and_detail.activity.FilterAct.pagecountflag;
-import static com.dealermela.listing_and_detail.activity.FilterAct.paramKey;
-import static com.dealermela.listing_and_detail.activity.FilterAct.selectFilter;
 import static com.dealermela.listing_and_detail.activity.FilterAct.skuFilterString;
+import static com.dealermela.listing_and_detail.adapter.SortByListRecyclerAdapter.sortby_latest_flag;
 
 public class ListAct extends DealerMelaBaseActivity implements View.OnClickListener {
     private RecyclerView recycleViewListing;
@@ -106,8 +101,9 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
     private StringBuilder availability = new StringBuilder();
     private StringBuilder sort_by = new StringBuilder();
-
-    private String id, name, group_id;
+    private int latestPosition;
+    public static String id;
+    private String  name, group_id;
     private SwipeRefreshLayout swipeRefreshData;
     private ShimmerFrameLayout parentShimmerLayout;
     private FloatingActionButton fabDownload;
@@ -155,7 +151,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         Gson gson = new Gson();
         loginResponse = gson.fromJson(sharedPreferences.getLoginData(), LoginResponse.class);
         itemArrayList = new ArrayList<>();
-
     }
 
     @SuppressLint("RestrictedApi")
@@ -496,13 +491,14 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             AppLogger.e("NameInSearch","------"+name);
             AppLogger.e("Page","---------"+String.valueOf(page_count));
         } else {
+            getSortFilter();
+//            getCount();  //changed on 10/06 before call this method in onResume Function
+            sort_by.append("sort_by_latest");
             if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                 getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
             } else {
                 getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
             }
-            getSortFilter();
-//            getCount();  //changed on 10/06 before call this method in onResume Function
             setupBadge();
         }
     }
@@ -560,22 +556,33 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         String value = "";
         AppLogger.e("Button called","----");
 
-        for (int i=0;i<sortByList.size();i++)
-        {
-            sortByList.get(i).setSelected(false);
+        if(sort_by.toString().equalsIgnoreCase("sort_by_latest")){
+            tvSortbyDot.setVisibility(View.GONE);
+        }else {
+            for (int i=0;i<sortByList.size();i++)
+            {
+                if(sortByList.get(i).getValue().equalsIgnoreCase("sort_by_latest")){
+                    sortByList.get(i).setSelected(true);
+                }else {
+                    sortByList.get(i).setSelected(false);
+                }
+            }
+
+            tvSortbyDot.setVisibility(View.GONE);
         }
 
         parentShimmerLayout.setVisibility(View.VISIBLE);
         linNoData.setVisibility(View.GONE);
         sort_by.setLength(0);
-        sort_by.append(value);
+//        sort_by.append(value);
+        sort_by.append("sort_by_latest");
         itemArrayList.clear();
         page_count = 1;
         flag_scroll = false;
         previousTotal = 0; // The total number of items in the dataset after the last load
         loading = true; // True if we are still waiting for the last set of data to load.
 
-        tvSortbyDot.setVisibility(View.GONE);  //Display dot WHen sorting is applied
+//        tvSortbyDot.setVisibility(View.GONE);  //Display dot When sorting is applied
 
         listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
         recycleViewListing.setAdapter(listingRecyclerAdapter);
@@ -628,7 +635,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                     fabDownload.hide();
                                 }
                             }
-
                         } else {
 
                             if (itemArrayList.isEmpty()) {
@@ -727,6 +733,13 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                         }
                     }
                     sortByList.addAll(response.body().getSortBy());
+                    for(int j=0;j<sortByList.size();j++){
+                        if(sortByList.get(j).getValue().equalsIgnoreCase("sort_by_latest")){
+                            latestPosition = j;
+                        }
+                    }
+                    sortValueGetAndDialogClose("sort_by_latest",latestPosition);  //Bydefault when page load latest option selected in sortby popup
+
 //                    filterItems.addAll(response.body().getData());
                     linSortBy.setVisibility(View.VISIBLE);
                     linFilter.setVisibility(View.VISIBLE);
@@ -751,27 +764,54 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             }
         }
 
-        itemArrayList.clear();
-        parentShimmerLayout.setVisibility(View.VISIBLE);
-        linNoData.setVisibility(View.GONE);
+        if(mBottomSheetDialog.isShowing()){
+            mBottomSheetDialog.dismiss();
+        }
+
         sort_by.setLength(0);
         sort_by.append(value);
-        page_count = 1;
-        flag_scroll = false;
-        previousTotal = 0; // The total number of items in the dataset after the last load
-        loading = true; // True if we are still waiting for the last set of data to load.
-        mBottomSheetDialog.dismiss();
 
-        tvSortbyDot.setVisibility(View.VISIBLE);  //Display dot WHen sorting is applied
+        if(sort_by.toString().equalsIgnoreCase("sort_by_latest")){
+            tvSortbyDot.setVisibility(View.GONE);  //When page load Bydefault sortbylatest display selected but dont display dot
+            if(sortby_latest_flag == 1){
+                sortby_latest_flag = 0;
+                itemArrayList.clear();
+                parentShimmerLayout.setVisibility(View.VISIBLE);
+                linNoData.setVisibility(View.GONE);
+                page_count = 1;
+                flag_scroll = false;
+                previousTotal = 0; // The total number of items in the dataset after the last load
+                loading = true; // True if we are still waiting for the last set of data to load.
+                listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
+                recycleViewListing.setAdapter(listingRecyclerAdapter);
+                if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                    AppLogger.e("sort by if", "-----------" + sort_by);
+                    getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                } else {
+                    AppLogger.e("sort by else ", "-----------" + sort_by);
+                    getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                }
+            }else {
 
-        listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
-        recycleViewListing.setAdapter(listingRecyclerAdapter);
-        if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-            AppLogger.e("sort by if", "-----------" + sort_by);
-            getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
-        } else {
-            AppLogger.e("sort by else ", "-----------" + sort_by);
-            getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+            }
+        }else {
+            itemArrayList.clear();
+            parentShimmerLayout.setVisibility(View.VISIBLE);
+            linNoData.setVisibility(View.GONE);
+            page_count = 1;
+            flag_scroll = false;
+            previousTotal = 0; // The total number of items in the dataset after the last load
+            loading = true; // True if we are still waiting for the last set of data to load.
+            tvSortbyDot.setVisibility(View.VISIBLE);  //Only Display dot When sorting is applied
+            listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
+            recycleViewListing.setAdapter(listingRecyclerAdapter);
+            if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                AppLogger.e("sort by if", "-----------" + sort_by);
+                getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+            } else {
+                AppLogger.e("sort by else ", "-----------" + sort_by);
+                getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+            }
         }
     }
 
@@ -795,7 +835,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             tvCount.setVisibility(View.VISIBLE);
             parentShimmerLayout.setVisibility(View.VISIBLE);
             linNoData.setVisibility(View.GONE);
-            itemArrayList.clear();
+//            itemArrayList.clear();
 //            page_count = 1;
             flag_scroll = false;
             previousTotal = 0; // The total number of items in the dataset after the last load
@@ -879,18 +919,19 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
             if(pagecountflag == 1){     //When filter is applied & go to detail page & back to list page ->>page should not getting refreshed  only refresh data on scrolling
 //                pagecountflag = 0;
+                itemArrayList.clear();
                 page_count = 1;
-            }
 
-            listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
-            recycleViewListing.setAdapter(listingRecyclerAdapter);
-            if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-                getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
-            } else {
-                getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
+                recycleViewListing.setAdapter(listingRecyclerAdapter);
+                if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                    getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                } else {
+                    getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                }
+                AppLogger.e(" full string data", "--------" + price + gold_purity + diamond_quality + diamond_shape + sku + availability);
             }
-            AppLogger.e(" full string data", "--------" + price + gold_purity + diamond_quality + diamond_shape + sku + availability);
-/*
+            /*
             for (Object key : mapFilter.keySet()) {
                 String value = mapFilter.get(key);
                 if ("price".equalsIgnoreCase((String) key)) {
@@ -938,6 +979,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             itemArrayList.clear();
             mapFilter.clear();
             skuFilterString="";
+            filterFlag = 0;
             page_count = 1;
 
 //            if(pagecountflag == 1){     //When reset filter & go to detail page & back to list page ->> page  getting refreshed
@@ -951,6 +993,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
             }
         }
+
     }
 
 /*    private void searchProduct(String searchTerm, String page) {

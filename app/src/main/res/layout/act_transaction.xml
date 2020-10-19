@@ -18,17 +18,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cardView2"
                     style="@style/transaction_card"
                     android:layout_width="0dp"
@@ -72,9 +72,9 @@
 
                     </LinearLayout>
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cardView"
                     style="@style/transaction_card"
                     android:layout_width="0dp"
@@ -113,7 +113,7 @@
 
                     </LinearLayout>
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
 <!--                <android.support.v7.widget.CardView-->
 <!--                    android:id="@+id/cardView4"-->
@@ -293,7 +293,7 @@
                     app:layout_constraintStart_toStartOf="@+id/view5"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycleViewTransaction"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -330,10 +330,9 @@
                     app:layout_constraintTop_toBottomOf="@+id/view6"
                     tools:visibility="gone" />
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </android.support.constraint.ConstraintLayout>
-
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <include
             layout="@layout/new_no_product_screen"

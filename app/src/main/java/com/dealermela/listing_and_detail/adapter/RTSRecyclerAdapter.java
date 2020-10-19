@@ -2,25 +2,19 @@ package com.dealermela.listing_and_detail.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.dealermela.R;
 import com.dealermela.listing_and_detail.activity.ProductDetailAct;
-import com.dealermela.listing_and_detail.model.ListingItem;
 import com.dealermela.listing_and_detail.model.ProductDetailItem;
-import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
-import com.dealermela.util.CommonUtils;
 import com.dealermela.util.ThemePreferences;
 
 import java.util.List;

@@ -5,7 +5,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 
-public class DmlButtonSemiBold extends android.support.v7.widget.AppCompatButton {
+public class DmlButtonSemiBold extends androidx.appcompat.widget.AppCompatButton {
     public DmlButtonSemiBold(Context context) {
         super(context);
         setFont();

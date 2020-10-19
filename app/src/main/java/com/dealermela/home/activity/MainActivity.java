@@ -1,19 +1,28 @@
 package com.dealermela.home.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+
+import com.dealermela.home.model.SubcategoryItem;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,9 +92,9 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
     public static String GroupId = "";
     private SharedPreferences sharedPreferences;
     private LoginResponse loginResponse;
-    private LinearLayout linContainer;
+    private LinearLayout linContainer,linSubContainer;
     private LinearLayout linInventory, linCollection, linOrders, linTransaction, linDownload, linPolicies, linCart, linFAQ, linContactUs, linLogout, linMyStock;
-    private ScrollView scrollViewCollection;
+    private NestedScrollView scrollViewCollection;
     private boolean doubleBackToExitPressedOnce = false;
 //    private RelativeLayout relCart;
     private RelativeLayout RLUser;
@@ -102,6 +111,8 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
     private DrawerLayout drawer;
     SpaceNavigationView spaceNavigationView;
     private boolean isOnce = true;
+
+    private String currentVersion;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -199,6 +210,14 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
             }
         });
         themePreferences = new ThemePreferences(MainActivity.this);
+
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            currentVersion = pInfo.versionName;
+            AppLogger.e("AppCurrentVersion","-----" + currentVersion);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -226,8 +245,10 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         switchAB.setChecked(false);
         if (themePreferences.getTheme().equalsIgnoreCase("white")) {
             switchAB.setChecked(false);
-        } else {
+        } else if (themePreferences.getTheme().equalsIgnoreCase("black")){
             switchAB.setChecked(true);
+        } else {
+            switchAB.setChecked(false);
         }
 
         switchAB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -295,6 +316,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         ImageView imgArrow = headerLayout.findViewById(R.id.imgArrow);
         SimpleDraweeView imgUser = headerLayout.findViewById(R.id.imgUser);
         linContainer = headerLayout.findViewById(R.id.linContainer);
+//        linSubContainer = headerLayout.findViewById(R.id.linSubContainer);
         scrollViewCollection = headerLayout.findViewById(R.id.scrollViewCollection);
 
         linInventory = headerLayout.findViewById(R.id.linInventory);
@@ -308,13 +330,13 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         linFAQ = headerLayout.findViewById(R.id.linFAQ);
         linContactUs = headerLayout.findViewById(R.id.linContactUs);
         linLogout = headerLayout.findViewById(R.id.linLogout);
-        linMyStock = headerLayout.findViewById(R.id.linMyStock);
+//        linMyStock = headerLayout.findViewById(R.id.linMyStock);
 
         tvDownloadCount = headerLayout.findViewById(R.id.tvDownloadCount);
 //        tvCartCount = headerLayout.findViewById(R.id.tvCartCount);
         tvCartCountHome = findViewById(R.id.tvCartCountHome);
 
-        viewBottomMyStock = headerLayout.findViewById(R.id.viewBottomMyStock);
+//        viewBottomMyStock = headerLayout.findViewById(R.id.viewBottomMyStock);
         viewBottomOrder = headerLayout.findViewById(R.id.viewBottomOrder);
         viewBottomTransaction = headerLayout.findViewById(R.id.viewBottomTransaction);
         viewBottomDownload = headerLayout.findViewById(R.id.viewBottomDownload);
@@ -375,7 +397,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         linFAQ.setOnClickListener(this);
         linContactUs.setOnClickListener(this);
         linLogout.setOnClickListener(this);
-        linMyStock.setOnClickListener(this);
+//        linMyStock.setOnClickListener(this);
 
 //        buttonSignOut.setOnClickListener(this);
     }
@@ -383,6 +405,99 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
     @Override
     public void loadData() {
         addHeader();
+//        addSubCategory();
+        Checkversion();
+    }
+
+    private void Checkversion() {
+        ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+        Call<JsonObject> callApi = apiInterface.getAppVersion();
+        callApi.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+                assert response.body() != null;
+                String status = null, message = null;
+
+                if(response.isSuccessful()){
+
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(String.valueOf(response.body()));
+                        status = jsonObject.getString("status");
+                        if(status.equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)){
+                            String playStoreVersion = jsonObject.getString("app_version");
+                            AppLogger.e("LatestVersion","----"+ playStoreVersion);
+                            //noinspection StatementWithEmptyBody,StatementWithEmptyBody
+                            if (!playStoreVersion.equalsIgnoreCase(currentVersion)) {
+//                            if (!playStoreVersion.equalsIgnoreCase("1.0")) {
+                                final AlertDialog.Builder builder;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                                    builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+//                                    builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog);
+                                    builder = new AlertDialog.Builder(MainActivity.this, R.style.AppCompatAlertDialogStyle);
+                                } else {
+                                    builder = new AlertDialog.Builder(MainActivity.this);
+                                }
+                                builder.setCancelable(false);
+                                builder.setTitle("Alert")
+                                        .setMessage("This apps latest update version available in play store, so please download it.")
+                                        .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // continue with delete]
+
+                                                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                                                try {
+                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                                } catch (android.content.ActivityNotFoundException anfe) {
+                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                                }
+                                            }
+                                        })
+                                        .setNegativeButton("Remind me later", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .show();
+
+//                                new IOSDialog.Builder(MainActivity.this)
+//                                        .setTitle(getString(R.string.Alert))
+//                                        .setMessage("This apps latest update version available in play store, so please download it.")
+//                                        .setCancelable(false)
+//                                        .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+//                                                try {
+//                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+//                                                } catch (android.content.ActivityNotFoundException anfe) {
+//                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+//                                                }
+//                                            }
+//                                        })
+//                                        .setNegativeButton("Remind me later",new DialogInterface.OnClickListener(){
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                // do nothing
+//                                                dialog.dismiss();
+//                                            }
+//                                        })
+//                                        .show();
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+                AppLogger.e("error", "------------" + t.getMessage());
+            }
+        });
     }
 
     @Override
@@ -403,7 +518,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                     snackBar.setActionTextColor(Color.RED);
                     View snackBarView = snackBar.getView();
 //                    snackBarView.setBackgroundColor(Color.DKGRAY);
-                    TextView textView = snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView textView = snackBarView.findViewById(R.id.snackbar_text);
                     textView.setTextColor(Color.WHITE);
                     snackBar.show();
 
@@ -427,7 +542,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                     snackBar.setActionTextColor(Color.RED);
                     View snackBarView = snackBar.getView();
 //                    snackBarView.setBackgroundColor(Color.DKGRAY);
-                    TextView textView = snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView textView = snackBarView.findViewById(R.id.snackbar_text);
                     textView.setTextColor(Color.WHITE);
                     snackBar.show();
 
@@ -513,10 +628,10 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 onBackPressed();
                 break;
 
-            case R.id.linMyStock:
-                startNewActivity(MyStockAct.class);
-                onBackPressed();
-                break;
+//            case R.id.linMyStock:
+//                startNewActivity(MyStockAct.class);
+//                onBackPressed();
+//                break;
 
             case R.id.linLogout:
                 onBackPressed();
@@ -594,6 +709,58 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         }
     }
 
+//    @SuppressLint("InflateParams")
+//    private void inflateTextViews(int length, final List<SubcategoryItem.Datum> list) {
+//        View textLayout,subcategoryLayout;
+//        for (int i = 0; i < length; i++) {
+//            textLayout = getLayoutInflater().inflate(R.layout.drawer_our_collection_item, null);
+//            TextView tvCollectionItem = textLayout.findViewById(R.id.tvCollectionItem);
+//            tvCollectionItem.setText(list.get(i).getName());
+//            AppLogger.e("","----" + list.get(i).toString());
+//
+//            subcategoryLayout = getLayoutInflater().inflate(R.layout.drawer_collection_subcategory_item,null);
+//            final TextView tvCollectionSubCategoryItem = subcategoryLayout.findViewById(R.id.tvCollectionSubCategoryItem);
+//
+//            final int finalI = i;
+//            tvCollectionItem.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+////                    Intent intent = new Intent(MainActivity.this, ListAct.class);
+////                    intent.putExtra(AppConstants.ID, list.get(finalI).getId());
+////                    intent.putExtra(AppConstants.NAME, list.get(finalI).getName());
+////                    intent.putExtra(AppConstants.bannerListCheck, "");
+////                    startNewActivityWithIntent(intent);
+//                    for(int j = 0; j < list.get(finalI).getSubcategories().size(); j++){
+//                        AppLogger.e("MainSubcategory","---"+list.get(finalI).getSubcategories().get(j).getName());
+//                        tvCollectionSubCategoryItem.setText(list.get(finalI).getSubcategories().get(j).getName());
+//                    }
+//                }
+//            });
+//            linContainer.addView(textLayout);
+//            linSubContainer.addView(subcategoryLayout);
+//        }
+//    }
+
+//    private void addSubCategory(){
+//        ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+//        Call<SubcategoryItem> callApi = apiInterface.getSubCategory();
+//        callApi.enqueue(new Callback<SubcategoryItem>() {
+//            @Override
+//            public void onResponse(Call<SubcategoryItem> call, Response<SubcategoryItem> response) {
+//                assert response.body() != null;
+//                if(response.isSuccessful()) {
+//                    inflateTextViews(response.body().getData().size(), response.body().getData());
+//                }else {
+//                    CommonUtils.showWarningToast(MainActivity.this,"Something went wrong! Please try later.");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<SubcategoryItem> call, Throwable t) {
+//            }
+//        });
+//    }
+
     private void addHeader() {
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<HeaderItem> callApi = apiInterface.getHeader();
@@ -655,11 +822,11 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
             linOrders.setVisibility(View.VISIBLE);
             linTransaction.setVisibility(View.VISIBLE);
             linDownload.setVisibility(View.VISIBLE);
-            linMyStock.setVisibility(View.VISIBLE);
+//            linMyStock.setVisibility(View.VISIBLE);
             linPolicies.setVisibility(View.VISIBLE);
             linLogout.setVisibility(View.VISIBLE);
 
-            viewBottomMyStock.setVisibility(View.VISIBLE);
+//            viewBottomMyStock.setVisibility(View.VISIBLE);
             viewBottomOrder.setVisibility(View.VISIBLE);
             viewBottomTransaction.setVisibility(View.VISIBLE);
             viewBottomDownload.setVisibility(View.VISIBLE);
@@ -669,11 +836,11 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
             linOrders.setVisibility(View.GONE);
             linTransaction.setVisibility(View.GONE);
             linDownload.setVisibility(View.GONE);
-            linMyStock.setVisibility(View.GONE);
+//            linMyStock.setVisibility(View.GONE);
             linPolicies.setVisibility(View.GONE);
             linLogout.setVisibility(View.GONE);
 
-            viewBottomMyStock.setVisibility(View.GONE);
+//            viewBottomMyStock.setVisibility(View.GONE);
             viewBottomOrder.setVisibility(View.GONE);
             viewBottomTransaction.setVisibility(View.GONE);
             viewBottomDownload.setVisibility(View.GONE);
@@ -720,6 +887,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
                                 tvDownloadCount.setVisibility(View.VISIBLE);
                                 tvDownloadCount.setText("99+");
+                                downloadCount = jsonObject.getInt("download_count");
                             } else {
                                 tvDownloadCount.setVisibility(View.VISIBLE);
                                 tvDownloadCount.setText(String.valueOf(jsonObject.getInt("download_count")));
@@ -757,7 +925,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         snackBar.setActionTextColor(Color.RED);
         View snackBarView = snackBar.getView();
 //                    snackBarView.setBackgroundColor(Color.DKGRAY);
-        TextView textView = snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+        TextView textView = snackBarView.findViewById(R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         snackBar.show();
     }

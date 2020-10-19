@@ -151,15 +151,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ten_padding_margin"
-        android:paddingBottom="5sp">
+        android:paddingBottom="5sp"
+        android:visibility="gone">
 
-        <com.dealermela.utility.DmlTextView
+        <com.dealermela.utility.DmlTextViewBold
             style="@style/product_full_detail_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Estimated Value" />
+            android:text="@string/total" />
 
-        <com.dealermela.utility.DmlTextView
+        <com.dealermela.utility.DmlTextViewBold
             android:id="@+id/tvGemstoneEstimatedValue"
             style="@style/product_full_detail_text"
             android:layout_width="wrap_content"

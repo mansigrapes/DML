@@ -5,12 +5,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +22,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dealermela.R;
 import com.dealermela.authentication.myaccount.activity.LoginAct;
-import com.dealermela.home.activity.MainActivity;
 import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.listing_and_detail.model.ListingItem;
-import com.dealermela.listing_and_detail.model.RTSItem;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
@@ -45,8 +43,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.dealermela.home.activity.MainActivity.customerId;
-import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
 import static com.dealermela.other.activity.SplashAct.loginFlag;
+import static com.dealermela.listing_and_detail.activity.ListAct.id;
 
 public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecyclerAdapter.ViewHolder> {
 
@@ -54,6 +52,7 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
     public final List<ListingItem.Datum> itemArrayList;
     private KProgressHUD hud;
     private SharedPreferences sharedPreferences;
+    private String metalcolour,caratvalue;
 
     public ListingRecyclerAdapter(Activity activity, List<ListingItem.Datum> itemArrayList) {
         super();
@@ -118,6 +117,7 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
 
             for (int j = 0; j <= sku.length - 1; j++) {
                 if (j == 1) {
+                    caratvalue = sku[j];
                     stringBuilder.append(sku[j]);
                     stringBuilder.append(" ");
                 }
@@ -125,11 +125,17 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
                 stringBuilder.append(sku[j].charAt(0));
             }*/
             }
+            metalcolour = sku[2] + " " + sku[3];
 
             float price = itemArrayList.get(i).getCustomPrice();
             holder.tvSku.setText(sku[0]);
             holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
-            holder.tvGold.setText(stringBuilder);
+
+            if(id.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+                holder.tvGold.setText("");
+            }else {
+                holder.tvGold.setText(stringBuilder);
+            }
 
             Glide.with(activity)
                     .load(AppConstants.IMAGE_URL + "catalog/product" + itemArrayList.get(i).getThumbnail())
@@ -164,7 +170,7 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
                         snackBar.setActionTextColor(Color.RED);
                         View snackBarView = snackBar.getView();
 //                    snackBarView.setBackgroundColor(Color.DKGRAY);
-                        TextView textView = snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+                        TextView textView = snackBarView.findViewById(R.id.snackbar_text);
                         textView.setTextColor(Color.WHITE);
                         snackBar.show();
 
@@ -223,7 +229,9 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
 //            filterFlag = 0;
             Intent intent = new Intent(activity, ProductDetailAct.class);
             intent.putExtra(AppConstants.NAME, itemArrayList.get(getAdapterPosition()).getEntityId());
-            intent.putExtra(AppConstants.ID,itemArrayList.get(getAdapterPosition()).getAttributeSetId());
+            intent.putExtra(AppConstants.ID,id);
+            intent.putExtra(AppConstants.METALCOLOR,metalcolour);
+            intent.putExtra(AppConstants.CARATVALUE,caratvalue);
             activity.startActivity(intent);
             activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }

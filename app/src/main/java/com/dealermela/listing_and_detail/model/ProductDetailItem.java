@@ -60,6 +60,9 @@ public class ProductDetailItem {
     @SerializedName("diamondmainprice")
     @Expose
     private List<Diamondmainprice> diamondmainprice = null;
+    @SerializedName("gemstonemainprice")
+    @Expose
+    private List<Gemstonemainprice> gemstonemainprice = null;
     @SerializedName("product_details")
     @Expose
     private List<ProductDetail> productDetails = null;
@@ -216,6 +219,14 @@ public class ProductDetailItem {
 
     public void setDiamondmainprice(List<Diamondmainprice> diamondmainprice) {
         this.diamondmainprice = diamondmainprice;
+    }
+
+    public List<Gemstonemainprice> getGemstonemainprice() {
+        return gemstonemainprice;
+    }
+
+    public void setGemstonemainprice(List<Gemstonemainprice> gemstonemainprice) {
+        this.gemstonemainprice = gemstonemainprice;
     }
 
     public List<ProductDetail> getProductDetails() {
@@ -602,6 +613,32 @@ public class ProductDetailItem {
             this.dimondprice = dimondprice;
         }
 
+    }
+
+    public class Gemstonemainprice {
+
+        @SerializedName("pieces")
+        @Expose
+        private Integer pieces;
+        @SerializedName("gemstoneprice")
+        @Expose
+        private String gemstoneprice;
+
+        public Integer getPieces() {
+            return pieces;
+        }
+
+        public void setPieces(Integer pieces) {
+            this.pieces = pieces;
+        }
+
+        public String getGemstoneprice() {
+            return gemstoneprice;
+        }
+
+        public void setGemstoneprice(String gemstoneprice) {
+            this.gemstoneprice = gemstoneprice;
+        }
     }
 
     public class Diamonddetail {
