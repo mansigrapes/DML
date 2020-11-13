@@ -325,7 +325,7 @@
                 android:id="@+id/includeProductDetail"
                 layout="@layout/act_product_detail_include_price_detail" />
 
-            <include layout="@layout/include_common_lifetime_exchange_promotional" />
+<!--            <include layout="@layout/include_common_lifetime_exchange_promotional" />-->
 
         </LinearLayout>
 
@@ -392,6 +392,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="@string/sold_out"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
 </RelativeLayout>

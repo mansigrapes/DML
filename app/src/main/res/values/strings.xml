@@ -290,6 +290,7 @@
     <string name="stone_details">Stone Details</string>
     <string name="login_fail">Something want to wrong please try again.</string>
     <string name="select_all">Selected</string>
+    <string name="download_value">99+</string>
 
     <string-array name="inventory_action">
         <item>with price and with logo</item>

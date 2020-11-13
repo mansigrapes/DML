@@ -2,16 +2,13 @@ package com.dealermela.authentication.myaccount.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
 import com.dealermela.R;
-import com.dealermela.authentication.myaccount.activity.LoginAct;
 import com.dealermela.util.SharedPreferences;
-
 import static com.dealermela.home.activity.MainActivity.customerId;
 
 public class MaintenanceDialogClass extends Dialog implements View.OnClickListener {
@@ -43,9 +40,6 @@ public class MaintenanceDialogClass extends Dialog implements View.OnClickListen
         }
         dismiss();
     }
-
-
-
 
 //    used
 //    CustomDialogClass cdd=new CustomDialogClass(Values.this);

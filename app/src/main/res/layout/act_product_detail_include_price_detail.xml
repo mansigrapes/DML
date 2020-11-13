@@ -282,65 +282,90 @@
             android:layout_height="@dimen/one_sp_view"
             android:layout_marginTop="@dimen/eight_margin_padding" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/five_sp"
+        android:layout_marginBottom="@dimen/five_sp">
+
+        <com.dealermela.utility.DmlImageView
+            android:id="@+id/image_gia"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/five_sp"
-            android:layout_marginBottom="@dimen/five_sp">
+            android:layout_weight="1"
+            android:src="@drawable/ic_gemological_institute_of_america_gia" />
+        <!--            android:src="@drawable/ic_gia_logo"-->
 
-            <com.dealermela.utility.DmlImageView
-                android:id="@+id/image_gia"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:layout_marginLeft="@dimen/ten_sp"
-                android:src="@drawable/ic_gia_logo" />
+        <com.dealermela.utility.DmlImageView
+            android:id="@+id/image_igi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_igi_new" />
 
-            <com.dealermela.utility.DmlImageView
-                android:id="@+id/image_igi"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:src="@drawable/ic_igi" />
+    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/five_sp"
-                android:layout_marginBottom="@dimen/five_sp">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_marginTop="@dimen/five_sp"-->
+<!--            android:layout_marginBottom="@dimen/five_sp">-->
 
-                <com.dealermela.utility.DmlTextViewBold
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="INTERNATIONAL"
-                    android:textColor="?toolbarTextColor"
-                    android:textSize="@dimen/twelve_sp" />
+<!--            <com.dealermela.utility.DmlImageView-->
+<!--                android:id="@+id/image_gia"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1.5"-->
+<!--                android:layout_marginLeft="@dimen/ten_sp"-->
+<!--                android:src="@drawable/ic_gia_logo" />-->
 
-                <com.dealermela.utility.DmlTextViewBold
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="GEMOLOGICAL"
-                    android:textColor="?toolbarTextColor"
-                    android:textSize="@dimen/twelve_sp" />
+<!--            <com.dealermela.utility.DmlImageView-->
+<!--                android:id="@+id/image_igi"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0.7"-->
+<!--                android:layout_marginStart="@dimen/activity_horizontal_margin"-->
+<!--                android:src="@drawable/ic_igi" />-->
 
-                <com.dealermela.utility.DmlTextViewBold
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="INSTITUTE"
-                    android:textColor="?toolbarTextColor"
-                    android:textSize="@dimen/twelve_sp" />
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0.3"-->
+<!--                android:orientation="vertical"-->
+<!--                android:layout_marginTop="@dimen/five_sp"-->
+<!--                android:layout_marginBottom="@dimen/five_sp">-->
 
-            </LinearLayout>
+<!--                <com.dealermela.utility.DmlTextViewBold-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="INTERNATIONAL"-->
+<!--                    android:textColor="?toolbarTextColor"-->
+<!--                    android:textSize="@dimen/twelve_sp" />-->
 
-        </LinearLayout>
+<!--                <com.dealermela.utility.DmlTextViewBold-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="GEMOLOGICAL"-->
+<!--                    android:textColor="?toolbarTextColor"-->
+<!--                    android:textSize="@dimen/twelve_sp" />-->
+
+<!--                <com.dealermela.utility.DmlTextViewBold-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="INSTITUTE"-->
+<!--                    android:textColor="?toolbarTextColor"-->
+<!--                    android:textSize="@dimen/twelve_sp" />-->
+
+<!--            </LinearLayout>-->
+
+<!--        </LinearLayout>-->
 
         <View
             style="@style/view_style_detail_page"

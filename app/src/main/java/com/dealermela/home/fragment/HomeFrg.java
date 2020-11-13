@@ -93,11 +93,14 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
                 @Override
                 public void onScrolledToPosition(int position) {
                     //TODO CoverFlow stopped to position
+                    coverFlow.clearCache();
+
                 }
 
                 @Override
                 public void onScrolling() {
                     //TODO CoverFlow began scrolling
+
                 }
             });
         }
