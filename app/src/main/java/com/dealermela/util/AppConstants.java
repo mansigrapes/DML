@@ -8,8 +8,9 @@ public final class AppConstants {
     //    API base urlprli
 //    public static final String BASE_URL = "http://www.diamondmela.com/";
     public static final String BASE_URL = "http://203.112.144.7/dmlmage/";    //Live url changed on 17/10/2020
-//    public static final String BASE_URL = "http://123.108.51.11/index.php/";
+//    public static final String BASE_URL = "http://123.108.51.11/index.php/";    // Test server
     public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftware/";
+//    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftwaretest/";   //Test server
   //Temporary set on 29/02/2020
 //    public static final String BASE_URL_LARAVEL = "http://www.diamondmela.com/";
 
@@ -28,6 +29,8 @@ public final class AppConstants {
 
     public static final String BUNDLE = "BUNDLE";
     public static final String NAME = "name";
+    public static final String MAIN_NAME = "Category_name";
+    public static final String SubCategory_ID = "Sub_id";
     public static final String PAYMENT_TYPE = "payment_type";
     public static final String ORDER_ID = "ORDER_ID";
     public static final String ID = "id";

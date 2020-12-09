@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.dealermela.R;
 import com.dealermela.transaction.model.TransactionItem;
+import com.dealermela.util.AppConstants;
 import com.dealermela.util.CommonUtils;
 
 import java.util.List;
@@ -38,8 +39,8 @@ public class TransactionPopupRecyclerAdapter extends RecyclerView.Adapter<Transa
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int i) {
         holder.tvCustomerName.setText(itemArrayList.get(i).getCustomerName());
-        holder.tvAmt.setText("\u20B9 " + CommonUtils.rupeeFormat(String.valueOf(itemArrayList.get(i).getAmount())));
-        holder.tvRemainingAmt.setText("\u20B9 " + CommonUtils.rupeeFormat(String.valueOf(itemArrayList.get(i).getRemaingAmount())));
+        holder.tvAmt.setText(AppConstants.RS  + CommonUtils.rupeeFormat(String.valueOf(itemArrayList.get(i).getAmount())));
+        holder.tvRemainingAmt.setText(AppConstants.RS  + CommonUtils.rupeeFormat(String.valueOf(itemArrayList.get(i).getRemaingAmount())));
         holder.tvPaidDate.setText(CommonUtils.convert_dateformate(itemArrayList.get(i).getPaidDate()));
 
     }

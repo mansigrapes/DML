@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -101,8 +102,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
     private StringBuilder availability = new StringBuilder();
     private StringBuilder sort_by = new StringBuilder();
+    private StringBuilder subcategory = new StringBuilder();
+
     private int latestPosition;
-    public static String id;
+    public static String id,Subcategoryid,categoryid;
     private String  name, group_id;
     private SwipeRefreshLayout swipeRefreshData;
     private ShimmerFrameLayout parentShimmerLayout;
@@ -120,7 +123,16 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     @Override
     public void init() {
 
-        id = getIntent().getStringExtra(AppConstants.ID);
+        if(getIntent().getStringExtra(AppConstants.ID) != null) {
+            id = getIntent().getStringExtra(AppConstants.ID);
+        }
+
+        if(getIntent().getStringExtra(AppConstants.SubCategory_ID) != null) {
+            Subcategoryid = getIntent().getStringExtra(AppConstants.SubCategory_ID);
+        }else {
+            Subcategoryid = "";
+        }
+
         name = getIntent().getStringExtra(AppConstants.NAME);
         String checkList = getIntent().getStringExtra(AppConstants.bannerListCheck);
 
@@ -156,7 +168,14 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     @SuppressLint("RestrictedApi")
     @Override
     public void initView() {
-        bindToolBar(CommonUtils.capitalizeString(name));
+
+        if(id.equalsIgnoreCase(Subcategoryid)){
+//             String[] mainName = name.split(" ");
+//            bindToolBar(CommonUtils.capitalizeString(mainName[2]));
+            bindToolBar(CommonUtils.capitalizeString(getIntent().getStringExtra(AppConstants.MAIN_NAME)));
+        }else {
+            bindToolBar(CommonUtils.capitalizeString(name));
+        }
 
         sortIcon = findViewById(R.id.sortIcon);
         filterIcon = findViewById(R.id.filterIcon);
@@ -415,9 +434,9 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                                                    } else {
                                                                        page_count++;
                                                                        if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-                                                                           getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                                                                           getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
                                                                        } else {
-                                                                           getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                                                                           getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
                                                                        }
                                                                    }
 
@@ -491,13 +510,22 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             AppLogger.e("NameInSearch","------"+name);
             AppLogger.e("Page","---------"+String.valueOf(page_count));
         } else {
-            getSortFilter();
+            // Apply this condition for add subcategory Filter option Only at Main Category products Not in subcategory listing
+            if(Subcategoryid.isEmpty()){
+                //Pass MainCategoryId for subcategory Filter option
+                getSortFilter(id);
+            }else {
+                //If on subcategorylisting No Filter option for subcategory
+                categoryid = "";
+                getSortFilter(categoryid);
+            }
+//            getSortFilter();
 //            getCount();  //changed on 10/06 before call this method in onResume Function
             sort_by.append("sort_by_latest");
             if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-                getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(),subcategory.toString());
             } else {
-                getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
             }
             setupBadge();
         }
@@ -541,6 +569,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //                String data = gson.toJson(filterItems);
 //                intent.putExtra(AppConstants.NAME, data);
                 intent.putExtra(AppConstants.NAME,id);
+                intent.putExtra(AppConstants.SubCategory_ID,Subcategoryid);
                 startActivity(intent);
                 break;
 
@@ -588,22 +617,22 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         recycleViewListing.setAdapter(listingRecyclerAdapter);
         if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
             AppLogger.e("sort by if", "-----------" + sort_by);
-            getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+            getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
         } else {
             AppLogger.e("sort by else ", "-----------" + sort_by);
-            getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+            getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
         }
         mBottomSheetDialog.dismiss();
     }
 
-    private void getCategoryProduct(final String categoryId, String groupId, String page, String price, String gold_purity, String diamonod_quality, String diamond_shape, String sku, String availability, String sort_by) {
+    private void getCategoryProduct(final String categoryId, String groupId, String page, String price, String gold_purity, String diamonod_quality, String diamond_shape, String sku, String availability, String sort_by, String subcategories) {
         if (page_count == 1) {
 //            progressCenter.setVisibility(View.VISIBLE);
         } else {
             progressBottom.setVisibility(View.VISIBLE);
         }
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<ListingItem> callApi = apiInterface.getCategoryProduct(customerId, categoryId, groupId, page, price, gold_purity, diamonod_quality, diamond_shape, sku, availability, sort_by);
+        Call<ListingItem> callApi = apiInterface.getCategoryProduct(customerId, categoryId, groupId, page, price, gold_purity, diamonod_quality, diamond_shape, sku, availability, sort_by, subcategories, Subcategoryid);
         callApi.enqueue(new Callback<ListingItem>() {
             @SuppressLint("ResourceType")
             @Override
@@ -623,6 +652,8 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                             linSortBy.setEnabled(true);
                             tvFilter.setTextAppearance(ListAct.this, R.attr.inActive_filer_color);
                             tvSortby.setTextAppearance(ListAct.this, R.attr.inActive_filer_color);
+                            tvSortby.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                            tvFilter.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
                             sortIcon.setColorFilter(getResources().getColor(R.color.filter_icon_color));
                             filterIcon.setColorFilter(getResources().getColor(R.color.filter_icon_color));
                             parentShimmerLayout.setVisibility(View.GONE);
@@ -650,9 +681,9 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                 if (filterFlag == 1) {
                                     linFilter.setEnabled(true);
                                     linSortBy.setEnabled(false);
-//                                    tvFilter.setTextColor(getResources().getColor(R.color.black));
-                                    tvFilter.setTextAppearance(ListAct.this, R.attr.inActive_filer_color);
-                                    tvSortby.setTextColor(getResources().getColor(R.color.in_active_item_color));
+                                    tvFilter.setTextColor(getResources().getColor(R.color.black));
+                                    tvFilter.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+//                                    tvFilter.setTextAppearance(ListAct.this, R.attr.inActive_filer_color);
                                     sortIcon.setColorFilter(getResources().getColor(R.color.in_active_item_color));
                                     filterIcon.setColorFilter(getResources().getColor(R.color.filter_icon_color));
                                 }
@@ -689,11 +720,11 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         });
     }
 
-    public void getSortFilter() {
+    public void getSortFilter(String categoryid) {
         linSortBy.setVisibility(View.GONE);
         linFilter.setVisibility(View.GONE);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-        Call<FilterItem> callApi = apiInterface.setFilter();
+        Call<FilterItem> callApi = apiInterface.setFilter(categoryid);
         callApi.enqueue(new Callback<FilterItem>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -712,6 +743,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                             filterSelectItems.remove(0);
                             filterSelectItems.remove(0);
                             filterSelectItems.remove(0);
+//                            filterSelectItems.remove(0);
                         }else {
                             filterSelectItems.addAll(response.body().getData());
                         }
@@ -727,6 +759,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                             filterSelectItems.remove(0);
                             filterSelectItems.remove(0);
                             filterSelectItems.remove(0);
+//                            filterSelectItems.remove(0);
                         }else {
                             filterSelectItems.clear();
                             filterSelectItems.addAll(response.body().getData());
@@ -786,10 +819,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 recycleViewListing.setAdapter(listingRecyclerAdapter);
                 if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                     AppLogger.e("sort by if", "-----------" + sort_by);
-                    getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                    getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
                 } else {
                     AppLogger.e("sort by else ", "-----------" + sort_by);
-                    getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                    getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
                 }
             }else {
 
@@ -807,10 +840,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             recycleViewListing.setAdapter(listingRecyclerAdapter);
             if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                 AppLogger.e("sort by if", "-----------" + sort_by);
-                getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
             } else {
                 AppLogger.e("sort by else ", "-----------" + sort_by);
-                getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
             }
         }
     }
@@ -847,6 +880,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             diamond_shape.setLength(0);
             sku.setLength(0);
             availability.setLength(0);
+            subcategory.setLength(0);
 //            sort_by.setLength(0);
 
             for (int i = 0; i < filterSelectItems.size(); i++) {
@@ -884,6 +918,13 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                     if(!skuFilterString.isEmpty()){
                         sku.append(skuFilterString);
                     }
+                } else if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("categories")){
+                    for(int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++){
+                        if(filterSelectItems.get(i).getOptionData().get(j).isSelected()){
+//                            subcategory.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
+                            subcategory.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append(",");
+                        }
+                    }
                 }
             }
 
@@ -905,6 +946,9 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             if (availability.length() != 0) {
                 availability.setLength(availability.length() - 1);
             }
+            if(subcategory.length() != 0){
+                subcategory.setLength(subcategory.length() - 1);
+            }
 //            if (sort_by.length() != 0) {
 //                sort_by.setLength(sort_by.length() - 1);
 //            }
@@ -925,11 +969,13 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
                 recycleViewListing.setAdapter(listingRecyclerAdapter);
                 if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-                    getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                    getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
                 } else {
-                    getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                    getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
                 }
                 AppLogger.e(" full string data", "--------" + price + gold_purity + diamond_quality + diamond_shape + sku + availability);
+            }else {
+                parentShimmerLayout.setVisibility(View.GONE);
             }
             /*
             for (Object key : mapFilter.keySet()) {
@@ -975,6 +1021,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             diamond_shape.setLength(0);
             sku.setLength(0);
             availability.setLength(0);
+            subcategory.setLength(0);
 //            sort_by.setLength(0);
             itemArrayList.clear();
             mapFilter.clear();
@@ -988,12 +1035,11 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //            }
 
             if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-                getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(),subcategory.toString());
             } else {
-                getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString());
+                getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(),subcategory.toString());
             }
         }
-
     }
 
 /*    private void searchProduct(String searchTerm, String page) {

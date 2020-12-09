@@ -15,7 +15,7 @@ public class TransactionItem {
     private Integer totalPaid;
     @SerializedName("totalRemaing")
     @Expose
-    private Integer totalRemaing;
+    private Double  totalRemaing;
     @SerializedName("data")
     @Expose
     private List<Datum> data = null;
@@ -36,11 +36,11 @@ public class TransactionItem {
         this.totalPaid = totalPaid;
     }
 
-    public Integer getTotalRemaing() {
+    public Double  getTotalRemaing() {
         return totalRemaing;
     }
 
-    public void setTotalRemaing(Integer totalRemaing) {
+    public void setTotalRemaing(Double  totalRemaing) {
         this.totalRemaing = totalRemaing;
     }
 

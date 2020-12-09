@@ -30,6 +30,7 @@
 <!--        android:scrollbars="none">-->
 
         <LinearLayout
+            android:id="@+id/detaillayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants"
@@ -386,12 +387,26 @@
 
     </LinearLayout>
 
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true">-->
+
+<!--        <com.dealermela.utility.DmlButton-->
+<!--            android:id="@+id/btnSoldOut"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/sold_out"-->
+<!--            android:visibility="gone"/>-->
+
+<!--    </LinearLayout>-->
+
     <com.dealermela.utility.DmlButton
         android:id="@+id/btnSoldOut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:text="@string/sold_out"
+        android:layout_alignParentBottom="true"
         android:visibility="gone"/>
 
 </RelativeLayout>

@@ -367,10 +367,10 @@
 
 <!--        </LinearLayout>-->
 
-        <View
-            style="@style/view_style_detail_page"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/one_sp_view" />
+<!--        <View-->
+<!--            style="@style/view_style_detail_page"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/one_sp_view" />-->
 
     </LinearLayout>
 

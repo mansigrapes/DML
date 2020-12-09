@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -44,6 +46,15 @@ public class SplashAct extends DealerMelaBaseActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         databaseCartAdapter = new DatabaseCartAdapter(SplashAct.this);
 //        throw new RuntimeException("Test Crash");   //testing for check crash reports
+
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+////                            handler.postDelayed(this,AppConstants.ADD_TIME_OUT);
+//                startNewActivity(MainActivity.class);
+//            }
+//        },   3000);
     }
 
     @Override

@@ -224,7 +224,7 @@ public class MyStockAct extends DealerMelaBaseActivity implements View.OnClickLi
         });
     }
 
-    public void getSortFilter() {
+ /*   public void getSortFilter() {
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<FilterItem> callApi = apiInterface.setFilter();
         callApi.enqueue(new Callback<FilterItem>() {
@@ -250,7 +250,7 @@ public class MyStockAct extends DealerMelaBaseActivity implements View.OnClickLi
             }
 
         });
-    }
+    } */
 
     public void sortValueGetAndDialogClose(String value) {
         AppLogger.e("value", "-----------" + value);

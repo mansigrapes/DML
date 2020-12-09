@@ -105,7 +105,6 @@
                 />
 <!--                android:text="INVENTORY"-->
 
-
         </LinearLayout>
 
         <View
@@ -114,61 +113,76 @@
             android:background="?transaction_line_color" />
 
         <LinearLayout
-            android:id="@+id/linCollection"
-            style="@style/linDrawer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:id="@+id/linCollection">
 
-            <com.dealermela.utility.DmlImageView
-                style="@style/imgDrawer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_collection_new" />
-
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvcollection"
-                style="@style/tvDrawer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawableEnd="@drawable/ic_arrow_right_black_24dp"
-                android:text="@string/our_collection"
-                />
-<!--            android:tint="?toolbarTextColor"-->
-        </LinearLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollViewCollection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:id="@+id/linContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-<!--                <ScrollView-->
-<!--                    android:id="@+id/scrollViewsubcategory"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:visibility="gone"></ScrollView>-->
 <!--            <LinearLayout-->
-<!--                android:id="@+id/linSubContainer"-->
+<!--                android:id="@+id/linCollection"-->
+<!--                style="@style/linDrawer"-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"/>-->
+<!--                android:orientation="horizontal">-->
 
-            </LinearLayout>
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:id="@+id/linCollection"-->
+<!--                    style="@style/linDrawer">-->
 
-        </androidx.core.widget.NestedScrollView>
+<!--                <com.dealermela.utility.DmlImageView-->
+<!--                    style="@style/imgDrawer"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/ic_collection_new" />-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/one_sp_view"
-            android:background="?transaction_line_color" />
+<!--                <com.dealermela.utility.DmlTextView-->
+<!--                    android:id="@+id/tvcollection"-->
+<!--                    style="@style/tvDrawer"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:drawableEnd="@drawable/ic_baseline_expand_more_24"-->
+<!--                    android:text="@string/our_collection" />-->
+<!--    &lt;!&ndash;            android:tint="?toolbarTextColor"&ndash;&gt;-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tvCollectionMainCategoryRecycleview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"></androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/tvCollectionMainCategoryRecycleview"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="@dimen/activity_horizontal_margin"-->
+<!--                android:visibility="gone">-->
+<!--            </androidx.recyclerview.widget.RecyclerView>-->
+
+<!--        </LinearLayout>-->
+
+<!--        <androidx.core.widget.NestedScrollView-->
+<!--            android:id="@+id/scrollViewCollection"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="gone">-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/linContainer"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical" >-->
+<!--            </LinearLayout>-->
+<!--        </androidx.core.widget.NestedScrollView>-->
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/one_sp_view"-->
+<!--            android:background="?transaction_line_color" />-->
 
 <!--        <LinearLayout-->
 <!--            android:id="@+id/linMyStock"-->

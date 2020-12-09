@@ -56,7 +56,7 @@
     <dimen name="thirty_dp">30dp</dimen>
     <dimen name="fifteen_dp">15dp</dimen>
     <dimen name="sixty_dp">60dp</dimen>
-    <dimen name="sort_by_filter_width">100dp</dimen>
+    <dimen name="sort_by_filter_width">110dp</dimen>
     <dimen name="five_dp">5dp</dimen>
 
     <dimen name="twenty_sp">20sp</dimen>

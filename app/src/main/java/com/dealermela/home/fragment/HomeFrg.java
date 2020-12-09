@@ -1,6 +1,8 @@
 package com.dealermela.home.fragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
@@ -8,10 +10,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,7 +23,9 @@ import android.widget.TextView;
 
 import com.dealermela.DealerMelaBaseFragment;
 import com.dealermela.R;
+import com.dealermela.authentication.myaccount.dialog.LoginDialog;
 import com.dealermela.home.activity.PopularProductAct;
+import com.dealermela.home.activity.ZoomOutPageTransformer;
 import com.dealermela.home.adapter.BestCategoryAdapter;
 import com.dealermela.home.adapter.HeaderMenuAdapter;
 import com.dealermela.home.adapter.HomePageSliderAdapter;
@@ -51,6 +57,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dealermela.home.activity.MainActivity.customerId;
 import static com.dealermela.util.AppConstants.RESPONSE;
 
 public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListener {
@@ -60,14 +67,17 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
     private PageIndicatorView pageIndicatorView;
     //Header arrayList
     private ImageView imgSingleBanner;
-    private FeatureCoverFlow coverFlow;
+//    private FeatureCoverFlow coverFlow;
     private static int count = 3;
     private Button btnViewAll;
-    private LinearLayout linBackGrad;
+    private LinearLayout linBackGrad,pager_container;
     private List<PopularProductItem.ProductImg> arrayListPopularProduct = new ArrayList<>();
+    private SharedPreferences sharedPreferences;
 
     //Popular product circle slider
 //    private FeatureCoverFlow coverFlowPopularProduct;
+    ViewPager pager;
+    public static int arraycount;
 
     public HomeFrg() {
         // Required empty public constructor
@@ -82,28 +92,92 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
         Type type = new TypeToken<List<PopularProductItem.ProductImg>>() {
         }.getType();
 
+//        ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+//        Call<PopularProductItem> callApi = apiInterface.getPopularProduct(customerId);
+//        callApi.enqueue(new Callback<PopularProductItem>() {
+//            @Override
+//            public void onResponse(@NonNull Call<PopularProductItem> call, @NonNull Response<PopularProductItem> response) {
+//                assert response.body() != null;
+//                Log.e(AppConstants.RESPONSE, "-----------------" + response.body());
+//                assert response.body() != null;
+//
+//                if (response.body() != null) {
+//                    if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+//                        arrayListPopularProduct = response.body().getProductImg();
+//
+//                        SharedPreferences sharedPreferences = new SharedPreferences(getActivity());
+//                        Gson gson = new Gson();
+//                        sharedPreferences.savePopularProducts(gson.toJson(arrayListPopularProduct));
+//                    }
+//                }else {
+//                    AppLogger.e("error", "------------" + response.body().toString());
+//                }
+//            }
+//            @Override
+//            public void onFailure(@NonNull Call<PopularProductItem> call, @NonNull Throwable t) {
+//                AppLogger.e("error", "------------" + t.getMessage());
+//            }
+//        });
+
         arrayListPopularProduct = gson.fromJson(sharedPreferences.getPopularProducts(), type);
+//
+//        if (!arrayListPopularProduct.isEmpty()) {
+//            coverFlow = rootView.findViewById(R.id.coverflow);
+//            PopularProductCoverFlowAdapter adapter = new PopularProductCoverFlowAdapter(getActivity(), arrayListPopularProduct);
+//            coverFlow.setAdapter(adapter);
+//
+//            coverFlow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
+//                @Override
+//                public void onScrolledToPosition(int position) {
+//                    //TODO CoverFlow stopped to position
+//                    coverFlow.clearCache();
+//                }
+//
+//                @Override
+//                public void onScrolling() {
+//                    //TODO CoverFlow began scrolling
+//                    coverFlow.computeScroll();
+//                }
+//            });
+//        }
 
-        if (!arrayListPopularProduct.isEmpty()) {
-            coverFlow = rootView.findViewById(R.id.coverflow);
-            PopularProductCoverFlowAdapter adapter = new PopularProductCoverFlowAdapter(getActivity(), arrayListPopularProduct);
-            coverFlow.setAdapter(adapter);
+        ///////////******************Another example**********************///////////////
+        pager_container = (LinearLayout) rootView.findViewById(R.id.pager_container);
+        pager = (ViewPager) rootView.findViewById(R.id.viewPager);
+//        mContainer.setViewPager(pager);
+//        PagerAdapter adapter = new MyPagerAdapter();
 
-            coverFlow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
-                @Override
-                public void onScrolledToPosition(int position) {
-                    //TODO CoverFlow stopped to position
-                    coverFlow.clearCache();
+        //    A little space between pages
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//        int pageMargin = ((metrics.widthPixels / 4) * 2);
+        int pageMargin = ((metrics.widthPixels / 3));  //This is main which perfect works
+        AppLogger.e("CheckPageMargin","ViewPagerActivity-----" + pageMargin);
+        pager.setPageMargin(-pageMargin);
 
-                }
+        int pagerdisplay = pager.getCurrentItem() + 1;  //set pager to 2nd value for displaying UI as coverflow bt this not works proper -- nothing happens through this code
 
-                @Override
-                public void onScrolling() {
-                    //TODO CoverFlow began scrolling
+        AppLogger.e("HomeFrg ViewPager Current Item ","------" + pagerdisplay);
+        arraycount = arrayListPopularProduct.size();
+        PopularProductCoverFlowAdapter adapter = new PopularProductCoverFlowAdapter(getActivity(),arrayListPopularProduct);
+//        adapter = new CrouselPagerAdapter(this, getSupportFragmentManager());
+        pager.setPageTransformer(true, new ZoomOutPageTransformer(true));
+        pager.setAdapter(adapter);
+        pager.setCurrentItem(pagerdisplay,true);
 
-                }
-            });
-        }
+        //Necessary or the pager will only have one extra page to show
+        // make this at least however many pages you can see
+//        pager.setOffscreenPageLimit(adapter.getCount());
+        pager.setOffscreenPageLimit(3);
+
+        //A little space between pages
+//***//        pager.setPageMargin((int) getResources().getDimension(R.dimen.dimen_20));
+        adapter.notifyDataSetChanged();
+
+        //If hardware acceleration is enabled, you should also remove
+        // clipping on the pager for its children.
+        pager.setClipChildren(false);
+
         return rootView;
     }
 
@@ -173,6 +247,15 @@ public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListe
     public void loadData() {
 //        showProgressDialog("Loading", getString(R.string.please_wait));
         AppLogger.e("loadData", "----------");
+        sharedPreferences = new SharedPreferences(getActivity());
+        if(sharedPreferences.getLoginData().isEmpty()) {
+            LoginDialog loginDialogClass = new LoginDialog(getActivity());
+            loginDialogClass.setCancelable(false);
+            loginDialogClass.show();
+            Objects.requireNonNull(loginDialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            Objects.requireNonNull(loginDialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        }
         addHeader();
         getBanner();
         getMostSellingProduct();

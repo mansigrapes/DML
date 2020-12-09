@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.NonNull;
 
+import com.dealermela.home.adapter.MainCategoryAdapter;
 import com.dealermela.home.model.SubcategoryItem;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -23,6 +26,10 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +38,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -46,7 +52,6 @@ import com.dealermela.download.activity.DownloadAct;
 import com.dealermela.home.fragment.HomeFrg;
 import com.dealermela.home.model.HeaderItem;
 import com.dealermela.listing_and_detail.activity.ListAct;
-import com.dealermela.my_stock.activity.MyStockAct;
 import com.dealermela.order.activity.OrderTabActivity;
 import com.dealermela.other.activity.ContactUsAct;
 import com.dealermela.other.activity.PolicyAct;
@@ -71,7 +76,9 @@ import com.luseen.spacenavigation.SpaceOnLongClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -92,7 +99,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
     public static String GroupId = "";
     private SharedPreferences sharedPreferences;
     private LoginResponse loginResponse;
-    private LinearLayout linContainer,linSubContainer;
+//    private LinearLayout linContainer,linSubContainer;
     private LinearLayout linInventory, linCollection, linOrders, linTransaction, linDownload, linPolicies, linCart, linFAQ, linContactUs, linLogout, linMyStock;
     private NestedScrollView scrollViewCollection;
     private boolean doubleBackToExitPressedOnce = false;
@@ -113,6 +120,9 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
     private boolean isOnce = true;
 
     private String currentVersion;
+    public static int displayversion = 0;
+
+    RecyclerView tvMainCategoryrecyclerview;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -315,13 +325,13 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         imgDot = headerLayout.findViewById(R.id.imgDot);
         ImageView imgArrow = headerLayout.findViewById(R.id.imgArrow);
         SimpleDraweeView imgUser = headerLayout.findViewById(R.id.imgUser);
-        linContainer = headerLayout.findViewById(R.id.linContainer);
-//        linSubContainer = headerLayout.findViewById(R.id.linSubContainer);
-        scrollViewCollection = headerLayout.findViewById(R.id.scrollViewCollection);
+//        linContainer = headerLayout.findViewById(R.id.linContainer);
+//        scrollViewCollection = headerLayout.findViewById(R.id.scrollViewCollection);
 
         linInventory = headerLayout.findViewById(R.id.linInventory);
         linCollection = headerLayout.findViewById(R.id.linCollection);
-        tvcollection = headerLayout.findViewById(R.id.tvcollection);
+//        tvcollection = headerLayout.findViewById(R.id.tvcollection);
+        tvMainCategoryrecyclerview = headerLayout.findViewById(R.id.tvCollectionMainCategoryRecycleview);
         linOrders = headerLayout.findViewById(R.id.linOrders);
         linTransaction = headerLayout.findViewById(R.id.linTransaction);
         linDownload = headerLayout.findViewById(R.id.linDownload);
@@ -404,12 +414,90 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
     @Override
     public void loadData() {
-        addHeader();
+//        addHeader();
 //        addSubCategory();
-        Checkversion();
+//        Checkversion();   //Check latest version of app in playstore through API use
+        if(displayversion == 0) {
+            GetVersionCode versioncode = new GetVersionCode();
+            versioncode.execute();
+        }
+        addSubCategory();
     }
 
-    private void Checkversion() {
+    private class GetVersionCode extends AsyncTask<Void, String, String> {
+        String newVersion = null;
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                newVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=" + MainActivity.this.getPackageName() + "&hl=it")
+                        .timeout(30000)
+                        .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+                        .referrer("http://www.google.com")
+                        .get()
+                        .select(".hAyfc .htlgb")
+                        .get(7)
+                        .ownText();
+                return newVersion;
+            } catch (IOException e) {
+                e.printStackTrace();
+                AppLogger.e("Error while catching playstore version ","---" + e.getMessage());
+                return newVersion;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String onlineVersion) {
+            super.onPostExecute(onlineVersion);
+            Log.d("update", "Current version " + currentVersion + "playstore version " + onlineVersion);
+            if(displayversion == 0){
+                displayversion = 1;
+            }
+
+            if (onlineVersion != null && !onlineVersion.isEmpty()) {
+//                if (Float.valueOf(currentVersion) < Float.valueOf(onlineVersion)) {
+                if (!currentVersion.equalsIgnoreCase(onlineVersion)) {
+                    //show dialog
+                    final AlertDialog.Builder builder;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                                    builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+//                                    builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog);
+                        builder = new AlertDialog.Builder(MainActivity.this, R.style.AppCompatAlertDialogStyle);
+                    } else {
+                        builder = new AlertDialog.Builder(MainActivity.this);
+                    }
+                    builder.setCancelable(false);
+                    builder.setTitle("Alert")
+//                            .setMessage("This apps latest update version available in play store, so please download it.")
+                            .setMessage("A new version of the application is available, please click below to update to the latest version.")
+                            .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete]
+
+                                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+//                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                    }
+                                }
+                            })
+                            .setNegativeButton("Remind me later", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                    dialog.dismiss();
+//                                    startNewActivity(MainActivity.class);
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+            }
+        }
+    }
+
+/*    private void Checkversion() {
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<JsonObject> callApi = apiInterface.getAppVersion();
         callApi.enqueue(new Callback<JsonObject>() {
@@ -498,7 +586,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 AppLogger.e("error", "------------" + t.getMessage());
             }
         });
-    }
+    }   */
 
     @Override
     public void onClick(View v) {
@@ -586,13 +674,24 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
             case R.id.linCollection:
 
-                if (scrollViewCollection.getVisibility() == View.VISIBLE) {
-                    scrollViewCollection.setVisibility(View.GONE);
-                    tvcollection.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_right_black_24dp, 0);
-                } else {
-                    scrollViewCollection.setVisibility(View.VISIBLE);
-                    tvcollection.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_expand_more_24, 0);
-                }
+//                if (scrollViewCollection.getVisibility() == View.VISIBLE) {
+//                    scrollViewCollection.setVisibility(View.GONE);
+//                    tvcollection.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_right_black_24dp, 0);
+//                } else {
+//                    scrollViewCollection.setVisibility(View.VISIBLE);
+//                    tvcollection.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_expand_more_24, 0);
+//                }
+
+//                if(tvMainCategoryrecyclerview.getVisibility() == View.VISIBLE){
+//                    tvMainCategoryrecyclerview.setVisibility(View.GONE);
+//                    tvcollection.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/montserrat_regular.ttf") , Typeface.NORMAL);
+//                    tvcollection.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_expand_more_24, 0);
+//                }else {
+//                    tvcollection.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/montserrat_bold.ttf") , Typeface.BOLD);
+//                    tvcollection.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_expand_less_24, 0);
+//                    addSubCategory();
+//                }
+
                 break;
 
             case R.id.linOrders:
@@ -682,12 +781,44 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         sharedPreferences.saveBillingAddress("");
 //        sharedPreferences.saveRemember("");
         customerId="";
-        this.startActivity(new Intent(this,LoginAct.class));
+//        this.startActivity(new Intent(this,LoginAct.class));
+        this.startActivity(new Intent(this, MainActivity.class));
 //        activity.finishAffinity();
     }
 
-    @SuppressLint("InflateParams")
-    private void inflateTextViews(int length, final List<HeaderItem.Datum> list) {
+    private void addSubCategory(){
+        ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+        Call<SubcategoryItem> callApi = apiInterface.getSubCategory();
+        callApi.enqueue(new Callback<SubcategoryItem>() {
+            @Override
+            public void onResponse(Call<SubcategoryItem> call, Response<SubcategoryItem> response) {
+                assert response.body() != null;
+                if(response.isSuccessful()) {
+//                    inflateTextViews(response.body().getData().size(), response.body().getData());
+
+//                    RecyclerView tvMainCategoryrecyclerview = findViewById(R.id.tvCollectionMainCategoryRecycleview);
+//                    tvMainCategoryrecyclerview.setVisibility(View.VISIBLE);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this,1);
+                    gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    tvMainCategoryrecyclerview.setLayoutManager(gridLayoutManager);
+
+                    MainCategoryAdapter maincategoryadapter = new MainCategoryAdapter(MainActivity.this,response.body().getData());
+                    tvMainCategoryrecyclerview.setAdapter(maincategoryadapter);
+
+//                    maincategoryadapter.notifyDataSetChanged();
+                }else {
+                    CommonUtils.showWarningToast(MainActivity.this,"Something went wrong! Please try later.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SubcategoryItem> call, Throwable t) {
+            }
+        });
+    }
+
+/*    @SuppressLint("InflateParams")
+      private void inflateTextViews(int length, final List<HeaderItem.Datum> list) {
         View textLayout;
         for (int i = 0; i < length; i++) {
             textLayout = getLayoutInflater().inflate(R.layout.drawer_our_collection_item, null);
@@ -707,61 +838,9 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
             });
             linContainer.addView(textLayout);
         }
-    }
+    } */
 
-//    @SuppressLint("InflateParams")
-//    private void inflateTextViews(int length, final List<SubcategoryItem.Datum> list) {
-//        View textLayout,subcategoryLayout;
-//        for (int i = 0; i < length; i++) {
-//            textLayout = getLayoutInflater().inflate(R.layout.drawer_our_collection_item, null);
-//            TextView tvCollectionItem = textLayout.findViewById(R.id.tvCollectionItem);
-//            tvCollectionItem.setText(list.get(i).getName());
-//            AppLogger.e("","----" + list.get(i).toString());
-//
-//            subcategoryLayout = getLayoutInflater().inflate(R.layout.drawer_collection_subcategory_item,null);
-//            final TextView tvCollectionSubCategoryItem = subcategoryLayout.findViewById(R.id.tvCollectionSubCategoryItem);
-//
-//            final int finalI = i;
-//            tvCollectionItem.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-////                    Intent intent = new Intent(MainActivity.this, ListAct.class);
-////                    intent.putExtra(AppConstants.ID, list.get(finalI).getId());
-////                    intent.putExtra(AppConstants.NAME, list.get(finalI).getName());
-////                    intent.putExtra(AppConstants.bannerListCheck, "");
-////                    startNewActivityWithIntent(intent);
-//                    for(int j = 0; j < list.get(finalI).getSubcategories().size(); j++){
-//                        AppLogger.e("MainSubcategory","---"+list.get(finalI).getSubcategories().get(j).getName());
-//                        tvCollectionSubCategoryItem.setText(list.get(finalI).getSubcategories().get(j).getName());
-//                    }
-//                }
-//            });
-//            linContainer.addView(textLayout);
-//            linSubContainer.addView(subcategoryLayout);
-//        }
-//    }
-
-//    private void addSubCategory(){
-//        ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-//        Call<SubcategoryItem> callApi = apiInterface.getSubCategory();
-//        callApi.enqueue(new Callback<SubcategoryItem>() {
-//            @Override
-//            public void onResponse(Call<SubcategoryItem> call, Response<SubcategoryItem> response) {
-//                assert response.body() != null;
-//                if(response.isSuccessful()) {
-//                    inflateTextViews(response.body().getData().size(), response.body().getData());
-//                }else {
-//                    CommonUtils.showWarningToast(MainActivity.this,"Something went wrong! Please try later.");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<SubcategoryItem> call, Throwable t) {
-//            }
-//        });
-//    }
-
-    private void addHeader() {
+/*    private void addHeader() {
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<HeaderItem> callApi = apiInterface.getHeader();
         callApi.enqueue(new Callback<HeaderItem>() {
@@ -778,7 +857,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 AppLogger.e("error", "------------" + t.getMessage());
             }
         });
-    }
+    } */
 
     @Override
     public void onBackPressed() {
@@ -801,6 +880,11 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                     doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
+
+            if(displayversion == 1){
+                displayversion = 0;
+            }
+            AppLogger.e("Flag Of Display version dialog at app close time:","----"+ displayversion);
         }
     }
 

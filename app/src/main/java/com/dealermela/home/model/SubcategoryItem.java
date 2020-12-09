@@ -38,12 +38,17 @@ public class SubcategoryItem {
         @SerializedName("name")
         @Expose
         private String name;
+        @SerializedName("icon")
+        @Expose
+        private String icon;
         @SerializedName("slug")
         @Expose
         private String slug;
         @SerializedName("subcategories")
         @Expose
         private List<Subcategory> subcategories = null;
+
+        private boolean isSelected = false;
 
         public Integer getId() {
             return id;
@@ -69,6 +74,14 @@ public class SubcategoryItem {
             this.slug = slug;
         }
 
+        public String getIcon() {
+            return icon;
+        }
+
+        public void setIcon(String icon) {
+            this.icon = icon;
+        }
+
         public List<Subcategory> getSubcategories() {
             return subcategories;
         }
@@ -76,6 +89,14 @@ public class SubcategoryItem {
         public void setSubcategories(List<Subcategory> subcategories) {
             this.subcategories = subcategories;
         }
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
+        }
+
     }
 
     public class Subcategory {

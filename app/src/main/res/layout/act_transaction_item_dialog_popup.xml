@@ -7,7 +7,7 @@
     android:layout_margin="@dimen/twenty_four_dp"
     >
 
-    <androidx.appcompat.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewTransactionItemPopop"
         android:layout_width="0dp"
         android:layout_height="0dp"

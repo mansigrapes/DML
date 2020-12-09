@@ -87,8 +87,7 @@
             android:id="@+id/tvtotalItem"
             style="@style/order_item_textView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
 <!--        <LinearLayout-->
 <!--            android:layout_width="wrap_content"-->

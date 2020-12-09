@@ -63,7 +63,7 @@ public class TransactionAct extends DealerMelaBaseActivity {
 
     @Override
     public void initView() {
-        bindToolBar("Transaction");
+        bindToolBar("Transactions");
         recycleViewTransaction = findViewById(R.id.recycleViewTransaction);
         progressBarBottom = findViewById(R.id.progressBarBottom);
         progressBarCenter = findViewById(R.id.progressBarCenter);

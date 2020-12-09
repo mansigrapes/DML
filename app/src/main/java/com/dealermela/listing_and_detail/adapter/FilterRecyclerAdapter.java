@@ -86,6 +86,7 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
 //                FilterTitleListAdapter.tvinvcount.setText(String.valueOf(filterSelectItems.get(filterCurrentPosition).getFiltercount()));
 //                filterSelectItems.get(filterCurrentPosition).getOptionData().get(getAdapterPosition()).setSelected(false);
             }
+            notifyItemChanged(getAdapterPosition());
             ((FilterAct) activity).countFilter();
 
 //            if(filterSelectItems.get(filterCurrentPosition).getFiltercount() == 0){

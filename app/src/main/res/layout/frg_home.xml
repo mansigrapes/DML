@@ -112,7 +112,6 @@
                     android:src="@drawable/ic_titledesignline"
                     tools:ignore="ContentDescription" />
 
-
                 <com.dealermela.utility.DmlTextViewBold
                     android:id="@+id/txt_popular_product"
                     android:layout_width="wrap_content"
@@ -129,26 +128,49 @@
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="@dimen/eight_sp">-->
+
+<!--                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow-->
+<!--                    android:id="@+id/coverflow"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="-20dp"-->
+<!--                    coverflow:coverHeight="100dp"-->
+<!--                    coverflow:coverWidth="100dp"-->
+<!--                    coverflow:spacing="0.6"-->
+<!--                    coverflow:maxScaleFactor="1.5"-->
+<!--                    coverflow:scalingThreshold="0.5"-->
+<!--                    coverflow:reflectionOpacity = "0"/>-->
+
+<!--&lt;!&ndash;                coverflow:maxScaleFactor="1.5"&ndash;&gt;-->
+<!--&lt;!&ndash;                coverflow:reflectionGap="0px"&ndash;&gt;-->
+<!--&lt;!&ndash;                coverflow:rotationThreshold="0.9"&ndash;&gt;-->
+<!--&lt;!&ndash;                coverflow:scalingThreshold="0.5"&ndash;&gt;-->
+<!--&lt;!&ndash;                coverflow:spacing="0.6"&ndash;&gt;-->
+<!--&lt;!&ndash; remove the shadow effect from this code : coverflow:reflectionOpacity = "0"&ndash;&gt;-->
+<!--            </LinearLayout>-->
+
+        <LinearLayout
+                android:id="@+id/pager_container"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/eight_sp">
+                android:layout_centerVertical="true"
+                android:clipChildren="false"
+                android:orientation="horizontal">
 
-                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
-                    android:id="@+id/coverflow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-20dp"
-                    coverflow:coverHeight="90dp"
-                    coverflow:coverWidth="90dp"
-                    coverflow:maxScaleFactor="1.5"
-                    coverflow:reflectionGap="0px"
-                    coverflow:rotationThreshold="0.9"
-                    coverflow:scalingThreshold="0.5"
-                    coverflow:spacing="0.6" />
-
-<!-- remove the shadow effect from this code : coverflow:reflectionOpacity = "0"-->
-            </LinearLayout>
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
+                    android:clipChildren="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="190dp"
+                    android:layout_gravity="center"
+                    android:overScrollMode="never"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp" />
+        </LinearLayout>
 
             <com.dealermela.utility.DmlButtonBold
                 android:id="@+id/btnViewAll"

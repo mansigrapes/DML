@@ -313,8 +313,9 @@ public interface ApiInterface {
                                          @Field("diamond_shape") String diamond_shape,
                                          @Field("sku") String sku,
                                          @Field("availability") String availability,
-                                         @Field("sort_by") String sort_by);
-
+                                         @Field("sort_by") String sort_by,
+                                         @Field("subcategories") String subcategories,
+                                         @Field("subcategory_id") String subcategory_id);
 
     //Detail Page                             /**/
     @FormUrlEncoded
@@ -437,8 +438,11 @@ public interface ApiInterface {
     Call<SelectPaymentItem> getSelectPayment(@Field("customer_id") String customerId);
 
     //                            /**/
-    @GET("dmlapi/product/getreadytoshipfilteroption")
-    Call<FilterItem> setFilter();
+//    @GET("dmlapi/product/getreadytoshipfilteroption")
+//    Call<FilterItem> setFilter();
+    @FormUrlEncoded
+    @POST("dmlapi/product/getreadytoshipfilteroptionwithcategory")
+    Call<FilterItem> setFilter(@Field("category_id") String categoryid);
 
     // Inventory  Filter
     @GET("dmlapi/product/getreadytoshipfilteroption")

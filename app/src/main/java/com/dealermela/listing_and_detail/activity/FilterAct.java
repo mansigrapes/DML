@@ -56,7 +56,7 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     private int pos = 0;
     public static int filterCurrentPosition = 0;
     private ArrayList<FilterItem.OptionDatum> selectFilterArray = new ArrayList<>();
-    private String categoryId;
+    private String categoryId,Subcategoryid;
 
     @Override
     protected int getLayoutResourceId() {
@@ -68,6 +68,12 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         Gson gson = new Gson();
         Intent intent = getIntent();
         categoryId = getIntent().getStringExtra(AppConstants.NAME);
+        if(getIntent().getStringExtra(AppConstants.SubCategory_ID) != null) {
+            Subcategoryid = getIntent().getStringExtra(AppConstants.SubCategory_ID);
+        }else {
+            Subcategoryid = " ";
+        }
+
         AppLogger.e("CategoryId ","FilterAct---" + categoryId);
         Type listType = new TypeToken<List<FilterItem.Datum>>() {
         }.getType();
@@ -124,7 +130,7 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 adapter.selectedPosition = position;
                 filterCurrentPosition = position;
-                AppLogger.e("listViewFilter--Item Click--filterCurrentPosition","---"+filterCurrentPosition);
+                AppLogger.e("listViewFilter--Item Click--filterCurrentPosition","---" + filterCurrentPosition);
                 adapter.notifyDataSetChanged();
 
                 if (adapter.items.get(position).getOption_type().equalsIgnoreCase("text")) {
@@ -203,7 +209,16 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                     if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)){
                         adapter.items.get(0).setFiltercount(0);
                     }else {
-                        adapter.items.get(4).setFiltercount(0);
+//                        adapter.items.get(4).setFiltercount(0);
+                        if(Subcategoryid.isEmpty()) {
+                            if(categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)){
+                                adapter.items.get(4).setFiltercount(0);
+                            }else {
+                                adapter.items.get(5).setFiltercount(0);
+                            }
+                        }else {
+                            adapter.items.get(4).setFiltercount(0);
+                        }
                     }
 //                    adapter.items.get(4).setFiltercount(0);
 
@@ -224,7 +239,17 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                     if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
                         adapter.items.get(0).setFiltercount(1);
                     }else {
-                        adapter.items.get(4).setFiltercount(1);
+//                        adapter.items.get(4).setFiltercount(1);
+                        if(Subcategoryid.isEmpty()) {
+//                            adapter.items.get(5).setFiltercount(1);
+                            if(categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)){
+                                adapter.items.get(4).setFiltercount(1);
+                            }else {
+                                adapter.items.get(5).setFiltercount(1);
+                            }
+                        }else {
+                            adapter.items.get(4).setFiltercount(1);
+                        }
                     }
 //                    adapter.items.get(4).setFiltercount(1);
                     btnApply.setEnabled(true);
@@ -272,13 +297,23 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
 //        listViewFilter.setAdapter(adapter);
         tvReset.setEnabled(true);
 
-
         if(filterFlag == 0) {
             skuFilterString = "";
             if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)){       //apply this condition bcz in this category we have only SKU filter no other filter's are available
                 adapter.items.get(0).setFiltercount(0);
             }else {
-                adapter.items.get(4).setFiltercount(0);
+//                adapter.items.get(4).setFiltercount(0);
+//                adapter.items.get(5).setFiltercount(0);
+                if(Subcategoryid.isEmpty()) {
+//                    adapter.items.get(5).setFiltercount(0);
+                    if(categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)){
+                        adapter.items.get(4).setFiltercount(0);
+                    }else {
+                        adapter.items.get(5).setFiltercount(0);
+                    }
+                }else {
+                    adapter.items.get(4).setFiltercount(0);
+                }
             }
 //            adapter.items.get(4).setFiltercount(0);
             btnApply.setEnabled(false);
@@ -290,7 +325,18 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)){
                     adapter.items.get(0).setFiltercount(1);
                 }else {
-                    adapter.items.get(4).setFiltercount(1);
+//                    adapter.items.get(4).setFiltercount(1);
+//                    adapter.items.get(5).setFiltercount(1);
+                    if(Subcategoryid.isEmpty()) {
+//                        adapter.items.get(5).setFiltercount(1);
+                        if(categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)){
+                            adapter.items.get(4).setFiltercount(1);
+                        }else {
+                            adapter.items.get(5).setFiltercount(1);
+                        }
+                    }else {
+                        adapter.items.get(4).setFiltercount(1);
+                    }
                 }
 //                adapter.items.get(4).setFiltercount(1);
             }
@@ -332,7 +378,18 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)){
                     adapter.items.get(0).setFiltercount(0);
                 }else {
-                    adapter.items.get(4).setFiltercount(0);
+//                    adapter.items.get(4).setFiltercount(0);
+//                    adapter.items.get(5).setFiltercount(0);
+                    if(Subcategoryid.isEmpty()) {
+//                        adapter.items.get(5).setFiltercount(0);
+                        if(categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)){
+                            adapter.items.get(4).setFiltercount(0);
+                        }else {
+                            adapter.items.get(5).setFiltercount(0);
+                        }
+                    }else {
+                        adapter.items.get(4).setFiltercount(0);
+                    }
                 }
 //                adapter.items.get(4).setFiltercount(0);
 
@@ -363,7 +420,18 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                     if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)){
                         adapter.items.get(0).setFiltercount(0);
                     }else {
-                        adapter.items.get(4).setFiltercount(0);
+//                        adapter.items.get(4).setFiltercount(0);
+//                        adapter.items.get(5).setFiltercount(0);
+                        if(Subcategoryid.isEmpty()) {
+//                            adapter.items.get(5).setFiltercount(0);
+                            if(categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)){
+                                adapter.items.get(4).setFiltercount(0);
+                            }else {
+                                adapter.items.get(5).setFiltercount(0);
+                            }
+                        }else {
+                            adapter.items.get(4).setFiltercount(0);
+                        }
                     }
 //                    adapter.items.get(4).setFiltercount(0);
                 }else if(filterFlag == 1){
@@ -429,6 +497,10 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {
                     filterSelectItems.get(i).getOptionData().get(j).setSelected(false);
                 }
+            }  else if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("categories")){
+                for(int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++){
+                    filterSelectItems.get(i).getOptionData().get(j).setSelected(false);
+                }
             }
         }
     }
@@ -446,7 +518,18 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
             if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)){
                 adapter.items.get(0).setFiltercount(0);
             }else {
-                adapter.items.get(4).setFiltercount(0);
+//                adapter.items.get(4).setFiltercount(0);
+//                adapter.items.get(5).setFiltercount(0);
+                if(Subcategoryid.isEmpty()) {
+//                    adapter.items.get(5).setFiltercount(0);
+                    if(categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)){
+                        adapter.items.get(4).setFiltercount(0);
+                    }else {
+                        adapter.items.get(5).setFiltercount(0);
+                    }
+                }else {
+                    adapter.items.get(4).setFiltercount(0);
+                }
             }
 //            adapter.items.get(4).setFiltercount(0);
         }else if(filterFlag == 1){
@@ -478,7 +561,18 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)){
                     adapter.items.get(0).setFiltercount(1);
                 }else {
-                    adapter.items.get(4).setFiltercount(1);
+//                    adapter.items.get(4).setFiltercount(1);
+//                    adapter.items.get(5).setFiltercount(1);
+                    if(Subcategoryid.isEmpty()) {
+//                        adapter.items.get(5).setFiltercount(1);
+                        if(categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)){
+                            adapter.items.get(4).setFiltercount(1);
+                        }else {
+                            adapter.items.get(5).setFiltercount(1);
+                        }
+                    }else {
+                        adapter.items.get(4).setFiltercount(1);
+                    }
                 }
 //                adapter.items.get(4).setFiltercount(1);
             }
@@ -624,6 +718,14 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
 //                }else{
 //
 //                }
+            } else if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("categories")){
+                for(int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++){
+                    if(filterSelectItems.get(i).getOptionData().get(j).isSelected()) {
+                        selectFilterArray.add(filterSelectItems.get(i).getOptionData().get(j));
+                    }
+                }
+                filterSelectItems.get(i).setFiltercount(selectFilterArray.size());
+                selectFilterArray.clear();
             }
         }
     }
@@ -631,7 +733,7 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     public void updateFilterData(int position, boolean selectFlag) {
         AppLogger.e("listViewFilter--Item Click--filterCurrentPosition","---" + filterCurrentPosition);
 //        filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).setSelected(selectFlag);
-        AppLogger.e("Check selected or not","---"+ filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).isSelected());
+//        AppLogger.e("Check selected or not","---"+ filterSelectItems.get(filterCurrentPosition).getOptionData().get(position).isSelected());
         countFilter();
 //        FilterTitleListAdapter.tvinvcount.setVisibility(View.VISIBLE);
 //        FilterTitleListAdapter.tvinvcount.setText(String.valueOf(filterSelectItems.get(filterCurrentPosition).getFiltercount()));

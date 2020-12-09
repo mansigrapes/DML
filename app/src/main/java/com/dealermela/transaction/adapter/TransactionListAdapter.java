@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.dealermela.R;
 import com.dealermela.transaction.model.TransactionItem;
+import com.dealermela.util.AppConstants;
 import com.dealermela.util.CommonUtils;
 
 import java.util.List;
@@ -52,10 +53,10 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         holder.tvOrderId.setText(itemArrayList.get(i).getOrderId());
         holder.tvCrDr.setText(itemArrayList.get(i).getCrDr());
         if(String.valueOf(itemArrayList.get(i).getAmount())=="null"){
-            holder.tvAmount.setText("\u20B9 " + 0);
+            holder.tvAmount.setText(AppConstants.RS  + 0);
         }else
         {
-            holder.tvAmount.setText("\u20B9 " + CommonUtils.rupeeFormat(String.valueOf(itemArrayList.get(i).getAmount())));
+            holder.tvAmount.setText(AppConstants.RS + CommonUtils.rupeeFormat(String.valueOf(itemArrayList.get(i).getAmount())));
         }
     }
 
@@ -105,7 +106,6 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
                     }
                 });
 
-
                 Objects.requireNonNull(dialog.getWindow()).setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
@@ -119,12 +119,5 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         public boolean onLongClick(View v) {
             return false;
         }
-
-
     }
-
-
-
-
-
 }
