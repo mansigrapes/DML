@@ -125,7 +125,6 @@ public class FullProductDetailImageAct extends DealerMelaBaseActivity {
         }
     }
 
-
     //horizontal slide image click
     private View.OnClickListener onChagePageClickListener(final int i) {
         return new View.OnClickListener() {

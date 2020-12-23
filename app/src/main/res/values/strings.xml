@@ -144,6 +144,8 @@
     <string name="qty_26">QTY 26</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="buy_now">Buy Now</string>
+    <string name="customize">CUSTOMIZE THIS PRODUCT</string>
+    <string name="more_detail">VIEW MORE DETAILS</string>
     <string name="colon">:</string>
     <string name="chat">Chat</string>
     <string name="share">Share</string>
@@ -160,8 +162,8 @@
     <string name="customise_your_jewellery">Customize your jewellery</string>
     <string name="create_your_own_customised_jwellery">Create your own customized jewellery</string>
     <string name="ring_size">Ring Size</string>
-    <string name="diamond">Diamond</string>
-    <string name="carat">Carat</string>
+    <string name="diamond">Stone Quality</string>
+    <string name="carat">Metal Quality</string>
     <string name="remove">Remove</string>
     <string name="quantity">Quantity</string>
     <string name="my_cart">My Cart</string>
@@ -197,7 +199,7 @@
     <string name="certified_by">CERTIFIED BY</string>
     <string name="metal_without_colon">Metal</string>
     <string name="bangle_size">Bangle Size</string>
-    <string name="length">Length</string>
+    <string name="length">Bracelet Size</string>
 
     <string name="no_product_title">No Data Available</string>
     <string name="no_product_title_desc"><![CDATA[There are no products matching the selection.]]></string>
@@ -243,7 +245,6 @@
     <string name="place_order">Place Order</string>
     <string name="my_stock">MY STOCK</string>
     <string name="add_new_address">Add New Address</string>
-
 
     <!--payment-->
     <string name="access_code">Access Code</string>

@@ -1,71 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linRts"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/ten_rts_border"
     android:orientation="vertical"
     android:layout_marginStart="@dimen/eight_margin_padding"
-    android:padding="@dimen/rts_item_padding"
-    >
+    android:background="@drawable/ten_rts_border">
+<!--    android:background="@drawable/ten_rts_border"
+  android:padding="@dimen/rts_item_padding" -->
 
-    <com.dealermela.utility.DmlTextView
-        android:id="@+id/tvMetalTitle"
-        style="@style/rts_item_header"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/metal" />
+        android:orientation="vertical"
+        android:id="@+id/linRts"
+        android:paddingLeft="@dimen/rts_item_padding"
+        android:paddingTop="@dimen/rts_item_padding"
+        android:paddingRight="@dimen/rts_item_padding">
 
-    <com.dealermela.utility.DmlTextViewBold
-        android:id="@+id/tvMetal"
-        style="@style/rts_item_sub_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvMetalTitle"
+            style="@style/rts_item_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/metal" />
 
-    <com.dealermela.utility.DmlTextView
-        android:id="@+id/tvStoneTitle"
-        style="@style/rts_item_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten_padding_margin"
-        android:text="@string/stone" />
+        <com.dealermela.utility.DmlTextViewBold
+            android:id="@+id/tvMetal"
+            style="@style/rts_item_sub_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
 
-    <com.dealermela.utility.DmlTextViewBold
-        android:id="@+id/tvStone"
-        style="@style/rts_item_sub_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp" />
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvStoneTitle"
+            style="@style/rts_item_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_padding_margin"
+            android:text="@string/stone" />
 
-    <com.dealermela.utility.DmlTextView
-        android:id="@+id/tvDiamondWeightTitle"
-        style="@style/rts_item_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten_padding_margin"
-        android:text="@string/diamond_weight" />
+        <com.dealermela.utility.DmlTextViewBold
+            android:id="@+id/tvStone"
+            style="@style/rts_item_sub_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp" />
 
-    <com.dealermela.utility.DmlTextViewBold
-        android:id="@+id/tvDiamondWeight"
-        style="@style/rts_item_sub_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-         />
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvDiamondWeightTitle"
+            style="@style/rts_item_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_padding_margin"
+            android:text="@string/diamond_weight" />
 
-    <com.dealermela.utility.DmlTextView
-        android:id="@+id/tvSizeTitle"
-        style="@style/rts_item_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten_padding_margin"
-        android:text="@string/size" />
+        <com.dealermela.utility.DmlTextViewBold
+            android:id="@+id/tvDiamondWeight"
+            style="@style/rts_item_sub_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             />
 
-    <com.dealermela.utility.DmlTextViewBold
-        android:id="@+id/tvSize"
-        style="@style/rts_item_sub_header"
-        android:layout_width="wrap_content"
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvSizeTitle"
+            style="@style/rts_item_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_padding_margin"
+            android:text="@string/size" />
+
+        <com.dealermela.utility.DmlTextViewBold
+            android:id="@+id/tvSize"
+            style="@style/rts_item_sub_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-         />
+        android:clickable="true"
+        android:id="@+id/btnInfo"
+        android:gravity="end">
+
+        <com.dealermela.utility.DmlImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/five_sp"
+            android:layout_marginRight="@dimen/ten_sp"
+            android:layout_marginBottom="@dimen/eight_sp"
+            android:clickable="true"
+            android:src="@drawable/ic_outline_info_24" />
+    </LinearLayout>
+    <!--    <Button-->
+    <!--        android:id="@+id/btnInfo"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginRight="@dimen/ten_sp"-->
+    <!--        android:background="@drawable/more_detail_border"-->
+    <!--        android:text="Info"-->
+    <!--        android:layout_gravity="end"-->
+    <!--        android:layout_marginTop="@dimen/eight_sp"-->
+    <!--        android:layout_marginBottom="@dimen/eight_sp"/>-->
 
 </LinearLayout>

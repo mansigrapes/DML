@@ -98,7 +98,7 @@ public class CaratAdapter extends RecyclerView.Adapter<CaratAdapter.ViewHolder> 
                 metalValue="Yellow Gold";
                 ((ProductDetailAct) activity).refreshAdapter();
             }
-            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()),"carat");
+//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()),"carat");
             notifyDataSetChanged();
         }
 

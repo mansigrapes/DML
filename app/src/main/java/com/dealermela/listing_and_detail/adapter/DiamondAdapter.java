@@ -17,6 +17,7 @@ import com.dealermela.util.ThemePreferences;
 
 import java.util.List;
 
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.btnapply;
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.diamondValue;
 
 public class DiamondAdapter extends RecyclerView.Adapter<DiamondAdapter.ViewHolder> {
@@ -75,7 +76,8 @@ public class DiamondAdapter extends RecyclerView.Adapter<DiamondAdapter.ViewHold
                 holder.tvName.setTextColor(activity.getResources().getColor(R.color.black));
             }
         }
-
+        AppLogger.e("stoneOptionId","------------"+ stoneOptionId);
+        AppLogger.e("stoneOptionTypeId","------------"+ stoneOptionTypeId);
     }
 
     @Override
@@ -94,6 +96,20 @@ public class DiamondAdapter extends RecyclerView.Adapter<DiamondAdapter.ViewHold
             linDiamond = itemView.findViewById(R.id.linDiamond);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+
+//            btnapply.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(!diamondValue.equalsIgnoreCase(itemArrayList.get(getAdapterPosition()).getTitle())) {
+//                        diamondValue = itemArrayList.get(getAdapterPosition()).getTitle();
+//                        stoneOptionId = itemArrayList.get(getAdapterPosition()).getOptionId();
+//                        stoneOptionTypeId = itemArrayList.get(getAdapterPosition()).getOptionTypeId();
+//                        ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getTitle(), "");
+//                        AppLogger.e("stoneOptionId", "------------" + stoneOptionId);
+//                        AppLogger.e("stoneOptionTypeId", "------------" + stoneOptionTypeId);
+//                    }
+//                }
+//            });
         }
 
         @Override
@@ -101,14 +117,13 @@ public class DiamondAdapter extends RecyclerView.Adapter<DiamondAdapter.ViewHold
 //            Toast.makeText(activity, "on Click" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
             linDiamond.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select));
             diamondValue=itemArrayList.get(getAdapterPosition()).getTitle();
-
             stoneOptionId=itemArrayList.get(getAdapterPosition()).getOptionId();
             stoneOptionTypeId=itemArrayList.get(getAdapterPosition()).getOptionTypeId();
 
-            AppLogger.e("stoneOptionId","------------"+stoneOptionId);
-            AppLogger.e("stoneOptionTypeId","------------"+stoneOptionTypeId);
-            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getTitle(),"");
-            notifyDataSetChanged();
+            AppLogger.e("stoneOptionId","------------"+ stoneOptionId);
+            AppLogger.e("stoneOptionTypeId","------------"+ stoneOptionTypeId);
+//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getTitle(),"");
+//            notifyDataSetChanged();
         }
 
         @Override

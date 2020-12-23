@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +20,8 @@ import com.dealermela.util.AppLogger;
 import com.dealermela.util.ThemePreferences;
 
 import java.util.List;
+
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.mBottomDialog_detail;
 
 public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.ViewHolder> {
 
@@ -201,6 +205,8 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
         final TextView tvSize;
         final TextView tvSizeTitle;
         final LinearLayout linRts;
+//        final Button btnInfo;
+        final LinearLayout btnInfo;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -213,8 +219,17 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
             tvSize = itemView.findViewById(R.id.tvSize);
             tvSizeTitle = itemView.findViewById(R.id.tvSizeTitle);
             linRts = itemView.findViewById(R.id.linRts);
+            btnInfo = itemView.findViewById(R.id.btnInfo);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+
+            btnInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AppLogger.e("More Detail button click which display in recyclerview ","-----");
+                    mBottomDialog_detail.show();
+                }
+            });
         }
 
         @Override

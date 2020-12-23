@@ -129,7 +129,7 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
             pendentProId=itemArrayList.get(getAdapterPosition()).getProductId();
             TypeValue=itemArrayList.get(getAdapterPosition()).getValue();
             ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(getAdapterPosition()).getLabel();
-            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");
+//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");
             notifyDataSetChanged();
         }
 

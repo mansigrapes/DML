@@ -112,7 +112,7 @@ public class BraceletsAdapter extends RecyclerView.Adapter<BraceletsAdapter.View
             }
             braceletProductId=itemArrayList.get(getAdapterPosition()).getProductId();
             ((ProductDetailAct) activity).cBracelet=itemArrayList.get(getAdapterPosition()).getLabel();
-            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");
+//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");
             notifyDataSetChanged();
         }
 

@@ -88,13 +88,7 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
             }
             notifyItemChanged(getAdapterPosition());
             ((FilterAct) activity).countFilter();
-
-//            if(filterSelectItems.get(filterCurrentPosition).getFiltercount() == 0){
-//                FilterTitleListAdapter.tvinvcount.setVisibility(View.GONE);
-//            }else {
-//                FilterTitleListAdapter.tvinvcount.setVisibility(View.VISIBLE);
-//                FilterTitleListAdapter.tvinvcount.setText(String.valueOf(filterSelectItems.get(filterCurrentPosition).getFiltercount()));
-//            }
+//            ((FilterTitleListAdapter) activity).updatecount();
 
 //            ((FilterAct) activity).bindSelectFilter();
         }

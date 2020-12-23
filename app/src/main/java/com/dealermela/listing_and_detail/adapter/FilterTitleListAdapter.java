@@ -98,16 +98,19 @@ public class FilterTitleListAdapter extends BaseAdapter {
                 relArrow.setVisibility(View.INVISIBLE);
 //                imgIcon.setColorFilter(context.getResources().getColor(R.color.black), PorterDuff.Mode.SRC_IN);
             }
-
         }
 
-//        //Comment on 06/10/2020 for checking count refreshed at a time of select/deselect recyclelist
+//        public void updatecount(){
+//        }
+
+   //Comment on 06/10/2020 for checking count refreshed at a time of select/deselect recyclelist
         if (items.get(position).getFiltercount() == 0) {
-                tvinvcount.setVisibility(View.GONE);
+            tvinvcount.setVisibility(View.GONE);
         } else {
             tvinvcount.setVisibility(View.VISIBLE);
             tvinvcount.setText(String.valueOf(items.get(position).getFiltercount()));
         }
+//            notifyDataSetChanged();
 
         return convertView;
     }

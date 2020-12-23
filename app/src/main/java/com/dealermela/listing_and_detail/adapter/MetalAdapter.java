@@ -85,7 +85,6 @@ public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-
         return itemArrayList.size();
     }
 
@@ -108,7 +107,7 @@ public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> 
         public void onClick(View v) {
             linMetal.setBackground(activity.getResources().getDrawable(R.drawable.ten_size_logo_color_round_border));
             metalValue = itemArrayList.get(getAdapterPosition());
-            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()), "");
+//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()), "");
             notifyDataSetChanged();
         }
 

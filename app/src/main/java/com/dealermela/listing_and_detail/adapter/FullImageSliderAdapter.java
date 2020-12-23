@@ -63,5 +63,4 @@ public class FullImageSliderAdapter extends androidx.viewpager.widget.PagerAdapt
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((RelativeLayout) object);
     }
-
 }

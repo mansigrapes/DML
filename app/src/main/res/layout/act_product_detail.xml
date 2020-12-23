@@ -94,9 +94,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_padding_margin"
-                android:background="?login_signup_text_color"
-                android:visibility="gone">
+                android:background="?login_signup_text_color">
 <!--                android:visibility="gone"-->
+
                 <com.dealermela.utility.DmlImageView
                     android:id="@+id/imgPrevious"
                     android:layout_width="wrap_content"
@@ -121,8 +121,34 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0"
-                    />
+                    app:layout_constraintVertical_bias="1.0">
+                </androidx.recyclerview.widget.RecyclerView>
+
+<!--                <com.dealermela.utility.DmlButton-->
+<!--                    android:id="@+id/btnInfo"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="@dimen/twelve_sp"-->
+<!--                    android:background="@drawable/ten_rts_border"-->
+<!--                    android:text="Info"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="@+id/recycleViewReadyToShip"-->
+<!--                    app:layout_constraintHorizontal_bias="1.0"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/recycleViewReadyToShip"-->
+<!--                    app:layout_constraintVertical_bias="1.0" />-->
+
+<!--                <com.dealermela.utility.DmlImageView-->
+<!--                    android:id="@+id/btninfo"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="?login_signup_text_color"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintVertical_bias="1.0"-->
+<!--                    app:layout_constraintHorizontal_bias="1.0"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/recycleViewReadyToShip"-->
+<!--                    android:src="@drawable/ic_outline_info_24"/>-->
 
                 <com.dealermela.utility.DmlImageView
                     android:id="@+id/imgNext"
@@ -134,17 +160,45 @@
                     android:layout_marginEnd="@dimen/eight_margin_padding"
                     android:layout_marginBottom="@dimen/eight_margin_padding"
                     android:src="@drawable/round_arrow_ic_back"
-                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <include
-                android:id="@+id/includeCustomise"
-                layout="@layout/act_product_detail_include_customise"
-                />
+            <LinearLayout
+                android:id="@+id/layout_customize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/ten_padding_margin"
+                android:orientation="horizontal">
+
+                <com.dealermela.utility.DmlButton
+                    android:id="@+id/btncustomize"
+                    style="@style/btncustomize"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/customize"
+                    android:layout_marginRight="@dimen/twelve_sp"
+                    android:layout_marginLeft="@dimen/ten_padding_margin" />
+
+<!--                <com.dealermela.utility.DmlButton-->
+<!--                    android:id="@+id/btnProductDetail"-->
+<!--                    style="@style/btncustomize"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="@string/more_detail"-->
+<!--                    android:layout_marginRight="@dimen/twelve_sp" />-->
+
+            </LinearLayout>
+
+<!--            <include-->
+<!--                android:id="@+id/includeCustomise"-->
+<!--                layout="@layout/act_product_detail_include_customise" />-->
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -166,7 +220,7 @@
                         app:cardBackgroundColor="?transaction_round_back"
                         app:cardCornerRadius="@dimen/ten_sp"
                         app:cardElevation="0dp">
-                        <!--                    android:layout_width="@dimen/one_three_five_dp"-->
+<!--                    android:layout_width="@dimen/one_three_five_dp"-->
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -241,8 +295,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/two_dp"
-                                android:textColor="?toolbarTextColor"
-                                />
+                                android:textColor="?toolbarTextColor" />
 
                         </LinearLayout>
 
@@ -313,7 +366,8 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/ten_padding_margin"
                     android:textColor="?toolbarTextColor"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:layout_marginBottom="@dimen/ten_padding_margin"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -322,11 +376,11 @@
 
             </LinearLayout>
 
-            <include
-                android:id="@+id/includeProductDetail"
-                layout="@layout/act_product_detail_include_price_detail" />
+<!--            <include-->
+<!--                android:id="@+id/includeProductDetail"-->
+<!--                layout="@layout/act_product_detail_include_price_detail" />-->
 
-<!--            <include layout="@layout/include_common_lifetime_exchange_promotional" />-->
+<!--     <include layout="@layout/include_common_lifetime_exchange_promotional" />-->
 
         </LinearLayout>
 
@@ -362,6 +416,22 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linsoldout"
+        android:visibility="gone">
+
+        <com.dealermela.utility.DmlButton
+            android:id="@+id/btnSoldOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sold_out"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/linProgress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -387,26 +457,15 @@
 
     </LinearLayout>
 
-<!--    <LinearLayout-->
+
+
+<!--    <com.dealermela.utility.DmlButton-->
+<!--        android:id="@+id/btnSoldOut"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentBottom="true">-->
+<!--        android:text="@string/sold_out"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        />-->
 
-<!--        <com.dealermela.utility.DmlButton-->
-<!--            android:id="@+id/btnSoldOut"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/sold_out"-->
-<!--            android:visibility="gone"/>-->
-
-<!--    </LinearLayout>-->
-
-    <com.dealermela.utility.DmlButton
-        android:id="@+id/btnSoldOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sold_out"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone"/>
-
+<!--    android:visibility="gone"-->
 </RelativeLayout>

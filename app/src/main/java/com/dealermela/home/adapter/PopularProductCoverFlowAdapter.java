@@ -34,8 +34,8 @@ public class PopularProductCoverFlowAdapter extends androidx.viewpager.widget.Pa
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    private int screenWidth;
-    private int screenHeight;
+    public static int screenWidth;
+    public static int screenHeight;
 
     public PopularProductCoverFlowAdapter(Activity context, List<PopularProductItem.ProductImg> objects) {
         this.activity = context;

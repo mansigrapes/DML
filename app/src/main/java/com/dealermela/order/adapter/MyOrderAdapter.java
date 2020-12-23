@@ -113,11 +113,13 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
 
             AppLogger.e("image url","----"+itemArrayList.get(i).getOrderItems().get(0).getImage());
 
-            if(itemArrayList.get(i).getOrderItems().get(0).getImage().isEmpty()){
-                holder.imgProduct.setImageResource(R.mipmap.ic_launcher);
-            }else {
-                holder.imgProduct.setImageURI(itemArrayList.get(i).getOrderItems().get(0).getImage());
-            }
+//            if(itemArrayList.get(i).getOrderItems().get(0).getImage().isEmpty()){
+//                holder.imgProduct.setImageResource(R.drawable.dml_logo);
+//            }else {
+//                holder.imgProduct.setImageURI(itemArrayList.get(i).getOrderItems().get(0).getImage());
+//            }
+
+            holder.imgProduct.setImageURI(itemArrayList.get(i).getOrderItems().get(0).getImage());
 
             if(!itemArrayList.get(i).getOrderItems().get(0).getCertificateNo().isEmpty()){
                 holder.tvcertificate.setText(Html.fromHtml("<b>" + "Certificate : " + "</b> " + itemArrayList.get(i).getOrderItems().get(0).getCertificateNo()));

@@ -41,7 +41,6 @@ public class MostSellingAdapter extends RecyclerView.Adapter<MostSellingAdapter.
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.frg_home_item_most_selling, viewGroup, false);
 
-
         int widths = screenWidth();
         Log.e("width", "-----------------" + widths);
 

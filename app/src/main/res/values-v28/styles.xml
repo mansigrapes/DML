@@ -399,6 +399,14 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="btncustomize">
+        <item name="android:textSize">@dimen/twelve_sp</item>
+        <item name="android:textColor">@color/dml_logo_color</item>
+        <item name="android:background">@drawable/background_customize_btn</item>
+        <item name="selectableItemBackground">?android:selectableItemBackground</item>
+        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
+    </style>
+
     <!--Referral-->
     <style name="list_referral_text_header">
         <item name="android:textSize">@dimen/twelve_sp</item>
@@ -748,5 +756,11 @@
     <style name="nodata_text">
         <item name="android:textColor">?no_data_text</item>
     </style>
+
+    <!--    BottomsheetDialog height  Not Working-->
+<!--    <style name="AppModalStyle"-->
+<!--        parent="Widget.Design.BottomSheet.Modal">-->
+<!--        <item name="behavior_peekHeight">@dimen/custom_peek_height</item>-->
+<!--    </style>-->
 
 </resources>

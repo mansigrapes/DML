@@ -118,7 +118,7 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
             bangleProductId=itemArrayList.get(getAdapterPosition()).getProductId();
             SizeValue=itemArrayList.get(getAdapterPosition()).getValue();
             ((ProductDetailAct) activity).cBangle=itemArrayList.get(getAdapterPosition()).getLabel();
-            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"Bangle");
+//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"Bangle");
             notifyDataSetChanged();
         }
 

@@ -18,8 +18,7 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayout8"
         app:placeholderImage="@mipmap/ic_launcher"
         app:placeholderImageScaleType="fitCenter"
-        app:roundedCornerRadius="@dimen/ten_sp"
-         />
+        app:roundedCornerRadius="@dimen/ten_sp" />
 <!--    app:roundAsCircle="true"-->
 
     <androidx.constraintlayout.widget.Guideline

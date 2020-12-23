@@ -124,7 +124,6 @@ public class FilterItem {
 
         private boolean isSelected=false;
 
-
         public String getLabel() {
             return label;
         }

@@ -241,7 +241,6 @@ public interface ApiInterface {
     @POST("dmlapi/customers/listbankdetails")
     Call<BankResponse> listBankDetail(@Field("customer_id") String customerId);
 
-
     //REFERRAL
 
     //List Referral              /**/
@@ -384,7 +383,6 @@ public interface ApiInterface {
     Call<TransactionItem> transactionList(@Field("customer_id") String customerId,
                                           @Field("page") String page);
 
-
     //ORDER
     @FormUrlEncoded
     @POST("dmlapi/allorder/orderview/")
@@ -398,7 +396,6 @@ public interface ApiInterface {
     @POST("dmlapi/allorder/OrderViewDetail/")
     Call<OrderDetailItem> orderDetail(@Field("orderid") String orderid);
 
-
     //CART                                                     /**/
     @FormUrlEncoded
     @POST("dmlapi/addtocart/addcartcustom")
@@ -411,6 +408,7 @@ public interface ApiInterface {
                                @Field("qty") String qty,
                                @Field("metalqualitycolor") String metalQualityColor,
                                @Field("metalcarat") String metalCarat);
+
     //Addtocart For multiple products
     @FormUrlEncoded
     @POST("dmlapi/addtocart/bulkaddtocart")
@@ -426,7 +424,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("dmlapi/addtocart/removecartitem")
     Call<JsonObject> removeCartItem(@Field("customer_id") String customerId, @Field("item_id") String itemId);
-
 
     @FormUrlEncoded
     @POST("dmlapi/addtocart/updatecartqty")
@@ -447,7 +444,6 @@ public interface ApiInterface {
     // Inventory  Filter
     @GET("dmlapi/product/getreadytoshipfilteroption")
     Call<InventoryFilterItem> setInvFilter();
-
 
     //    Save Payment                          /**/
     @FormUrlEncoded
@@ -512,11 +508,11 @@ public interface ApiInterface {
 
 
     //Listing                        /**/
-    @FormUrlEncoded
+/*    @FormUrlEncoded
     @POST("dmlapi/product/search")
     Call<ListingItem> searchProduct(@Field("customer_id ") String customer_id,
                                     @Field("search_term") String searchTerm,
-                                    @Field("page") String page);
+                                    @Field("page") String page);  */
 
     @FormUrlEncoded
     @POST("dmlapi/product/searchnew")

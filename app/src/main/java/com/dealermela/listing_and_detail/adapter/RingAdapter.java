@@ -138,7 +138,7 @@ public class RingAdapter extends RecyclerView.Adapter<RingAdapter.ViewHolder> {
             ringOptionId=itemArrayList.get(getAdapterPosition()).getOptionId();
             ringOptionTypeId=itemArrayList.get(getAdapterPosition()).getOptionTypeId();
 
-            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getTitle(),"");
+//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getTitle(),"");
             notifyDataSetChanged();
         }
 
