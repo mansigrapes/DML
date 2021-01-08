@@ -18,6 +18,8 @@ import com.dealermela.util.ThemePreferences;
 
 import java.util.List;
 
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.CustomizeClick;
+
 public class RingAdapter extends RecyclerView.Adapter<RingAdapter.ViewHolder> {
     private RecyclerViewClickListener recyclerViewClickListener;
     private final Activity activity;
@@ -132,13 +134,14 @@ public class RingAdapter extends RecyclerView.Adapter<RingAdapter.ViewHolder> {
                     ringsize.setSelected(true);
                 }
             }
+            CustomizeClick = 1;    //Add this flag for fun of Addtocart press than not need to again call refresh API
 
             ringValue = itemArrayList.get(getAdapterPosition()).getTitle();
 
             ringOptionId=itemArrayList.get(getAdapterPosition()).getOptionId();
             ringOptionTypeId=itemArrayList.get(getAdapterPosition()).getOptionTypeId();
 
-//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getTitle(),"");
+            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getTitle(),"");
             notifyDataSetChanged();
         }
 

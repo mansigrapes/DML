@@ -120,7 +120,14 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
         holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
         holder.tvSku.setText(sku[0]);
 
-        holder.tvGold.setText(stringBuilder);
+        holder.imgCarat.setVisibility(View.VISIBLE);
+        if (sku[1].equalsIgnoreCase("14k")) {
+            holder.imgCarat.setImageResource(R.drawable.ic__4k);
+        } else {
+            holder.imgCarat.setImageResource(R.drawable.ic__8k);
+        }
+
+//        holder.tvGold.setText(stringBuilder);
 
         Glide.with(activity)
                 .load(AppConstants.IMAGE_URL + "catalog/product" + itemArrayList.get(i).getThumbnail())
@@ -170,8 +177,8 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
         final TextView tvName;
         final TextView tvPrice;
         final TextView tvSku;
-        final TextView tvGold;
-        final ImageView imgDownload;
+//        final TextView tvGold;
+        final ImageView imgDownload,imgCarat;
         final ImageView imgProduct;
 
         ViewHolder(View itemView) {
@@ -183,9 +190,10 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
             tvName = itemView.findViewById(R.id.tvName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvSku = itemView.findViewById(R.id.tvSku);
-            tvGold = itemView.findViewById(R.id.tvGold);
+//            tvGold = itemView.findViewById(R.id.tvGold);
             imgDownload = itemView.findViewById(R.id.imgDownload);
             imgProduct = itemView.findViewById(R.id.imgProduct);
+            imgCarat = itemView.findViewById(R.id.imgCarat);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

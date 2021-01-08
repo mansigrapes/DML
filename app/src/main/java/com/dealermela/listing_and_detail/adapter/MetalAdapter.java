@@ -16,6 +16,8 @@ import com.dealermela.util.ThemePreferences;
 
 import java.util.List;
 
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.CustomizeClick;
+
 public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> {
     private final Activity activity;
     private final List<String> itemArrayList;
@@ -107,7 +109,10 @@ public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> 
         public void onClick(View v) {
             linMetal.setBackground(activity.getResources().getDrawable(R.drawable.ten_size_logo_color_round_border));
             metalValue = itemArrayList.get(getAdapterPosition());
-//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()), "");
+
+            CustomizeClick = 1;    //Add this flag for fun of Addtocart press than not need to again call refresh API
+
+            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()), "");
             notifyDataSetChanged();
         }
 

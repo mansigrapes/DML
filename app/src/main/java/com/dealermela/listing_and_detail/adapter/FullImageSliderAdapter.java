@@ -3,7 +3,10 @@ package com.dealermela.listing_and_detail.adapter;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,8 +18,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.dealermela.R;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.utility.TouchImageView;
 
 import java.util.List;
+
+import static android.view.MotionEvent.ACTION_DOWN;
 
 public class FullImageSliderAdapter extends androidx.viewpager.widget.PagerAdapter {
 
@@ -37,6 +43,7 @@ public class FullImageSliderAdapter extends androidx.viewpager.widget.PagerAdapt
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
+
         return view == o;
     }
     @NonNull
@@ -63,4 +70,5 @@ public class FullImageSliderAdapter extends androidx.viewpager.widget.PagerAdapt
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((RelativeLayout) object);
     }
+
 }

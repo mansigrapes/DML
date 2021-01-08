@@ -5,6 +5,8 @@ import android.app.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,16 @@ import com.dealermela.util.ThemePreferences;
 import java.util.List;
 
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.mBottomDialog_detail;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.recycleViewDiamondDetail;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.recycleViewGemstoneDetail;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.relDiamondDetailTotal;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.relGemstoneDetailTotal;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.relMetalPurity;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.relMetalTotal;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.relMetalWeight;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.tvDiamondDetailLabel;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.tvGemStoneDetailTitle;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.tvMetalDetailTitle;
 
 public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.ViewHolder> {
 
@@ -205,8 +217,8 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
         final TextView tvSize;
         final TextView tvSizeTitle;
         final LinearLayout linRts;
-//        final Button btnInfo;
-        final LinearLayout btnInfo;
+        final ImageView btnInfo;
+//        final LinearLayout btnInfo;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -224,9 +236,31 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
             itemView.setOnLongClickListener(this);
 
             btnInfo.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ResourceType")
                 @Override
                 public void onClick(View v) {
                     AppLogger.e("More Detail button click which display in recyclerview ","-----");
+                    if(tvMetalDetailTitle.getVisibility() == View.VISIBLE || recycleViewDiamondDetail.getVisibility() == View.VISIBLE || recycleViewGemstoneDetail.getVisibility() == View.VISIBLE){
+
+                        tvMetalDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                        tvMetalDetailTitle.setTextAppearance(activity, R.attr.transaction_line_color);
+                        tvMetalDetailTitle.setTypeface(Typeface.createFromAsset(activity.getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                        relMetalPurity.setVisibility(View.GONE);
+                        relMetalWeight.setVisibility(View.GONE);
+                        relMetalTotal.setVisibility(View.GONE);
+
+                        tvDiamondDetailLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                        tvDiamondDetailLabel.setTextAppearance(activity, R.attr.transaction_line_color);
+                        tvDiamondDetailLabel.setTypeface(Typeface.createFromAsset(activity.getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                        recycleViewDiamondDetail.setVisibility(View.GONE);
+                        relDiamondDetailTotal.setVisibility(View.GONE);
+
+                        tvGemStoneDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                        tvGemStoneDetailTitle.setTextAppearance(activity, R.attr.transaction_line_color);
+                        tvGemStoneDetailTitle.setTypeface(Typeface.createFromAsset(activity.getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                        recycleViewGemstoneDetail.setVisibility(View.GONE);
+                        relGemstoneDetailTotal.setVisibility(View.GONE);
+                    }
                     mBottomDialog_detail.show();
                 }
             });

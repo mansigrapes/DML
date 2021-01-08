@@ -97,6 +97,7 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
                 holder.imgDownload.setVisibility(View.VISIBLE);
             }
 
+
             //Temporarly Comment on 09-09-2020 bcz no use of stock parameter in listing page
 //            if (itemArrayList.get(i).getStock().equalsIgnoreCase("0")) {
 ////            holder.tvSoldOut.setVisibility(View.VISIBLE);
@@ -132,10 +133,20 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
             holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
 
             if(id.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
-                holder.tvGold.setText("");
+                holder.imgCarat.setVisibility(View.GONE);
             }else {
-                holder.tvGold.setText(stringBuilder);
+                holder.imgCarat.setVisibility(View.VISIBLE);
+                if (caratvalue.equalsIgnoreCase("14k")) {
+                    holder.imgCarat.setImageResource(R.drawable.ic__4k);
+                } else {
+                    holder.imgCarat.setImageResource(R.drawable.ic__8k);
+                }
             }
+//            if(id.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//                holder.tvGold.setText("");
+//            }else {
+//                holder.tvGold.setText(stringBuilder);
+//            }
 
             Glide.with(activity)
                     .load(AppConstants.IMAGE_URL + "catalog/product" + itemArrayList.get(i).getThumbnail())
@@ -202,8 +213,8 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
         final TextView tvName;
         final TextView tvPrice;
         final TextView tvSku;
-        final TextView tvGold;
-        final ImageView imgDownload;
+//        final TextView tvGold;
+        final ImageView imgDownload,imgCarat;
         final ImageView imgProduct;
         final RelativeLayout mainLayout;
 
@@ -217,9 +228,10 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
             tvName = itemView.findViewById(R.id.tvName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvSku = itemView.findViewById(R.id.tvSku);
-            tvGold = itemView.findViewById(R.id.tvGold);
+//            tvGold = itemView.findViewById(R.id.tvGold);
             imgDownload = itemView.findViewById(R.id.imgDownload);
             imgProduct = itemView.findViewById(R.id.imgProduct);
+            imgCarat = itemView.findViewById(R.id.imgCarat);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

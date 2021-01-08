@@ -667,7 +667,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                                 }
                             }
                         } else {
-
                             if (itemArrayList.isEmpty()) {
                                 linNoData.setVisibility(View.VISIBLE);
                                 linSortBy.setEnabled(false);

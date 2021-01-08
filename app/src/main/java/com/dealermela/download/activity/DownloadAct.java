@@ -62,7 +62,6 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
     private LinearLayout linNoData;
     public static TextView tvselectedcount,tvtotaldownloadcount;
 
-
     //page count
     private int page_count = 1;
     private boolean flag_scroll = false;

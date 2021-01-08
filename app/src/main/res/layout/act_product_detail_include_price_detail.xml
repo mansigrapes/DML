@@ -7,21 +7,25 @@
     android:layout_marginStart="@dimen/activity_vertical_margin"
     android:layout_marginTop="@dimen/activity_horizontal_margin"
     android:layout_marginEnd="@dimen/activity_vertical_margin"
-    app:behavior_hideable="false"
+    app:behavior_hideable="true"
     android:id="@+id/layout_productdetail"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="360dp"
+        android:layout_gravity="bottom"
         android:background="?login_signup_text_color"
-        android:scrollbars="none"
+        android:scrollbars="vertical"
         android:fillViewport="true"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbarFadeDuration="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,270 +36,386 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+<!--        android:background="@color/light_grey"-->
 
         <com.dealermela.utility.DmlTextViewBold
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/product_detail" />
-
-        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_padding_margin"
-            android:paddingBottom="@dimen/five_sp">
+            android:text="@string/product_detail"
+            android:gravity="center"
+            android:textColor="?dml_logo_color"
+            android:textAllCaps="true"
+            android:textSize="16sp"/>
 
-            <com.dealermela.utility.DmlTextView
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sku" />
-
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvSku"
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                tools:ignore="RelativeOverlap" />
-
-        </RelativeLayout>
-
-        <View
-            style="@style/dotted_view_style_detail_page"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/two_dp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <androidx.cardview.widget.CardView
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_padding_margin"
-            android:paddingBottom="@dimen/five_sp">
-
-            <com.dealermela.utility.DmlTextView
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/certificate_no" />
-
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvCertificateNo"
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                tools:ignore="RelativeOverlap" />
-
-        </RelativeLayout>
-
-        <View
-            style="@style/dotted_view_style_detail_page"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/two_dp" />
+            app:cardBackgroundColor="?transaction_round_back"
+            app:cardCornerRadius="@dimen/ten_sp"
+            app:cardElevation="0dp"
+            android:layout_marginTop="@dimen/twelve_sp">
 
-        <com.dealermela.utility.DmlTextViewBold
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/eight_sp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_padding_margin"
+                    android:paddingBottom="@dimen/five_sp">
+
+                    <com.dealermela.utility.DmlTextView
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sku" />
+
+                    <com.dealermela.utility.DmlTextView
+                        android:id="@+id/tvSku"
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="RelativeOverlap" />
+
+                </RelativeLayout>
+
+                <View
+                    style="@style/dotted_view_style_detail_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/two_dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_padding_margin"
+                    android:paddingBottom="@dimen/five_sp">
+
+                    <com.dealermela.utility.DmlTextView
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/certificate_no" />
+
+                    <com.dealermela.utility.DmlTextView
+                        android:id="@+id/tvCertificateNo"
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="RelativeOverlap" />
+
+                </RelativeLayout>
+
+                <View
+                    style="@style/dotted_view_style_detail_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/two_dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/twenty_sp"
-            android:text="@string/metal_detail" />
-
-        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_padding_margin"
-            android:paddingBottom="@dimen/five_sp">
+            app:cardBackgroundColor="?transaction_round_back"
+            app:cardCornerRadius="@dimen/ten_sp"
+            app:cardElevation="0dp"
+            android:layout_marginTop="@dimen/twelve_sp">
 
-            <com.dealermela.utility.DmlTextView
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/purity" />
+                android:orientation="vertical"
+                android:padding="@dimen/eight_sp">
 
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvMetalPurity"
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                tools:ignore="RelativeOverlap" />
+                <com.dealermela.utility.DmlTextViewBold
+                    android:id="@+id/tvMetalDetailTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/metal_detail"
+                    android:drawableRight="@drawable/ic_baseline_add_24"/>
 
-        </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relMetalPurity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_padding_margin"
+                    android:paddingBottom="@dimen/five_sp"
+                    android:visibility="gone">
 
-        <View
-            style="@style/dotted_view_style_detail_page"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/two_dp" />
+                    <com.dealermela.utility.DmlTextView
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/purity" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+                    <com.dealermela.utility.DmlTextView
+                        android:id="@+id/tvMetalPurity"
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="RelativeOverlap" />
+
+                    <View
+                        style="@style/dotted_view_style_detail_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/two_dp"
+                        android:layout_below="@+id/tvMetalPurity"
+                        android:layout_marginTop="@dimen/five_sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relMetalWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_padding_margin"
+                    android:paddingBottom="@dimen/five_sp"
+                    android:visibility="gone">
+
+                    <com.dealermela.utility.DmlTextView
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/weight_approx" />
+
+                    <com.dealermela.utility.DmlTextView
+                        android:id="@+id/tvMetalWeightApprox"
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="RelativeOverlap" />
+
+                    <View
+                        style="@style/dotted_view_style_detail_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/two_dp"
+                        android:layout_below="@+id/tvMetalWeightApprox"
+                        android:layout_marginTop="@dimen/five_sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relMetalTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_padding_margin"
+                    android:paddingBottom="@dimen/five_sp"
+                    android:visibility="gone">
+
+                    <com.dealermela.utility.DmlTextViewBold
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total" />
+                    <!--            android:text="@string/estimated_total"-->
+
+                    <com.dealermela.utility.DmlTextViewBold
+                        android:id="@+id/tvMetalEstimatedTotal"
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="RelativeOverlap" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_padding_margin"
-            android:paddingBottom="@dimen/five_sp">
-
-            <com.dealermela.utility.DmlTextView
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/weight_approx" />
-
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvMetalWeightApprox"
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                tools:ignore="RelativeOverlap" />
-
-        </RelativeLayout>
-
-        <View
-            style="@style/dotted_view_style_detail_page"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/two_dp" />
+            app:cardBackgroundColor="?transaction_round_back"
+            app:cardCornerRadius="@dimen/ten_sp"
+            app:cardElevation="0dp"
+            android:layout_marginTop="@dimen/twelve_sp">
 
-        <RelativeLayout
-            android:visibility="gone"
-            android:id="@+id/relBelt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_padding_margin"
-            android:paddingBottom="@dimen/five_sp">
-
-            <com.dealermela.utility.DmlTextView
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/belt_price" />
+                android:orientation="vertical"
+                android:padding="@dimen/eight_sp">
 
-            <com.dealermela.utility.DmlTextView
-                android:id="@+id/tvBeltPrice"
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                tools:ignore="RelativeOverlap" />
+                <com.dealermela.utility.DmlTextViewBold
+                    android:id="@+id/tvDiamondDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/diamond_detail"
+                    android:drawableRight="@drawable/ic_baseline_add_24" />
 
-        </RelativeLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleViewDiamondDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
-        <View
-            android:visibility="gone"
-            android:id="@+id/viewBelt"
-            style="@style/dotted_view_style_detail_page"
+                <RelativeLayout
+                    android:id="@+id/relDiamondDetailTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_padding_margin"
+                    android:paddingBottom="@dimen/five_sp"
+                    android:visibility="gone">
+
+                    <com.dealermela.utility.DmlTextViewBold
+                        android:id="@+id/tvDiamondDetailTotal"
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total" />
+
+                    <com.dealermela.utility.DmlTextViewBold
+                        android:id="@+id/tvEstimatedValue"
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="RelativeOverlap" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/two_dp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_padding_margin"
-            android:paddingBottom="@dimen/five_sp">
-
-            <com.dealermela.utility.DmlTextViewBold
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/total" />
-            <!--            android:text="@string/estimated_total"-->
-
-            <com.dealermela.utility.DmlTextViewBold
-                android:id="@+id/tvMetalEstimatedTotal"
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                tools:ignore="RelativeOverlap" />
-
-        </RelativeLayout>
-
-        <com.dealermela.utility.DmlTextViewBold
-            android:id="@+id/tvDiamondDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/twenty_sp"
-            android:text="@string/diamond_detail" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleViewDiamondDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_padding_margin" />
-
-        <RelativeLayout
-            android:id="@+id/relDiamondDetailTotal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_padding_margin"
-            android:paddingBottom="@dimen/five_sp">
-
-            <com.dealermela.utility.DmlTextViewBold
-                android:id="@+id/tvDiamondDetailTotal"
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/total" />
-
-            <com.dealermela.utility.DmlTextViewBold
-                android:id="@+id/tvEstimatedValue"
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                tools:ignore="RelativeOverlap" />
-
-        </RelativeLayout>
-
-        <com.dealermela.utility.DmlTextViewBold
-            android:id="@+id/tvGemStoneDetailTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/ten_sp"
-            android:text="@string/gemstone_detail" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
-            android:id="@+id/recycleViewGemstoneDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_padding_margin" />
-
-        <RelativeLayout
-            android:id="@+id/relGemstoneDetailTotal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_padding_margin"
-            android:paddingBottom="@dimen/five_sp"
+            app:cardBackgroundColor="?transaction_round_back"
+            app:cardCornerRadius="@dimen/ten_sp"
+            app:cardElevation="0dp"
+            android:layout_marginTop="@dimen/twelve_sp"
+            android:id="@+id/cardViewGemstone"
             android:visibility="gone">
 
-            <com.dealermela.utility.DmlTextViewBold
-                android:id="@+id/tvGemstoneDetailTotal"
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/total" />
+                android:orientation="vertical"
+                android:padding="@dimen/eight_sp">
 
-            <com.dealermela.utility.DmlTextViewBold
-                android:id="@+id/tvGemstoneEstimatedValue"
-                style="@style/product_full_detail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                tools:ignore="RelativeOverlap" />
-        </RelativeLayout>
+                <com.dealermela.utility.DmlTextViewBold
+                    android:id="@+id/tvGemStoneDetailTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gemstone_detail"
+                    android:drawableRight="@drawable/ic_baseline_add_24"
+                    android:visibility="gone"/>
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:visibility="gone"
+                    android:id="@+id/recycleViewGemstoneDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_padding_margin" />
 
-        <com.dealermela.utility.DmlTextViewBold
-            android:layout_width="match_parent"
+                <RelativeLayout
+                    android:id="@+id/relGemstoneDetailTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_padding_margin"
+                    android:paddingBottom="@dimen/five_sp"
+                    android:visibility="gone">
+
+                    <com.dealermela.utility.DmlTextViewBold
+                        android:id="@+id/tvGemstoneDetailTotal"
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total" />
+
+                    <com.dealermela.utility.DmlTextViewBold
+                        android:id="@+id/tvGemstoneEstimatedValue"
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="RelativeOverlap" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:gravity="center"
-            android:text="@string/certified_by"
-            android:textSize="@dimen/eightin_sp" />
-
-        <View
-            style="@style/view_style_detail_page"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/one_sp_view"
-            android:layout_marginTop="@dimen/eight_margin_padding" />
+            app:cardBackgroundColor="?transaction_round_back"
+            app:cardCornerRadius="@dimen/ten_sp"
+            app:cardElevation="0dp"
+            android:layout_marginTop="@dimen/twelve_sp"
+            android:id="@+id/cardviewbelt"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/eight_sp">
+
+                <com.dealermela.utility.DmlTextViewBold
+                    android:id="@+id/tvBeltDetailTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/belt_detail"
+                    android:drawableRight="@drawable/ic_baseline_add_24"/>
+
+                <RelativeLayout
+                    android:id="@+id/relBelt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_padding_margin"
+                    android:paddingBottom="@dimen/five_sp"
+                    android:visibility="gone">
+
+                    <com.dealermela.utility.DmlTextView
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/belt_price" />
+
+                    <com.dealermela.utility.DmlTextView
+                        android:id="@+id/tvBeltPrice"
+                        style="@style/product_full_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="RelativeOverlap" />
+
+                </RelativeLayout>
+
+                <View
+                    android:visibility="gone"
+                    android:id="@+id/viewBelt"
+                    style="@style/dotted_view_style_detail_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/two_dp" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    <com.dealermela.utility.DmlTextViewBold
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+        android:text="@string/certified_by"
+        android:textSize="@dimen/eightin_sp" />
+
+    <View
+        style="@style/view_style_detail_page"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/one_sp_view"
+        android:layout_marginTop="@dimen/eight_margin_padding" />
 
     <LinearLayout
         android:layout_width="match_parent"

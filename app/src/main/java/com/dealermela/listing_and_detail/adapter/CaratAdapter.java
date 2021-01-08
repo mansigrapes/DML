@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.dealermela.R;
 import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.util.ThemePreferences;
+
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.CustomizeClick;
 import static com.dealermela.listing_and_detail.adapter.MetalAdapter.metalValue;
 
 import java.util.List;
@@ -98,7 +100,10 @@ public class CaratAdapter extends RecyclerView.Adapter<CaratAdapter.ViewHolder> 
                 metalValue="Yellow Gold";
                 ((ProductDetailAct) activity).refreshAdapter();
             }
-//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()),"carat");
+
+            CustomizeClick = 1;    //Add this flag for fun of Addtocart press than not need to again call refresh API
+
+            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()),"carat");
             notifyDataSetChanged();
         }
 

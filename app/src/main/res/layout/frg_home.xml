@@ -312,8 +312,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/deliver_ic"
+                            app:srcCompat="@drawable/ic_delivery_truck"
                             tools:ignore="ContentDescription" />
+<!--                        app:srcCompat="@drawable/deliver_ic"-->
 
                         <com.dealermela.utility.DmlTextView
                             android:layout_width="wrap_content"
@@ -347,8 +348,9 @@
                             style="@style/pop_product_image_tint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/lifetime_ic"
+                            app:srcCompat="@drawable/ic_resource_package"
                             tools:ignore="ContentDescription" />
+<!--                        app:srcCompat="@drawable/lifetime_ic"-->
 
                         <com.dealermela.utility.DmlTextView
                             android:layout_width="wrap_content"
@@ -384,8 +386,9 @@
                             style="@style/pop_product_image_tint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/gift_ic"
+                            app:srcCompat="@drawable/ic_gift"
                             tools:ignore="ContentDescription" />
+<!--                        app:srcCompat="@drawable/gift_ic"-->
 
                         <com.dealermela.utility.DmlTextView
                             android:id="@+id/textView15"

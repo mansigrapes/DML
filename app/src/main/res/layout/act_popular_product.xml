@@ -27,7 +27,6 @@
         app:layout_constraintTop_toBottomOf="@+id/include17"
         app:layout_constraintVertical_bias="0.0" />
 
-
     <include
         android:id="@+id/include18"
         layout="@layout/no_product_available_msg"

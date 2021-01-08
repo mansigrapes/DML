@@ -6,11 +6,14 @@ import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView {
+import com.dealermela.util.AppLogger;
+
+public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener{
 
     private Matrix matrix;
 
@@ -27,7 +30,6 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
     private float maxScale = 3f;
     private float[] m;
 
-
     private int viewWidth;
     private int viewHeight;
     private static final int CLICK = 3;
@@ -36,7 +38,6 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
     private float origHeight;
     private int oldMeasuredWidth;
     private int oldMeasuredHeight;
-
 
     private ScaleGestureDetector mScaleDetector;
 
@@ -52,6 +53,8 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
         sharedConstructing(context);
     }
 
+    GestureDetector mGestureDetector;
+
     private void stopInterceptEvent() {
         getParent().requestDisallowInterceptTouchEvent(true);
     }
@@ -63,6 +66,10 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
     private void sharedConstructing(Context context) {
         super.setClickable(true);
         this.context = context;
+
+        mGestureDetector = new GestureDetector(context, this);
+        mGestureDetector.setOnDoubleTapListener(this);
+
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
         matrix = new Matrix();
         m = new float[9];
@@ -74,6 +81,8 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 mScaleDetector.onTouchEvent(event);
+                mGestureDetector.onTouchEvent(event);
+
                 PointF curr = new PointF(event.getX(), event.getY());
 
                 switch (event.getAction()) {
@@ -121,12 +130,72 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
                 invalidate();
                 return true; // indicate event was handled
             }
-
         });
     }
 
     public void setMaxZoom(float x) {
         maxScale = x;
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        // Double tap is detected
+        Log.i("MAIN_TAG", "Double tap detected");
+        AppLogger.e("Double Tap detected ","-----" +saveScale);
+        float origScale = saveScale;
+        float mScaleFactor;
+
+        if (saveScale == maxScale) {
+            saveScale = minScale;
+            mScaleFactor = minScale / origScale;
+        } else {
+            saveScale = maxScale;
+            mScaleFactor = maxScale / origScale;
+        }
+
+        matrix.postScale(mScaleFactor, mScaleFactor, viewWidth / 2,
+                viewHeight / 2);
+
+        fixTrans();
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return false;
     }
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
@@ -240,8 +309,6 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
             origHeight = viewHeight - 2 * redundantYSpace;
             setImageMatrix(matrix);
         }
-
-
         fixTrans();
     }
 }

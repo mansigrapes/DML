@@ -37,6 +37,7 @@
     <color name="red">#F44336</color>
 
     <color name="grey">#595959</color>
+    <color name="light_grey">#E3E3E3</color>
 
     <!--payment-->
     <color name="transparentColorBack">#B3000000</color>
@@ -55,6 +56,5 @@
 <!--    filter icon / background colour-->
     <color name="lightgreenlogo">#12A19B</color>
     <color name="darkgreenlogo">#027B72</color>
-
 
 </resources>

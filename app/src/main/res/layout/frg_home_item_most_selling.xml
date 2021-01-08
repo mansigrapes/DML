@@ -7,7 +7,6 @@
     android:layout_marginStart="@dimen/eight_margin_padding"
     android:background="@drawable/ten_size_black_round_border">
 
-
     <LinearLayout
         android:layout_width="0sp"
         android:layout_height="0sp"

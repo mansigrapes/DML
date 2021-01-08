@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -106,19 +107,19 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     public TextView tvColorGold;
 
     //using next previous RTS item
-    private ImageView imgPrevious, imgNext, image_gia, image_igi;
+    private ImageView imgPrevious, imgNext, image_gia, image_igi, btnInfo;
 
     //using Ring,Diamond,RTS,Metal layout
-    private RecyclerView recycleViewReadyToShip, recycleViewRingSize, recycleViewDiamond, recycleViewCarat, recycleViewMetal, recycleViewDiamondDetail, recycleViewBangleSize, recycleViewBraceletSize, recycleViewPendentSets, recycleViewGemstoneDetail, recycleViewTestPendentsets;
+    public static RecyclerView recycleViewReadyToShip, recycleViewRingSize, recycleViewDiamond, recycleViewCarat, recycleViewMetal, recycleViewDiamondDetail, recycleViewBangleSize, recycleViewBraceletSize, recycleViewPendentSets, recycleViewGemstoneDetail, recycleViewTestPendentsets;
 
     //For customize popup box
     private LinearLayout lin_Ring_Size,lin_Pendant_Type,lin_Bangle_Size,lin_Bracelet_Size;
 
     //using add to cart and buy now
-    private Button btnAddToCart, btnBuyNow;
+    private Button btnAddToCart, btnBuyNow , tvCustomizePrice;
 
     //using for product detail
-    private TextView tvSku, tvCertificateNo, tvMetalPurity, tvMetalWeightApprox, tvMetalEstimatedTotal, tvMetalPrice, tvDiamondPiecesTitle, tvDiamondPrice, tvGemstonePiecesTitle, tvGemstonePrice,tvGrandTotal, tvEstimatedTotalValue, tvGemStoneDetailTitle, tvGemstoneEstimatedValue;
+    public static TextView tvSku, tvCertificateNo, tvMetalPurity, tvMetalWeightApprox, tvMetalEstimatedTotal, tvMetalPrice, tvDiamondPiecesTitle, tvDiamondPrice, tvGemstonePiecesTitle, tvGemstonePrice,tvGrandTotal, tvEstimatedTotalValue, tvGemStoneDetailTitle, tvGemstoneEstimatedValue, tvMetalDetailTitle;
 
     //using hide show MTO RTS items
     private View includeCustomise, includeProductDetail;
@@ -141,14 +142,14 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     private View viewRing, viewBangle, viewBracelet, viewPendentSets;
     private TextView tvRingSizeHeading, tvBangleSizeHeading, tvBraceletsHeading, tvPendentHeading;
 
-    public String cProductId, cCategoryId, cProductType, cSku, cRingSize = "", cBangle, cBracelet, cPendentSet, cMetalDetail, cMetalWeight, cStoneDetail, cStoneWeight, cPrice, cQty = "1", cImageUrl, cmetalQualityColor, cmetalCarat, ctotalItem, cProductCategoryType, cProductSKU ;
+    public String cProductId, cCategoryId, cProductType, cSku, cRingSize = "", cBangle, cBracelet, cPendentSet, cMetalDetail, cMetalWeight, cStoneDetail, cStoneWeight, cPrice, cQty = "1", cImageUrl, cmetalQualityColor, cmetalCarat, ctotalItem, cProductCategoryType, cProductSKU, cProductCategoryId ;
 
     private DatabaseCartAdapter databaseCartAdapter;
 
-    private Button btnSoldOut,btncustomize,btnProductDetail,btncancel,btnInfo;
+    private Button btnSoldOut,btncustomize,btnProductDetail,btncancel;
     public static Button btnapply;
 
-    private LinearLayout linButton,linsoldout;
+    private LinearLayout linButton,linsoldout,productInfoPS;
 
     private RingAdapter ringAdapter;
     private DiamondAdapter diamondAdapter;
@@ -159,19 +160,17 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     private View viewBelt;
 
     public static String diamondValue = "SI-IJ";
-    private LinearLayout linDiamondBox;
-    private TextView tvDiamondDetailLabel;
-    private RelativeLayout relDiamondDetailTotal,relGemstoneDetailTotal;
-    private CardView cardDiamondBox,cardGemstoneBox;
-
+    private LinearLayout linDiamondBox,relDetailImage;
+    public static TextView tvDiamondDetailLabel, tvBeltDetailTitle;
+    public static RelativeLayout relDiamondDetailTotal,relGemstoneDetailTotal, relMetalPurity, relMetalWeight, relMetalTotal;
+    private CardView cardDiamondBox,cardGemstoneBox,cardViewGemstone, cardviewbelt ,cardviewProductInfo;
     private String ringOptionId, ringOptionTypeId, stoneOptionId, stoneOptionTypeId, categoryid, List_metal_color, List_carat_value;
-
     private ThemePreferences themePreferences;
-
     public static String TypeValue = "";
     public static String SizeValue = "";
 
     public static BottomSheetDialog mBottomSheetDialog, mBottomDialog_detail;
+    public static int customizeflag = 0, CustomizeClick = 0 ;
 //    public int clickcustomize = 0, clickmoredetail = 0 ;
 
     @Override
@@ -194,6 +193,9 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //            image_igi.setImageResource(R.drawable.ic_igi_new);
 //            image_gia.setImageResource(R.drawable.ic_gemological_institute_of_america_gia);
 //        }
+        AppLogger.e("ProductDetailAct","---Image Display height---" + screenHeight/2);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight / 2);
+        relDetailImage.setLayoutParams(layoutParams);
     }
 
     @Override
@@ -222,9 +224,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
         cardDiamondBox = findViewById(R.id.cardDiamondBox);
         cardGemstoneBox = findViewById(R.id.cardGemstoneBox);
-        relBelt = findViewById(R.id.relBelt);
 
-        viewBelt = findViewById(R.id.viewBelt);
         viewPagerSlider = findViewById(R.id.viewPagerSlider);
         hsvSlider = findViewById(R.id.hsvSlider);
         linContainer = findViewById(R.id.linContainer);
@@ -258,15 +258,21 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //        tvBraceletsHeading = findViewById(R.id.tvBraceletsHeading);
 //        tvPendentHeading = findViewById(R.id.tvPendentHeading);
 
-        linsoldout = findViewById(R.id.linsoldout);
+//        linsoldout = findViewById(R.id.linsoldout);
         btnSoldOut = findViewById(R.id.btnSoldOut);
         linButton = findViewById(R.id.linButton);
 
         btncustomize = findViewById(R.id.btncustomize);
         mBottomSheetDialog = new BottomSheetDialog(ProductDetailAct.this);
         mBottomDialog_detail = new BottomSheetDialog(ProductDetailAct.this);
-//        btnProductDetail = findViewById(R.id.btnProductDetail);
+        btnProductDetail = findViewById(R.id.btnProductDetail);
         layout_customize = findViewById(R.id.layout_customize);
+
+        productInfoPS = findViewById(R.id.productInfoPS);
+        btnInfo = findViewById(R.id.btnInfo);
+        cardviewProductInfo = findViewById(R.id.cardviewProductInfo);
+
+        relDetailImage = findViewById(R.id.relDetailImage);
     }
 
     @Override
@@ -320,11 +326,14 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         View sheetview = getLayoutInflater().inflate(R.layout.act_customize_product_dialogbox,null);
 //        mBottomSheetDialog.setLayoutParams(layoutParams);
         AppLogger.e("MainScreenHeight","-----" + screenHeight );
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, (screenHeight / 2) + 100);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, (screenHeight / 2) - 100);
         AppLogger.e("Checking screen height for bottomsheetdialogbox","---"+ screenHeight / 2);
 //        LinearLayout customize_layout = sheetview.findViewById(R.id.customize_layout);
 //        customize_layout.setLayoutParams(layoutParams); //comment this because in big screen device & for earrings which includes only 3 customize option box display empty space bottom of buttons
         mBottomSheetDialog.setContentView(sheetview);
+        BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) sheetview.getParent());
+//        mBehavior.setPeekHeight(700);
+        sheetview.requestLayout();
 
         lin_Ring_Size = sheetview.findViewById(R.id.lin_Ring_Size);
         lin_Pendant_Type = sheetview.findViewById(R.id.lin_Pendant_Type);
@@ -339,8 +348,9 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         recycleViewCarat = sheetview.findViewById(R.id.recycleViewCarat);
         recycleViewMetal = sheetview.findViewById(R.id.recycleViewMetal);
 
+        tvCustomizePrice = sheetview.findViewById(R.id.tvCustomizePrice);
         btnapply = sheetview.findViewById(R.id.btnapply);
-        btncancel = sheetview.findViewById(R.id.btncancel);
+//        btncancel = sheetview.findViewById(R.id.btncancel);
 
         GridLayoutManager gridLayoutRing = new GridLayoutManager(ProductDetailAct.this, 1);
         gridLayoutRing.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -378,8 +388,11 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //         final BottomSheetBehavior behavior = BottomSheetBehavior.from(productdetailview);
 //         behavior.setPeekHeight(300);
         ConstraintLayout layout_productdetail = productdetailview.findViewById(R.id.layout_productdetail);
-        layout_productdetail.setLayoutParams(layoutParams);
+//        layout_productdetail.setLayoutParams(layoutParams);
         mBottomDialog_detail.setContentView(productdetailview);
+//        BottomSheetBehavior m1Behavior = BottomSheetBehavior.from((View) productdetailview.getParent());
+//        m1Behavior.setPeekHeight(650);
+        productdetailview.requestLayout();
 
         tvSku = productdetailview.findViewById(R.id.tvSku);
         tvCertificateNo = productdetailview.findViewById(R.id.tvCertificateNo);
@@ -397,6 +410,21 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         image_igi = productdetailview.findViewById(R.id.image_igi);
         tvEstimatedTotalValue = productdetailview.findViewById(R.id.tvEstimatedValue);
         tvGemstoneEstimatedValue = productdetailview.findViewById(R.id.tvGemstoneEstimatedValue);
+        tvMetalDetailTitle = productdetailview.findViewById(R.id.tvMetalDetailTitle);
+        relMetalPurity = productdetailview.findViewById(R.id.relMetalPurity);
+        relMetalWeight = productdetailview.findViewById(R.id.relMetalWeight);
+        relMetalTotal = productdetailview.findViewById(R.id.relMetalTotal);
+        cardViewGemstone = productdetailview.findViewById(R.id.cardViewGemstone);
+        cardviewbelt = productdetailview.findViewById(R.id.cardviewbelt);
+        relBelt = productdetailview.findViewById(R.id.relBelt);
+        viewBelt = productdetailview.findViewById(R.id.viewBelt);
+        tvBeltDetailTitle = productdetailview.findViewById(R.id.tvBeltDetailTitle);
+
+        tvBeltDetailTitle.setOnClickListener(this);
+        cardViewGemstone.setOnClickListener(this);
+        tvDiamondDetailLabel.setOnClickListener(this);
+        tvGemStoneDetailTitle.setOnClickListener(this);
+        tvMetalDetailTitle.setOnClickListener(this);
 
         recycleViewDiamondDetail.setNestedScrollingEnabled(false);
 
@@ -432,6 +460,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //        getProductDetail(productId, caratValue, metalValue, "", "", productId, "", "");
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -440,7 +469,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                 break;
 
             case R.id.btnBuyNow:
-                if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+
+/*                if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                     Snackbar snackBar = Snackbar
                             .make(v, "Please Login, to Buy Now", Snackbar.LENGTH_LONG)
                             .setAction("Login", new View.OnClickListener() {
@@ -684,9 +714,9 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     TextView textView = snackBarView.findViewById(R.id.snackbar_text);
                     textView.setTextColor(Color.WHITE);
                     snackBar.show();
-                } else {
+                } else {  */
                     buyNow();
-                }
+        /*     }  */
                 break;
 
             case R.id.btncustomize:
@@ -696,9 +726,9 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                 }
 
                 btnapply.setOnClickListener(this);
-                btncancel.setOnClickListener(this);
+//                btncancel.setOnClickListener(this);
 
-                mBottomSheetDialog.setCancelable(false);
+//                mBottomSheetDialog.setCancelable(false);
                 mBottomSheetDialog.show();
                 break;
 
@@ -706,54 +736,234 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //
 //                mBottomDialog_detail.show();
 //                break;
-
-            case R.id.btncancel:
-//                ringValue = "12";
-//                braceletProductId  = "";
-//                bangleProductId = "";
-//                pendentProId = "";
-//                caratValue ="14K";
-//                diamondValue  = "SI-IJ";
-//                metalValue ="Yellow Gold";
-
-//                if(categoryid!=null){
-//                    if(categoryid.equalsIgnoreCase(AppConstants.RING_ID)){
-//                        getProductDetail(productId, caratValue, metalValue, ringValue, "SI-IJ", "", "", "", "","");
-//                    }else if(categoryid.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
-//                        getProductDetail(productId, List_carat_value, List_metal_color, "", "SI-IJ", "", "", "", "","");
-//                    }else {
-//                        getProductDetail(productId, caratValue, metalValue, "", "SI-IJ", "", "", "", "","");
-//                    }
-//                }else {
-//                    getProductDetail(productId, caratValue, metalValue, "", "SI-IJ", "", "", "", "","");
-//                }
-
-                mBottomSheetDialog.dismiss();
-                break;
+//
+//            case R.id.btncancel:
+////                ringValue = "12";
+////                braceletProductId  = "";
+////                bangleProductId = "";
+////                pendentProId = "";
+////                caratValue ="14K";
+////                diamondValue  = "SI-IJ";
+////                metalValue ="Yellow Gold";
+//
+////                if(categoryid!=null){
+////                    if(categoryid.equalsIgnoreCase(AppConstants.RING_ID)){
+////                        getProductDetail(productId, caratValue, metalValue, ringValue, "SI-IJ", "", "", "", "","");
+////                    }else if(categoryid.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+////                        getProductDetail(productId, List_carat_value, List_metal_color, "", "SI-IJ", "", "", "", "","");
+////                    }else {
+////                        getProductDetail(productId, caratValue, metalValue, "", "SI-IJ", "", "", "", "","");
+////                    }
+////                }else {
+////                    getProductDetail(productId, caratValue, metalValue, "", "SI-IJ", "", "", "", "","");
+////                }
+//
+//                mBottomSheetDialog.dismiss();
+//                break;
 
             case R.id.btnapply:
-                //when user click on Apply at that time only refresh API called otherwise not refreshed
-                if (productCategoryId.equalsIgnoreCase(AppConstants.RING_ID)) {
-                    filterClick(ringValue,"");
-                }else if(productCategoryId.equalsIgnoreCase(AppConstants.BRACELETS_ID)){
-                    filterClick(braceletProductId,"");
-                }else if (productCategoryId.equalsIgnoreCase(AppConstants.BANGLE_ID)) {
-                    filterClick(bangleProductId,"Bangle");
-                }else if (productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
-                    filterClick(pendentProId,"");
-                } else {
+//                //when user click on Apply at that time only refresh API called otherwise not refreshed
+//                if (productCategoryId.equalsIgnoreCase(AppConstants.RING_ID)) {
+//                    filterClick(ringValue,"");
+//                }else if(productCategoryId.equalsIgnoreCase(AppConstants.BRACELETS_ID)){
+//                    filterClick(braceletProductId,"");
+//                }else if (productCategoryId.equalsIgnoreCase(AppConstants.BANGLE_ID)) {
+//                    filterClick(bangleProductId,"Bangle");
+//                }else if (productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
+//                    filterClick(pendentProId,"");
+//                } else {
+//                }
+//
+//                filterClick(caratValue,"carat");
+//                filterClick(diamondValue,"");
+//                filterClick(metalValue, "");
+//                mBottomSheetDialog.dismiss();
+                if(CustomizeClick == 1){
+                    addRecord();
+                }else {
+                    filterClick(productId, "Customize");
+                }
+//                    addRecord();         //comment bcz without click any option direct user press addtocart then RTS product inserted into cart
+                break;
+
+            case R.id.tvMetalDetailTitle:
+
+                if(recycleViewDiamondDetail.getVisibility() == View.VISIBLE || recycleViewGemstoneDetail.getVisibility() == View.VISIBLE || tvBeltDetailTitle.getVisibility() == View.VISIBLE) {
+                    tvDiamondDetailLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvDiamondDetailLabel.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvDiamondDetailLabel.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    recycleViewDiamondDetail.setVisibility(View.GONE);
+                    relDiamondDetailTotal.setVisibility(View.GONE);
+
+                    tvGemStoneDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvGemStoneDetailTitle.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvGemStoneDetailTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    recycleViewGemstoneDetail.setVisibility(View.GONE);
+                    relGemstoneDetailTotal.setVisibility(View.GONE);
+
+                    tvBeltDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvBeltDetailTitle.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvBeltDetailTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    relBelt.setVisibility(View.GONE);
                 }
 
-                filterClick(caratValue,"carat");
-                filterClick(diamondValue,"");
-                filterClick(metalValue, "");
-                mBottomSheetDialog.dismiss();
+                if(relMetalPurity.getVisibility() == View.VISIBLE && relMetalWeight.getVisibility() == View.VISIBLE && relMetalTotal.getVisibility() == View.VISIBLE){
+                    tvMetalDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvMetalDetailTitle.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvMetalDetailTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    relMetalPurity.setVisibility(View.GONE);
+                    relMetalWeight.setVisibility(View.GONE);
+                    relMetalTotal.setVisibility(View.GONE);
+                }else {
+                    tvMetalDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_remove_24, 0);
+                    tvMetalDetailTitle.setTextColor(getResources().getColor(R.color.dml_logo_color));
+                    relMetalPurity.setVisibility(View.VISIBLE);
+                    relMetalWeight.setVisibility(View.VISIBLE);
+                    relMetalTotal.setVisibility(View.VISIBLE);
+                }
+                break;
+
+            case R.id.tvDiamondDetail:
+
+                if(tvMetalDetailTitle.getVisibility() == View.VISIBLE || recycleViewGemstoneDetail.getVisibility() == View.VISIBLE || tvBeltDetailTitle.getVisibility() == View.VISIBLE) {
+                    tvMetalDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvMetalDetailTitle.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvMetalDetailTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    relMetalPurity.setVisibility(View.GONE);
+                    relMetalWeight.setVisibility(View.GONE);
+                    relMetalTotal.setVisibility(View.GONE);
+
+                    tvGemStoneDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvGemStoneDetailTitle.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvGemStoneDetailTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    recycleViewGemstoneDetail.setVisibility(View.GONE);
+                    relGemstoneDetailTotal.setVisibility(View.GONE);
+
+                    tvBeltDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvBeltDetailTitle.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvBeltDetailTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    relBelt.setVisibility(View.GONE);
+                }
+
+                if(recycleViewDiamondDetail.getVisibility() == View.VISIBLE){
+                    tvDiamondDetailLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvDiamondDetailLabel.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvDiamondDetailLabel.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    recycleViewDiamondDetail.setVisibility(View.GONE);
+                    relDiamondDetailTotal.setVisibility(View.GONE);
+                }else {
+                    tvDiamondDetailLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_remove_24, 0);
+                    tvDiamondDetailLabel.setTextColor(getResources().getColor(R.color.dml_logo_color));
+                    recycleViewDiamondDetail.setVisibility(View.VISIBLE);
+                    relDiamondDetailTotal.setVisibility(View.VISIBLE);
+                }
+                break;
+
+            case R.id.tvGemStoneDetailTitle:
+                if(tvMetalDetailTitle.getVisibility() == View.VISIBLE || recycleViewDiamondDetail.getVisibility() == View.VISIBLE || tvBeltDetailTitle.getVisibility() == View.VISIBLE){
+                    tvMetalDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvMetalDetailTitle.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvMetalDetailTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    relMetalPurity.setVisibility(View.GONE);
+                    relMetalWeight.setVisibility(View.GONE);
+                    relMetalTotal.setVisibility(View.GONE);
+
+                    tvDiamondDetailLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvDiamondDetailLabel.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvDiamondDetailLabel.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    recycleViewDiamondDetail.setVisibility(View.GONE);
+                    relDiamondDetailTotal.setVisibility(View.GONE);
+
+                    tvBeltDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvBeltDetailTitle.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvBeltDetailTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    relBelt.setVisibility(View.GONE);
+                }
+
+                if(recycleViewGemstoneDetail.getVisibility() == View.VISIBLE){
+                    tvGemStoneDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvGemStoneDetailTitle.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvGemStoneDetailTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    recycleViewGemstoneDetail.setVisibility(View.GONE);
+                    relGemstoneDetailTotal.setVisibility(View.GONE);
+                }else {
+                    tvGemStoneDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_remove_24, 0);
+                    tvGemStoneDetailTitle.setTextColor(getResources().getColor(R.color.dml_logo_color));
+                    recycleViewGemstoneDetail.setVisibility(View.VISIBLE);
+                    relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+                }
+                break;
+
+            case R.id.tvBeltDetailTitle:
+
+                if(tvMetalDetailTitle.getVisibility() == View.VISIBLE || recycleViewDiamondDetail.getVisibility() == View.VISIBLE || recycleViewGemstoneDetail.getVisibility() == View.VISIBLE ){
+
+                    tvMetalDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvMetalDetailTitle.setTextAppearance(this, R.attr.transaction_line_color);
+                    tvMetalDetailTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    relMetalPurity.setVisibility(View.GONE);
+                    relMetalWeight.setVisibility(View.GONE);
+                    relMetalTotal.setVisibility(View.GONE);
+
+                    tvDiamondDetailLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvDiamondDetailLabel.setTextAppearance(this, R.attr.transaction_line_color);
+                    tvDiamondDetailLabel.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    recycleViewDiamondDetail.setVisibility(View.GONE);
+                    relDiamondDetailTotal.setVisibility(View.GONE);
+
+                    tvGemStoneDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvGemStoneDetailTitle.setTextAppearance(this, R.attr.transaction_line_color);
+                    tvGemStoneDetailTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    recycleViewGemstoneDetail.setVisibility(View.GONE);
+                    relGemstoneDetailTotal.setVisibility(View.GONE);
+
+                }
+
+                if(relBelt.getVisibility() ==  View.VISIBLE){
+                    tvBeltDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                    tvBeltDetailTitle.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                    tvBeltDetailTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                    relBelt.setVisibility(View.GONE);
+//                    tvBeltDetailTitle.setVisibility(View.GONE);
+                }else {
+                    tvBeltDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_remove_24, 0);
+                    tvBeltDetailTitle.setTextColor(getResources().getColor(R.color.dml_logo_color));
+                    relBelt.setVisibility(View.VISIBLE);
+                }
                 break;
 
 //            case R.id.btnInfo:
-//                AppLogger.e("More Detail button click which display in recyclerview ","-----");
-//                mBottomDialog_detail.show();
-//                break;
+            case R.id.btnProductDetail:
+                 AppLogger.e("More Detail button click which display in recyclerview ","-----");
+                    if(tvMetalDetailTitle.getVisibility() == View.VISIBLE || recycleViewDiamondDetail.getVisibility() == View.VISIBLE || recycleViewGemstoneDetail.getVisibility() == View.VISIBLE || relBelt.getVisibility() == View.VISIBLE ){
+
+                        tvMetalDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                        tvMetalDetailTitle.setTextAppearance(this, R.attr.transaction_line_color);
+                        tvMetalDetailTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                        relMetalPurity.setVisibility(View.GONE);
+                        relMetalWeight.setVisibility(View.GONE);
+                        relMetalTotal.setVisibility(View.GONE);
+
+                        tvDiamondDetailLabel.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                        tvDiamondDetailLabel.setTextAppearance(this, R.attr.transaction_line_color);
+                        tvDiamondDetailLabel.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                        recycleViewDiamondDetail.setVisibility(View.GONE);
+                        relDiamondDetailTotal.setVisibility(View.GONE);
+
+                        tvGemStoneDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                        tvGemStoneDetailTitle.setTextAppearance(this, R.attr.transaction_line_color);
+                        tvGemStoneDetailTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                        recycleViewGemstoneDetail.setVisibility(View.GONE);
+                        relGemstoneDetailTotal.setVisibility(View.GONE);
+
+                        tvBeltDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
+                        tvBeltDetailTitle.setTextAppearance(ProductDetailAct.this, R.attr.transaction_line_color);
+                        tvBeltDetailTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
+                        relBelt.setVisibility(View.GONE);
+//                        tvBeltDetailTitle.setVisibility(View.GONE);
+                    }
+                 mBottomDialog_detail.show();
+                break;
         }
     }
 
@@ -787,11 +997,11 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     cProductCategoryType = response.body().getProductCategoryType();
                     if (response.body().getStock().equalsIgnoreCase("0")) {
                         linButton.setVisibility(View.GONE);
-//                        btnSoldOut.setVisibility(View.VISIBLE);
-                        linsoldout.setVisibility(View.VISIBLE);
+                        btnSoldOut.setVisibility(View.VISIBLE);
+//                        linsoldout.setVisibility(View.VISIBLE);
                     } else {
-                        linsoldout.setVisibility(View.GONE);
-//                        btnSoldOut.setVisibility(View.GONE);
+//                        linsoldout.setVisibility(View.GONE);
+                        btnSoldOut.setVisibility(View.GONE);
                         linButton.setVisibility(View.VISIBLE);
                     }
 
@@ -922,6 +1132,18 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                 lin_Ring_Size.setVisibility(View.GONE);
                             }
 
+                            if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//                                cardviewProductInfo.setVisibility(View.VISIBLE);
+//                                productInfoPS.setVisibility(View.VISIBLE);
+//                                btnInfo.setOnClickListener(ProductDetailAct.this);
+                                btnProductDetail.setVisibility(View.VISIBLE);
+                                btnProductDetail.setOnClickListener(ProductDetailAct.this);
+                            }else {
+//                                cardviewProductInfo.setVisibility(View.GONE);
+//                                productInfoPS.setVisibility(View.GONE);
+                                btnProductDetail.setVisibility(View.GONE);
+                            }
+
                             //using for Bangle adapter
                             if (!response.body().getBangleSize().isEmpty()) {
 //                              response.body().getBangleSize().get(0).setSelected(true);
@@ -986,6 +1208,14 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                             //using for diamond adapter
                             diamondValue = "SI-IJ";
+
+                            for(int j = 0 ; j < response.body().getStoneClarity().size(); j++ ){
+                                if(response.body().getStoneClarity().get(j).getTitle().equalsIgnoreCase(diamondValue)){
+                                    stoneOptionId = response.body().getStoneClarity().get(j).getOptionId();
+                                    stoneOptionTypeId = response.body().getStoneClarity().get(j).getOptionTypeId();
+                                    recycleViewDiamond.scrollToPosition(j);
+                                }
+                            }
                             diamondAdapter = new DiamondAdapter(ProductDetailAct.this, response.body().getStoneClarity());
                             recycleViewDiamond.setAdapter(diamondAdapter);
 
@@ -999,6 +1229,11 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                 metalValue = data[2] +" "+ data[3];
                             }
 
+                            for(int j = 0 ; j < response.body().getCarat().size(); j++ ){
+                                if(response.body().getCarat().get(j).equalsIgnoreCase(caratValue)){
+                                    recycleViewCarat.scrollToPosition(j);
+                                }
+                            }
                             CaratAdapter caratAdapter = new CaratAdapter(ProductDetailAct.this, response.body().getCarat());
                             recycleViewCarat.setAdapter(caratAdapter);
 
@@ -1020,6 +1255,12 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                 metalList.remove("Two Tone Gold");
                                 metalList.remove("Three Tone Gold");
                                 metalList.remove("Three Tone");
+                            }
+
+                            for(int j = 0 ; j < metalList.size(); j++ ){
+                                if(metalList.get(j).equalsIgnoreCase(caratValue)){
+                                    recycleViewMetal.scrollToPosition(j);
+                                }
                             }
                             MetalAdapter metalAdapter = new MetalAdapter(ProductDetailAct.this, metalList);
                             recycleViewMetal.setAdapter(metalAdapter);
@@ -1059,29 +1300,31 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         if (!response.body().getDiamonddetails().isEmpty()) {
                             linDiamondBox.setVisibility(View.VISIBLE);
                             tvDiamondDetailLabel.setVisibility(View.VISIBLE);
-                            relDiamondDetailTotal.setVisibility(View.VISIBLE);
+//                            relDiamondDetailTotal.setVisibility(View.VISIBLE);
                             cardDiamondBox.setVisibility(View.VISIBLE);
                             DiamondDetailAdapter diamondDetailAdapter = new DiamondDetailAdapter(ProductDetailAct.this, response.body().getDiamonddetails());
                             recycleViewDiamondDetail.setAdapter(diamondDetailAdapter);
                         } else {
                             linDiamondBox.setVisibility(View.GONE);
                             tvDiamondDetailLabel.setVisibility(View.GONE);
-                            relDiamondDetailTotal.setVisibility(View.GONE);
+//                            relDiamondDetailTotal.setVisibility(View.GONE);
                             cardDiamondBox.setVisibility(View.GONE);
                         }
 
                         //using for gemstone detail adapter
                         if (!response.body().getGemstonedetails().isEmpty()) {
+                            cardViewGemstone.setVisibility(View.VISIBLE);
                             tvGemStoneDetailTitle.setVisibility(View.VISIBLE);
-                            recycleViewGemstoneDetail.setVisibility(View.VISIBLE);
-                            relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+//                            recycleViewGemstoneDetail.setVisibility(View.VISIBLE);
+//                            relGemstoneDetailTotal.setVisibility(View.VISIBLE);
                             cardGemstoneBox.setVisibility(View.VISIBLE);
                             GemstoneDetailAdapter gemstoneDetailAdapter = new GemstoneDetailAdapter(ProductDetailAct.this, response.body().getGemstonedetails());
                             recycleViewGemstoneDetail.setAdapter(gemstoneDetailAdapter);
                         }else {
+                            cardViewGemstone.setVisibility(View.GONE);
                             tvGemStoneDetailTitle.setVisibility(View.GONE);
-                            recycleViewGemstoneDetail.setVisibility(View.GONE);
-                            relGemstoneDetailTotal.setVisibility(View.GONE);
+//                            recycleViewGemstoneDetail.setVisibility(View.GONE);
+//                            relGemstoneDetailTotal.setVisibility(View.GONE);
                             cardGemstoneBox.setVisibility(View.GONE);
                         }
 
@@ -1145,10 +1388,10 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                     if(response.body().getGemstonemainprice().isEmpty()){
                         cardGemstoneBox.setVisibility(View.GONE);
-                        relGemstoneDetailTotal.setVisibility(View.GONE);
+//                        relGemstoneDetailTotal.setVisibility(View.GONE);
                     } else {
                         cardGemstoneBox.setVisibility(View.VISIBLE);
-                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+//                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
 
                         tvGemstonePiecesTitle.setText("Gemstone (" + response.body().getGemstonemainprice().get(0).getPieces() + ")");
                         tvGemstonePrice.setText(AppConstants.RS + CommonUtils.rupeeFormat(response.body().getGemstonemainprice().get(0).getGemstoneprice()));
@@ -1156,10 +1399,17 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     }
 
                     if (productCategoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || productCategoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)) {
-                        relBelt.setVisibility(View.VISIBLE);
-                        viewBelt.setVisibility(View.VISIBLE);
+                        cardviewbelt.setVisibility(View.VISIBLE);
+//                        relBelt.setVisibility(View.VISIBLE);
+//                        viewBelt.setVisibility(View.VISIBLE);
+                        tvBeltDetailTitle.setVisibility(View.VISIBLE);
                         float beltPrice = Float.parseFloat(response.body().getBelt_price());
                         tvBeltPrice.setText(AppConstants.RS + CommonUtils.priceFormat(beltPrice));
+                    }else {
+                        cardviewbelt.setVisibility(View.GONE);
+                        tvBeltDetailTitle.setVisibility(View.GONE);
+//                        relBelt.setVisibility(View.GONE);
+//                        viewBelt.setVisibility(View.GONE);
                     }
                     linProgress.setVisibility(View.GONE);
 
@@ -1171,6 +1421,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         tvProductPrice.setText(AppConstants.RS + "0");
                     }else{
                         tvProductPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
+                        tvCustomizePrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
                     }
                     tvColorGold.setText("(" + caratValue + " " + metalValue + ")");
                     cMetalDetail = caratValue + " " + metalValue;
@@ -1224,11 +1475,11 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     cProductId = response.body().getSimpleProductId();
                     if (response.body().getStock().equalsIgnoreCase("0")) {
                         linButton.setVisibility(View.GONE);
-//                        btnSoldOut.setVisibility(View.VISIBLE);
-                        linsoldout.setVisibility(View.VISIBLE);
+                        btnSoldOut.setVisibility(View.VISIBLE);
+//                        linsoldout.setVisibility(View.VISIBLE);
                     } else {
-                        linsoldout.setVisibility(View.GONE);
-//                        btnSoldOut.setVisibility(View.GONE);
+//                        linsoldout.setVisibility(View.GONE);
+                        btnSoldOut.setVisibility(View.GONE);
                         linButton.setVisibility(View.VISIBLE);
                     }
 
@@ -1236,6 +1487,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     AppLogger.e("product type", "----------" + productType);
 
                     cProductCategoryType = response.body().getProductCategoryType();
+                    cProductCategoryId = response.body().getCategoryId();
                     cProductSKU = response.body().getProductDetails().get(0).getProductSku();
 
                     ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(ProductDetailAct.this, response.body().getSlider());
@@ -1263,6 +1515,19 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         AppLogger.e("DetailpageRefresh_RingTypeId","-----"+ ringOptionTypeId);
                     }
 
+                    //Apply this condition for PS category change customize to Earrings Or Pendant than not  display cardView of Product Detail info
+                    if(cProductCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
+//                        cardviewProductInfo.setVisibility(View.VISIBLE);
+//                        productInfoPS.setVisibility(View.VISIBLE);
+//                        btnInfo.setOnClickListener(ProductDetailAct.this);
+                        btnProductDetail.setVisibility(View.VISIBLE);
+                        btnProductDetail.setOnClickListener(ProductDetailAct.this);
+                    }else {
+//                        cardviewProductInfo.setVisibility(View.GONE);
+//                        productInfoPS.setVisibility(View.GONE);
+                        btnProductDetail.setVisibility(View.GONE);
+                    }
+
                     //using for rts adapter
                     if (!response.body().getRtsSlider().isEmpty()) {
 //                        recycleViewReadyToShip.setVisibility(View.VISIBLE);
@@ -1281,8 +1546,15 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     cmetalCarat = caratValue;
                     cmetalQualityColor = metalValue;
 
-                    //using for diamond adapter
+                    //using for diamond adapter   // Comment on 26/12/2020   Why need again call diamond adapter ??
                     if (!response.body().getStoneClarity().isEmpty()) {
+                        for(int j = 0 ; j < response.body().getStoneClarity().size(); j++ ){
+                            if(response.body().getStoneClarity().get(j).getTitle().equalsIgnoreCase(diamondValue)){
+                                stoneOptionId = response.body().getStoneClarity().get(j).getOptionId();
+                                stoneOptionTypeId = response.body().getStoneClarity().get(j).getOptionTypeId();
+                                recycleViewDiamond.scrollToPosition(j);
+                            }
+                        }
                         diamondAdapter = new DiamondAdapter(ProductDetailAct.this, response.body().getStoneClarity());
                         recycleViewDiamond.setAdapter(diamondAdapter);
                     }
@@ -1406,29 +1678,31 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     if (response.body().getDiamonddetails() != null) {
                         linDiamondBox.setVisibility(View.VISIBLE);
                         tvDiamondDetailLabel.setVisibility(View.VISIBLE);
-                        relDiamondDetailTotal.setVisibility(View.VISIBLE);
+//                        relDiamondDetailTotal.setVisibility(View.VISIBLE);
                         cardDiamondBox.setVisibility(View.VISIBLE);
                         DiamondDetailAdapter diamondDetailAdapter = new DiamondDetailAdapter(ProductDetailAct.this, response.body().getDiamonddetails());
                         recycleViewDiamondDetail.setAdapter(diamondDetailAdapter);
                     } else {
                         linDiamondBox.setVisibility(View.GONE);
                         tvDiamondDetailLabel.setVisibility(View.GONE);
-                        relDiamondDetailTotal.setVisibility(View.GONE);
+//                        relDiamondDetailTotal.setVisibility(View.GONE);
                         cardDiamondBox.setVisibility(View.GONE);
                     }
 
                     //using for gemstone detail adapter
                     if (!response.body().getGemstonedetails().isEmpty()) {
+                        cardViewGemstone.setVisibility(View.VISIBLE);
                         tvGemStoneDetailTitle.setVisibility(View.VISIBLE);
-                        recycleViewGemstoneDetail.setVisibility(View.VISIBLE);
-                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+//                        recycleViewGemstoneDetail.setVisibility(View.VISIBLE);
+//                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
                         cardGemstoneBox.setVisibility(View.VISIBLE);
                         GemstoneDetailAdapter gemstoneDetailAdapter = new GemstoneDetailAdapter(ProductDetailAct.this, response.body().getGemstonedetails());
                         recycleViewGemstoneDetail.setAdapter(gemstoneDetailAdapter);
                     }else {
+                        cardViewGemstone.setVisibility(View.GONE);
                         tvGemStoneDetailTitle.setVisibility(View.GONE);
-                        recycleViewGemstoneDetail.setVisibility(View.GONE);
-                        relGemstoneDetailTotal.setVisibility(View.GONE);
+//                        recycleViewGemstoneDetail.setVisibility(View.GONE);
+//                        relGemstoneDetailTotal.setVisibility(View.GONE);
                         cardGemstoneBox.setVisibility(View.GONE);
                     }
 
@@ -1451,10 +1725,10 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                     if(response.body().getGemstonemainprice().isEmpty()){
                         cardGemstoneBox.setVisibility(View.GONE);
-                        relGemstoneDetailTotal.setVisibility(View.GONE);
+//                        relGemstoneDetailTotal.setVisibility(View.GONE);
                     } else {
                         cardGemstoneBox.setVisibility(View.VISIBLE);
-                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+//                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
 
                         tvGemstonePiecesTitle.setText("Gemstone (" + response.body().getGemstonemainprice().get(0).getPieces() + ")");
                         tvGemstonePrice.setText(AppConstants.RS + CommonUtils.rupeeFormat(response.body().getGemstonemainprice().get(0).getGemstoneprice()));
@@ -1492,8 +1766,10 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
                     if (response.body().getProductDetails().get(0).getPrice() == "0") {
                         tvProductPrice.setText(AppConstants.RS + "0");
+
                     } else {
                         tvProductPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
+                        tvCustomizePrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
                     }
 
                     if (caratValue.equalsIgnoreCase("Platinum(950)")) {
@@ -1505,6 +1781,11 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     }
                     cStoneDetail = diamondValue;
                     //                response.body().getDiamonddetails().get(0).getTotalweight();
+
+                    //Apply Addrecord method use here for 1st user open customize box & Without click any option direct press Addtocart
+                    if(customizeflag == 1){
+                        addRecord();
+                    }
                 }
             }
 
@@ -1563,6 +1844,12 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
     @Override
     public void filterClick(String commonIdName, String clickAction) {
+
+        if(clickAction.equalsIgnoreCase("Customize")){
+//            addRecord();
+            customizeflag = 1;
+        }
+
         if (productCategoryId.equalsIgnoreCase(AppConstants.RING_ID)) {
             productDetailRefresh(productId, caratValue, metalValue, ringValue, diamondValue, "", "", "","","",clickAction);
         } else if (productCategoryId.equalsIgnoreCase(AppConstants.BRACELETS_ID)) {
@@ -1580,6 +1867,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         } else {
             productDetailRefresh(productId, caratValue, metalValue, "", diamondValue, "", "", "","", "",clickAction);
         }
+
     }
 
     @Override
@@ -1611,10 +1899,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
             tvColorGold.setText("(" + caratValue + ")");
             cMetalDetail = caratValue;
         }
-
         MetalAdapter metalAdapter = new MetalAdapter(ProductDetailAct.this, metalList);
         recycleViewMetal.setAdapter(metalAdapter);
-
     }
 
     private void rtsProductClick(String productId){
@@ -1635,25 +1921,25 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
                     if (response.body().getStock().equalsIgnoreCase("0")) {
                         linButton.setVisibility(View.GONE);
-//                        btnSoldOut.setVisibility(View.VISIBLE);
-                        linsoldout.setVisibility(View.VISIBLE);
+                        btnSoldOut.setVisibility(View.VISIBLE);
+//                        linsoldout.setVisibility(View.VISIBLE);
                     } else {
-                        linsoldout.setVisibility(View.GONE);
-//                        btnSoldOut.setVisibility(View.GONE);
+//                        linsoldout.setVisibility(View.GONE);
+                        btnSoldOut.setVisibility(View.GONE);
                         linButton.setVisibility(View.VISIBLE);
                     }
                     AppLogger.e("getDiamonddetails", "-------" + response.body().getDiamonddetails());
                     if (response.body().getDiamonddetails() != null) {
                         linDiamondBox.setVisibility(View.VISIBLE);
                         tvDiamondDetailLabel.setVisibility(View.VISIBLE);
-                        relDiamondDetailTotal.setVisibility(View.VISIBLE);
+//                        relDiamondDetailTotal.setVisibility(View.VISIBLE);
                         cardDiamondBox.setVisibility(View.VISIBLE);
                         DiamondDetailRTSAdapter diamondDetailAdapter = new DiamondDetailRTSAdapter(ProductDetailAct.this, response.body().getDiamonddetails());
                         recycleViewDiamondDetail.setAdapter(diamondDetailAdapter);
                     } else {
                         linDiamondBox.setVisibility(View.GONE);
                         tvDiamondDetailLabel.setVisibility(View.GONE);
-                        relDiamondDetailTotal.setVisibility(View.GONE);
+//                        relDiamondDetailTotal.setVisibility(View.GONE);
                         cardDiamondBox.setVisibility(View.GONE);
                     }
                     //Product Detail
@@ -1691,13 +1977,13 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     if (response.body().getDiamondmainprice().isEmpty()) {
                         linDiamondBox.setVisibility(View.GONE);
                         tvDiamondDetailLabel.setVisibility(View.GONE);
-                        relDiamondDetailTotal.setVisibility(View.GONE);
+//                        relDiamondDetailTotal.setVisibility(View.GONE);
                         cardDiamondBox.setVisibility(View.GONE);
 
                     } else {
                         linDiamondBox.setVisibility(View.VISIBLE);
                         tvDiamondDetailLabel.setVisibility(View.VISIBLE);
-                        relDiamondDetailTotal.setVisibility(View.VISIBLE);
+//                        relDiamondDetailTotal.setVisibility(View.VISIBLE);
                         cardDiamondBox.setVisibility(View.VISIBLE);
                         tvDiamondPiecesTitle.setText("Diamond (" + response.body().getDiamondmainprice().get(0).getPices() + ")");
                         tvDiamondPrice.setText(AppConstants.RS + CommonUtils.rupeeFormat(response.body().getDiamondmainprice().get(0).getDimondprice()));
@@ -1725,12 +2011,20 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     tvMetalEstimatedTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(String.valueOf(value))));
                     linProgress.setVisibility(View.GONE);
                     if (productCategoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || productCategoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)) {
-                        relBelt.setVisibility(View.VISIBLE);
-                        viewBelt.setVisibility(View.VISIBLE);
+                        cardviewbelt.setVisibility(View.VISIBLE);
+//                        relBelt.setVisibility(View.VISIBLE);
+                        tvBeltDetailTitle.setVisibility(View.VISIBLE);
+//                        viewBelt.setVisibility(View.VISIBLE);
                         float beltPrice = Float.parseFloat(response.body().getBelt_price());
 // //                       tvBeltPrice.setText(AppConstants.RS + CommonUtils.priceFormat(beltPrice));
 
+                    }else {
+                        tvBeltDetailTitle.setVisibility(View.GONE);
+                        cardviewbelt.setVisibility(View.GONE);
+//                        relBelt.setVisibility(View.GONE);
+//                        viewBelt.setVisibility(View.GONE);
                     }
+
                     tvGrandTotal.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
                     if(response.body().getProductDetails().get(0).getPrice() == "0"){
                         tvProductPrice.setText(AppConstants.RS + "0");
@@ -1740,16 +2034,18 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //                tvColorGold.setText("(" + caratValue + " " + metalValue + ")");
 
                     if(!response.body().getGemstonedetails().isEmpty()){
+                        cardViewGemstone.setVisibility(View.VISIBLE);
                         tvGemStoneDetailTitle.setVisibility(View.VISIBLE);
-                        recycleViewGemstoneDetail.setVisibility(View.VISIBLE);
-                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
+//                        recycleViewGemstoneDetail.setVisibility(View.VISIBLE);
+//                        relGemstoneDetailTotal.setVisibility(View.VISIBLE);
                         cardGemstoneBox.setVisibility(View.VISIBLE);
                         GemstoneDetailRTSAdapter gemstoneDetailAdapter = new GemstoneDetailRTSAdapter(ProductDetailAct.this, response.body().getGemstonedetails());
                         recycleViewGemstoneDetail.setAdapter(gemstoneDetailAdapter);
                     }else {
+                        cardViewGemstone.setVisibility(View.GONE);
                         tvGemStoneDetailTitle.setVisibility(View.GONE);
-                        recycleViewGemstoneDetail.setVisibility(View.GONE);
-                        relGemstoneDetailTotal.setVisibility(View.GONE);
+//                        recycleViewGemstoneDetail.setVisibility(View.GONE);
+//                        relGemstoneDetailTotal.setVisibility(View.GONE);
                         cardGemstoneBox.setVisibility(View.GONE);
                     }
                 }
@@ -1765,8 +2061,8 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 
     //product add to cart
     public void addRecord() {
-
-        if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+        //Comment Addtocart without login code bcz fromnow User is not access any of the page W/O login
+/*        if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
 
 //            if(Rtsflag == 1 ){
 //                rtsClick(cProductId);
@@ -1926,7 +2222,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                                 ctotalItem,
                                 cProductCategoryType);
 
-                        //                           Toast.makeText(getApplicationContext(), "item added to cart", Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(getApplicationContext(), "item added to cart", Toast.LENGTH_SHORT).show();
                         CommonUtils.showSuccessToast(ProductDetailAct.this, "Product added in cart.");
                         cartCount++;
                         setupBadge();
@@ -2007,7 +2303,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                 databaseCartAdapter.closeDatabase();
             }
             cursor.close();
-        } else {
+        } else {  */
 
             if (productType.equalsIgnoreCase("simple")) {
                 ringOptionId = "";
@@ -2027,16 +2323,18 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     ringOptionId = "";
                     ringOptionTypeId = "";
                 }
-                stoneOptionId = diamondAdapter.stoneOptionId;
-                stoneOptionTypeId = diamondAdapter.stoneOptionTypeId;
-//                if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID)){
-//                    cProductId= pendentProId.toString();
-//                    AppLogger.e("AddToCart","cProductId---pendentProId----" + cProductId);
-//                }
+                //Comment this two lines bcz here Both Id sets zero
+                stoneOptionId = stoneOptionId;
+                stoneOptionTypeId = stoneOptionTypeId;
+
+////                if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID)){
+////                    cProductId= pendentProId.toString();
+////                    AppLogger.e("AddToCart","cProductId---pendentProId----" + cProductId);
+////                }
             }
 
             addToCart(cProductId, customerId, ringOptionId, ringOptionTypeId, stoneOptionId, stoneOptionTypeId, "1",metalValue, caratValue);
-        }
+//        }
     }
 
     public void buyNow() {
@@ -2062,8 +2360,12 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                 ringOptionId = "";
                 ringOptionTypeId = "";
             }
-            stoneOptionId = diamondAdapter.stoneOptionId;
-            stoneOptionTypeId = diamondAdapter.stoneOptionTypeId;
+//            stoneOptionId = diamondAdapter.stoneOptionId;
+//            stoneOptionTypeId = diamondAdapter.stoneOptionTypeId;
+
+            stoneOptionId = stoneOptionId;
+            stoneOptionTypeId = stoneOptionTypeId;
+
 //            if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_ID) || productCategoryId.equalsIgnoreCase(AppConstants.EARRINGS_ID)){
 //            if(productCategoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)) {
 //                cProductId= pendentProId;
@@ -2102,9 +2404,19 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         CommonUtils.showSuccessToast(ProductDetailAct.this, "Product added in cart.");
                         cartCount++;
                         setupBadge();
+                        CustomizeClick = 0;
+                        customizeflag = 0;
+                        if(mBottomSheetDialog.isShowing()){
+                            mBottomSheetDialog.dismiss();
+                        }
                     }else {
                         message=jsonObject.getString("message");
                         CommonUtils.showWarningToast(ProductDetailAct.this,message);
+                        CustomizeClick = 0;
+                        customizeflag = 0;
+                        if(mBottomSheetDialog.isShowing()){
+                            mBottomSheetDialog.dismiss();
+                        }
                     }
 
                 } catch (JSONException e) {
@@ -2140,8 +2452,12 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         setupBadge();
                         cartbackFlag = 1;
                         cartCheckBugNowFlag = 1;
+                        CustomizeClick = 0;
+                        customizeflag = 0;
                         startNewActivity(CartAct.class);
                     }else{
+                        CustomizeClick = 0;
+                        customizeflag = 0;
                         message=jsonObject.getString("message");
                         CommonUtils.showWarningToast(ProductDetailAct.this,message);
                     }

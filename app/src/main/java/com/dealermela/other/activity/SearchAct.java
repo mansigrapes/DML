@@ -2,6 +2,7 @@ package com.dealermela.other.activity;
 
 import android.content.Intent;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -176,7 +177,6 @@ public class SearchAct extends DealerMelaBaseActivity implements View.OnClickLis
             case R.id.imgclose:
                 edSearch.getText().clear();
             break;
-
         }
     }
 

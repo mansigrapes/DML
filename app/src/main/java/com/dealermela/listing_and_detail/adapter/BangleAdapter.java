@@ -15,6 +15,8 @@ import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.listing_and_detail.model.ProductDetailItem;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.ThemePreferences;
+
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.CustomizeClick;
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.SizeValue;
 
 import java.util.List;
@@ -115,10 +117,12 @@ public class BangleAdapter extends RecyclerView.Adapter<BangleAdapter.ViewHolder
                     bangleSize.setSelected(true);
                 }
             }
+            CustomizeClick = 1;    //Add this flag for fun of Addtocart press than not need to again call refresh API
+
             bangleProductId=itemArrayList.get(getAdapterPosition()).getProductId();
             SizeValue=itemArrayList.get(getAdapterPosition()).getValue();
             ((ProductDetailAct) activity).cBangle=itemArrayList.get(getAdapterPosition()).getLabel();
-//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"Bangle");
+            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"Bangle");
             notifyDataSetChanged();
         }
 

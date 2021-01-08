@@ -18,6 +18,8 @@ import com.dealermela.util.ThemePreferences;
 
 import java.util.List;
 
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.CustomizeClick;
+
 public class BraceletsAdapter extends RecyclerView.Adapter<BraceletsAdapter.ViewHolder> {
     private RecyclerViewClickListener recyclerViewClickListener;
     private final Activity activity;
@@ -110,9 +112,11 @@ public class BraceletsAdapter extends RecyclerView.Adapter<BraceletsAdapter.View
                     braceletsSize.setSelected(true);
                 }
             }
+            CustomizeClick = 1;    //Add this flag for fun of Addtocart press than not need to again call refresh API
+
             braceletProductId=itemArrayList.get(getAdapterPosition()).getProductId();
             ((ProductDetailAct) activity).cBracelet=itemArrayList.get(getAdapterPosition()).getLabel();
-//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");
+            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");
             notifyDataSetChanged();
         }
 
@@ -120,7 +124,5 @@ public class BraceletsAdapter extends RecyclerView.Adapter<BraceletsAdapter.View
         public boolean onLongClick(View v) {
             return false;
         }
-
     }
-
 }

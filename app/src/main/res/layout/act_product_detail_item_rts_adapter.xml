@@ -4,16 +4,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:id="@+id/linRts"
     android:layout_marginStart="@dimen/eight_margin_padding"
     android:background="@drawable/ten_rts_border">
 <!--    android:background="@drawable/ten_rts_border"
-  android:padding="@dimen/rts_item_padding" -->
+   android:padding="@dimen/rts_item_padding" -->
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/linRts"
         android:paddingLeft="@dimen/rts_item_padding"
         android:paddingTop="@dimen/rts_item_padding"
         android:paddingRight="@dimen/rts_item_padding">
@@ -59,8 +59,7 @@
             android:id="@+id/tvDiamondWeight"
             style="@style/rts_item_sub_header"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-             />
+            android:layout_height="wrap_content" />
 
         <com.dealermela.utility.DmlTextView
             android:id="@+id/tvSizeTitle"
@@ -82,10 +81,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:id="@+id/btnInfo"
-        android:gravity="end">
+        android:gravity="end"
+        android:background="?attr/selectableItemBackground">
 
         <com.dealermela.utility.DmlImageView
+            android:id="@+id/btnInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -93,8 +93,10 @@
             android:layout_marginRight="@dimen/ten_sp"
             android:layout_marginBottom="@dimen/eight_sp"
             android:clickable="true"
+            android:background="?attr/selectableItemBackground"
             android:src="@drawable/ic_outline_info_24" />
     </LinearLayout>
+
     <!--    <Button-->
     <!--        android:id="@+id/btnInfo"-->
     <!--        android:layout_width="wrap_content"-->

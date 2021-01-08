@@ -159,7 +159,7 @@
     <string name="reset">Reset</string>
     <string name="apply">Apply</string>
     <string name="theme">Theme</string>
-    <string name="customise_your_jewellery">Customize your jewellery</string>
+    <string name="customise_your_jewellery">Customize this product</string>
     <string name="create_your_own_customised_jwellery">Create your own customized jewellery</string>
     <string name="ring_size">Ring Size</string>
     <string name="diamond">Stone Quality</string>
@@ -193,6 +193,7 @@
     <string name="certificate_no">Certificate No</string>
     <string name="diamond_detail">DIAMOND DETAIL</string>
     <string name="metal_detail">METAL DETAIL</string>
+    <string name="belt_detail">BELT DETAIL</string>
     <string name="purity">Purity</string>
     <string name="weight_approx">Weight(Approx)</string>
     <string name="estimated_total">Estimated Total</string>

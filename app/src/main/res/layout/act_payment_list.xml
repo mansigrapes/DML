@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         style="@style/transaction_card"
         android:layout_width="0dp"
@@ -56,9 +56,9 @@
 
         </LinearLayout>
 
-    </androidx.appcompat.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <androidx.appcompat.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         style="@style/transaction_card"
         android:layout_width="0dp"
@@ -98,10 +98,10 @@
 
         </LinearLayout>
 
-    </androidx.appcompat.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
-    <androidx.appcompat.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewPaymentList"
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -19,6 +19,7 @@ import java.util.List;
 
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.btnapply;
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.diamondValue;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.CustomizeClick;
 
 public class DiamondAdapter extends RecyclerView.Adapter<DiamondAdapter.ViewHolder> {
     private final Activity activity;
@@ -120,10 +121,12 @@ public class DiamondAdapter extends RecyclerView.Adapter<DiamondAdapter.ViewHold
             stoneOptionId=itemArrayList.get(getAdapterPosition()).getOptionId();
             stoneOptionTypeId=itemArrayList.get(getAdapterPosition()).getOptionTypeId();
 
+            CustomizeClick = 1;    //Add this flag for fun of Addtocart press than not need to again call refresh API
+
             AppLogger.e("stoneOptionId","------------"+ stoneOptionId);
             AppLogger.e("stoneOptionTypeId","------------"+ stoneOptionTypeId);
-//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getTitle(),"");
-//            notifyDataSetChanged();
+            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getTitle(),"");
+            notifyDataSetChanged();
         }
 
         @Override

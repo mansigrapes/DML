@@ -15,6 +15,8 @@ import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.listing_and_detail.model.ProductDetailItem;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.ThemePreferences;
+
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.CustomizeClick;
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.TypeValue;
 
 import java.util.List;
@@ -126,10 +128,12 @@ public class PendentSetsAdapter extends RecyclerView.Adapter<PendentSetsAdapter.
                     pendentEarring.setSelected(true);
                 }
             }
+            CustomizeClick = 1;    //Add this flag for fun of Addtocart press than not need to again call refresh API
+
             pendentProId=itemArrayList.get(getAdapterPosition()).getProductId();
             TypeValue=itemArrayList.get(getAdapterPosition()).getValue();
             ((ProductDetailAct) activity).cPendentSet=itemArrayList.get(getAdapterPosition()).getLabel();
-//            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");
+            ((ProductDetailAct) activity).filterClick(itemArrayList.get(getAdapterPosition()).getProductId(),"");
             notifyDataSetChanged();
         }
 
