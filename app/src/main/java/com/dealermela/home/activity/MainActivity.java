@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 
 import com.dealermela.home.adapter.MainCategoryAdapter;
 import com.dealermela.home.model.SubcategoryItem;
+import com.dealermela.other.activity.NewSearchAct;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -285,7 +286,8 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_search) {
-            startNewActivity(SearchAct.class);
+//            startNewActivity(SearchAct.class);
+            startNewActivity(NewSearchAct.class);
             return true;
         }else if(id == R.id.action_Scancode){
             startNewActivity(QRCodeScanningAct.class);

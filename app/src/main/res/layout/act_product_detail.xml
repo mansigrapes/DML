@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/relDetailImage">
 
-<!--                Before This Height set to 250dp Changed on 31/12/2020 -->
+<!--  Before This Height set to 250dp Changed on 31/12/2020 -->
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPagerSlider"
@@ -286,8 +286,7 @@
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/two_dp"
                                 android:text="@string/metal_without_colon"
-                                android:textColor="?dml_logo_color"
-                                />
+                                android:textColor="?dml_logo_color" />
 
                             <View
                                 android:layout_width="@dimen/hundred_sp"

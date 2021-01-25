@@ -7,10 +7,10 @@ import com.dealermela.R;
 public final class AppConstants {
     //    API base urlprli
 //    public static final String BASE_URL = "http://www.diamondmela.com/";
-//    public static final String BASE_URL = "http://203.112.144.7/dmlmage/";    //Live url changed on 17/10/2020
-    public static final String BASE_URL = "http://123.108.51.11/index.php/";    // Test server
-//    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftware/";
-    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftwaretest/";   //Test server
+    public static final String BASE_URL = "http://203.112.144.7/dmlmage/";    //Live url changed on 17/10/2020
+//    public static final String BASE_URL = "http://123.108.51.11/index.php/";    // Test server
+    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftware/";
+//    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftwaretest/";   //Test server
   //Temporary set on 29/02/2020
 //    public static final String BASE_URL_LARAVEL = "http://www.diamondmela.com/";
 

@@ -36,7 +36,8 @@ import retrofit2.Response;
 
 import static com.dealermela.util.AppConstants.RESPONSE;
 
-public class SearchAct extends DealerMelaBaseActivity implements View.OnClickListener{
+public class
+SearchAct extends DealerMelaBaseActivity implements View.OnClickListener{
 
     private RecyclerView recycleViewHeader;
     private EditText edSearch;

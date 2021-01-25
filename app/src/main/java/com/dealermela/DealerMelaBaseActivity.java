@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.dealermela.cart.activity.CartAct;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
 import com.dealermela.interfaces.ViewBindingListener;
+import com.dealermela.other.activity.NewSearchAct;
 import com.dealermela.other.activity.SearchAct;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
@@ -309,7 +310,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
                 return true;
             }
             case R.id.action_search: {
-                startNewActivity(SearchAct.class);
+                startNewActivity(NewSearchAct.class);
                 return true;
             }
         }

@@ -734,11 +734,15 @@
         <!-- Gets rid of the search icon -->
         <item name="searchIcon">@drawable/ic_search_new</item>
         <!-- Gets rid of the "underline" in the text -->
-        <item name="queryBackground">@color/white</item>
+        <item name="android:queryBackground">@color/white</item>
         <!-- Gets rid of the search icon when the SearchView is expanded -->
         <item name="searchHintIcon">@null</item>
+        <item name="android:textColor">?toolbarTextColor</item>
+        <item name="android:editTextColor">?toolbarTextColor</item>
+        <item name="android:cursorVisible">true</item>
         <!-- The hint text that appears when the user has not typed anything -->
     </style>
+<!--    <item name="android:textColor">?toolbarTextColor</item>-->
 
     <style name="MyAlertMaintenanceDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Used for the buttons -->

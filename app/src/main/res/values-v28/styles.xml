@@ -360,7 +360,6 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-
     <!--Edit Contact Information-->
 
     <style name="edit_contact_top">
@@ -444,7 +443,6 @@
         <item name="android:tint">?toolbarTextColor</item>
     </style>
 
-
     <!--Listing-->
     <style name="listing_sort_filter_text">
         <item name="android:padding">@dimen/five_sp</item>
@@ -455,7 +453,6 @@
         <item name="android:textColor">?toolbarTextColor</item>
         <!--<item name="android:visibility">gone</item>-->
     </style>
-
 
     <style name="list_item_text">
         <item name="android:textSize">@dimen/ten_sp</item>
@@ -485,7 +482,6 @@
     <style name="rts_item_sub_header">
         <item name="android:textSize">@dimen/twelve_sp</item>
         <item name="android:lines">1</item>
-
     </style>
 
     <style name="product_full_detail_text">
@@ -511,10 +507,8 @@
     </style>
 
     <style name="transaction_img">
-
         <item name="android:tint">?toolbarTextColor</item>
     </style>
-
 
     <!--Cart List-->
     <style name="cart_item_text">
@@ -670,7 +664,6 @@
         <item name="android:tint">?toolbarViewColor</item>
     </style>
 
-
     <style name="download_radio_btn">
         <item name="android:buttonTint">?toolbarTextColor</item>
         <item name="android:textColor">?toolbarTextColor</item>
@@ -695,12 +688,10 @@
         <item name="android:textColor">?toolbarTextColor</item>
     </style>
 
-
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">?toolbarViewColor</item>
         <item name="boxStrokeWidth">2dp</item>
     </style>
-
 
     <style name="progressBarColor" parent="@style/Theme.AppCompat">
         <item name="colorAccent">?toolbarTextColor</item>
@@ -709,7 +700,6 @@
     <style name="whiteprogressBarColor" parent="@style/Theme.AppCompat">
         <item name="colorAccent">@color/white</item>
     </style>
-
 
     <style name="check_box_radio">
         <item name="android:textColor">?toolbarTextColor</item>
@@ -752,9 +742,12 @@
         <item name="queryBackground">@color/white</item>
         <!-- Gets rid of the search icon when the SearchView is expanded -->
         <item name="searchHintIcon">@null</item>
+        <item name="android:textColor">?toolbarTextColor</item>
+        <item name="android:editTextColor">?toolbarTextColor</item>
+        <item name="android:cursorVisible">true</item>
         <!-- The hint text that appears when the user has not typed anything -->
-
     </style>
+<!--    <item name="android:textColor">?toolbarTextColor</item>-->
 
     <style name = "All_Dmlbutton">
         <item name="android:textAllCaps">false</item>

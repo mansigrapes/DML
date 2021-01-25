@@ -99,7 +99,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-
         android:id="@+id/recycleViewFilterData"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -107,7 +106,44 @@
         app:layout_constraintBottom_toTopOf="@+id/btnApply"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/listViewFilter"
-        app:layout_constraintTop_toBottomOf="@+id/view9" />
+        app:layout_constraintTop_toBottomOf="@+id/edFilterSearch" />
+
+<!--    android:drawableStart="@drawable/serch_ic"-->
+    <com.dealermela.utility.DmlEditText
+        android:id="@+id/edFilterSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_baseline_search_24"
+        android:hint="Search "
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:lines="1"
+        android:textColor="?toolbarTextColor"
+        android:textColorHint="?toolbarTextColor"
+        android:textCursorDrawable="@null"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="13sp"
+        android:layout_marginLeft="@dimen/eight_sp"
+        app:layout_constraintStart_toEndOf="@+id/listViewFilter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view9"
+        app:layout_constraintBottom_toTopOf="@+id/viewSearchFilter"
+        android:visibility="gone">
+        <requestFocus/>
+    </com.dealermela.utility.DmlEditText>
+
+    <View
+        android:id="@+id/viewSearchFilter"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/one_sp_view"
+        style="@style/view_style_detail_page"
+        android:layout_marginLeft="@dimen/eight_sp"
+        android:layout_marginRight="@dimen/eight_sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/listViewFilter"
+        app:layout_constraintTop_toBottomOf="@+id/edFilterSearch"
+        app:layout_constraintBottom_toTopOf="@+id/recycleViewFilterData"
+        android:visibility="gone"/>
 
     <com.dealermela.utility.DmlEditText
         android:id="@+id/edText"

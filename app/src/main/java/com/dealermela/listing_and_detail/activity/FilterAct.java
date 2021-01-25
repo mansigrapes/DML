@@ -3,6 +3,8 @@ package com.dealermela.listing_and_detail.activity;
 import android.content.Intent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.database.Cursor;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
+import com.dealermela.dbhelper.FilterSearchDatabase;
 import com.dealermela.listing_and_detail.adapter.FilterRecyclerAdapter;
 import com.dealermela.listing_and_detail.adapter.FilterTitleListAdapter;
 import com.dealermela.listing_and_detail.model.FilterItem;
@@ -39,7 +42,7 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     private LinearLayoutManager linearLayoutManager;
     //    public static List<FilterItem.Datum> filterItems = new ArrayList<>();
 //    private List<FilterItem.Datum> filterItems = new ArrayList<>();
-    private EditText edText;
+    private EditText edText,edFilterSearch;
     private ImageView imgBack;
     private TextView tvReset;
     private Button btnApply;
@@ -56,7 +59,14 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
     private int pos = 0;
     public static int filterCurrentPosition = 0;
     private ArrayList<FilterItem.OptionDatum> selectFilterArray = new ArrayList<>();
-    private String categoryId,Subcategoryid;
+    private String categoryId,Subcategoryid,text;
+
+    private ArrayList<FilterItem.OptionDatum> optionslist  = new ArrayList<>();
+    private ArrayList<FilterItem.OptionDatum> searchOptionResult = new ArrayList<>();
+    private ArrayList<String> updatedSearchOption;
+    private View viewSearchFilter;
+    private FilterSearchDatabase filterdb;
+    private Cursor cursor;
 
     @Override
     protected int getLayoutResourceId() {
@@ -89,10 +99,14 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
         edText = findViewById(R.id.edText);
         btnApply = findViewById(R.id.btnApply);
         progressBarFilter = findViewById(R.id.progressBarFilter);
+        edFilterSearch = findViewById(R.id.edFilterSearch);
 //        linContainer = findViewById(R.id.linContainer);
 //        hsView = findViewById(R.id.hsView);
         btnApply.setEnabled(false);
         progressBarFilter.setVisibility(View.GONE);
+        viewSearchFilter = findViewById(R.id.viewSearchFilter);
+        filterdb = new FilterSearchDatabase(this);
+        updatedSearchOption = new ArrayList<String>();
     }
 
     @Override
@@ -136,6 +150,9 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                 if (adapter.items.get(position).getOption_type().equalsIgnoreCase("text")) {
                     edText.setVisibility(View.VISIBLE);
                     recycleViewFilterData.setVisibility(View.GONE);
+                    edFilterSearch.setText("");
+                    edFilterSearch.setVisibility(View.GONE);
+                    viewSearchFilter.setVisibility(View.GONE);
 
                     if(!edText.getText().toString().isEmpty()) {
 
@@ -175,6 +192,40 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
 //                        //key does not exists
 //                        mapFilter.put(paramKey, "");
 //                    }
+
+                    if(adapter.items.get(position).getOptionName().equalsIgnoreCase("diamond_quality")){
+                        edFilterSearch.setText("");
+                        edFilterSearch.setVisibility(View.VISIBLE);
+                        viewSearchFilter.setVisibility(View.VISIBLE);
+                        optionslist.clear();
+                        for(int i = 0 ; i < adapter.items.get(position).getOptionData().size() ; i++) {
+                            optionslist.add(adapter.items.get(position).getOptionData().get(i));
+                        }
+                        AppLogger.e("OptionData_Quality List ","-----" + optionslist.toString());
+
+                    } else if (adapter.items.get(position).getOptionName().equalsIgnoreCase("diamond_shape")) {
+                        edFilterSearch.setText("");
+                        edFilterSearch.setVisibility(View.VISIBLE);
+                        viewSearchFilter.setVisibility(View.VISIBLE);
+                        optionslist.clear();
+                        for(int i = 0 ; i < adapter.items.get(position).getOptionData().size() ; i++) {
+                            optionslist.add(adapter.items.get(position).getOptionData().get(i));
+                        }
+                        AppLogger.e("OptionData_Shape List ","-----" + optionslist.toString());
+                    }else {
+                        edFilterSearch.setText("");
+                        edFilterSearch.setVisibility(View.GONE);
+                        viewSearchFilter.setVisibility(View.GONE);
+                        optionslist.clear();
+                        optionslist.addAll(adapter.items.get(position).getOptionData());
+                    }
+                    cursor = filterdb.getAllValues();
+                    if(cursor.getCount() > 0){
+                        filterdb.deleteAllRecord();
+                    }
+                    for (int j = 0 ; j < optionslist.size() ; j++) {
+                        filterdb.insertSuggestion(optionslist.get(j).getLabel());
+                    }
                     pos = position;
                     filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, filterSelectItems.get(position).getOptionData());
                     recycleViewFilterData.setAdapter(filterRecyclerAdapter);
@@ -255,6 +306,116 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                     btnApply.setEnabled(true);
                     btnApply.setBackgroundColor(getResources().getColor(R.color.dml_logo_color));
                     btnApply.setTextColor(getResources().getColor(R.color.white));
+                }
+            }
+        });
+
+        edFilterSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                showcloseimg();
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                showcloseimg();
+                if (!edFilterSearch.getText().toString().isEmpty()) {
+                    text = edFilterSearch.getText().toString();
+
+                    cursor = filterdb.getSuggestions(edFilterSearch.getText().toString());
+                    AppLogger.e("Get Suggestion as  we searched something","---"+ cursor);
+
+                    updatedSearchOption.clear();
+                    searchOptionResult.clear();
+
+                    if(cursor.getCount() > 0){
+                        cursor.moveToFirst();
+                        for(int k = 0 ; k < cursor.getCount(); k++){
+                            AppLogger.e("Searched Filter data result","------"+ cursor.getString(cursor.getColumnIndex(FilterSearchDatabase.FIELD_SEARCH)));
+//                            searchOptionResult.add(cursor.getString(cursor.getColumnIndex(FilterSearchDatabase.FIELD_SEARCH)));
+                            updatedSearchOption.add(cursor.getString(cursor.getColumnIndex(FilterSearchDatabase.FIELD_SEARCH)));
+                            cursor.moveToNext();
+                        }
+                        for(int i = 0 ; i < updatedSearchOption.size(); i++){
+                            for(int j = 0 ; j < optionslist.size(); j++){
+//                                if(optionslist.get(j).getLabel().equalsIgnoreCase(updatedSearchOption.get(i))){
+//                                    searchOptionResult.add(optionslist.get(j));
+//                                }
+                                if(updatedSearchOption.get(i).equalsIgnoreCase(optionslist.get(j).getLabel())){
+                                    searchOptionResult.add(optionslist.get(j));
+                                }
+                            }
+                        }
+                        filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this,searchOptionResult);
+                        recycleViewFilterData.setAdapter(filterRecyclerAdapter);
+                    }
+
+//                    for (int k = 0; k < optionslist.size(); k++) {
+//                        if (edFilterSearch.getText().toString().equalsIgnoreCase(optionslist.get(k).getLabel())) {
+//                            searchOptionResult.clear();
+//                            searchOptionResult.add(optionslist.get(k));
+//                            filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, searchOptionResult);
+//                            recycleViewFilterData.setAdapter(filterRecyclerAdapter);
+//                        }else {
+////                            filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, optionslist);
+////                            recycleViewFilterData.setAdapter(filterRecyclerAdapter);
+//                        }
+//                    }
+
+                }else {
+                    searchOptionResult.clear();
+                    filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, optionslist);
+                    recycleViewFilterData.setAdapter(filterRecyclerAdapter);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+//                showcloseimg();
+                if (!edFilterSearch.getText().toString().isEmpty()) {
+//                    for (int k = 0; k < optionslist.size(); k++) {
+//                        if (edFilterSearch.getText().toString().equalsIgnoreCase(optionslist.get(k).getLabel())) {
+//                            searchOptionResult.clear();
+//                            searchOptionResult.add(optionslist.get(k));
+//                            break;
+//                        }else {
+//                            searchOptionResult.add(optionslist.get(k));
+//                        }
+//                        //code this bcz when user type in searchview at that time we need to display all option list as it is but in current its not showing
+//                    }
+//                    filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, searchOptionResult);
+//                    recycleViewFilterData.setAdapter(filterRecyclerAdapter);
+
+                    text = edFilterSearch.getText().toString();
+                    cursor = filterdb.getSuggestions(edFilterSearch.getText().toString());
+                    AppLogger.e("Get Suggestion as  we searched something","---"+ cursor);
+
+                    updatedSearchOption.clear();
+                    searchOptionResult.clear();
+
+                    if(cursor.getCount() > 0){
+                        cursor.moveToFirst();
+                        for(int k = 0 ; k < cursor.getCount(); k++){
+                            AppLogger.e("Searched Filter data result","------"+ cursor.getString(cursor.getColumnIndex(FilterSearchDatabase.FIELD_SEARCH)));
+//                            searchOptionResult.add(cursor.getString(cursor.getColumnIndex(FilterSearchDatabase.FIELD_SEARCH)));
+                            updatedSearchOption.add(cursor.getString(cursor.getColumnIndex(FilterSearchDatabase.FIELD_SEARCH)));
+                            cursor.moveToNext();
+                        }
+                        for(int i = 0 ; i < updatedSearchOption.size(); i++){
+                            for(int j = 0 ; j < optionslist.size(); j++){
+//                                if(optionslist.get(j).getLabel().equalsIgnoreCase(updatedSearchOption.get(i))){
+//                                    searchOptionResult.add(optionslist.get(j));
+//                                }
+                                if(updatedSearchOption.get(i).equalsIgnoreCase(optionslist.get(j).getLabel())){
+                                    searchOptionResult.add(optionslist.get(j));
+                                }
+                            }
+                        }
+                        filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this,searchOptionResult);
+                        recycleViewFilterData.setAdapter(filterRecyclerAdapter);
+                    }
+                }else {
+                    searchOptionResult.clear();
+                    filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, optionslist);
+                    recycleViewFilterData.setAdapter(filterRecyclerAdapter);
                 }
             }
         });
@@ -368,6 +529,9 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                     recycleViewFilterData.setVisibility(View.VISIBLE);
                     adapter = new FilterTitleListAdapter(FilterAct.this, filterSelectItems);
                     listViewFilter.setAdapter(adapter);
+                    edFilterSearch.setText("");
+                    edFilterSearch.setVisibility(View.GONE);
+                    viewSearchFilter.setVisibility(View.GONE);
                     filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, filterSelectItems.get(0).getOptionData());
                     recycleViewFilterData.setAdapter(filterRecyclerAdapter);
                 }
