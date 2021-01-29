@@ -73,7 +73,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             holder.tvcertificate.setText(Html.fromHtml("<b>" + "Certificate : " + " N/A " + "</b>"));
         }
 
-        holder.tvQty.setText(Html.fromHtml("<b>" + "QTY : " + "</b> " + Math.round(Float.parseFloat(itemArrayList.get(i).getProductQty()))));
+        holder.tvQty.setText(Html.fromHtml("<b>" + "Qty : " + "</b> " + Math.round(Float.parseFloat(itemArrayList.get(i).getProductQty()))));
 //        holder.tvSubPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getProductPrice())));
         holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(itemArrayList.get(i).getProductRawtotal())));
         holder.imgProduct.setImageURI(itemArrayList.get(i).getProductImg());
@@ -113,7 +113,6 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
     @Override
     public int getItemCount() {
-
         return itemArrayList.size();
     }
 

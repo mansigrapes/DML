@@ -60,5 +60,4 @@ public class OrderTabActivity extends DealerMelaBaseActivity {
         super.onResume();
         invalidateOptionsMenu();
     }
-
 }

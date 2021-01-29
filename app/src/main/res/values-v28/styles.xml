@@ -398,9 +398,15 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="btnSoldOut">
+        <item name="android:padding">@dimen/eight_sp</item>
+        <item name="android:textSize">@dimen/fifteen_sp</item>
+        <item name="android:lineSpacingExtra">@dimen/eight_sp</item>
+    </style>
+
     <style name="btnCustomizeProduct">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/twelve_sp</item>
+        <item name="android:textSize">@dimen/fifteen_sp</item>
         <item name="android:background">@drawable/customize_dialogbox_btn</item>
     </style>
 
@@ -486,6 +492,10 @@
 
     <style name="product_full_detail_text">
         <item name="android:textSize">@dimen/twelve_sp</item>
+    </style>
+
+    <style name="product_full_detail_total">
+        <item name="android:textSize">14sp</item>
     </style>
 
     <!--Transaction-->

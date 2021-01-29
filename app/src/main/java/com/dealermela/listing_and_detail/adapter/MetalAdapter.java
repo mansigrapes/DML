@@ -55,6 +55,11 @@ public class MetalAdapter extends RecyclerView.Adapter<MetalAdapter.ViewHolder> 
             holder.cardMetalColor.setCardBackgroundColor(activity.getResources().getColor(R.color.platinum));
         }
 
+// Add this for perfect display Platinum & (950) On different line 28/01/2021
+        if(itemArrayList.get(i).contains("Platinum")){
+            holder.tvName.setText("Platinum (950)");
+        }
+
         if (themePreferences.getTheme().equalsIgnoreCase("black")) {
             if (itemArrayList.get(i).equalsIgnoreCase(metalValue)) {
                 holder.linMetal.setBackground(activity.getResources().getDrawable(R.drawable.pro_detail_customise_pro_select_black));

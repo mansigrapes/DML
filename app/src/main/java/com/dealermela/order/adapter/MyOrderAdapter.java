@@ -102,7 +102,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
                 holder.tvStoneDetail.setText(Html.fromHtml("<b>" + "Stone Detail : " + "</b> " + " N/A " + "<b> | </b>" + " N/A " ));
             }
 
-            holder.tvtotalItem.setText(Html.fromHtml("<b>" + "Total QTY : " + "</b>" + itemArrayList.get(i).getTotalCount()));
+            holder.tvtotalItem.setText(Html.fromHtml("<b>" + "Total Qty : " + "</b>" + itemArrayList.get(i).getTotalCount()));
 
 //            if(!itemArrayList.get(i).getOrderItems().get(0).getProductStonequality().isEmpty())
 //            {

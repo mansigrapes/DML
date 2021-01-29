@@ -505,8 +505,9 @@
         <com.dealermela.utility.DmlButton
             android:id="@+id/btnSoldOut"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:text="@string/sold_out"
+            style="@style/btnSoldOut"
             android:visibility="gone"/>
 
     </LinearLayout>

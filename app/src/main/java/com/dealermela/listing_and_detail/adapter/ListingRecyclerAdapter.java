@@ -132,6 +132,7 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
             holder.tvSku.setText(sku[0]);
             holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
 
+
             if(id.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
                 holder.imgCarat.setVisibility(View.GONE);
             }else {

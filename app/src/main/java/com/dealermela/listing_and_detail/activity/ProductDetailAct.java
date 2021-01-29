@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -163,7 +164,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
     private LinearLayout linDiamondBox,relDetailImage;
     public static TextView tvDiamondDetailLabel, tvBeltDetailTitle;
     public static RelativeLayout relDiamondDetailTotal,relGemstoneDetailTotal, relMetalPurity, relMetalWeight, relMetalTotal;
-    private CardView cardDiamondBox,cardGemstoneBox,cardViewGemstone, cardviewbelt ,cardviewProductInfo;
+    private CardView cardDiamondBox,cardGemstoneBox,cardViewGemstone, cardviewbelt ,cardviewProductInfo, cardViewDiamond;
     private String ringOptionId, ringOptionTypeId, stoneOptionId, stoneOptionTypeId, categoryid, List_metal_color, List_carat_value;
     private ThemePreferences themePreferences;
     public static String TypeValue = "";
@@ -349,6 +350,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         recycleViewMetal = sheetview.findViewById(R.id.recycleViewMetal);
 
         tvCustomizePrice = sheetview.findViewById(R.id.tvCustomizePrice);
+        tvCustomizePrice.setPaintFlags(tvCustomizePrice.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         btnapply = sheetview.findViewById(R.id.btnapply);
 //        btncancel = sheetview.findViewById(R.id.btncancel);
 
@@ -419,6 +421,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
         relBelt = productdetailview.findViewById(R.id.relBelt);
         viewBelt = productdetailview.findViewById(R.id.viewBelt);
         tvBeltDetailTitle = productdetailview.findViewById(R.id.tvBeltDetailTitle);
+        cardViewDiamond = productdetailview.findViewById(R.id.cardViewDiamond);
 
         tvBeltDetailTitle.setOnClickListener(this);
         cardViewGemstone.setOnClickListener(this);
@@ -1298,6 +1301,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
 //                        clickmoredetail = 0 ;
                         //using for Diamond detail adapter
                         if (!response.body().getDiamonddetails().isEmpty()) {
+                            cardViewDiamond.setVisibility(View.VISIBLE);
                             linDiamondBox.setVisibility(View.VISIBLE);
                             tvDiamondDetailLabel.setVisibility(View.VISIBLE);
 //                            relDiamondDetailTotal.setVisibility(View.VISIBLE);
@@ -1309,6 +1313,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                             tvDiamondDetailLabel.setVisibility(View.GONE);
 //                            relDiamondDetailTotal.setVisibility(View.GONE);
                             cardDiamondBox.setVisibility(View.GONE);
+                            cardViewDiamond.setVisibility(View.GONE);
                         }
 
                         //using for gemstone detail adapter
@@ -1422,6 +1427,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     }else{
                         tvProductPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
                         tvCustomizePrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
+                        tvCustomizePrice.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
                     }
                     tvColorGold.setText("(" + caratValue + " " + metalValue + ")");
                     cMetalDetail = caratValue + " " + metalValue;
@@ -1676,6 +1682,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     //using for Diamond detail adapter
 
                     if (response.body().getDiamonddetails() != null) {
+                        cardViewDiamond.setVisibility(View.VISIBLE);
                         linDiamondBox.setVisibility(View.VISIBLE);
                         tvDiamondDetailLabel.setVisibility(View.VISIBLE);
 //                        relDiamondDetailTotal.setVisibility(View.VISIBLE);
@@ -1687,6 +1694,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                         tvDiamondDetailLabel.setVisibility(View.GONE);
 //                        relDiamondDetailTotal.setVisibility(View.GONE);
                         cardDiamondBox.setVisibility(View.GONE);
+                        cardViewDiamond.setVisibility(View.GONE);
                     }
 
                     //using for gemstone detail adapter
@@ -1770,6 +1778,7 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     } else {
                         tvProductPrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
                         tvCustomizePrice.setText(AppConstants.RS + CommonUtils.priceFormat(Float.parseFloat(response.body().getProductDetails().get(0).getPrice())));
+                        tvCustomizePrice.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf"), Typeface.BOLD);
                     }
 
                     if (caratValue.equalsIgnoreCase("Platinum(950)")) {
@@ -1974,13 +1983,15 @@ public class ProductDetailAct extends DealerMelaBaseActivity implements View.OnC
                     //                metalPrice = metalPrice.substring(1, metalPrice.length() - 1);
                     tvMetalPrice.setText(String.valueOf(CommonUtils.priceFormat(metalPrice)));
                     tvMetalPrice.setText(AppConstants.RS + CommonUtils.priceFormat(metalPrice));
+
                     if (response.body().getDiamondmainprice().isEmpty()) {
                         linDiamondBox.setVisibility(View.GONE);
                         tvDiamondDetailLabel.setVisibility(View.GONE);
 //                        relDiamondDetailTotal.setVisibility(View.GONE);
                         cardDiamondBox.setVisibility(View.GONE);
-
+                        cardViewDiamond.setVisibility(View.GONE);
                     } else {
+                        cardViewDiamond.setVisibility(View.VISIBLE);
                         linDiamondBox.setVisibility(View.VISIBLE);
                         tvDiamondDetailLabel.setVisibility(View.VISIBLE);
 //                        relDiamondDetailTotal.setVisibility(View.VISIBLE);

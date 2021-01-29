@@ -25,7 +25,7 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_filter" />
 
-        <com.dealermela.utility.DmlTextView
+        <com.dealermela.utility.DmlTextViewBold
             android:id="@+id/tvstatus"
             style="@style/listing_sort_filter_text"
             android:layout_width="wrap_content"

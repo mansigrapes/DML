@@ -516,8 +516,12 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 getSortFilter(id);
             }else {
                 //If on subcategorylisting No Filter option for subcategory
-                categoryid = "";
-                getSortFilter(categoryid);
+                if(Subcategoryid.equalsIgnoreCase(id)){
+                    getSortFilter(id);
+                }else {
+                    categoryid = "";
+                    getSortFilter(categoryid);
+                }
             }
 //            getSortFilter();
 //            getCount();  //changed on 10/06 before call this method in onResume Function

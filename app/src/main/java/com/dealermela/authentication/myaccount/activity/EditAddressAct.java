@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.dealermela.util.SharedPreferences;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import android.text.TextUtils;
@@ -71,6 +73,7 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
     private CheckBox checkBoxDefaultBilling, checkBoxShippingBilling;
     private ThemePreferences themePreferences;
     private TextView lblState;
+    private SharedPreferences sharedPreferences;
 
     String billingFlag;
     String shippingFlag;
@@ -90,6 +93,7 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
     public void init() {
         closeOptionsMenu();
         themePreferences = new ThemePreferences(EditAddressAct.this);
+        sharedPreferences = new SharedPreferences(EditAddressAct.this);
         Intent intent = getIntent();
         status = intent.getStringExtra("addressStatus");
         if (status.equalsIgnoreCase("1")) {
@@ -308,7 +312,7 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
         });
     }
 
-    private void editBillingAddress(String customerId, String addressId, String firstName, String lastName, String street1, String street2, String city, String regionId, String region, String postcode, String countryId, String telephone) {
+    private void editBillingAddress(String customerId, String addressId, String firstName, String lastName, String street1, String street2, String city, final String regionId, String region, String postcode, final String countryId, String telephone) {
 
         showProgressDialog(AppConstants.PLEASE_WAIT);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
@@ -326,6 +330,7 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                         ViewDialog viewDialog = new ViewDialog();
                         message = jsonObject.getString("message");
                         if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                            sharedPreferences.saveBillingAddress(edFnm.getText().toString() + " " + edLnm.getText().toString() + ",\n" + edAddress1.getText().toString() + ",\n" + edCity.getText().toString() + ", " + regionId + ", " + edZipCode.getText().toString() + ",\n" + countryId + "\nT: " + edTelephone.getText().toString());
                             viewDialog.showDialog(EditAddressAct.this, "Thank you!", message, "OK", "", "1");
                         } else if(jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)){
 //                            CommonUtils.showErrorToast(EditAddressAct.this, jsonObject.getString("status"));
@@ -345,7 +350,7 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
         });
     }
 
-    private void editShippingAddress(String customerId, String addressId, String firstName, String lastName, String street1, String street2, String city, String regionId, String region, String postcode, String countryId, String telephone) {
+    private void editShippingAddress(String customerId, String addressId, String firstName, String lastName, String street1, String street2, String city, final String regionId, String region, String postcode, final String countryId, String telephone) {
 
         showProgressDialog(AppConstants.PLEASE_WAIT);
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
@@ -362,6 +367,7 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
                         JSONObject jsonObject = new JSONObject(String.valueOf(response.body()));
                         message = jsonObject.getString("message");
                         if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+                            sharedPreferences.saveShipping(edFnm.getText().toString() + " " + edLnm.getText().toString() + ",\n" + edAddress1.getText().toString() + ",\n" + edCity.getText().toString() + ", " + regionId + ", " + edZipCode.getText().toString() + ",\n" + countryId + "\nT: " + edTelephone.getText().toString());
                             ViewDialog viewDialog = new ViewDialog();
                             viewDialog.showDialog(EditAddressAct.this, "Thank you!", message, "OK", "", "1");
                         } else if(jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_FAILED)){

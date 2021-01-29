@@ -211,7 +211,7 @@
                     android:visibility="gone">
 
                     <com.dealermela.utility.DmlTextViewBold
-                        style="@style/product_full_detail_text"
+                        style="@style/product_full_detail_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/total" />
@@ -219,7 +219,7 @@
 
                     <com.dealermela.utility.DmlTextViewBold
                         android:id="@+id/tvMetalEstimatedTotal"
-                        style="@style/product_full_detail_text"
+                        style="@style/product_full_detail_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -232,6 +232,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewDiamond"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             app:cardBackgroundColor="?transaction_round_back"
@@ -268,14 +269,14 @@
 
                     <com.dealermela.utility.DmlTextViewBold
                         android:id="@+id/tvDiamondDetailTotal"
-                        style="@style/product_full_detail_text"
+                        style="@style/product_full_detail_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/total" />
 
                     <com.dealermela.utility.DmlTextViewBold
                         android:id="@+id/tvEstimatedValue"
-                        style="@style/product_full_detail_text"
+                        style="@style/product_full_detail_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -328,14 +329,14 @@
 
                     <com.dealermela.utility.DmlTextViewBold
                         android:id="@+id/tvGemstoneDetailTotal"
-                        style="@style/product_full_detail_text"
+                        style="@style/product_full_detail_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/total" />
 
                     <com.dealermela.utility.DmlTextViewBold
                         android:id="@+id/tvGemstoneEstimatedValue"
-                        style="@style/product_full_detail_text"
+                        style="@style/product_full_detail_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
