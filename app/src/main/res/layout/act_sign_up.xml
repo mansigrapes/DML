@@ -291,7 +291,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:theme="@style/TextInputLayoutAppearance"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/white">
 
                 <com.dealermela.utility.DmlTextInputEditText
                     android:id="@+id/edPassword"
@@ -309,7 +310,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:theme="@style/TextInputLayoutAppearance"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/white">
 
                 <com.dealermela.utility.DmlTextInputEditText
                     android:id="@+id/edConfirmPassword"

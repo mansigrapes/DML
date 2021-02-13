@@ -396,6 +396,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:lines="2"
+                            android:layout_marginTop="@dimen/two_dp"
                             android:text="@string/promotional_and_gift_codes"
                             android:textColor="?buttonTextColor"
                             android:textSize="@dimen/eight_sp" />

@@ -52,12 +52,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
-import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.dealermela.home.activity.MainActivity.customerId;
 import static com.dealermela.util.AppConstants.RESPONSE;
 
 public class HomeFrg extends DealerMelaBaseFragment implements View.OnClickListener {

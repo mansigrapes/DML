@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/alert_btn_round"
-    android:layout_margin="@dimen/twenty_four_dp"
-    >
+    android:layout_margin="@dimen/twenty_four_dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewTransactionItemPopop"
@@ -19,7 +18,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <com.dealermela.utility.DmlButton
         android:id="@+id/btnClose"

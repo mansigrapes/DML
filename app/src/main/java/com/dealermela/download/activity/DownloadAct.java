@@ -276,12 +276,14 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
 
     @Override
     public void loadData() {
-        checkBoxSelectAll.setVisibility(View.INVISIBLE);
-        tvselectedcount.setText("0");
-        tvtotaldownloadcount.setText(String.valueOf(downloadCount));
-        downloadProductAdapter = new DownloadProductAdapter(DownloadAct.this, detailList);
-        recycleViewDownloadProducts.setAdapter(downloadProductAdapter);
-        getDownloadProductList(customerId, String.valueOf(page_count));
+        if(NetworkUtils.isNetworkConnected(DownloadAct.this)) {
+            checkBoxSelectAll.setVisibility(View.INVISIBLE);
+            tvselectedcount.setText("0");
+            tvtotaldownloadcount.setText(String.valueOf(downloadCount));
+            downloadProductAdapter = new DownloadProductAdapter(DownloadAct.this, detailList);
+            recycleViewDownloadProducts.setAdapter(downloadProductAdapter);
+            getDownloadProductList(customerId, String.valueOf(page_count));
+        }
     }
 
     @Override
@@ -616,7 +618,6 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                         }
                     }).show();
         }
-
 
        /* AlertDialog.Builder alertDownloadAll = new AlertDialog.Builder(DownloadAct.this, R.style.AppCompatAlertDialogStyle);
         alertDownloadAll.setTitle("DOWNLOAD");

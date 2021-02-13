@@ -8,6 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.dealermela.util.NetworkUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import android.text.TextUtils;
@@ -206,7 +208,9 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
 
     @Override
     public void loadData() {
-        getCountryList();
+        if(NetworkUtils.isNetworkConnected(SignUpAct.this)) {
+            getCountryList();
+        }
     }
 
     private void getCountryList() {

@@ -396,13 +396,12 @@
     </style>
 
     <style name="btnSoldOut">
-        <item name="android:padding">@dimen/eight_sp</item>
         <item name="android:textSize">@dimen/fifteen_sp</item>
-        <item name="android:lineSpacingExtra">@dimen/eight_sp</item>
     </style>
+<!--    <item name="android:lineSpacingExtra">@dimen/eight_sp</item>-->
 
     <style name="btnCustomizeProduct">
-        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/toolbarTextColor</item>
         <item name="android:textSize">@dimen/fifteen_sp</item>
         <item name="android:background">@drawable/customize_dialogbox_btn</item>
     </style>

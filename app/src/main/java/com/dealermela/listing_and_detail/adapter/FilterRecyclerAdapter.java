@@ -18,6 +18,7 @@ import java.util.List;
 
 import static com.dealermela.listing_and_detail.activity.FilterAct.filterCurrentPosition;
 import static com.dealermela.listing_and_detail.activity.ListAct.filterSelectItems;
+import static com.dealermela.listing_and_detail.adapter.FilterTitleListAdapter.tvinvcount;
 
 public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAdapter.ViewHolder> {
 
@@ -47,6 +48,13 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
         } else {
             holder.radioFilter.setChecked(false);
         }
+//        //add this condition here bcz checking counting instance update set at right place or not
+//        if (filterSelectItems.get(filterCurrentPosition).getFiltercount() == 0) {
+//            tvinvcount.setVisibility(View.GONE);
+//        } else {
+//            tvinvcount.setVisibility(View.VISIBLE);
+//            tvinvcount.setText(String.valueOf(filterSelectItems.get(filterCurrentPosition).getFiltercount()));
+//        }
     }
 
     @Override
@@ -86,11 +94,14 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
 //                FilterTitleListAdapter.tvinvcount.setText(String.valueOf(filterSelectItems.get(filterCurrentPosition).getFiltercount()));
 //                filterSelectItems.get(filterCurrentPosition).getOptionData().get(getAdapterPosition()).setSelected(false);
             }
-            notifyItemChanged(getAdapterPosition());
             ((FilterAct) activity).countFilter();
-//            ((FilterTitleListAdapter) activity).updatecount();
-
-//            ((FilterAct) activity).bindSelectFilter();
+            notifyItemChanged(getAdapterPosition());
+            //through this code I am getting instant update of count shpowing but its display on last filter Item
+//            tvinvcount.setVisibility(View.VISIBLE);
+//            tvinvcount.setText(String.valueOf(filterSelectItems.get(filterCurrentPosition).getFiltercount()));
+////            notifyItemChanged(filterCurrentPosition);
+////            ((FilterTitleListAdapter) activity).updatecount();
+////           ((FilterAct) activity).bindSelectFilter();
         }
 
         @Override

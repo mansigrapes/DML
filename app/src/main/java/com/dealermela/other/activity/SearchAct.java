@@ -28,6 +28,7 @@ import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.NetworkUtils;
 import com.dealermela.util.Validator;
 
 import retrofit2.Call;
@@ -36,12 +37,12 @@ import retrofit2.Response;
 
 import static com.dealermela.util.AppConstants.RESPONSE;
 
-public class
-SearchAct extends DealerMelaBaseActivity implements View.OnClickListener{
+public class SearchAct extends DealerMelaBaseActivity implements View.OnClickListener{
 
     private RecyclerView recycleViewHeader;
     private EditText edSearch;
     private ImageView imgclose;
+    public static int searchbackflag = 0 ;
 
     @Override
     protected int getLayoutResourceId() {
@@ -115,8 +116,10 @@ SearchAct extends DealerMelaBaseActivity implements View.OnClickListener{
 
     @Override
     public void loadData() {
-        addHeader();
-        showcloseimg();
+        if(NetworkUtils.isNetworkConnected(SearchAct.this)) {
+            addHeader();
+            showcloseimg();
+        }
     }
 
     private void showcloseimg() {
@@ -194,7 +197,10 @@ SearchAct extends DealerMelaBaseActivity implements View.OnClickListener{
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if(searchbackflag == 0) {
+            searchbackflag = 1;
+        }
+//        super.onBackPressed();
 //        finish();
     }
 }

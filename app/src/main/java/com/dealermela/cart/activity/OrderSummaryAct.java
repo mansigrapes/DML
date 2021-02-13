@@ -28,6 +28,7 @@ import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
+import com.dealermela.util.NetworkUtils;
 import com.dealermela.util.SharedPreferences;
 import com.google.gson.JsonObject;
 import com.ligl.android.widget.iosdialog.IOSDialog;
@@ -96,13 +97,14 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
 
     @Override
     public void loadData() {
-
-        if(!paymentMethod.equalsIgnoreCase("ccavenuepay")){
-            btnPlaceOrder.setText("Place Order");
-        }else {
-            btnPlaceOrder.setText("Continue");
+        if(NetworkUtils.isNetworkConnected(OrderSummaryAct.this)) {
+            if (!paymentMethod.equalsIgnoreCase("ccavenuepay")) {
+                btnPlaceOrder.setText("Place Order");
+            } else {
+                btnPlaceOrder.setText("Continue");
+            }
+            orderSummary();
         }
-        orderSummary();
     }
 
     private void orderSummary() {

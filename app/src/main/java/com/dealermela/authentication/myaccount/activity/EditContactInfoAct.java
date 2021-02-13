@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.dealermela.util.NetworkUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import android.text.TextUtils;
@@ -201,7 +203,9 @@ public class EditContactInfoAct extends DealerMelaBaseActivity implements View.O
 
     @Override
     public void loadData() {
-        getCountryList();
+        if(NetworkUtils.isNetworkConnected(EditContactInfoAct.this)) {
+            getCountryList();
+        }
     }
 
     @Override

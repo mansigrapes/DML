@@ -18,6 +18,7 @@ import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
+import com.dealermela.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -104,7 +105,9 @@ public class PaymentListAct extends DealerMelaBaseActivity {
 
     @Override
     public void loadData() {
-        getPaymentList();
+        if(NetworkUtils.isNetworkConnected(PaymentListAct.this)) {
+            getPaymentList();
+        }
     }
 
     private void getPaymentList() {

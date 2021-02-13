@@ -2,11 +2,14 @@ package com.dealermela.listing_and_detail.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+
+import com.dealermela.download.activity.DownloadAct;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -32,12 +36,14 @@ import com.dealermela.util.CommonUtils;
 import com.dealermela.util.SharedPreferences;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -97,7 +103,6 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
                 holder.imgDownload.setVisibility(View.VISIBLE);
             }
 
-
             //Temporarly Comment on 09-09-2020 bcz no use of stock parameter in listing page
 //            if (itemArrayList.get(i).getStock().equalsIgnoreCase("0")) {
 ////            holder.tvSoldOut.setVisibility(View.VISIBLE);
@@ -131,7 +136,6 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
             float price = itemArrayList.get(i).getCustomPrice();
             holder.tvSku.setText(sku[0]);
             holder.tvPrice.setText(AppConstants.RS + CommonUtils.priceFormat(price));
-
 
             if(id.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID)){
                 holder.imgCarat.setVisibility(View.GONE);
@@ -278,7 +282,28 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
-                        CommonUtils.showSuccessToast(activity, "Product added in download list");
+//                        Intent i= new Intent(activity, DownloadAct.class);
+//                        CommonUtils.showSuccessToast(activity, "Product added in download list" + activity.startActivity(i));
+//                        Toast.makeText(activity, "Plz click " + activity.startActivity(i) + "for showing download list", Toast.LENGTH_SHORT).show();
+
+                        new IOSDialog.Builder(activity)
+                                .setTitle("Download")
+                                .setMessage("Product added in download list. Do you want to visit there?")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent i= new Intent(activity, DownloadAct.class);
+                                        activity.startActivity(i);
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

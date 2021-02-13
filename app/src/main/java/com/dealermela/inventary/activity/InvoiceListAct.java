@@ -22,6 +22,7 @@ import com.dealermela.retrofit.APIClientLaravel;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.NetworkUtils;
 import com.dealermela.util.ThemePreferences;
 
 import java.util.ArrayList;
@@ -171,7 +172,9 @@ public class InvoiceListAct extends DealerMelaBaseActivity {
 
     @Override
     public void loadData() {
-        getInvoiceList(action, "");
+        if(NetworkUtils.isNetworkConnected(InvoiceListAct.this)) {
+            getInvoiceList(action, "");
+        }
     }
 
     private void getInvoiceList(String invoiceStatus, String searchValue) {

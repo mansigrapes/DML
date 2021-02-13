@@ -20,6 +20,7 @@ import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.NetworkUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,7 +76,9 @@ public class ManageReferralAct extends DealerMelaBaseActivity implements View.On
 
     @Override
     public void loadData() {
-        getReferralList();
+        if(NetworkUtils.isNetworkConnected(ManageReferralAct.this)) {
+            getReferralList();
+        }
     }
 
     private void getReferralList() {

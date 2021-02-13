@@ -87,7 +87,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
                 final Dialog dialog = new Dialog(activity);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 Objects.requireNonNull(dialog.getWindow()).setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);  //remove this point & check how dialogbox is display now
                 dialog.setContentView(R.layout.act_transaction_item_dialog_popup);
                 dialog.show();
 

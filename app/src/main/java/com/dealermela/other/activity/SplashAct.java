@@ -1,15 +1,18 @@
 package com.dealermela.other.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 
 import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+
+import androidx.annotation.NonNull;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
@@ -21,6 +24,7 @@ import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.NetworkUtils;
 import com.dealermela.util.SharedPreferences;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
@@ -39,6 +43,8 @@ public class SplashAct extends DealerMelaBaseActivity {
     private List<PopularProductItem.ProductImg> arrayListPopularProduct = new ArrayList<>();
     private DatabaseCartAdapter databaseCartAdapter;
     private FirebaseAnalytics mFirebaseAnalytics;
+    int spalshtimer = 2500;
+    public Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,14 +53,31 @@ public class SplashAct extends DealerMelaBaseActivity {
         databaseCartAdapter = new DatabaseCartAdapter(SplashAct.this);
 //        throw new RuntimeException("Test Crash");   //testing for check crash reports
 
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-////                            handler.postDelayed(this,AppConstants.ADD_TIME_OUT);
+        handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                            handler.postDelayed(this,AppConstants.ADD_TIME_OUT);
 //                startNewActivity(MainActivity.class);
-//            }
-//        },   3000);
+                if (NetworkUtils.isNetworkConnected(SplashAct.this)) {
+                    startNewActivity(MainActivity.class);
+                } else {
+//                    run();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashAct.this);
+                    builder.setTitle("No internet Connection");
+                    builder.setMessage("Please turn on internet connection to continue");
+                    builder.setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+                            run();
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            }
+        },   spalshtimer -= 1000);
     }
 
     @Override
@@ -133,20 +156,11 @@ public class SplashAct extends DealerMelaBaseActivity {
 //                }
                     }
                 }else {
-                    AppLogger.e("error", "------------" + response.body().toString());
-                    MaintenanceDialogClass dialogClass = new MaintenanceDialogClass(SplashAct.this);
-                    dialogClass.show();
-                    Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                    Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 }
             }
             @Override
             public void onFailure(@NonNull Call<PopularProductItem> call, @NonNull Throwable t) {
-                AppLogger.e("error", "------------" + t.getMessage());
-                MaintenanceDialogClass dialogClass = new MaintenanceDialogClass(SplashAct.this);
-                dialogClass.show();
-                Objects.requireNonNull(dialogClass.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                Objects.requireNonNull(dialogClass.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+               getPopularProduct("");
             }
         });
     }

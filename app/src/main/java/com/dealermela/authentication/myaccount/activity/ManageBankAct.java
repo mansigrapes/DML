@@ -19,6 +19,7 @@ import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.NetworkUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,7 +69,9 @@ public class ManageBankAct extends DealerMelaBaseActivity {
 
     @Override
     public void loadData() {
-        getBankList();
+        if(NetworkUtils.isNetworkConnected(ManageBankAct.this)) {
+            getBankList();
+        }
     }
 
     private void getBankList() {

@@ -217,35 +217,56 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:id="@+id/layout_customize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/ten_padding_margin"
-                android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layout_customize"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_marginTop="@dimen/ten_padding_margin"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <com.dealermela.utility.DmlButtonSemiBold-->
+<!--                    android:id="@+id/btnProductDetail"-->
+<!--                    style="@style/btncustomize"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="@string/more_detail"-->
+<!--                    android:layout_marginLeft="@dimen/ten_padding_margin"-->
+<!--                    android:visibility="gone"/>-->
+
+<!--                <com.dealermela.utility.DmlButtonSemiBold-->
+<!--                    android:id="@+id/btncustomize"-->
+<!--                    style="@style/btncustomize"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="@string/customize"-->
+<!--                    android:layout_marginRight="@dimen/twelve_sp"-->
+<!--                    android:layout_marginLeft="@dimen/ten_padding_margin" />-->
+
+<!--            </LinearLayout>-->
 
                 <com.dealermela.utility.DmlButtonSemiBold
                     android:id="@+id/btnProductDetail"
                     style="@style/btncustomize"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="@string/more_detail"
+                    android:layout_marginRight="@dimen/twelve_sp"
                     android:layout_marginLeft="@dimen/ten_padding_margin"
+                    android:layout_marginTop="@dimen/twelve_sp"
                     android:visibility="gone"/>
 
                 <com.dealermela.utility.DmlButtonSemiBold
                     android:id="@+id/btncustomize"
                     style="@style/btncustomize"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="@string/customize"
                     android:layout_marginRight="@dimen/twelve_sp"
-                    android:layout_marginLeft="@dimen/ten_padding_margin" />
-
-            </LinearLayout>
+                    android:layout_marginLeft="@dimen/ten_padding_margin"
+                    android:layout_marginTop="@dimen/ten_sp"/>
 
 <!--            <include-->
 <!--                android:id="@+id/includeCustomise"-->
@@ -389,44 +410,43 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/two_dp"
-                                android:textColor="?toolbarTextColor"
-                                />
+                                android:textColor="?toolbarTextColor" />
 
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardviewProductInfo"
-                        android:layout_width="0dp"
-                        android:layout_height="74dp"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin"
-                        android:layout_weight="1"
-                        app:cardBackgroundColor="?transaction_round_back"
-                        app:cardCornerRadius="@dimen/ten_sp"
-                        app:cardElevation="0dp"
-                        android:visibility="gone">
+<!--                    <androidx.cardview.widget.CardView-->
+<!--                        android:id="@+id/cardviewProductInfo"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="74dp"-->
+<!--                        android:layout_marginStart="@dimen/activity_horizontal_margin"-->
+<!--                        android:layout_weight="1"-->
+<!--                        app:cardBackgroundColor="?transaction_round_back"-->
+<!--                        app:cardCornerRadius="@dimen/ten_sp"-->
+<!--                        app:cardElevation="0dp"-->
+<!--                        android:visibility="gone">-->
 
-                        <LinearLayout
-                            android:id="@+id/productInfoPS"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackground"
-                            android:clickable="true"
-                            android:gravity="center">
+<!--                        <LinearLayout-->
+<!--                            android:id="@+id/productInfoPS"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:background="?attr/selectableItemBackground"-->
+<!--                            android:clickable="true"-->
+<!--                            android:gravity="center">-->
 
-                            <com.dealermela.utility.DmlImageView
-                                android:id="@+id/btnInfo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:layout_marginRight="@dimen/ten_sp"
-                                android:background="?attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:src="@drawable/ic_outline_info_24" />
-                        </LinearLayout>
+<!--                            <com.dealermela.utility.DmlImageView-->
+<!--                                android:id="@+id/btnInfo"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_centerInParent="true"-->
+<!--                                android:layout_marginRight="@dimen/ten_sp"-->
+<!--                                android:background="?attr/selectableItemBackground"-->
+<!--                                android:clickable="true"-->
+<!--                                android:src="@drawable/ic_outline_info_24" />-->
+<!--                        </LinearLayout>-->
 
-                    </androidx.cardview.widget.CardView>
+<!--                    </androidx.cardview.widget.CardView>-->
 
                 </LinearLayout>
 
@@ -451,10 +471,10 @@
                     android:textSize="20sp"
                     android:layout_marginBottom="@dimen/ten_padding_margin"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/one_sp_view"
-                    android:background="?transaction_line_color" />
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/one_sp_view"-->
+<!--                    android:background="?transaction_line_color" />-->
 
             </LinearLayout>
 
@@ -474,7 +494,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:id="@+id/linBothBtn">
 
         <LinearLayout
@@ -502,6 +522,7 @@
                 android:text="@string/buy_now" />
         </LinearLayout>
 
+        <!--height 55dp-->
         <com.dealermela.utility.DmlButton
             android:id="@+id/btnSoldOut"
             android:layout_width="match_parent"

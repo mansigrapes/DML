@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Typeface;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dealermela.R;
@@ -23,7 +25,10 @@ import com.dealermela.util.ThemePreferences;
 
 import java.util.List;
 
+import static com.dealermela.home.adapter.PopularProductCoverFlowAdapter.screenWidth;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.ProductDetailScrollView;
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.mBottomDialog_detail;
+import static com.dealermela.listing_and_detail.activity.ProductDetailAct.productdetailview;
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.recycleViewDiamondDetail;
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.recycleViewGemstoneDetail;
 import static com.dealermela.listing_and_detail.activity.ProductDetailAct.relDiamondDetailTotal;
@@ -123,7 +128,6 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
                     ((ProductDetailAct) activity).cPrice = rtsSlider.getCustomPrice();
                     ((ProductDetailAct) activity).rtsClick(rtsSlider.getEntityId());
                     ((ProductDetailAct) activity).tvColorGold.setText(itemArrayList.get(i).getMetalQualityValue());
-
                 }
             }
         }
@@ -240,6 +244,7 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
                 @Override
                 public void onClick(View v) {
                     AppLogger.e("More Detail button click which display in recyclerview ","-----");
+                    ((ViewGroup)productdetailview.getParent()).removeView(productdetailview);
                     if(tvMetalDetailTitle.getVisibility() == View.VISIBLE || recycleViewDiamondDetail.getVisibility() == View.VISIBLE || recycleViewGemstoneDetail.getVisibility() == View.VISIBLE){
 
                         tvMetalDetailTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
@@ -261,7 +266,12 @@ public class RTSRecyclerAdapter extends RecyclerView.Adapter<RTSRecyclerAdapter.
                         recycleViewGemstoneDetail.setVisibility(View.GONE);
                         relGemstoneDetailTotal.setVisibility(View.GONE);
                     }
+                    mBottomDialog_detail.setContentView(productdetailview);
+                    ProductDetailScrollView.scrollTo(0, 0);
                     mBottomDialog_detail.show();
+
+//                    NestedScrollView.LayoutParams layoutParams = new NestedScrollView.LayoutParams(screenWidth, 395);
+//                    ProductDetailScrollView.setLayoutParams(layoutParams);
                 }
             });
         }

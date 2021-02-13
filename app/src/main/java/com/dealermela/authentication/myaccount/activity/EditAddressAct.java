@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
+import com.dealermela.util.NetworkUtils;
 import com.dealermela.util.SharedPreferences;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -278,7 +279,9 @@ public class EditAddressAct extends DealerMelaBaseActivity implements View.OnCli
 
     @Override
     public void loadData() {
-        getCountryList();
+        if(NetworkUtils.isNetworkConnected(EditAddressAct.this)){
+            getCountryList();
+        }
     }
 
     private void addAddress(String customerId, String addressBillingFlag, String addressShippingFlag, String firstName, String lastName, String street1, String street2, String city, String regionId, String region, String postcode, String countryId, String telephone) {

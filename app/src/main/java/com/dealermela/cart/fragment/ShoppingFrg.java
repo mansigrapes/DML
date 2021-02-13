@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.dealermela.util.NetworkUtils;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -108,10 +109,12 @@ public class ShoppingFrg extends DealerMelaBaseFragment implements View.OnClickL
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void loadData() {
-        if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-            fillListView();
-        } else {
-            listCart(customerId);
+        if(NetworkUtils.isNetworkConnected(getContext())) {
+            if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                fillListView();
+            } else {
+                listCart(customerId);
+            }
         }
     }
 

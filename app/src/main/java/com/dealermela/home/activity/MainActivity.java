@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.Typeface;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -16,8 +16,10 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 
 import com.dealermela.home.adapter.MainCategoryAdapter;
+import com.dealermela.home.model.PopularProductItem;
 import com.dealermela.home.model.SubcategoryItem;
 import com.dealermela.other.activity.NewSearchAct;
+import com.dealermela.util.NetworkUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -34,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -80,6 +83,7 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -116,7 +120,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
     private View loginview;
 
-    private DrawerLayout drawer;
+//    private DrawerLayout drawer;
     SpaceNavigationView spaceNavigationView;
     private boolean isOnce = true;
 
@@ -124,6 +128,11 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
     public static int displayversion = 0;
 
     RecyclerView tvMainCategoryrecyclerview;
+    public static DrawerLayout drawer;
+    Toolbar toolbar;
+    ActionBarDrawerToggle toggle;
+    private boolean isInSideClicked = false;
+//    public static List<PopularProductItem.ProductImg> arrayListPopularProduct = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -303,19 +312,31 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
     @Override
     public void initView() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_logo);
         drawer = findViewById(R.id.drawer_layout);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toolbar.setNavigationIcon(R.drawable.ic_menu_new);
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {    //call these method for recycler view of subcategory open but not happens that
+            @Override
+            public void onClick(View v) {
+                AppLogger.e("DrawerClickEvent","-----ToolbarNavigationMenuCall");
+                addSubCategory();
+            }
+        });
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        toolbar.setNavigationIcon(R.drawable.ic_menu_new);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addSubCategory();
+//                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MainActivity.this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//            }
+//        });
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
-
         tvMyAccount = navigationView.findViewById(R.id.tvMyAccount);
         tvCreateReferral = navigationView.findViewById(R.id.tvCreateReferral);
         tvLogin = headerLayout.findViewById(R.id.tvLogin);
@@ -356,6 +377,49 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
         loginview = headerLayout.findViewById(R.id.loginview);
     }
+
+    //add this method for checking Navigation drawer closed or not
+//    public boolean dispatchTouchEvent(MotionEvent event){
+//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            View content = findViewById(R.id.textView1);
+//            int[] contentLocation = new int[2];
+//            content.getLocationOnScreen(contentLocation);
+//            Rect rect = new Rect(contentLocation[0],
+//                    contentLocation[1],
+//                    contentLocation[0] + content.getWidth(),
+//                    contentLocation[1] + content.getHeight());
+//
+////            View frame = findViewById(R.id.editText1);
+////            int[] frameLocation = new int[2];
+////            frame.getLocationOnScreen(frameLocation);
+////            Rect framerect = new Rect(frameLocation[0],
+////                    frameLocation[1],
+////                    frameLocation[0] + frame.getWidth(),
+////                    frameLocation[1] + frame.getHeight());
+////            Log.d(TAG, "rect:  "+rect.bottom+" , "+rect.top+" , "+rect.left+" , "+rect.right);
+////            Log.d(TAG, "FrameRect:  "+framerect.bottom+" , "+framerect.top+" , "+framerect.left+" , "+framerect.right);
+////            Log.d(TAG, "x: "+event.getX()+"  y: "+event.getY());
+//
+////            if ((rect.contains((int)event.getX(), (int)event.getY()) || framerect.contains((int)event.getX(), (int)event.getY()) ) ) {
+//            if ((rect.contains((int)event.getX(), (int)event.getY()))){
+//                isInSideClicked = true;
+//            }
+//            if (isInSideClicked){
+//                return super.dispatchTouchEvent(event);
+//            } else {
+//                return true;
+//            }
+//        } else if (event.getAction() == MotionEvent.ACTION_UP && isInSideClicked) {
+//            isInSideClicked = false;
+//            return super.dispatchTouchEvent(event);
+//        } else if (event.getAction() == MotionEvent.ACTION_MOVE && isInSideClicked) {
+//            return super.dispatchTouchEvent(event);
+//        } else {
+//            isInSideClicked = false;
+//            return true;
+//        }
+////        return true;
+//    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -419,12 +483,45 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 //        addHeader();
 //        addSubCategory();
 //        Checkversion();   //Check latest version of app in playstore through API use
-        if(displayversion == 0) {
-            GetVersionCode versioncode = new GetVersionCode();
-            versioncode.execute();
+        if(NetworkUtils.isNetworkConnected(MainActivity.this)) {
+//            getPopularProduct(customerId);
+
+            if (displayversion == 0) {
+                GetVersionCode versioncode = new GetVersionCode();
+                versioncode.execute();
+            }
+            addSubCategory();
         }
-        addSubCategory();
     }
+
+//        private void getPopularProduct(String customerId) {
+//
+//          ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
+//          Call<PopularProductItem> callApi = apiInterface.getPopularProduct(customerId);
+//          callApi.enqueue(new Callback<PopularProductItem>() {
+//
+//            @Override
+//            public void onResponse( Call<PopularProductItem> call,  Response<PopularProductItem> response) {
+//                assert response.body() != null;
+//                Log.e(AppConstants.RESPONSE, "-----------------" + response.body());
+//
+//                if (response.isSuccessful()) {
+//                    if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+//                        arrayListPopularProduct = response.body().getProductImg();
+//
+//                        SharedPreferences sharedPreferences = new SharedPreferences(MainActivity.this);
+//                        Gson gson = new Gson();
+//                        sharedPreferences.savePopularProducts(gson.toJson(arrayListPopularProduct));
+//                    }
+//                }else {
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<PopularProductItem> call, Throwable t) {
+//                AppLogger.e("error", "------------" + t.getMessage());
+//            }
+//        });
+//    }
 
     private class GetVersionCode extends AsyncTask<Void, String, String> {
         String newVersion = null;
@@ -788,7 +885,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 //        activity.finishAffinity();
     }
 
-    private void addSubCategory(){
+    public void addSubCategory(){
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<SubcategoryItem> callApi = apiInterface.getSubCategory();
         callApi.enqueue(new Callback<SubcategoryItem>() {
@@ -796,6 +893,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
             public void onResponse(Call<SubcategoryItem> call, Response<SubcategoryItem> response) {
                 assert response.body() != null;
                 if(response.isSuccessful()) {
+                    AppLogger.e("Subcategory method call successfully","-----");
 //                    inflateTextViews(response.body().getData().size(), response.body().getData());
 
 //                    RecyclerView tvMainCategoryrecyclerview = findViewById(R.id.tvCollectionMainCategoryRecycleview);
@@ -863,7 +961,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -943,6 +1041,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 tvCartCountHome.setText(String.valueOf(cartCount));
             }
         }
+        addSubCategory();
     }
 
     private void getCount() {

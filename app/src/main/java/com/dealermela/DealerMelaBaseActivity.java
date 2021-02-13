@@ -14,6 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.core.view.MenuItemCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,9 +26,11 @@ import android.widget.TextView;
 
 import com.dealermela.cart.activity.CartAct;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
+import com.dealermela.home.activity.MainActivity;
 import com.dealermela.interfaces.ViewBindingListener;
 import com.dealermela.other.activity.NewSearchAct;
 import com.dealermela.other.activity.SearchAct;
+import com.dealermela.other.activity.SplashAct;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
@@ -69,6 +73,7 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
     private SharedPreferences sharedPreferences;
     private DatabaseCartAdapter databaseCartAdapter;
     //    private RelativeLayout relCart;
+    Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,17 +98,44 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
         if (NetworkUtils.isNetworkConnected(DealerMelaBaseActivity.this)) {
 
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("No internet Connection");
-            builder.setMessage("Please turn on internet connection to continue");
-            builder.setNegativeButton("close", new DialogInterface.OnClickListener() {
+//            SplashAct.handler.run();
+
+            handler = new Handler();
+            handler.postDelayed(new Runnable() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+                public void run() {
+                    if (NetworkUtils.isNetworkConnected(DealerMelaBaseActivity.this)) {
+                        loadData();
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DealerMelaBaseActivity.this);
+                        builder.setTitle("No internet Connection");
+                        builder.setCancelable(false);
+                        builder.setMessage("Please turn on internet connection to continue");
+                        builder.setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+                                run();
+                            }
+                        });
+//                        run();
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                    }
                 }
-            });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
+            }, 200);
+
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setTitle("No internet Connection");
+//            builder.setMessage("Please turn on internet connection to continue");
+//            builder.setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+////                    dialog.dismiss();
+//                }
+//            });
+//            AlertDialog alertDialog = builder.create();
+//            alertDialog.show();
         }
         hud = new KProgressHUD(DealerMelaBaseActivity.this);
         init();
@@ -161,7 +193,6 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
                 finish();
             }
         });
-
 
       /*  relCart = toolbar.findViewById(R.id.relCart);
 
@@ -295,7 +326,6 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
                 }
             }
         });*/
-
         return true;
     }
 

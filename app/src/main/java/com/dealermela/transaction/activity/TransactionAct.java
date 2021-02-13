@@ -134,9 +134,11 @@ public class TransactionAct extends DealerMelaBaseActivity {
 
     @Override
     public void loadData() {
-        TransactionListAdapter transactionListAdapter = new TransactionListAdapter(TransactionAct.this, dataList);
-        recycleViewTransaction.setAdapter(transactionListAdapter);
-        getTransactionList(customerId, String.valueOf(page_count));
+        if(NetworkUtils.isNetworkConnected(TransactionAct.this)) {
+            TransactionListAdapter transactionListAdapter = new TransactionListAdapter(TransactionAct.this, dataList);
+            recycleViewTransaction.setAdapter(transactionListAdapter);
+            getTransactionList(customerId, String.valueOf(page_count));
+        }
     }
 
     private void getTransactionList(String customerId, String page) {

@@ -24,6 +24,7 @@ import com.dealermela.listing_and_detail.adapter.FilterTitleListAdapter;
 import com.dealermela.listing_and_detail.model.FilterItem;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.NetworkUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -434,75 +435,76 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
 ////            mapFilter.put(paramKey, "");
 ////            selectFilter.put(paramKey, "");
 //        }
-
-        if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)){
+        if(NetworkUtils.isNetworkConnected(FilterAct.this)) {
+            if (categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)) {
 //            filterSelectItems.remove(0);
 //            filterSelectItems.remove(0);
 //            filterSelectItems.remove(0);
 //            filterSelectItems.remove(0);
 
-            AppLogger.e("pendent category_filter","---"+ filterSelectItems.size());
+                AppLogger.e("pendent category_filter", "---" + filterSelectItems.size());
 
-            adapter = new FilterTitleListAdapter(FilterAct.this, filterSelectItems);
-            listViewFilter.setAdapter(adapter);
-            recycleViewFilterData.setVisibility(View.GONE);
-            edText.setVisibility(View.VISIBLE);
-        }else {
-            adapter = new FilterTitleListAdapter(FilterAct.this, filterSelectItems);
-            listViewFilter.setAdapter(adapter);
-            filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, filterSelectItems.get(0).getOptionData());
-            recycleViewFilterData.setAdapter(filterRecyclerAdapter);
-        }
+                adapter = new FilterTitleListAdapter(FilterAct.this, filterSelectItems);
+                listViewFilter.setAdapter(adapter);
+                recycleViewFilterData.setVisibility(View.GONE);
+                edText.setVisibility(View.VISIBLE);
+            } else {
+                adapter = new FilterTitleListAdapter(FilterAct.this, filterSelectItems);
+                listViewFilter.setAdapter(adapter);
+                filterRecyclerAdapter = new FilterRecyclerAdapter(FilterAct.this, filterSelectItems.get(0).getOptionData());
+                recycleViewFilterData.setAdapter(filterRecyclerAdapter);
+            }
 
 //        adapter = new FilterTitleListAdapter(FilterAct.this, filterSelectItems);
 //        listViewFilter.setAdapter(adapter);
-        tvReset.setEnabled(true);
+            tvReset.setEnabled(true);
 
-        if(filterFlag == 0) {
-            skuFilterString = "";
-            if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)){       //apply this condition bcz in this category we have only SKU filter no other filter's are available
-                adapter.items.get(0).setFiltercount(0);
-            }else {
+            if (filterFlag == 0) {
+                skuFilterString = "";
+                if (categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)) {       //apply this condition bcz in this category we have only SKU filter no other filter's are available
+                    adapter.items.get(0).setFiltercount(0);
+                } else {
 //                adapter.items.get(4).setFiltercount(0);
 //                adapter.items.get(5).setFiltercount(0);
-                if(Subcategoryid.isEmpty()) {
+                    if (Subcategoryid.isEmpty()) {
 //                    adapter.items.get(5).setFiltercount(0);
-                    if(categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)){
+                        if (categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)) {
+                            adapter.items.get(4).setFiltercount(0);
+                        } else {
+                            adapter.items.get(5).setFiltercount(0);
+                        }
+                    } else {
                         adapter.items.get(4).setFiltercount(0);
-                    }else {
-                        adapter.items.get(5).setFiltercount(0);
                     }
-                }else {
-                    adapter.items.get(4).setFiltercount(0);
                 }
-            }
 //            adapter.items.get(4).setFiltercount(0);
-            btnApply.setEnabled(false);
-            btnApply.setBackgroundColor(getResources().getColor(R.color.in_active_item_color));
-            btnApply.setTextColor(getResources().getColor(R.color.colorBack));
-        }else if (filterFlag == 1){
-            if(skuFilterString != ""){
-                edText.setText(skuFilterString);
-                if(categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)){
-                    adapter.items.get(0).setFiltercount(1);
-                }else {
+                btnApply.setEnabled(false);
+                btnApply.setBackgroundColor(getResources().getColor(R.color.in_active_item_color));
+                btnApply.setTextColor(getResources().getColor(R.color.colorBack));
+            } else if (filterFlag == 1) {
+                if (skuFilterString != "") {
+                    edText.setText(skuFilterString);
+                    if (categoryId.equalsIgnoreCase(AppConstants.PENDANTS_SETS_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACES_SETS_ID)) {
+                        adapter.items.get(0).setFiltercount(1);
+                    } else {
 //                    adapter.items.get(4).setFiltercount(1);
 //                    adapter.items.get(5).setFiltercount(1);
-                    if(Subcategoryid.isEmpty()) {
+                        if (Subcategoryid.isEmpty()) {
 //                        adapter.items.get(5).setFiltercount(1);
-                        if(categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)){
+                            if (categoryId.equalsIgnoreCase(AppConstants.NOSEPIN_ID) || categoryId.equalsIgnoreCase(AppConstants.NECKLACE_ID) || categoryId.equalsIgnoreCase(AppConstants.COLLECTION_ID) || categoryId.equalsIgnoreCase(AppConstants.RUBBER_ID)) {
+                                adapter.items.get(4).setFiltercount(1);
+                            } else {
+                                adapter.items.get(5).setFiltercount(1);
+                            }
+                        } else {
                             adapter.items.get(4).setFiltercount(1);
-                        }else {
-                            adapter.items.get(5).setFiltercount(1);
                         }
-                    }else {
-                        adapter.items.get(4).setFiltercount(1);
                     }
-                }
 //                adapter.items.get(4).setFiltercount(1);
+                }
             }
+            countFilter();
         }
-        countFilter();
     }
 
     @Override

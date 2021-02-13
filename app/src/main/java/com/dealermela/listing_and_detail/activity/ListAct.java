@@ -64,6 +64,7 @@ import static com.dealermela.listing_and_detail.activity.FilterAct.mapFilter;
 import static com.dealermela.listing_and_detail.activity.FilterAct.pagecountflag;
 import static com.dealermela.listing_and_detail.activity.FilterAct.skuFilterString;
 import static com.dealermela.listing_and_detail.adapter.SortByListRecyclerAdapter.sortby_latest_flag;
+import static com.dealermela.other.activity.NewSearchAct.searchbackflag;
 
 public class ListAct extends DealerMelaBaseActivity implements View.OnClickListener {
     private RecyclerView recycleViewListing;
@@ -494,44 +495,47 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     @Override
     public void loadData() {
 
-        listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
-        recycleViewListing.setAdapter(listingRecyclerAdapter);
+        if(NetworkUtils.isNetworkConnected(ListAct.this)) {
 
-        if (id.equalsIgnoreCase("search")) {
-            linSortBy.setVisibility(View.GONE);
-            linFilter.setVisibility(View.GONE);
-            linNoData.setVisibility(View.GONE);
-            fabDownload.hide();
-            //Add following 3 flag for scrolling the listing when we scroll the page Otherwise not scrolled.
-            flag_scroll = false;  //Previous this flag set to false and when search time result display two times in single page
-            previousTotal = 0; // The total number of items in the dataset after the last load
-            loading = true; // True if we are still waiting for the last set of data to load.
-            searchProduct(name, String.valueOf(page_count));
-            AppLogger.e("NameInSearch","------"+name);
-            AppLogger.e("Page","---------"+String.valueOf(page_count));
-        } else {
-            // Apply this condition for add subcategory Filter option Only at Main Category products Not in subcategory listing
-            if(Subcategoryid.isEmpty()){
-                //Pass MainCategoryId for subcategory Filter option
-                getSortFilter(id);
-            }else {
-                //If on subcategorylisting No Filter option for subcategory
-                if(Subcategoryid.equalsIgnoreCase(id)){
+            listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
+            recycleViewListing.setAdapter(listingRecyclerAdapter);
+
+            if (id.equalsIgnoreCase("search")) {
+                linSortBy.setVisibility(View.GONE);
+                linFilter.setVisibility(View.GONE);
+                linNoData.setVisibility(View.GONE);
+                fabDownload.hide();
+                //Add following 3 flag for scrolling the listing when we scroll the page Otherwise not scrolled.
+                flag_scroll = false;  //Previous this flag set to false and when search time result display two times in single page
+                previousTotal = 0; // The total number of items in the dataset after the last load
+                loading = true; // True if we are still waiting for the last set of data to load.
+                searchProduct(name, String.valueOf(page_count));
+                AppLogger.e("NameInSearch", "------" + name);
+                AppLogger.e("Page", "---------" + String.valueOf(page_count));
+            } else {
+                // Apply this condition for add subcategory Filter option Only at Main Category products Not in subcategory listing
+                if (Subcategoryid.isEmpty()) {
+                    //Pass MainCategoryId for subcategory Filter option
                     getSortFilter(id);
-                }else {
-                    categoryid = "";
-                    getSortFilter(categoryid);
+                } else {
+                    //If on subcategorylisting No Filter option for subcategory
+                    if (Subcategoryid.equalsIgnoreCase(id)) {
+                        getSortFilter(id);
+                    } else {
+                        categoryid = "";
+                        getSortFilter(categoryid);
+                    }
                 }
-            }
 //            getSortFilter();
 //            getCount();  //changed on 10/06 before call this method in onResume Function
-            sort_by.append("sort_by_latest");
-            if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-                getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(),subcategory.toString());
-            } else {
-                getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
+                sort_by.append("sort_by_latest");
+                if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                    getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
+                } else {
+                    getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
+                }
+                setupBadge();
             }
-            setupBadge();
         }
     }
 
@@ -828,7 +832,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                     getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
                 }
             }else {
-
             }
         }else {
             itemArrayList.clear();
@@ -866,6 +869,10 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //        setupBadge();
 
        invalidateOptionsMenu();  // Adding this for update Cart Counting on back pressed from Detail / Cart Screen
+
+//        flag_scroll = false;
+//        previousTotal = 0; // The total number of items in the dataset after the last load
+//        loading = true; // True if we are still waiting for the last set of data to load.
 
         if (filterFlag == 1) {
             tvCount.setVisibility(View.VISIBLE);
@@ -1032,6 +1039,11 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             filterFlag = 0;
             page_count = 1;
 
+            //Add for checking Earrings category after Reset pages not load more than 2
+            flag_scroll = false;
+            previousTotal = 0; // The total number of items in the dataset after the last load
+            loading = true; // True if we are still waiting for the last set of data to load.
+
 //            if(pagecountflag == 1){     //When reset filter & go to detail page & back to list page ->> page  getting refreshed
 //                pagecountflag = 0;
 //                page_count = 1;
@@ -1042,6 +1054,17 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             } else {
                 getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(),subcategory.toString());
             }
+        }else if (searchbackflag == 1) {
+            //clear id intial as search when user search for products
+            id = "";
+            if(getIntent().getStringExtra(AppConstants.ID) != null) {
+                id = getIntent().getStringExtra(AppConstants.ID);
+            }
+            AppLogger.e("after search reopen listing of main category","-----" + id );
+            //Add for checking Earrings category after search something from listpage & come back again that earring list
+            flag_scroll = false;
+            previousTotal = 0; // The total number of items in the dataset after the last load
+            loading = true; // True if we are still waiting for the last set of data to load.
         }
     }
 
@@ -1205,6 +1228,7 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
             }
         });
     }
+
 //
 //    //Option menu
 //    @Override

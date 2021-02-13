@@ -149,10 +149,12 @@ public class MyStockAct extends DealerMelaBaseActivity implements View.OnClickLi
 
     @Override
     public void loadData() {
-        myStockRecyclerAdapter = new MyStockRecyclerAdapter(MyStockAct.this, itemArrayList);
-        recycleViewListing.setAdapter(myStockRecyclerAdapter);
-        getMyStockProduct(customerId, loginResponse.getData().getGroupId(), String.valueOf(page_count), price, gold_purity, diamond_quality, diamond_shape, sku, availability, sort_by);
+        if(NetworkUtils.isNetworkConnected(MyStockAct.this)) {
+            myStockRecyclerAdapter = new MyStockRecyclerAdapter(MyStockAct.this, itemArrayList);
+            recycleViewListing.setAdapter(myStockRecyclerAdapter);
+            getMyStockProduct(customerId, loginResponse.getData().getGroupId(), String.valueOf(page_count), price, gold_purity, diamond_quality, diamond_shape, sku, availability, sort_by);
 //        getSortFilter();
+        }
     }
 
     @Override

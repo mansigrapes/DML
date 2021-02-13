@@ -110,8 +110,7 @@ public class FilterTitleListAdapter extends BaseAdapter {
             tvinvcount.setVisibility(View.VISIBLE);
             tvinvcount.setText(String.valueOf(items.get(position).getFiltercount()));
         }
-//            notifyDataSetChanged();
-
+//        notifyDataSetChanged();    //Not usable bcz not changes anything from this
         return convertView;
     }
 }

@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.dealermela.util.NetworkUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -245,13 +247,15 @@ public class InventoryListAct extends DealerMelaBaseActivity implements AdapterV
 
     @Override
     public void loadData() {
-        //Creating the ArrayAdapter instance having the country list
-        ArrayAdapter<String> aa = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, inventoryActionArray);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        spinnerInventoryAction.setAdapter(aa);
-        getManageInventory(String.valueOf(page_count),price.toString(),gold_purity.toString(),diamond_quality.toString(),diamond_shape.toString());
-        getSortFilter();
+        if(NetworkUtils.isNetworkConnected(InventoryListAct.this)) {
+            //Creating the ArrayAdapter instance having the country list
+            ArrayAdapter<String> aa = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, inventoryActionArray);
+            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            //Setting the ArrayAdapter data on the Spinner
+            spinnerInventoryAction.setAdapter(aa);
+            getManageInventory(String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString());
+            getSortFilter();
+        }
     }
 
     private void getManageInventory(String page,String price,String gold_purity,String diamond_quality,String diamond_shape) {

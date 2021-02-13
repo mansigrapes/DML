@@ -16,6 +16,7 @@ import com.dealermela.retrofit.APIClientLaravel;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
+import com.dealermela.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -99,7 +100,9 @@ public class ProductListAct extends DealerMelaBaseActivity {
 
     @Override
     public void loadData() {
-        getProductList("", "");
+        if(NetworkUtils.isNetworkConnected(ProductListAct.this)) {
+            getProductList("", "");
+        }
     }
 
     private void getProductList(String date, String submitToDml) {
