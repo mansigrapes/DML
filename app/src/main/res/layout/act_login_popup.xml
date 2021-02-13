@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/activity_horizontal_margin">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        app:cardBackgroundColor="@color/black"
+        app:cardCornerRadius="@dimen/ten_sp"
+        app:cardElevation="@dimen/ten_sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10sp">
+
+            <com.dealermela.utility.DmlImageView
+                android:id="@+id/imgLogo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/login_logo_start_end_margin"
+                android:layout_marginTop="12sp"
+                android:layout_marginEnd="@dimen/login_logo_start_end_margin"
+                android:layout_marginBottom="@dimen/login_logo_bottom_margin"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+                app:layout_constraintBottom_toTopOf="@+id/edEmail"
+                app:srcCompat="@drawable/logo_white"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:id="@+id/edemail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@+id/imgLogo"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/login_email_password_start_end_top_margin"
+                android:background="@null">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etemailLayout"
+                    style="@style/TextInputLayoutAppearance"
+                    android:layout_width="273dp"
+                    android:layout_height="wrap_content">
+
+                    <!--                android:id="@+id/edPassword"-->
+                    <com.dealermela.utility.DmlTextInputEditText
+                        android:id="@+id/edemail1"
+                        style="@style/textInputStyleSignUp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress"
+                        android:lines="1"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textCursorDrawable="@null"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <!--            <com.dealermela.utility.DmlEditText-->
+            <!--                android:id="@+id/edemail"-->
+            <!--                style="@style/edLogin"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/login_email_password_start_end_top_margin"-->
+            <!--                android:layout_marginTop="@dimen/activity_horizontal_margin"-->
+            <!--                android:layout_marginEnd="@dimen/login_email_password_start_end_top_margin"-->
+            <!--                android:background="@null"-->
+            <!--                android:hint="@string/email"-->
+            <!--                android:inputType="textEmailAddress"-->
+            <!--                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"-->
+            <!--                app:layout_constraintHorizontal_bias="0.0"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/imgLogo" />-->
+
+            <!--            <com.dealermela.utility.DmlEditText-->
+            <!--                android:id="@+id/edPassword"-->
+            <!--                style="@style/edLogin"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/login_email_password_start_end_top_margin"-->
+            <!--                android:layout_marginTop="@dimen/login_email_password_start_end_top_margin"-->
+            <!--                android:layout_marginEnd="@dimen/login_email_password_start_end_top_margin"-->
+            <!--                android:layout_marginBottom="@dimen/login_email_password_start_end_top_margin"-->
+            <!--                android:background="@null"-->
+            <!--                android:hint="@string/password"-->
+            <!--                android:inputType="textPassword"-->
+            <!--                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/edemail" />-->
+
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+
+            <LinearLayout
+                android:id="@+id/edPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@+id/edemail"
+                android:layout_marginStart="@dimen/login_email_password_start_end_top_margin"
+                android:layout_marginTop="@dimen/login_email_password_start_end_top_margin"
+                android:layout_marginEnd="@dimen/login_email_password_start_end_top_margin"
+                android:layout_marginBottom="@dimen/login_email_password_start_end_top_margin">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etPasswordLayout"
+                    style="@style/TextInputLayoutAppearance"
+                    android:layout_width="273dp"
+                    android:layout_height="wrap_content"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/white">
+
+                    <!--                android:id="@+id/edPassword"-->
+                    <com.dealermela.utility.DmlTextInputEditText
+                        android:id="@+id/edPassword1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:lines="1"
+                        android:textCursorDrawable="@null"
+                        style="@style/textInputStyleSignUp"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="20sp" />
+            <!--            app:layout_constraintGuide_begin="@dimen/login_guideline_start_end"-->
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="20sp" />
+
+            <com.dealermela.utility.DmlButton
+                android:id="@+id/btnLogin"
+                style="@style/All_Dmlbutton"
+                android:layout_width="@dimen/login_button_width"
+                android:layout_height="@dimen/login_button_height"
+                android:layout_marginStart="@dimen/login_email_password_start_end_top_margin"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="@dimen/login_email_password_start_end_top_margin"
+                android:background="@drawable/button_round"
+                android:elevation="@dimen/login_buton_elevation"
+                android:text="@string/login"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@+id/viewPassword"
+                tools:targetApi="m" />
+
+            <com.dealermela.utility.DmlTextView
+                android:id="@+id/tvForgotPwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/my_ripple"
+                android:padding="@dimen/login_forgot_sign_up_padding"
+                android:text="@string/forgot_password"
+                android:textAlignment="textEnd"
+                android:textColor="@color/white"
+                android:textSize="@dimen/login_forgot_sign_up"
+                app:layout_constraintBottom_toBottomOf="@+id/viewForgotCreateAccount"
+                app:layout_constraintEnd_toStartOf="@+id/viewForgotCreateAccount"
+                app:layout_constraintTop_toTopOf="@+id/viewForgotCreateAccount"
+                app:layout_constraintVertical_bias="0.0"
+                tools:ignore="SmallSp" />
+
+            <com.dealermela.utility.DmlTextView
+                android:id="@+id/tvNewAccount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/login_email_password_start_end_top_margin"
+                android:background="@drawable/my_ripple"
+                android:padding="@dimen/login_forgot_sign_up_padding"
+                android:text="@string/create_an_account"
+                android:textAlignment="textStart"
+                android:textColor="@color/white"
+                android:textSize="@dimen/login_forgot_sign_up"
+                app:layout_constraintBottom_toBottomOf="@+id/viewForgotCreateAccount"
+                app:layout_constraintStart_toEndOf="@+id/viewForgotCreateAccount"
+                app:layout_constraintTop_toTopOf="@+id/viewForgotCreateAccount"
+                app:layout_constraintVertical_bias="0.0"
+                tools:ignore="SmallSp" />
+
+            <View
+                android:id="@+id/viewForgotCreateAccount"
+                android:layout_width="@dimen/login_view_width"
+                android:layout_height="20sp"
+                android:layout_marginTop="26sp"
+                android:background="?viewColor"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
+            <View
+                android:id="@+id/viewEmail"
+                android:layout_width="@dimen/login_view_email_pwd_width"
+                android:layout_height="@dimen/login_view_email_height"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/edemail"
+                app:layout_constraintEnd_toEndOf="@+id/viewPassword"
+                app:layout_constraintStart_toStartOf="@+id/viewPassword" />
+
+            <View
+                android:id="@+id/viewPassword"
+                android:layout_width="@dimen/login_view_email_pwd_width"
+                android:layout_height="@dimen/login_view_email_height"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/edPassword"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintStart_toStartOf="@+id/guidelineLeft" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

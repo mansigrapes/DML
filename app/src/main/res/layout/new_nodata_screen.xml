@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintlayoutNoData"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone" >
+
+    <!--    android:visibility="gone"  -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?login_signup_text_color"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+
+        <!--        android:src="@drawable/no_data_search"
+                    android:src="@drawable/ic_no_data_amico"
+            app:layout_constraintBottom_toTopOf="@+id/dmlTextViewBold7"
+            app:layout_constraintEnd_toEndOf="@+id/dmlTextViewBold7"
+            app:layout_constraintStart_toStartOf="@+id/dmlTextViewBold7"   -->
+
+        <com.dealermela.utility.DmlImageView
+            android:id="@+id/dmlImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:src="@drawable/ic_no_data_common_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.560"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.382" />
+
+        <com.dealermela.utility.DmlTextViewSemiBold
+            android:id="@+id/dmlTextViewBold7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:letterSpacing="0.03"
+            android:lines="1"
+            android:text="No Content Found"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dmlImageView" />
+
+        <com.dealermela.utility.DmlTextViewBold
+            android:id="@+id/tvnewNoData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:letterSpacing="0.03"
+            android:lineSpacingExtra="12dp"
+            android:lines="1"
+            android:text=""
+            android:textColor="@color/download_disabled"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/dmlTextViewBold7"
+            app:layout_constraintStart_toStartOf="@+id/dmlTextViewBold7"
+            app:layout_constraintTop_toBottomOf="@+id/dmlTextViewBold7" />
+
+<!--        android:textColor="?no_data_text"-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+
+<!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:id="@+id/constraintlayoutNoData"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:background="?login_signup_text_color"-->
+<!--    android:gravity="center"-->
+<!--    android:visibility="gone">-->
+
+<!--    <com.dealermela.utility.DmlImageView-->
+<!--        android:id="@+id/dmlImageView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:src="@drawable/ic_no_data_common_image"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/dmlTextViewBold7"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/dmlTextViewBold7"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/dmlTextViewBold7" />-->
+
+<!--    <com.dealermela.utility.DmlTextViewSemiBold-->
+<!--        android:id="@+id/dmlTextViewBold7"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:ellipsize="end"-->
+<!--        android:gravity="center"-->
+<!--        android:letterSpacing="0.03"-->
+<!--        android:lines="1"-->
+<!--        android:text="No Content Found"-->
+<!--        android:textSize="14dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <com.dealermela.utility.DmlTextViewBold-->
+<!--        android:id="@+id/tvnewNoData"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:ellipsize="end"-->
+<!--        android:gravity="center"-->
+<!--        android:letterSpacing="0.03"-->
+<!--        android:lineSpacingExtra="12dp"-->
+<!--        android:lines="1"-->
+<!--        android:text=""-->
+<!--        android:textSize="@dimen/twelve_sp"-->
+<!--        android:textColor="?no_data_text"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/dmlTextViewBold7"-->
+<!--        app:layout_constraintHorizontal_bias="0.400"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/dmlTextViewBold7"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/dmlTextViewBold7" />-->
+
+<!--</android.support.constraint.ConstraintLayout>-->
+
+
+
+
+

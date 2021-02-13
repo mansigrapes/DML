@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dealermela.inventary.activity.InventoryFilterAct">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintInvLayout"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.dealermela.utility.DmlImageView
+            android:id="@+id/imgInvFltBack"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8sp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/globalTextView8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back_arrow"/>
+
+        <com.dealermela.utility.DmlTextViewBold
+            android:id="@+id/globalTextView8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/eight_margin_padding"
+            android:layout_marginEnd="@dimen/eight_margin_padding"
+            android:layout_marginBottom="@dimen/eight_margin_padding"
+            android:text="@string/filter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvInvFltReset"
+            app:layout_constraintStart_toEndOf="@+id/imgInvFltBack"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.dealermela.utility.DmlTextView
+            android:id="@+id/tvInvFltReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/eight_margin_padding"
+            android:layout_marginEnd="@dimen/eight_margin_padding"
+            android:layout_marginBottom="@dimen/eight_margin_padding"
+            android:text="@string/reset"
+            android:enabled="false"
+            android:padding="@dimen/eight_sp"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view15"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/one_sp_view"
+        android:background="?toolbarViewColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintInvLayout"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <ListView
+        android:id="@+id/listViewInvFlt"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:divider="@null"
+        android:scrollbars="none"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnInvApply"
+        app:layout_constraintEnd_toStartOf="@+id/gline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view15" />
+
+    <com.dealermela.utility.DmlButton
+        android:id="@+id/btnInvApply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/dml_logo_color"
+        android:text="@string/apply"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleViewInvFltData"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnInvApply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/listViewInvFlt"
+        app:layout_constraintTop_toBottomOf="@+id/view15" />
+
+    <com.dealermela.utility.DmlEditText
+        android:id="@+id/edTextInvFlt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:hint="@string/sku"
+        android:inputType="textCapSentences"
+        android:lineSpacingExtra="@dimen/eight_sp"
+        android:lines="1"
+        android:textSize="@dimen/twelve_sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="@+id/gline"
+        app:layout_constraintTop_toBottomOf="@+id/view15" />
+
+    <ProgressBar
+        android:id="@+id/progressBarInvFlt"
+        android:theme="@style/progressBarColor"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnInvApply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+<!--    <HorizontalScrollView-->
+<!--        android:id="@+id/hsViewInv"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/view15">-->
+
+<!--        <GridLayout-->
+<!--            android:id="@+id/linContainerInv"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:columnCount="2"-->
+<!--            android:rowCount="2"-->
+<!--            android:layout_margin="@dimen/five_dp"-->
+<!--            />-->
+
+<!--    </HorizontalScrollView>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

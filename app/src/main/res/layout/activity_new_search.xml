@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dealermela.other.activity.SearchAct">
+
+    <include
+        android:id="@+id/include16"
+        layout="@layout/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.dealermela.utility.DmlTextViewSemiBold
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSearchHistoryTitle"
+        android:layout_marginLeft="@dimen/eight_sp"
+        android:layout_marginRight="@dimen/eight_sp"
+        android:layout_marginTop="@dimen/ten_sp"
+        android:text="Previous Search History"
+        android:textSize="@dimen/fifteen_sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include16"
+        android:visibility="gone"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPreviousSearchBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/eight_sp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="@dimen/eight_sp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSearchHistoryTitle">
+        <!--        app:cardBackgroundColor="?transaction_round_back"-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lastSearchRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleViewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="8dp" />
+
+    <android.widget.SearchView
+        android:id="@+id/edSearch"
+        android:layout_marginLeft="@dimen/twenty_four_dp"
+        android:layout_marginRight="@dimen/ten_sp"
+        android:layout_marginTop="@dimen/five_sp"
+        android:layout_marginBottom="@dimen/twelve_sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:queryHint="Search Product"
+        android:searchIcon="@null"
+        android:searchHintIcon="@null"
+        android:imeOptions="actionSearch"
+        android:textCursorDrawable="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:iconifiedByDefault="false"
+        app:theme="@style/SearchViewStyle"/>
+
+<!--    style="@style/SearchViewStyle"-->
+
+    <View
+        android:id="@+id/view14"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/one_sp_view"
+        app:layout_constraintBottom_toTopOf="@+id/recycleViewHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="?toolbarViewColor"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "184770018979",
+    "firebase_url": "https://dealermela.firebaseio.com",
+    "project_id": "dealermela",
+    "storage_bucket": "dealermela.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184770018979:android:0981a94cef333e45a9c916",
+        "android_client_info": {
+          "package_name": "com.dealermela"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184770018979-mouh1043u9s9st0vmpdna3phv80jrrvu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dealermela",
+            "certificate_hash": "16afcfad6c9f20d0d321753f6e3f4d60b88093bf"
+          }
+        },
+        {
+          "client_id": "184770018979-n0tr59ia6vcplbl578083m7p3mvhs4de.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDHriwMXYN5Y2YcRG7TkPC54U-R93gj6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184770018979-n0tr59ia6vcplbl578083m7p3mvhs4de.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184770018979:android:b21fc82f3d5f5d24a9c916",
+        "android_client_info": {
+          "package_name": "com.diamondmela"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184770018979-n0tr59ia6vcplbl578083m7p3mvhs4de.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDHriwMXYN5Y2YcRG7TkPC54U-R93gj6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184770018979-n0tr59ia6vcplbl578083m7p3mvhs4de.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184770018979:android:7e78aa5278a75479a9c916",
+        "android_client_info": {
+          "package_name": "com.testdiamondmela"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184770018979-n0tr59ia6vcplbl578083m7p3mvhs4de.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDHriwMXYN5Y2YcRG7TkPC54U-R93gj6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184770018979-n0tr59ia6vcplbl578083m7p3mvhs4de.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

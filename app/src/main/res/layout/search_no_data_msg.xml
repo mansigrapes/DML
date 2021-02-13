@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/searchNoData"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone" >
+
+<!--    android:visibility="gone"  -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?login_signup_text_color"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.dealermela.utility.DmlImageView
+            android:id="@+id/dmlImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/twelve_sp"
+            android:src="@drawable/ic_magnifying_glass"
+            app:layout_constraintBottom_toTopOf="@+id/dmlTextViewBold7"
+            app:layout_constraintEnd_toEndOf="@+id/dmlTextViewBold7"
+            app:layout_constraintStart_toStartOf="@+id/dmlTextViewBold7" />
+        <!--        android:src="@drawable/no_data_search"
+                    android:src="@drawable/ic_no_data_amico"-->
+
+        <com.dealermela.utility.DmlTextViewSemiBold
+            android:id="@+id/dmlTextViewBold7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:letterSpacing="0.03"
+            android:lines="1"
+            android:text="Nothing Found Here"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.dealermela.utility.DmlTextViewBold
+            android:id="@+id/dmlTextViewBold8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:letterSpacing="0.03"
+            android:lineSpacingExtra="12dp"
+            android:lines="1"
+            android:text="@string/search_no_detail"
+            android:textColor="@color/download_disabled"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/dmlTextViewBold7"
+            app:layout_constraintStart_toStartOf="@+id/dmlTextViewBold7"
+            app:layout_constraintTop_toBottomOf="@+id/dmlTextViewBold7" />
+
+<!--        android:textColor="?no_data_text"-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
+
+
