@@ -148,36 +148,39 @@ public class ManageAddressAct extends DealerMelaBaseActivity implements View.OnC
                 assert response.body() != null;
 
                 if (response.isSuccessful()) {
-
-                    addressManageResponse = response.body();
-                    if (addressManageResponse.getData().size() != 0)
-                    {
-                        addressRecyclerAdapter = new AddressRecyclerAdapter(ManageAddressAct.this, addressManageResponse.getData());
-                        recycleViewAdditionalAddress.setAdapter(addressRecyclerAdapter);
-                        tvNoAddress.setVisibility(View.GONE);
-                    } else {
-                        recycleViewAdditionalAddress.setVisibility(View.GONE);
-                        tvNoAddress.setVisibility(View.VISIBLE);
-                    }
-                    tvBName.setText(response.body().getDefaultBilling().getFirstname() + " " + response.body().getDefaultBilling().getLastname());
-                    tvBAddress1.setText(response.body().getDefaultBilling().getStreet());
+                    if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+//                        if (!response.body().getData().isEmpty()) {
+                            addressManageResponse = response.body();
+                            if (addressManageResponse.getData().size() != 0) {
+                                recycleViewAdditionalAddress.setVisibility(View.VISIBLE);
+                                addressRecyclerAdapter = new AddressRecyclerAdapter(ManageAddressAct.this, addressManageResponse.getData());
+                                recycleViewAdditionalAddress.setAdapter(addressRecyclerAdapter);
+                                tvNoAddress.setVisibility(View.GONE);
+                            } else {
+                                recycleViewAdditionalAddress.setVisibility(View.GONE);
+                                tvNoAddress.setVisibility(View.VISIBLE);
+                            }
+                            tvBName.setText(response.body().getDefaultBilling().getFirstname() + " " + response.body().getDefaultBilling().getLastname());
+                            tvBAddress1.setText(response.body().getDefaultBilling().getStreet());
 //                    tvBAddress2.setText(response.body().getDefaultBilling().getStreet1());
-                    tvBCity.setText(response.body().getDefaultBilling().getCity() + "," + response.body().getDefaultBilling().getRegion() + "," + response.body().getDefaultBilling().getPostcode());
-                    tvBCountry.setText(response.body().getDefaultBilling().getCountry());
-                    tvBTelephone.setText("T: " + response.body().getDefaultBilling().getTelephone());
+                            tvBCity.setText(response.body().getDefaultBilling().getCity() + "," + response.body().getDefaultBilling().getRegion() + "," + response.body().getDefaultBilling().getPostcode());
+                            tvBCountry.setText(response.body().getDefaultBilling().getCountry());
+                            tvBTelephone.setText("T: " + response.body().getDefaultBilling().getTelephone());
 
-                    tvSName.setText(response.body().getDefaultShipping().getFirstname() + " " + response.body().getDefaultShipping().getLastname());
-                    tvSAddress1.setText(response.body().getDefaultShipping().getStreet());
+                            tvSName.setText(response.body().getDefaultShipping().getFirstname() + " " + response.body().getDefaultShipping().getLastname());
+                            tvSAddress1.setText(response.body().getDefaultShipping().getStreet());
 //                    tvSAddress2.setText(response.body().getDefaultShipping().getStreet1());
-                    tvSCity.setText(response.body().getDefaultShipping().getCity() + "," + response.body().getDefaultShipping().getRegion() + "," + response.body().getDefaultShipping().getPostcode());
-                    tvSCountry.setText(response.body().getDefaultShipping().getCountry());
-                    tvSTelephone.setText("T: " + response.body().getDefaultShipping().getTelephone());
+                            tvSCity.setText(response.body().getDefaultShipping().getCity() + "," + response.body().getDefaultShipping().getRegion() + "," + response.body().getDefaultShipping().getPostcode());
+                            tvSCountry.setText(response.body().getDefaultShipping().getCountry());
+                            tvSTelephone.setText("T: " + response.body().getDefaultShipping().getTelephone());
 
-                    SharedPreferences sharedPreferences = new SharedPreferences(ManageAddressAct.this);
-                    sharedPreferences.saveBillingAddress(response.body().getDefaultBilling().getFirstname() + " " + response.body().getDefaultBilling().getLastname() + ",\n" + response.body().getDefaultBilling().getStreet() + ",\n" + response.body().getDefaultBilling().getCity() + ", " + response.body().getDefaultBilling().getRegion() + ", " + response.body().getDefaultBilling().getPostcode() + ",\n" + response.body().getDefaultBilling().getCountryId() + "\nT: " + response.body().getDefaultBilling().getTelephone());
-                    sharedPreferences.saveShipping(response.body().getDefaultShipping().getFirstname() + " " + response.body().getDefaultShipping().getLastname() + ",\n" + response.body().getDefaultShipping().getStreet() + ",\n" + response.body().getDefaultShipping().getCity() + ", " + response.body().getDefaultShipping().getRegion() + ", " + response.body().getDefaultShipping().getPostcode() + ",\n" + response.body().getDefaultShipping().getCountryId() + "\nT: " + response.body().getDefaultShipping().getTelephone());
+                            SharedPreferences sharedPreferences = new SharedPreferences(ManageAddressAct.this);
+                            sharedPreferences.saveBillingAddress(response.body().getDefaultBilling().getFirstname() + " " + response.body().getDefaultBilling().getLastname() + ",\n" + response.body().getDefaultBilling().getStreet() + ",\n" + response.body().getDefaultBilling().getCity() + ", " + response.body().getDefaultBilling().getRegion() + ", " + response.body().getDefaultBilling().getPostcode() + ",\n" + response.body().getDefaultBilling().getCountryId() + "\nT: " + response.body().getDefaultBilling().getTelephone());
+                            sharedPreferences.saveShipping(response.body().getDefaultShipping().getFirstname() + " " + response.body().getDefaultShipping().getLastname() + ",\n" + response.body().getDefaultShipping().getStreet() + ",\n" + response.body().getDefaultShipping().getCity() + ", " + response.body().getDefaultShipping().getRegion() + ", " + response.body().getDefaultShipping().getPostcode() + ",\n" + response.body().getDefaultShipping().getCountryId() + "\nT: " + response.body().getDefaultShipping().getTelephone());
 
-                    hideProgressDialog();
+                            hideProgressDialog();
+//                        }
+                    }
                 }else
                 {
                     tvNoAddress.setVisibility(View.VISIBLE);
@@ -205,6 +208,7 @@ public class ManageAddressAct extends DealerMelaBaseActivity implements View.OnC
         getMenuInflater().inflate(R.menu.detail_menu, menu);
         return false;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

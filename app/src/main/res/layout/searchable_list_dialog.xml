@@ -2,24 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingLeft="8dp"
     android:paddingTop="8dp"
     android:paddingRight="8dp">
 
-    <SearchView
+    <android.widget.SearchView
         android:id="@+id/search"
-        style="@style/SearchViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:iconifiedByDefault="false" />
+        android:iconifiedByDefault="false"
+         />
+<!--    app:theme="@style/SearchableSearchViewStyle"-->
+<!--    style="@style/SearchViewStyle"-->
 
     <ListView
         android:id="@+id/listItems"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
 
     <com.dealermela.utility.DmlButton
         android:id="@+id/btnClose"
@@ -29,8 +31,6 @@
         android:layout_margin="@dimen/eight_sp"
         android:layout_gravity="end"
         android:textColor="@color/white"
-        android:background="@color/dml_logo_color"
-        />
-
+        android:background="@color/dml_logo_color" />
 
 </LinearLayout>

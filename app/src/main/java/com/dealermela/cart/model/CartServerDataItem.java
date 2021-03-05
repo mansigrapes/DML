@@ -117,6 +117,9 @@ public class CartServerDataItem {
         @SerializedName("product_category_type")
         @Expose
         private String productCategoryType;
+        @SerializedName("product_id")
+        @Expose
+        private String productId;
 
         public String getProduct_type() {
             return product_type;
@@ -230,6 +233,12 @@ public class CartServerDataItem {
             this.productCategoryType = productCategoryType;
         }
 
-    }
+        public String getProductId() {
+            return productId;
+        }
 
+        public void setProductId(String productId) {
+            this.productId = productId;
+        }
+    }
 }

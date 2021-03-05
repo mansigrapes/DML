@@ -331,15 +331,18 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
             public void onResponse(@NonNull Call<DownloadItem> call, @NonNull Response<DownloadItem> response) {
                 assert response.body() != null;
 
-                if (page_count == 1) {
-                    progressBarCenter.setVisibility(View.GONE);
-                    btnDeleteAll.setVisibility(View.VISIBLE);
-                    btnDownload.setVisibility(View.VISIBLE);
-                } else {
-                    progressBarBottom.setVisibility(View.GONE);
-                }
                 if (response.isSuccessful()) {
+
                     if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+
+                        if (page_count == 1) {
+                            progressBarCenter.setVisibility(View.GONE);
+                            btnDeleteAll.setVisibility(View.VISIBLE);
+                            btnDownload.setVisibility(View.VISIBLE);
+                        } else {
+                            progressBarBottom.setVisibility(View.GONE);
+                        }
+
                         detailList.addAll(response.body().getDetail());
                         downloadProductAdapter.notifyDataSetChanged();
                         if(checkBoxAll.isChecked()){

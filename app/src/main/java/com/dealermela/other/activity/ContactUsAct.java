@@ -169,6 +169,7 @@ public class ContactUsAct extends DealerMelaBaseActivity implements View.OnClick
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 hideProgressDialog();
+                AppLogger.e("Error ","-----" + t.getMessage());
             }
 
         });

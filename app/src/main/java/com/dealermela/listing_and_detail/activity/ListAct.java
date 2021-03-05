@@ -65,6 +65,7 @@ import static com.dealermela.listing_and_detail.activity.FilterAct.pagecountflag
 import static com.dealermela.listing_and_detail.activity.FilterAct.skuFilterString;
 import static com.dealermela.listing_and_detail.adapter.SortByListRecyclerAdapter.sortby_latest_flag;
 import static com.dealermela.other.activity.NewSearchAct.searchbackflag;
+//import static com.dealermela.other.activity.NewSearchAct.searchbackflag;
 
 public class ListAct extends DealerMelaBaseActivity implements View.OnClickListener {
     private RecyclerView recycleViewListing;
@@ -604,7 +605,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                     sortByList.get(i).setSelected(false);
                 }
             }
-
             tvSortbyDot.setVisibility(View.GONE);
         }
 
@@ -865,100 +865,116 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //        } else {
 //            tvCount.setVisibility(View.GONE);
 //        }
-
 //        setupBadge();
 
-       invalidateOptionsMenu();  // Adding this for update Cart Counting on back pressed from Detail / Cart Screen
+       if(NetworkUtils.isNetworkConnected(ListAct.this)) {
+
+           invalidateOptionsMenu();  // Adding this for update Cart Counting on back pressed from Detail / Cart Screen
 
 //        flag_scroll = false;
 //        previousTotal = 0; // The total number of items in the dataset after the last load
 //        loading = true; // True if we are still waiting for the last set of data to load.
 
-        if (filterFlag == 1) {
-            tvCount.setVisibility(View.VISIBLE);
-            parentShimmerLayout.setVisibility(View.VISIBLE);
-            linNoData.setVisibility(View.GONE);
+//           if(id.equalsIgnoreCase("search")){
+//                if (getIntent().getStringExtra(AppConstants.ID) != null) {
+//                   id = getIntent().getStringExtra(AppConstants.ID);
+//               }
+//           }
+
+           if (filterFlag == 1 ) {
+
+               if (getIntent().getStringExtra(AppConstants.ID) != null) {
+                   id = getIntent().getStringExtra(AppConstants.ID);
+               }
+
+               //Want to change bcz when applied filter then goes to search & there on resume method first this api calls so give no data msg then after search API calls which should not happens
+
+               if(!id.equalsIgnoreCase("search")) {
+
+                   tvCount.setVisibility(View.VISIBLE);
+                   parentShimmerLayout.setVisibility(View.VISIBLE);
+                   linNoData.setVisibility(View.GONE);
 //            itemArrayList.clear();
 //            page_count = 1;
-            flag_scroll = false;
-            previousTotal = 0; // The total number of items in the dataset after the last load
-            loading = true; // True if we are still waiting for the last set of data to load.
+                   flag_scroll = false;
+                   previousTotal = 0; // The total number of items in the dataset after the last load
+                   loading = true; // True if we are still waiting for the last set of data to load.
 
-            price.setLength(0);
-            gold_purity.setLength(0);
-            diamond_quality.setLength(0);
-            diamond_shape.setLength(0);
-            sku.setLength(0);
-            availability.setLength(0);
-            subcategory.setLength(0);
+                   price.setLength(0);
+                   gold_purity.setLength(0);
+                   diamond_quality.setLength(0);
+                   diamond_shape.setLength(0);
+                   sku.setLength(0);
+                   availability.setLength(0);
+                   subcategory.setLength(0);
 //            sort_by.setLength(0);
 
-            for (int i = 0; i < filterSelectItems.size(); i++) {
-                if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("price")) {
-                    for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {
-                        if (filterSelectItems.get(i).getOptionData().get(j).isSelected()) {
-                            price.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
-                        }
-                    }
-                } else if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("gold_purity")) {
-                    for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {
-                        if (filterSelectItems.get(i).getOptionData().get(j).isSelected()) {
-                            gold_purity.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
-                        }
-                    }
-                } else if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("diamond_quality")) {
-                    for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {
-                        if (filterSelectItems.get(i).getOptionData().get(j).isSelected()) {
-                            diamond_quality.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
-                        }
-                    }
-                } else if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("diamond_shape")) {
-                    for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {
-                        if (filterSelectItems.get(i).getOptionData().get(j).isSelected()) {
-                            diamond_shape.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
-                        }
-                    }
-                } else if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("sku")){
+                   for (int i = 0; i < filterSelectItems.size(); i++) {
+                       if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("price")) {
+                           for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {
+                               if (filterSelectItems.get(i).getOptionData().get(j).isSelected()) {
+                                   price.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
+                               }
+                           }
+                       } else if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("gold_purity")) {
+                           for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {
+                               if (filterSelectItems.get(i).getOptionData().get(j).isSelected()) {
+                                   gold_purity.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
+                               }
+                           }
+                       } else if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("diamond_quality")) {
+                           for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {
+                               if (filterSelectItems.get(i).getOptionData().get(j).isSelected()) {
+                                   diamond_quality.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
+                               }
+                           }
+                       } else if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("diamond_shape")) {
+                           for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {
+                               if (filterSelectItems.get(i).getOptionData().get(j).isSelected()) {
+                                   diamond_shape.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
+                               }
+                           }
+                       } else if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("sku")) {
 //                    sku =
 //                    if (mapFilter.containsKey(paramKey)) {
 //                        String key = mapFilter.get(paramKey);
 //                        sku.append(key);
 //                    }
 
-                    if(!skuFilterString.isEmpty()){
-                        sku.append(skuFilterString);
-                    }
-                } else if(filterSelectItems.get(i).getOptionName().equalsIgnoreCase("categories")){
-                    for(int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++){
-                        if(filterSelectItems.get(i).getOptionData().get(j).isSelected()){
+                           if (!skuFilterString.isEmpty()) {
+                               sku.append(skuFilterString);
+                           }
+                       } else if (filterSelectItems.get(i).getOptionName().equalsIgnoreCase("categories")) {
+                           for (int j = 0; j < filterSelectItems.get(i).getOptionData().size(); j++) {
+                               if (filterSelectItems.get(i).getOptionData().get(j).isSelected()) {
 //                            subcategory.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append("|");
-                            subcategory.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append(",");
-                        }
-                    }
-                }
-            }
+                                   subcategory.append(filterSelectItems.get(i).getOptionData().get(j).getValue()).append(",");
+                               }
+                           }
+                       }
+                   }
 
-            if (price.length() != 0) {
-                price.setLength(price.length() - 1);
-            }
-            if (gold_purity.length() != 0) {
-                gold_purity.setLength(gold_purity.length() - 1);
-            }
-            if (diamond_quality.length() != 0) {
-                diamond_quality.setLength(diamond_quality.length() - 1);
-            }
-            if (diamond_shape.length() != 0) {
-                diamond_shape.setLength(diamond_shape.length() - 1);
-            }
+                   if (price.length() != 0) {
+                       price.setLength(price.length() - 1);
+                   }
+                   if (gold_purity.length() != 0) {
+                       gold_purity.setLength(gold_purity.length() - 1);
+                   }
+                   if (diamond_quality.length() != 0) {
+                       diamond_quality.setLength(diamond_quality.length() - 1);
+                   }
+                   if (diamond_shape.length() != 0) {
+                       diamond_shape.setLength(diamond_shape.length() - 1);
+                   }
 //            if (sku.length() != 0) {
 //                sku.setLength(sku.length() - 1);
 //            }
-            if (availability.length() != 0) {
-                availability.setLength(availability.length() - 1);
-            }
-            if(subcategory.length() != 0){
-                subcategory.setLength(subcategory.length() - 1);
-            }
+                   if (availability.length() != 0) {
+                       availability.setLength(availability.length() - 1);
+                   }
+                   if (subcategory.length() != 0) {
+                       subcategory.setLength(subcategory.length() - 1);
+                   }
 //            if (sort_by.length() != 0) {
 //                sort_by.setLength(sort_by.length() - 1);
 //            }
@@ -971,22 +987,22 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 //            availability.setLength(availability.length() - 1);
 //            sort_by.setLength(sort_by.length() - 1);
 
-            if(pagecountflag == 1){     //When filter is applied & go to detail page & back to list page ->>page should not getting refreshed  only refresh data on scrolling
+                   if (pagecountflag == 1) {     //When filter is applied & go to detail page & back to list page ->>page should not getting refreshed  only refresh data on scrolling
 //                pagecountflag = 0;
-                itemArrayList.clear();
-                page_count = 1;
+                       itemArrayList.clear();
+                       page_count = 1;
 
-                listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
-                recycleViewListing.setAdapter(listingRecyclerAdapter);
-                if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-                    getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
-                } else {
-                    getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
-                }
-                AppLogger.e(" full string data", "--------" + price + gold_purity + diamond_quality + diamond_shape + sku + availability);
-            }else {
-                parentShimmerLayout.setVisibility(View.GONE);
-            }
+                       listingRecyclerAdapter = new ListingRecyclerAdapter(ListAct.this, itemArrayList);
+                       recycleViewListing.setAdapter(listingRecyclerAdapter);
+                       if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                           getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
+                       } else {
+                           getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
+                       }
+                       AppLogger.e(" full string data", "--------" + price + gold_purity + diamond_quality + diamond_shape + sku + availability);
+                   } else {
+                       parentShimmerLayout.setVisibility(View.GONE);
+                   }
             /*
             for (Object key : mapFilter.keySet()) {
                 String value = mapFilter.get(key);
@@ -1019,53 +1035,100 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
                 AppLogger.e(" full string data", "--------" + price + gold_purity + diamond_quality + diamond_shape + sku + availability);
 
             }*/
-        }
-        else if (filterFlag == 2) {
-            tvCount.setVisibility(View.GONE);
-            linNoData.setVisibility(View.GONE);
-            recycleViewListing.setVisibility(View.GONE);
-            parentShimmerLayout.setVisibility(View.VISIBLE);
-            price.setLength(0);
-            gold_purity.setLength(0);
-            diamond_quality.setLength(0);
-            diamond_shape.setLength(0);
-            sku.setLength(0);
-            availability.setLength(0);
-            subcategory.setLength(0);
+               }
+           } else if (filterFlag == 2) {
+               tvCount.setVisibility(View.GONE);
+               linNoData.setVisibility(View.GONE);
+               recycleViewListing.setVisibility(View.GONE);
+               parentShimmerLayout.setVisibility(View.VISIBLE);
+               price.setLength(0);
+               gold_purity.setLength(0);
+               diamond_quality.setLength(0);
+               diamond_shape.setLength(0);
+               sku.setLength(0);
+               availability.setLength(0);
+               subcategory.setLength(0);
 //            sort_by.setLength(0);
-            itemArrayList.clear();
-            mapFilter.clear();
-            skuFilterString="";
-            filterFlag = 0;
-            page_count = 1;
+               itemArrayList.clear();
+               mapFilter.clear();
+               skuFilterString = "";
+               filterFlag = 0;
+               page_count = 1;
 
-            //Add for checking Earrings category after Reset pages not load more than 2
-            flag_scroll = false;
-            previousTotal = 0; // The total number of items in the dataset after the last load
-            loading = true; // True if we are still waiting for the last set of data to load.
+               //Add for checking Earrings category after Reset pages not load more than 2
+               flag_scroll = false;
+               previousTotal = 0; // The total number of items in the dataset after the last load
+               loading = true; // True if we are still waiting for the last set of data to load.
 
 //            if(pagecountflag == 1){     //When reset filter & go to detail page & back to list page ->> page  getting refreshed
 //                pagecountflag = 0;
 //                page_count = 1;
 //            }
 
-            if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
-                getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(),subcategory.toString());
-            } else {
-                getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(),subcategory.toString());
-            }
-        }else if (searchbackflag == 1) {
-            //clear id intial as search when user search for products
-            id = "";
-            if(getIntent().getStringExtra(AppConstants.ID) != null) {
-                id = getIntent().getStringExtra(AppConstants.ID);
-            }
-            AppLogger.e("after search reopen listing of main category","-----" + id );
-            //Add for checking Earrings category after search something from listpage & come back again that earring list
-            flag_scroll = false;
-            previousTotal = 0; // The total number of items in the dataset after the last load
-            loading = true; // True if we are still waiting for the last set of data to load.
-        }
+               if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
+                   getCategoryProduct(id, "", String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
+               } else {
+                   getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
+               }
+           }
+         /*
+//        else if (searchbackflag == 1) {
+//            //clear id intial as search when user search for products
+//            id = "";
+//            if(getIntent().getStringExtra(AppConstants.ID) != null) {
+//                id = getIntent().getStringExtra(AppConstants.ID);
+//            }
+//            AppLogger.e("after search reopen listing of main category","-----" + id );
+//            //Add for checking Earrings category after search something from listpage & come back again that earring list
+//            flag_scroll = false;
+//            previousTotal = 0; // The total number of items in the dataset after the last load
+//            loading = true; // True if we are still waiting for the last set of data to load.
+//        }*/
+
+//           else  {
+//               if(!id.equalsIgnoreCase("search")) {
+//                   flag_scroll = false;
+//                   previousTotal = 0; // The total number of items in the dataset after the last load
+//                   loading = true; // True if we are still waiting for the last set of data to load.
+//                   page_count = 1;
+//
+//                   getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
+//               }else {
+//                   if(searchbackflag == 1){
+//                       if (getIntent().getStringExtra(AppConstants.ID) != null) {
+//                           id = getIntent().getStringExtra(AppConstants.ID);
+//                       }
+//                       flag_scroll = false;
+//                       previousTotal = 0; // The total number of items in the dataset after the last load
+//                       loading = true; // True if we are still waiting for the last set of data to load.
+//                       page_count = 1;
+//
+//                       getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
+//                   }
+//               }
+//           }
+           else if(searchbackflag == 1){
+                if(!id.equalsIgnoreCase("search")) {
+                   flag_scroll = false;
+                   previousTotal = 0; // The total number of items in the dataset after the last load
+                   loading = true; // True if we are still waiting for the last set of data to load.
+//                   page_count = 1;
+
+//                   getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
+               }else {
+                    if (getIntent().getStringExtra(AppConstants.ID) != null) {
+                        id = getIntent().getStringExtra(AppConstants.ID);
+                    }
+                    AppLogger.e("Id after search & come back to main listing ","-------" + id);
+                    flag_scroll = false;
+                    previousTotal = 0; // The total number of items in the dataset after the last load
+                    loading = true; // True if we are still waiting for the last set of data to load.
+//                    page_count = 1;
+
+//                    getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
+                }
+           }
+       }
     }
 
 /*    private void searchProduct(String searchTerm, String page) {
@@ -1138,8 +1201,8 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         } else {
             progressBottom.setVisibility(View.VISIBLE);
         }
-        AppLogger.e("SearchTerm","----------"+searchTerm);
-        AppLogger.e("Page","----------"+page);
+        AppLogger.e("SearchTerm","----------"+ searchTerm);
+        AppLogger.e("Page","----------"+ page);
         linNoData.setVisibility(View.GONE);  //Add this here bcz API take time to load so NO data placeholder not be display
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
         Call<ListingItem> callApi = apiInterface.searchNewProduct(customerId,GroupId,searchTerm, page);
@@ -1229,7 +1292,6 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
         });
     }
 
-//
 //    //Option menu
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

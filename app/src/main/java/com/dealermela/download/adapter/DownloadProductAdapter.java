@@ -450,6 +450,7 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
+                hud.dismiss();
             }
         });
     }
@@ -512,6 +513,7 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
+
             }
         });
     }

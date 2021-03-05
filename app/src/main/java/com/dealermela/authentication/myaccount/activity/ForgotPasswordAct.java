@@ -64,7 +64,6 @@ public class ForgotPasswordAct extends DealerMelaBaseActivity {
 
     @Override
     public void postInitView() {
-
     }
 
     @Override
@@ -82,7 +81,6 @@ public class ForgotPasswordAct extends DealerMelaBaseActivity {
 
     @Override
     public void loadData() {
-
     }
 
     private void forgotPassword(String email) {
@@ -131,7 +129,7 @@ public class ForgotPasswordAct extends DealerMelaBaseActivity {
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
-                AppLogger.e(TAG, "------------" + t.getMessage());
+                AppLogger.e(TAG, "Error Forgot Pwd:-------------" + t.getMessage());
                 hideProgressDialog();
             }
         });

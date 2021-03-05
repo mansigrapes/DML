@@ -36,6 +36,7 @@
     <color name="green">#4CAF50</color>
     <color name="red">#F44336</color>
 
+    <color name="btnsoldout">#D6D7D7</color>
     <color name="grey">#595959</color>
     <color name="light_grey">#E3E3E3</color>
 
@@ -56,5 +57,6 @@
 <!--    filter icon / background colour-->
     <color name="lightgreenlogo">#12A19B</color>
     <color name="darkgreenlogo">#027B72</color>
+    <color name="greentoastcolor">#4C994F</color>
 
 </resources>

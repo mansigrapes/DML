@@ -40,12 +40,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
 import static com.dealermela.util.AppConstants.RESPONSE;
 
 public class NewSearchAct extends DealerMelaBaseActivity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener, View.OnClickListener {
 
     public static SuggestionsDatabase database;
-
     public static SearchView searchView;
     private RecyclerView recycleViewHeader,lastSearchRecyclerView;
     private Cursor cursor;
@@ -283,8 +283,14 @@ public class NewSearchAct extends DealerMelaBaseActivity implements SearchView.O
     @Override
     public void onBackPressed() {
 //        finish();
+
+// Set this bcz when user click on search icon from any of the category listing page & After apply filter open search through list page & come back from there
         if(searchbackflag == 0) {
-            searchbackflag = 1;
+            if(filterFlag == 1 || filterFlag == 2){
+                searchbackflag = 0;
+            }else {
+                searchbackflag = 1;
+            }
         }
         super.onBackPressed();
     }

@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.dealermela.cart.activity.CartAct;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
+import com.dealermela.download.activity.DownloadAct;
 import com.dealermela.home.activity.MainActivity;
 import com.dealermela.interfaces.ViewBindingListener;
 import com.dealermela.other.activity.NewSearchAct;
@@ -41,6 +42,7 @@ import com.dealermela.util.ThemePreferences;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,20 +109,33 @@ public abstract class DealerMelaBaseActivity extends AppCompatActivity implement
                     if (NetworkUtils.isNetworkConnected(DealerMelaBaseActivity.this)) {
                         loadData();
                     } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(DealerMelaBaseActivity.this);
-                        builder.setTitle("No internet Connection");
-                        builder.setCancelable(false);
-                        builder.setMessage("Please turn on internet connection to continue");
-                        builder.setNegativeButton("Retry", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-                                run();
-                            }
-                        });
-//                        run();
-                        AlertDialog alertDialog = builder.create();
-                        alertDialog.show();
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(DealerMelaBaseActivity.this);
+//                        builder.setTitle("No internet Connection");
+//                        builder.setCancelable(false);
+//                        builder.setMessage("Please turn on internet connection to continue");
+//                        builder.setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+////                            dialog.dismiss();
+//                                run();
+//                            }
+//                        });
+////                        run();
+//                        AlertDialog alertDialog = builder.create();
+//                        alertDialog.show();
+
+                        new IOSDialog.Builder(DealerMelaBaseActivity.this)
+                                .setTitle("No internet Connection")
+                                .setMessage("Please turn on internet connection to continue")
+                                .setCancelable(false)
+                                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.dismiss();
+                                        run();
+                                    }
+                                }).show();
+
                     }
                 }
             }, 200);

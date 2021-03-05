@@ -306,7 +306,6 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
 //                    });
 
                 }
-
                 break;
         }
     }
@@ -328,7 +327,6 @@ public class OrderSummaryAct extends DealerMelaBaseActivity implements View.OnCl
         if (id == R.id.action_cart) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

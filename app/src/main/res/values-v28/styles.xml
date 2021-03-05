@@ -1,6 +1,5 @@
 <resources>
 
-
     <!--Transparent Theme-->
     <style name="AppTheme.Transparent" parent="WhiteTheme">
         <item name="android:windowIsTranslucent">true</item>
@@ -400,6 +399,8 @@
 
     <style name="btnSoldOut">
         <item name="android:textSize">@dimen/fifteen_sp</item>
+        <item name="android:background">@color/btnsoldout</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 <!--    <item name="android:lineSpacingExtra">@dimen/eight_sp</item>-->
 
@@ -757,6 +758,18 @@
         <!-- The hint text that appears when the user has not typed anything -->
     </style>
 <!--    <item name="android:textColor">?toolbarTextColor</item>-->
+
+    <style name="SearchableSearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!-- Gets rid of the search icon -->
+<!--        <item name="searchIcon">@drawable/ic_search_new</item>-->
+        <item name="searchIcon">@drawable/ic_baseline_search_24</item>
+        <!-- Gets rid of the "underline" in the text -->
+        <item name="searchHintIcon">@drawable/ic_baseline_search_24</item>
+        <item name="android:textColor">?toolbarTextColor</item>
+        <item name="android:editTextColor">?toolbarTextColor</item>
+        <item name="android:cursorVisible">true</item>
+        <!-- The hint text that appears when the user has not typed anything -->
+    </style>
 
     <style name = "All_Dmlbutton">
         <item name="android:textAllCaps">false</item>

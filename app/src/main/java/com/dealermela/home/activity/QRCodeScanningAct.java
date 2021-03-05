@@ -3,6 +3,7 @@ package com.dealermela.home.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,6 +23,7 @@ import com.dealermela.util.NetworkUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +32,8 @@ public class QRCodeScanningAct extends DealerMelaBaseActivity {
     String id,number;
     LinearLayout linProgress1;
     public static int scan_flag = 0;
+    private static final Typeface CUSTOM_TOAST_TYPEFACE = Typeface.create("montserrat_regular", Typeface.NORMAL);
+    private static Typeface currentTypeface = CUSTOM_TOAST_TYPEFACE;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -250,26 +254,37 @@ public class QRCodeScanningAct extends DealerMelaBaseActivity {
             scan_flag = 0;
 //            Toast.makeText(this, "Something went wrong Please try again later.", Toast.LENGTH_LONG).show();
             linProgress1.setVisibility(View.GONE);
-            new AlertDialog.Builder(QRCodeScanningAct.this,R.style.AppCompatAlertDialogStyle)
-                    .setTitle("Alert")
-                    .setMessage("Invalid QR code.")
-                    .setCancelable(false)
-                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
 
-//            new Handler().postDelayed(new Runnable() {
+//            CommonUtils.showErrorToast(QRCodeScanningAct.this,"Invalid QR code");
+
+            Toasty.Config.getInstance()                          //Apply typeface for Set default font in Toast msg
+                    .setToastTypeface(currentTypeface)           //But May be Not any effect applied
+                    .apply();
+
+            CommonUtils.showErrorToastNew(QRCodeScanningAct.this,"Invalid QR code");
+            finish();
+//            onRestart(); // restart activity bcz When invalid msg display it should automatic open camera App
+
+//            new AlertDialog.Builder(QRCodeScanningAct.this,R.style.AppCompatAlertDialogStyle)
+//                    .setTitle("Alert")
+//                    .setMessage("Invalid QR code.")
+//                    .setCancelable(false)
+//                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 //                        @Override
-//                        public void run() {
+//                        public void onClick(DialogInterface dialog, int which) {
 //                            finish();
+//                            dialog.dismiss();
 //                        }
-//                    }, AppConstants.SPLASH_TIME_OUT);
-//            finish();
+//                    })
+//                    .show();
+
+////            new Handler().postDelayed(new Runnable() {
+////                        @Override
+////                        public void run() {
+////                            finish();
+////                        }
+////                    }, AppConstants.SPLASH_TIME_OUT);
+////            finish();
         }else if(scan_flag == 3){
             scan_flag = 0;
             finish();

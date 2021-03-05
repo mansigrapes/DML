@@ -35,6 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
 import static com.dealermela.util.AppConstants.RESPONSE;
 
 public class SearchAct extends DealerMelaBaseActivity implements View.OnClickListener{
@@ -197,10 +198,14 @@ public class SearchAct extends DealerMelaBaseActivity implements View.OnClickLis
 
     @Override
     public void onBackPressed() {
-        if(searchbackflag == 0) {
-            searchbackflag = 1;
-        }
-//        super.onBackPressed();
+//        if(searchbackflag == 0 ) {
+//            if(filterFlag == 1 || filterFlag == 2){
+//                searchbackflag = 0;
+//            }else {
+//                searchbackflag = 1;
+//            }
+//        }
+        super.onBackPressed();
 //        finish();
     }
 }

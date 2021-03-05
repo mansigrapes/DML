@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,6 +61,7 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
     private KProgressHUD hud;
     private SharedPreferences sharedPreferences;
     private String metalcolour,caratvalue;
+    View parentLayout;
 
     public ListingRecyclerAdapter(Activity activity, List<ListingItem.Datum> itemArrayList) {
         super();
@@ -194,6 +197,62 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
                         downloadProduct(customerId, itemArrayList.get(i).getEntityId());
                         itemArrayList.get(i).setDownloadFlag(1);
                         notifyItemChanged(i);
+
+                        // create an instance of the snackbar
+                        final Snackbar snackbar = Snackbar.make(v, "", Snackbar.LENGTH_LONG);
+                        // inflate the custom_snackbar_view created previously
+                        View customSnackView = activity.getLayoutInflater().inflate(R.layout.custom_snackbar_view, null);
+
+                        // set the background of the default snackbar as transparent
+                        snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
+                        // now change the layout of the snackbar
+                        Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+                        // set padding of the all corners as 0
+                        snackbarLayout.setPadding(0, 0, 0, 0);
+                        // register the button from the custom_snackbar_view layout file
+                        TextView bGotoList = customSnackView.findViewById(R.id.gotoDownloadList);
+
+                        bGotoList.setPaintFlags(bGotoList.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);  //Add Underline below text
+
+                        // now handle the same button with onClickListener
+                        bGotoList.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+//                                Toast.makeText(activity, "Redirecting to page", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(activity, DownloadAct.class);
+                                activity.startActivity(intent);
+                                snackbar.dismiss();
+                            }
+                        });
+
+                        // add the custom snack bar layout to snackbar layout
+                        snackbarLayout.addView(customSnackView, 0);
+                        snackbar.show();
+
+                        ImageView closeimg = customSnackView.findViewById(R.id.closeimg);
+                        closeimg.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar.dismiss();
+                            }
+                        });
+
+//                        Snackbar  snackBar = Snackbar
+////                                .make(parentLayout, "Product added in downloadlist.", Snackbar.LENGTH_LONG)
+//                                .make(v, "Product added in downloadlist.", Snackbar.LENGTH_LONG)
+//                                .setAction("click to visit", new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        Intent intent = new Intent(activity, DownloadAct.class);
+//                                        activity.startActivity(intent);
+//                                    }
+//                                });
+//                        snackBar.setActionTextColor(Color.RED);
+//                        View snackBarView = snackBar.getView();
+////                      snackBarView.setBackgroundColor(Color.DKGRAY);
+//                        TextView textView = snackBarView.findViewById(R.id.snackbar_text);
+//                        textView.setTextColor(Color.WHITE);
+//                        snackBar.show();
                     }
                 }
             });
@@ -239,6 +298,8 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
             imgCarat = itemView.findViewById(R.id.imgCarat);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+
+            parentLayout= itemView.findViewById(android.R.id.content);
         }
 
         @Override
@@ -282,28 +343,29 @@ public class ListingRecyclerAdapter extends RecyclerView.Adapter<ListingRecycler
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+//                        CommonUtils.showSuccessToastShort(activity, "Product added in download list");
 //                        Intent i= new Intent(activity, DownloadAct.class);
 //                        CommonUtils.showSuccessToast(activity, "Product added in download list" + activity.startActivity(i));
 //                        Toast.makeText(activity, "Plz click " + activity.startActivity(i) + "for showing download list", Toast.LENGTH_SHORT).show();
 
-                        new IOSDialog.Builder(activity)
-                                .setTitle("Download")
-                                .setMessage("Product added in download list. Do you want to visit there?")
-                                .setCancelable(false)
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent i= new Intent(activity, DownloadAct.class);
-                                        activity.startActivity(i);
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).show();
+//                        new IOSDialog.Builder(activity)
+//                                .setTitle("Download")
+//                                .setMessage("Product added in download list. Do you want to visit there?")
+//                                .setCancelable(false)
+//                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        Intent i= new Intent(activity, DownloadAct.class);
+//                                        activity.startActivity(i);
+//                                        dialog.dismiss();
+//                                    }
+//                                })
+//                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.dismiss();
+//                                    }
+//                                }).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

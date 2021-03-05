@@ -37,6 +37,7 @@ import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
 import com.dealermela.util.Validator;
 import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -283,7 +284,7 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
                     try {
                         JSONObject jsonObject = new JSONObject(String.valueOf(response.body()));
                         status = jsonObject.getString("status");
-
+//                        JsonReader.setLenient(true);             //Add this line bcz  SignupAPI Gives Error & NO any response we get
                         message = jsonObject.getString("message");
 
                         if (status.equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
@@ -313,7 +314,7 @@ public class SignUpAct extends DealerMelaBaseActivity implements View.OnClickLis
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
-                AppLogger.e(TAG, "------------" + t.getMessage());
+                AppLogger.e(TAG, "Error SignUp:------------" + t.getMessage());
                 hideProgressDialog();
             }
         });

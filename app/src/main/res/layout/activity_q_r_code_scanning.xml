@@ -25,8 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:theme="@style/whiteprogressBarColor"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center" />
 
         <com.dealermela.utility.DmlTextViewBold
             android:layout_width="wrap_content"

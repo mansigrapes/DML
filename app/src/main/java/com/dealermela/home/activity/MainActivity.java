@@ -90,6 +90,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+//import static com.dealermela.home.adapter.MainCategoryAdapter.tvCollectionSubCategoryRecycleview;
 import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
 import static com.dealermela.listing_and_detail.activity.FilterAct.mapFilter;
 import static com.dealermela.listing_and_detail.activity.FilterAct.selectFilter;
@@ -178,7 +179,6 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                         startNewActivity(TransactionAct.class);
                     }
                 } else if (itemIndex == 2) {
-
                     if (sharedPreferences.getLoginData().equalsIgnoreCase("")) {
                         showSnackBar(drawer);
                     } else {
@@ -316,9 +316,33 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_logo);
         drawer = findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toolbar.setNavigationIcon(R.drawable.ic_menu_new);
+
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+//                getSupportActionBar().setTitle("Opened");
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+//                getSupportActionBar().setTitle("closed");
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                addSubCategory();
+//                fragmentContent.setTranslationX(slideOffset * drawerView.getWidth());
+//                mDrawerLayout.bringChildToFront(drawerView);
+//                mDrawerLayout.requestLayout();
+            }
+        };
+
         toggle.setToolbarNavigationClickListener(new View.OnClickListener() {    //call these method for recycler view of subcategory open but not happens that
             @Override
             public void onClick(View v) {
@@ -326,6 +350,13 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
                 addSubCategory();
             }
         });
+
+        //add bcz when open subcategoryRecyclerView & click outside the drawer, when Reopen navigation drawer recyclerview open as it is, But it should closed --->Notworked
+//        if(tvCollectionSubCategoryRecycleview.getVisibility() == View.VISIBLE){
+//            AppLogger.e("MainActivity_check_Recyclerview_Of_SubCategory_Close","When drawer is closed----------");
+//            tvCollectionSubCategoryRecycleview.setVisibility(View.GONE);
+//        }
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 //        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -335,6 +366,7 @@ public class MainActivity extends DealerMelaBaseActivity implements View.OnClick
 //                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MainActivity.this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 //            }
 //        });
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
         tvMyAccount = navigationView.findViewById(R.id.tvMyAccount);

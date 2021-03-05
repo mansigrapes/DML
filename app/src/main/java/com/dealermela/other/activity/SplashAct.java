@@ -28,6 +28,7 @@ import com.dealermela.util.NetworkUtils;
 import com.dealermela.util.SharedPreferences;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class SplashAct extends DealerMelaBaseActivity {
     private List<PopularProductItem.ProductImg> arrayListPopularProduct = new ArrayList<>();
     private DatabaseCartAdapter databaseCartAdapter;
     private FirebaseAnalytics mFirebaseAnalytics;
-    int spalshtimer = 2500;
+    int splashtimer = 2500;
     public Handler handler;
 
     @Override
@@ -62,22 +63,34 @@ public class SplashAct extends DealerMelaBaseActivity {
                 if (NetworkUtils.isNetworkConnected(SplashAct.this)) {
                     startNewActivity(MainActivity.class);
                 } else {
-//                    run();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashAct.this);
-                    builder.setTitle("No internet Connection");
-                    builder.setMessage("Please turn on internet connection to continue");
-                    builder.setNegativeButton("Retry", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-                            run();
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
+////                    run();
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashAct.this);
+//                    builder.setTitle("No internet Connection");
+//                    builder.setMessage("Please turn on internet connection to continue");
+//                    builder.setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+////                            dialog.dismiss();
+//                            run();
+//                        }
+//                    });
+//                    AlertDialog alertDialog = builder.create();
+//                    alertDialog.show();
+
+                    new IOSDialog.Builder(SplashAct.this)
+                            .setTitle("No internet Connection")
+                            .setMessage("Please turn on internet connection to continue")
+                            .setCancelable(false)
+                            .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.dismiss();
+                                    run();
+                                }
+                            }).show();
                 }
             }
-        },   spalshtimer -= 1000);
+        },   splashtimer -= 1000);
     }
 
     @Override

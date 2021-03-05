@@ -271,7 +271,6 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
 //                        notifyItemChanged(getAdapterPosition());
                         subCatgeoryAdapter.notifyItemChanged(getAdapterPosition());
                     }
-
                 }  else {
                     Intent intent = new Intent(activity, ListAct.class);
                     intent.putExtra(AppConstants.ID, String.valueOf(maincategories.get(getAdapterPosition()).getId()));

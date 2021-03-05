@@ -37,8 +37,7 @@
             android:layout_gravity="center"
             style="@style/tvDrawer"
             android:hint="Category"
-            app:textAllCaps="true"
-            />
+            app:textAllCaps="true" />
 
     </LinearLayout>
 

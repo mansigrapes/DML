@@ -274,21 +274,25 @@ public class EditProfileAct extends DealerMelaBaseActivity implements View.OnCli
                 assert response.body() != null;
                 hideProgressDialog();
                 if (response.isSuccessful()) {
+                    if (response.body().getStatus().equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
+//                        if (!response.body().getData().isEmpty()) {
+                            addressManageResponse = response.body();
+                            tvBName.setText(response.body().getDefaultBilling().getFirstname() + " " + response.body().getDefaultBilling().getLastname());
+                            tvBAddress1.setText(response.body().getDefaultBilling().getStreet());
+                            tvBCity.setText(response.body().getDefaultBilling().getCity() + "," + response.body().getDefaultBilling().getRegion() + "," + response.body().getDefaultBilling().getPostcode());
+                            tvBCountry.setText(response.body().getDefaultBilling().getCountry());
+                            tvBTelephone.setText("T: " + response.body().getDefaultBilling().getTelephone());
 
-                    addressManageResponse = response.body();
-                    tvBName.setText(response.body().getDefaultBilling().getFirstname() + " " + response.body().getDefaultBilling().getLastname());
-                    tvBAddress1.setText(response.body().getDefaultBilling().getStreet());
-                    tvBCity.setText(response.body().getDefaultBilling().getCity() + "," + response.body().getDefaultBilling().getRegion() + "," + response.body().getDefaultBilling().getPostcode());
-                    tvBCountry.setText(response.body().getDefaultBilling().getCountry());
-                    tvBTelephone.setText("T: " + response.body().getDefaultBilling().getTelephone());
-
-                    tvSName.setText(response.body().getDefaultShipping().getFirstname() + " " + response.body().getDefaultShipping().getLastname());
-                    tvSAddress1.setText(response.body().getDefaultShipping().getStreet());
-                    tvSCity.setText(response.body().getDefaultShipping().getCity() + "," + response.body().getDefaultShipping().getRegion() + "," + response.body().getDefaultShipping().getPostcode());
-                    tvSCountry.setText(response.body().getDefaultShipping().getCountry());
-                    tvSTelephone.setText("T: " + response.body().getDefaultShipping().getTelephone());
+                            tvSName.setText(response.body().getDefaultShipping().getFirstname() + " " + response.body().getDefaultShipping().getLastname());
+                            tvSAddress1.setText(response.body().getDefaultShipping().getStreet());
+                            tvSCity.setText(response.body().getDefaultShipping().getCity() + "," + response.body().getDefaultShipping().getRegion() + "," + response.body().getDefaultShipping().getPostcode());
+                            tvSCountry.setText(response.body().getDefaultShipping().getCountry());
+                            tvSTelephone.setText("T: " + response.body().getDefaultShipping().getTelephone());
+//                        } else {
+//
+//                        }
+                    }
                 }
-
             }
 
             @Override

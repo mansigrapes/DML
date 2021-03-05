@@ -1,18 +1,25 @@
 package com.dealermela.util;
 
 import android.app.Activity;
-
 import com.dealermela.R;
 
 public final class AppConstants {
     //    API base urlprli
+
+    public static final String BASE_URL = "http://203.112.156.41/dmlmage/index.php/";     //Live Server URL Changed On 18/02/2021
+//    public static final String BASE_URL = "http://203.112.156.63/dmlmage/index.php/";   // Test server URL Changed On 18/02/2021
+
+    public static final String BASE_URL_LARAVEL = "http://203.112.156.40/dmlsoftware/";      //Live server URL Changed on 05/03/2021
+//    public static final String BASE_URL_LARAVEL = "http://203.112.156.61/dmlsoftwaretest/public/";   //Test server URL Changed on 19/02/2021
+
+//public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftware/";      //OLD Live server URL
+//    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftwaretest/";   //OLd Test server URL
+
 //    public static final String BASE_URL = "http://www.diamondmela.com/";
-    public static final String BASE_URL = "http://203.112.144.7/dmlmage/";    //Live url changed on 17/10/2020
-//    public static final String BASE_URL = "http://123.108.51.11/index.php/";    // Test server
-    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftware/";
-//    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftwaretest/";   //Test server
-  //Temporary set on 29/02/2020
-//    public static final String BASE_URL_LARAVEL = "http://www.diamondmela.com/";
+//    public static final String BASE_URL = "http://203.112.144.7/dmlmage/";    // Live url changed on 17/10/2020 OLD
+
+//    public static final String BASE_URL = "http://123.108.51.11/index.php/";    //OLD  Test server
+//    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftwaretest/";   //OLD Test server
 
     public static final String INVENTORY_IMAGE = "http://203.112.144.7/dmlmage/media/catalog/product";
     public static final String IMAGE_URL = "http://203.112.144.7/dmlmage/media/";
@@ -72,16 +79,23 @@ public final class AppConstants {
     // New category Added Necklaces&sets On 17/09/2020
     public static final String NECKLACES_SETS_ID = "8";
 
-//    //LIVE
+    // LIVE
+    public static final String MERCHANT_ID="180766";      //live
     public static final String ACCESS_CODE="AVER78FF72BP07REPB";  //LIVE
-    public static final String Encryption_Key="E4A7AA53091F2636621704AD319D9C25";       //LIVE
+    public static final String Encryption_Key="E4A7AA53091F2636621704AD319D9C25";
+
+    // NEW LIVE
+    public static final String redirectUrl="http://203.112.156.41/dmlmage/RSA/ccavMobileResponseHandler.php";  //Live
+    public static final String cancelUrl="http://203.112.156.41/dmlmage/RSA/ccavMobileResponseHandler.php";   //Live
+    public static final String rsaKeyUrl="http://203.112.156.41/dmlmage/dmlapi/addtocart/getRSAkey";      //Live
+
+//    public static final String redirectUrl="http://203.112.144.7/dmlmage/RSA/ccavMobileResponseHandler.php";  //Live
+//    public static final String cancelUrl="http://203.112.144.7/dmlmage/RSA/ccavMobileResponseHandler.php";   //Live
+//    public static final String rsaKeyUrl="http://203.112.144.7/dmlmage/dmlapi/addtocart/getRSAkey";      //Live
+
 //    public static final String redirectUrl="http://www.diamondmela.com/RSA/ccavMobileResponseHandler.php";  //Live
 //    public static final String cancelUrl="http://www.diamondmela.com/RSA/ccavMobileResponseHandler.php";   //Live
 //    public static final String rsaKeyUrl="http://www.diamondmela.com/dmlapi/addtocart/getRSAkey";      //Live
-    public static final String redirectUrl="http://203.112.144.7/dmlmage/RSA/ccavMobileResponseHandler.php";  //Live
-    public static final String cancelUrl="http://203.112.144.7/dmlmage/RSA/ccavMobileResponseHandler.php";   //Live
-    public static final String rsaKeyUrl="http://203.112.144.7/dmlmage/dmlapi/addtocart/getRSAkey";      //Live
-    public static final String MERCHANT_ID="180766";      //live
 
 //    public static final String MERCHANT_ID="180765";    //test
 //    public static final String ACCESS_CODE="AVUR78FF89CI31RUIC";  //test

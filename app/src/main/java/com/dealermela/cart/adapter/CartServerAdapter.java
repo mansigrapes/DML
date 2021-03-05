@@ -3,6 +3,7 @@ package com.dealermela.cart.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.dealermela.R;
 import com.dealermela.cart.fragment.ShoppingFrg;
 import com.dealermela.cart.model.CartServerDataItem;
+import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
@@ -210,6 +212,15 @@ public class CartServerAdapter extends RecyclerView.Adapter<CartServerAdapter.Vi
                             }
                         })
                         .show();*/
+            }
+        });
+
+        holder.imgProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, ProductDetailAct.class);
+                intent.putExtra(AppConstants.NAME,itemArrayList.get(i).getProductId());
+                activity.startActivity(intent);
             }
         });
     }
