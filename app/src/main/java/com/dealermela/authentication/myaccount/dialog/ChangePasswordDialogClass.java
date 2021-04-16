@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.dealermela.retrofit.ApiInterface;
 import com.google.android.material.textfield.TextInputEditText;
 import android.view.View;
 import android.view.Window;
@@ -13,7 +15,6 @@ import android.widget.Button;
 
 import com.dealermela.R;
 import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;

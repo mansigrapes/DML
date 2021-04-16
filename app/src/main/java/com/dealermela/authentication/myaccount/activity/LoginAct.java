@@ -191,8 +191,8 @@ public class LoginAct extends DealerMelaBaseActivity implements View.OnClickList
                             sharedPreferences.saveBillingAddress(response.body().getData().getDefaultBillingNew().getFirstname() + " " + response.body().getData().getDefaultBillingNew().getLastname() + ",\n" + response.body().getData().getDefaultBillingNew().getStreet() + ",\n" + response.body().getData().getDefaultBillingNew().getCity() + ", " + response.body().getData().getDefaultBillingNew().getRegion() + ", " + response.body().getData().getDefaultBillingNew().getPostcode() + ",\n" + response.body().getData().getDefaultBillingNew().getCountryId() + "\nT: " + response.body().getData().getDefaultBillingNew().getTelephone());
                             sharedPreferences.saveShipping(response.body().getData().getDefaultShippingNew().getFirstname() + " " + response.body().getData().getDefaultBillingNew().getLastname() + ",\n" + response.body().getData().getDefaultBillingNew().getStreet() + ",\n" + response.body().getData().getDefaultBillingNew().getCity() + ", " + response.body().getData().getDefaultBillingNew().getRegion() + ", " + response.body().getData().getDefaultBillingNew().getPostcode() + ",\n" + response.body().getData().getDefaultBillingNew().getCountryId() + "\nT: " + response.body().getData().getDefaultBillingNew().getTelephone());
 
- //old code not usable                ////    sharedPreferences.saveBillingAddress(response.body().getData().getDefaultBilling());
- //old code not usable                ////    sharedPreferences.saveShipping(response.body().getData().getDefaultShipping());
+ //old code not usable          ////    sharedPreferences.saveBillingAddress(response.body().getData().getDefaultBilling());
+ //old code not usable          ////    sharedPreferences.saveShipping(response.body().getData().getDefaultShipping());
 
 //                            sharedPreferences.saveLoginData(response.body().toString());
 //                            sharedPreferences.saveEmail(edEmail.getText().toString().trim());

@@ -277,6 +277,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
     @Override
     public void loadData() {
         if(NetworkUtils.isNetworkConnected(DownloadAct.this)) {
+            AppLogger.e("DownloadAct Redirectfrom listact downloading listing","-----" + downloadCount);
             checkBoxSelectAll.setVisibility(View.INVISIBLE);
             tvselectedcount.setText("0");
             tvtotaldownloadcount.setText(String.valueOf(downloadCount));
@@ -356,6 +357,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                             }
                         }
                     } else {
+                        progressBarBottom.setVisibility(View.GONE);
                         if (detailList.isEmpty()) {
                             linNoData.setVisibility(View.VISIBLE);
                             btnDeleteAll.setVisibility(View.INVISIBLE);
@@ -364,7 +366,6 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                     }
                 }
             }
-
             @Override
             public void onFailure(@NonNull Call<DownloadItem> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
@@ -397,7 +398,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
 //                        downloadProductAdapter.selectionItemPosition.clear();
-//                        downloadProductAdapter.deleteItems.clear();
+//                        downloadProductAdapter.deleteItems.cleardr();
                         checkBoxSelectAll.setChecked(false);
                         checkBoxAll.setChecked(false);
                         if (integerArrayList.isEmpty()){
@@ -601,7 +602,7 @@ public class DownloadAct extends DealerMelaBaseActivity implements View.OnClickL
                             AppLogger.e("string data", "------" + listString);
 
                             listString.deleteCharAt(listString.length() - 1);
-                            AppLogger.e("list string","----------"+listString);
+                            AppLogger.e("list string","----------"+ listString);
 
                             if(checkboxallselected.equalsIgnoreCase("all")){
                                 //Bcz we call APIAuto when selected all chckbox then pass all productid

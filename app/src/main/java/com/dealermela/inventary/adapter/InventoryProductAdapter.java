@@ -3,7 +3,10 @@ package com.dealermela.inventary.adapter;
 import android.app.Activity;
 import android.content.DialogInterface;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Build;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +65,7 @@ public class InventoryProductAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof ItemViewHolder) {
@@ -110,6 +114,7 @@ public class InventoryProductAdapter extends RecyclerView.Adapter<RecyclerView.V
             itemView.setOnLongClickListener(this);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         public void setData(InventoryProductItem.Datum datum) {
             checkBoxInventory.setVisibility(View.GONE);
             tvSku.setText(Html.fromHtml("<b>SKU :</b>" + datum.getSku()));
@@ -151,6 +156,7 @@ public class InventoryProductAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void populateItemRows(final ItemViewHolder holder, final int position) {
         final InventoryProductItem.Datum datum = itemArrayList.get(position);
         holder.setData(datum);

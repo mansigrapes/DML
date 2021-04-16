@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
+import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.NetworkUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -27,7 +28,6 @@ import com.dealermela.authentication.myaccount.model.CountryResponse;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
 import com.dealermela.authentication.myaccount.model.StateResponse;
 import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;

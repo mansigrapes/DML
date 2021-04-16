@@ -10,6 +10,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.NetworkUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,7 +34,6 @@ import com.dealermela.inventary.model.InventoryFilterItem;
 import com.dealermela.inventary.model.InventoryItem;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.APIClientLaravel;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;

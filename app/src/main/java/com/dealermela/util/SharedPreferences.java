@@ -3,7 +3,6 @@ package com.dealermela.util;
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
 
-
 public class SharedPreferences {
     private final android.content.SharedPreferences sharedPreferences;
     private final Editor editor;
@@ -16,7 +15,6 @@ public class SharedPreferences {
     private static final String EMAIL = AppConstants.PREF_EMAILS;
     private static final String POPULAR_PRODUCTS = "POPULAR_PRODUCTS";
     private static final String Download_Flag = "DOWNLOAD_FLAG";
-
 
     public SharedPreferences(Context mContext) {
         sharedPreferences = mContext.getSharedPreferences(SHARED, Context.MODE_PRIVATE);
@@ -74,7 +72,6 @@ public class SharedPreferences {
         editor.commit();
     }
 
-
     //Get and Save Shipping Address
     public String getShippingAddress() {
         return sharedPreferences.getString(SHIPPING, "");
@@ -95,7 +92,6 @@ public class SharedPreferences {
         editor.commit();
     }
 
-
     //Get and Save  Order Changed Shipping Address
     public String getOrderShippingAddress() {
         return sharedPreferences.getString(SHIPPING, "");
@@ -105,7 +101,6 @@ public class SharedPreferences {
         editor.putString(SHIPPING, data);
         editor.commit();
     }
-
 
     //Get and Save Shipping Address
     public String getPopularProducts() {

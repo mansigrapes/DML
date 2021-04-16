@@ -141,8 +141,6 @@ public class MyStockRecyclerAdapter extends RecyclerView.Adapter<MyStockRecycler
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
         hud.show();
         ApiInterface apiInterface = APIClient.getClient().create(ApiInterface.class);
-
-
         Call<JsonObject> callApi = apiInterface.MyStockplaceOrder(product, customerId);
         callApi.enqueue(new Callback<JsonObject>() {
             @Override

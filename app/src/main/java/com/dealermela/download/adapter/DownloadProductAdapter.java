@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.dealermela.R;
 import com.dealermela.download.activity.DownloadAct;
 import com.dealermela.download.model.DownloadItem;
+import com.dealermela.listing_and_detail.activity.ListAct;
 import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
@@ -56,6 +57,7 @@ import retrofit2.Response;
 import static com.dealermela.DealerMelaBaseActivity.downloadCount;
 import static com.dealermela.download.activity.DownloadAct.checkboxallselected;
 import static com.dealermela.home.activity.MainActivity.customerId;
+import static com.dealermela.listing_and_detail.adapter.ListingRecyclerAdapter.visitDownloadListflag;
 //import static com.dealermela.download.activity.DownloadAct.selectedcount;
 
 public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProductAdapter.ViewHolder> {
@@ -63,6 +65,7 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
     public List<DownloadItem.Detail> itemArrayList;
     private KProgressHUD hud;
     public static int selectedcount = 0;
+    public static int downloadlistback = 0;
 
     public DownloadProductAdapter(Activity activity, List<DownloadItem.Detail> itemArrayList) {
         super();
@@ -147,7 +150,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 new IOSDialog.Builder(activity)
                         .setTitle(activity.getString(R.string.delete))
                         .setMessage(activity.getString(R.string.delete_msg))
@@ -208,7 +210,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                         selectedcount = selectedcount + 1;
                         DownloadAct.tvselectedcount.setText(String.valueOf(selectedcount));
                     }else {
-
                     }
                 } else {
 
@@ -470,7 +471,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                     if (jsonObject.getString("status").equalsIgnoreCase(AppConstants.STATUS_CODE_SUCCESS)) {
                         if (itemArrayList.isEmpty()) {
 //                            activity.finish();
-
                         }
                         if(!checkboxallselected.equalsIgnoreCase("all") || !checkboxallselected.equalsIgnoreCase("Some")){
                             if(itemArrayList.get(position).isSelected()){
@@ -485,7 +485,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                                 downloadCount = downloadCount - 1 ;
                                 DownloadAct.tvtotaldownloadcount.setText(String.valueOf(downloadCount));
                             }
-
                         }else  {
                             if(itemArrayList.get(position).isSelected()){
                                 downloadCount = downloadCount - 1 ;
@@ -498,6 +497,16 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
                                 //No any selected product is downloaded
                                 downloadCount = downloadCount - 1 ;
                                 DownloadAct.tvtotaldownloadcount.setText(String.valueOf(downloadCount));
+                            }
+                        }
+                        AppLogger.e("DownloadListProductId","-----" + itemArrayList.get(position).getProductId());
+                        if(visitDownloadListflag == 1) {
+                            for (int i = 0; i < ListAct.itemArrayList.size(); i++) {
+                                if (ListAct.itemArrayList.get(i).getEntityId().equalsIgnoreCase(itemArrayList.get(position).getProductId())) {
+                                    AppLogger.e("Check same productId with Listing or not", "-----" + ListAct.itemArrayList.get(i).getEntityId());
+                                    ListAct.itemArrayList.get(i).setDownloadFlag(0);
+                                    downloadlistback = 1;
+                                }
                             }
                         }
                         itemArrayList.remove(position);
@@ -513,7 +522,6 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 AppLogger.e("error", "------------" + t.getMessage());
-
             }
         });
     }
@@ -521,6 +529,15 @@ public class DownloadProductAdapter extends RecyclerView.Adapter<DownloadProduct
     public void removeAt(int position) {
 //        itemArrayList.get(position).setFlag("1");
 //        itemArrayList.get(position).setSelected(false);
+        if(visitDownloadListflag == 1) {
+            for (int i = 0; i < ListAct.itemArrayList.size(); i++) {
+                if (ListAct.itemArrayList.get(i).getEntityId().equalsIgnoreCase(itemArrayList.get(position).getProductId())) {
+                    AppLogger.e("Check same productId with Listing or not", "-----" + ListAct.itemArrayList.get(i).getEntityId());
+                    ListAct.itemArrayList.get(i).setDownloadFlag(0);
+                    downloadlistback = 1;
+                }
+            }
+        }
         itemArrayList.remove(position);
         if (itemArrayList.isEmpty()) {
             activity.finish();

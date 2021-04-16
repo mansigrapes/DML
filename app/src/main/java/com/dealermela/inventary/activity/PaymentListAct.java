@@ -1,9 +1,12 @@
 package com.dealermela.inventary.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Build;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -119,6 +122,7 @@ public class PaymentListAct extends DealerMelaBaseActivity {
         AppLogger.e("customerId", "-------" + customerId);
         Call<InventoryPaymentItem> callApi = apiInterface.getPaymentList(String.valueOf(page_count), customerId);
         callApi.enqueue(new Callback<InventoryPaymentItem>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(@NonNull Call<InventoryPaymentItem> call, @NonNull Response<InventoryPaymentItem> response) {
                 AppLogger.e("response", "----------" + Objects.requireNonNull(response.body()).getStatus());

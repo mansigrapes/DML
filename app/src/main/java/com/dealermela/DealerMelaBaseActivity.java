@@ -1,6 +1,5 @@
 package com.dealermela;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,12 +25,8 @@ import android.widget.TextView;
 
 import com.dealermela.cart.activity.CartAct;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
-import com.dealermela.download.activity.DownloadAct;
-import com.dealermela.home.activity.MainActivity;
 import com.dealermela.interfaces.ViewBindingListener;
 import com.dealermela.other.activity.NewSearchAct;
-import com.dealermela.other.activity.SearchAct;
-import com.dealermela.other.activity.SplashAct;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;

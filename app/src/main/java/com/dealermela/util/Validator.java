@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class Validator {
+
     public static boolean checkEmpty(EditText edt,String msg) {
         if (edt.getText().toString().isEmpty()) {
             edt.setError(msg);
@@ -21,8 +22,6 @@ public final class Validator {
         }
         return true;
     }
-
-
 
     public static boolean checkEmptyInputLayout(TextInputEditText edt,String msg) {
         if (Objects.requireNonNull(edt.getText()).toString().isEmpty()) {

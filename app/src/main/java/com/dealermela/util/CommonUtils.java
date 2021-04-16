@@ -153,7 +153,6 @@ public final class CommonUtils {
         view1.setBackgroundResource(R.color.green);
 //        view1.setTextColor(Color.WHITE);
         toast.show();
-
     }
 
     public static void showSuccessToast(Context context, String message) {

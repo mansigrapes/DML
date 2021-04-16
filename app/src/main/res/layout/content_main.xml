@@ -27,8 +27,7 @@
         app:space_background_color="?bottom_navigation_background_color"
         app:space_item_icon_only_size="@dimen/space_item_icon_only_size"
         app:space_item_icon_size="@dimen/space_item_icon_default_size"
-        app:space_item_text_size="@dimen/space_item_text_default_size"
-        />
+        app:space_item_text_size="@dimen/space_item_text_default_size" />
 
     <com.dealermela.utility.DmlTextView
         android:id="@+id/tvCartCountHome"

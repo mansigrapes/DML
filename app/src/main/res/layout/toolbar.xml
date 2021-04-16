@@ -21,8 +21,8 @@
             app:titleTextAppearance="@style/yourstyle"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
-            app:contentInsetStartWithNavigation="0dp"
-            >
+            app:contentInsetStartWithNavigation="0dp">
+
 <!--  add last 3 lines In Toolbar for Main page remove gap between Navigation Icon & Title Icon -->
 
             <RelativeLayout
@@ -46,8 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="5sp"
-                    android:layout_marginEnd="@dimen/five_sp"
-                     />
+                    android:layout_marginEnd="@dimen/five_sp" />
             </RelativeLayout>
 
         </androidx.appcompat.widget.Toolbar>

@@ -3,6 +3,8 @@ package com.dealermela.other.activity;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import androidx.annotation.NonNull;
+
+import com.dealermela.retrofit.ApiInterface;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -16,7 +18,6 @@ import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
 import com.dealermela.home.activity.MainActivity;
 import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;

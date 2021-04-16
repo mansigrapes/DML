@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.dealermela.retrofit.ApiInterface;
 import com.google.android.material.textfield.TextInputEditText;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +25,6 @@ import com.dealermela.authentication.myaccount.dialog.ChangePasswordDialogClass;
 import com.dealermela.authentication.myaccount.model.AddressManageResponse;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
 import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;

@@ -61,8 +61,7 @@
                     app:piv_radius="@dimen/five_sp"
                     app:piv_selectedColor="@color/white"
                     app:piv_unselectedColor="@color/white"
-                    app:piv_viewPager="@id/viewpagerSlider"
-                    />
+                    app:piv_viewPager="@id/viewpagerSlider"/>
 
             </RelativeLayout>
 
@@ -153,7 +152,7 @@
 <!--&lt;!&ndash; remove the shadow effect from this code : coverflow:reflectionOpacity = "0"&ndash;&gt;-->
 <!--            </LinearLayout>-->
 
-        <LinearLayout
+             <LinearLayout
                 android:id="@+id/pager_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -170,7 +169,7 @@
                     android:overScrollMode="never"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp" />
-        </LinearLayout>
+             </LinearLayout>
 
             <com.dealermela.utility.DmlButtonBold
                 android:id="@+id/btnViewAll"

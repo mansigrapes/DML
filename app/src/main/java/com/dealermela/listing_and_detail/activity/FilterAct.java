@@ -269,7 +269,11 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                                 adapter.items.get(5).setFiltercount(0);
                             }
                         }else {
-                            adapter.items.get(4).setFiltercount(0);
+                            if(Subcategoryid.equalsIgnoreCase(categoryId)){
+                                adapter.items.get(5).setFiltercount(0);
+                            }else {
+                                adapter.items.get(4).setFiltercount(0);
+                            }
                         }
                     }
 //                    adapter.items.get(4).setFiltercount(0);
@@ -300,7 +304,12 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                                 adapter.items.get(5).setFiltercount(1);
                             }
                         }else {
-                            adapter.items.get(4).setFiltercount(1);
+//                            adapter.items.get(4).setFiltercount(1);
+                            if(Subcategoryid.equalsIgnoreCase(categoryId)){
+                                adapter.items.get(5).setFiltercount(1);
+                            }else {
+                                adapter.items.get(4).setFiltercount(1);
+                            }
                         }
                     }
 //                    adapter.items.get(4).setFiltercount(1);
@@ -474,7 +483,12 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                             adapter.items.get(5).setFiltercount(0);
                         }
                     } else {
-                        adapter.items.get(4).setFiltercount(0);
+//                        adapter.items.get(4).setFiltercount(0);
+                        if(Subcategoryid.equalsIgnoreCase(categoryId)){
+                            adapter.items.get(5).setFiltercount(0);
+                        }else {
+                            adapter.items.get(4).setFiltercount(0);
+                        }
                     }
                 }
 //            adapter.items.get(4).setFiltercount(0);
@@ -497,7 +511,12 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                                 adapter.items.get(5).setFiltercount(1);
                             }
                         } else {
-                            adapter.items.get(4).setFiltercount(1);
+//                            adapter.items.get(4).setFiltercount(1);
+                            if(Subcategoryid.equalsIgnoreCase(categoryId)){
+                                adapter.items.get(5).setFiltercount(1);
+                            }else {
+                                adapter.items.get(4).setFiltercount(1);
+                            }
                         }
                     }
 //                adapter.items.get(4).setFiltercount(1);
@@ -554,7 +573,12 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                             adapter.items.get(5).setFiltercount(0);
                         }
                     }else {
-                        adapter.items.get(4).setFiltercount(0);
+//                        adapter.items.get(4).setFiltercount(0);
+                        if(Subcategoryid.equalsIgnoreCase(categoryId)){
+                            adapter.items.get(5).setFiltercount(0);
+                        }else {
+                            adapter.items.get(4).setFiltercount(0);
+                        }
                     }
                 }
 //                adapter.items.get(4).setFiltercount(0);
@@ -596,7 +620,12 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                                 adapter.items.get(5).setFiltercount(0);
                             }
                         }else {
-                            adapter.items.get(4).setFiltercount(0);
+//                            adapter.items.get(4).setFiltercount(0);
+                            if(Subcategoryid.equalsIgnoreCase(categoryId)){
+                                adapter.items.get(5).setFiltercount(0);
+                            }else {
+                                adapter.items.get(4).setFiltercount(0);
+                            }
                         }
                     }
 //                    adapter.items.get(4).setFiltercount(0);
@@ -694,7 +723,12 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                         adapter.items.get(5).setFiltercount(0);
                     }
                 }else {
-                    adapter.items.get(4).setFiltercount(0);
+//                    adapter.items.get(4).setFiltercount(0);
+                    if(Subcategoryid.equalsIgnoreCase(categoryId)){
+                        adapter.items.get(5).setFiltercount(0);
+                    }else {
+                        adapter.items.get(4).setFiltercount(0);
+                    }
                 }
             }
 //            adapter.items.get(4).setFiltercount(0);
@@ -737,7 +771,12 @@ public class FilterAct extends DealerMelaBaseActivity implements View.OnClickLis
                             adapter.items.get(5).setFiltercount(1);
                         }
                     }else {
-                        adapter.items.get(4).setFiltercount(1);
+//                        adapter.items.get(4).setFiltercount(1);
+                        if(Subcategoryid.equalsIgnoreCase(categoryId)){
+                            adapter.items.get(5).setFiltercount(1);
+                        }else {
+                            adapter.items.get(4).setFiltercount(1);
+                        }
                     }
                 }
 //                adapter.items.get(4).setFiltercount(1);

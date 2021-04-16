@@ -2,6 +2,8 @@ package com.dealermela.order.fragment;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.dealermela.retrofit.ApiInterface;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +21,6 @@ import com.dealermela.authentication.myaccount.model.LoginResponse;
 import com.dealermela.order.adapter.MyOrderAdapter;
 import com.dealermela.order.model.OrderItem;
 import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.NetworkUtils;

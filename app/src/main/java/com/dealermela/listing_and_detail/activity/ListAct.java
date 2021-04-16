@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import androidx.annotation.NonNull;
+
+import com.dealermela.retrofit.ApiInterface;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -33,7 +35,6 @@ import com.dealermela.listing_and_detail.adapter.SortByListRecyclerAdapter;
 import com.dealermela.listing_and_detail.model.FilterItem;
 import com.dealermela.listing_and_detail.model.ListingItem;
 import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
@@ -56,6 +57,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dealermela.download.adapter.DownloadProductAdapter.downloadlistback;
 import static com.dealermela.home.activity.MainActivity.GroupId;
 import static com.dealermela.home.activity.MainActivity.customerId;
 
@@ -71,7 +73,8 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
     private RecyclerView recycleViewListing;
     private LinearLayout linSortBy, linFilter;
     private ListingRecyclerAdapter listingRecyclerAdapter;
-    private List<ListingItem.Datum> itemArrayList;
+//    private List<ListingItem.Datum> itemArrayList;
+    public static List<ListingItem.Datum> itemArrayList;
     public static ArrayList<FilterItem.Datum> filterSelectItems = new ArrayList<>();
     //    public static List<FilterItem.Datum> filterItems = new ArrayList<>();
     //page count
@@ -1127,6 +1130,9 @@ public class ListAct extends DealerMelaBaseActivity implements View.OnClickListe
 
 //                    getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
                 }
+           } else if(downloadlistback == 1){
+               downloadlistback = 0 ;
+               getCategoryProduct(id, loginResponse.getData().getGroupId(), String.valueOf(page_count), price.toString(), gold_purity.toString(), diamond_quality.toString(), diamond_shape.toString(), sku.toString(), availability.toString(), sort_by.toString(), subcategory.toString());
            }
        }
     }

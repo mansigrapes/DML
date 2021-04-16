@@ -28,5 +28,4 @@ public final class AppLogger {
         Log.e(tag, message);
     }
 
-
 }

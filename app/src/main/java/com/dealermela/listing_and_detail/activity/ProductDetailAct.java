@@ -1,10 +1,7 @@
 package com.dealermela.listing_and_detail.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -13,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.NetworkUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.viewpager.widget.ViewPager;
@@ -37,7 +34,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
-import com.dealermela.authentication.myaccount.activity.LoginAct;
 import com.dealermela.authentication.myaccount.dialog.MaintenanceDialogClass;
 import com.dealermela.cart.activity.CartAct;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
@@ -58,7 +54,6 @@ import com.dealermela.listing_and_detail.adapter.RingAdapter;
 import com.dealermela.listing_and_detail.model.ProductDetailItem;
 import com.dealermela.listing_and_detail.model.RTSItem;
 import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;
@@ -88,7 +83,6 @@ import static com.dealermela.listing_and_detail.adapter.CaratAdapter.caratValue;
 import static com.dealermela.listing_and_detail.adapter.MetalAdapter.metalValue;
 import static com.dealermela.listing_and_detail.adapter.PendentSetsAdapter.pendentProId;
 import static com.dealermela.listing_and_detail.adapter.RingAdapter.ringValue;
-import static com.dealermela.other.activity.SplashAct.loginFlag;
 import static com.dealermela.authentication.myaccount.activity.LoginAct.cartbackFlag;
 import static com.dealermela.listing_and_detail.adapter.RTSRecyclerAdapter.Rtsflag;
 

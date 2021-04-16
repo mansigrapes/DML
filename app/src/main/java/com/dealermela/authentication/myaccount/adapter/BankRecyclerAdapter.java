@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import androidx.annotation.NonNull;
+
+import com.dealermela.retrofit.ApiInterface;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +25,6 @@ import com.dealermela.R;
 import com.dealermela.authentication.myaccount.activity.ManageBankAct;
 import com.dealermela.authentication.myaccount.model.BankResponse;
 import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;

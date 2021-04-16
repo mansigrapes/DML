@@ -34,8 +34,8 @@ android {
 //        applicationId "com.testdiamondmela"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 8               //current version on playstore
-        versionName "1.0.6"
+        versionCode 8          //8      //current version on playstore
+        versionName "1.0.6"    //1.0.6
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         manifestPlaceholders = [
                 onesignal_app_id               : '9e530238-2d8b-4f3f-9b4c-2a3256c60e41',

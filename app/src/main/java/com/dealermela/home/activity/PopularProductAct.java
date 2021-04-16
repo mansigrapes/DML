@@ -13,7 +13,6 @@ import com.dealermela.R;
 import com.dealermela.authentication.myaccount.model.LoginResponse;
 import com.dealermela.home.adapter.PopularRecyclerAdapter;
 import com.dealermela.home.model.PopularProductItem;
-import com.dealermela.listing_and_detail.activity.ListAct;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;

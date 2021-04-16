@@ -1,14 +1,10 @@
 package com.dealermela.other.activity;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import android.os.Handler;
 import android.util.Log;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 
@@ -16,14 +12,12 @@ import androidx.annotation.NonNull;
 
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
-import com.dealermela.authentication.myaccount.dialog.MaintenanceDialogClass;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
 import com.dealermela.home.activity.MainActivity;
 import com.dealermela.home.model.PopularProductItem;
 import com.dealermela.retrofit.APIClient;
 import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
-import com.dealermela.util.AppLogger;
 import com.dealermela.util.NetworkUtils;
 import com.dealermela.util.SharedPreferences;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -32,7 +26,6 @@ import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;

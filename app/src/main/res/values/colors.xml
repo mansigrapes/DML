@@ -57,6 +57,7 @@
 <!--    filter icon / background colour-->
     <color name="lightgreenlogo">#12A19B</color>
     <color name="darkgreenlogo">#027B72</color>
-    <color name="greentoastcolor">#4C994F</color>
-
+    <color name="greentoastcolor">#4B984E</color>
+    <color name="greenSuccesstoast">#3A873D</color>
+<!--    4C994F-->
 </resources>

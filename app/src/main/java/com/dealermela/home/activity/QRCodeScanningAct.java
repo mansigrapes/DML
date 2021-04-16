@@ -1,7 +1,5 @@
 package com.dealermela.home.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,7 +10,6 @@ import android.widget.Toast;
 import com.dealermela.DealerMelaBaseActivity;
 import com.dealermela.R;
 import com.dealermela.home.model.QrCodeResponse;
-import com.dealermela.listing_and_detail.activity.ListAct;
 import com.dealermela.listing_and_detail.activity.ProductDetailAct;
 import com.dealermela.retrofit.APIClientLaravel;
 import com.dealermela.retrofit.ApiInterface;

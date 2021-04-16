@@ -8,6 +8,7 @@ public final class AppConstants {
 
     public static final String BASE_URL = "http://203.112.156.41/dmlmage/index.php/";     //Live Server URL Changed On 18/02/2021
 //    public static final String BASE_URL = "http://203.112.156.63/dmlmage/index.php/";   // Test server URL Changed On 18/02/2021
+//    public static final String BASE_URL = "http://192.168.0.124/DML-Internal-Software-2.0/public/api/";   //set temp for check On 13/04/2021 set this in new project dmp appNew_Api
 
     public static final String BASE_URL_LARAVEL = "http://203.112.156.40/dmlsoftware/";      //Live server URL Changed on 05/03/2021
 //    public static final String BASE_URL_LARAVEL = "http://203.112.156.61/dmlsoftwaretest/public/";   //Test server URL Changed on 19/02/2021
@@ -22,7 +23,9 @@ public final class AppConstants {
 //    public static final String BASE_URL_LARAVEL = "http://203.112.144.109/dmlsoftwaretest/";   //OLD Test server
 
     public static final String INVENTORY_IMAGE = "http://203.112.144.7/dmlmage/media/catalog/product";
-    public static final String IMAGE_URL = "http://203.112.144.7/dmlmage/media/";
+
+    public static final String IMAGE_URL = "http://203.112.156.41/dmlmage/media/";    //New ImageUrl
+//      public static final String IMAGE_URL = "http://203.112.144.7/dmlmage/media/";
 
 //    public static final String IMAGE_URL = "http://www.diamondmela.com/media/";
 //    public static final String IMAGE_URL = "http://123.108.51.11/media/";

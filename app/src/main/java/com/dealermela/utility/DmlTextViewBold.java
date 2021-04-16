@@ -24,5 +24,4 @@ public class DmlTextViewBold extends androidx.appcompat.widget.AppCompatTextView
         Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/montserrat_bold.ttf");
         setTypeface(font, Typeface.NORMAL);
     }
-
 }

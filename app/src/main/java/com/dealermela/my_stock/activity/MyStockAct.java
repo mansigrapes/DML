@@ -1,7 +1,8 @@
 package com.dealermela.my_stock.activity;
 
-import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
+
+import com.dealermela.retrofit.ApiInterface;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,7 +21,6 @@ import com.dealermela.my_stock.adapter.MyStockRecyclerAdapter;
 import com.dealermela.my_stock.adapter.SortByMyStockRecyclerAdapter;
 import com.dealermela.my_stock.model.MyStockItem;
 import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.NetworkUtils;

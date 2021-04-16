@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.NetworkUtils;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
@@ -34,7 +35,6 @@ import com.dealermela.cart.model.CartLocalDataItem;
 import com.dealermela.cart.model.CartServerDataItem;
 import com.dealermela.dbhelper.DatabaseCartAdapter;
 import com.dealermela.retrofit.APIClient;
-import com.dealermela.retrofit.ApiInterface;
 import com.dealermela.util.AppConstants;
 import com.dealermela.util.AppLogger;
 import com.dealermela.util.CommonUtils;

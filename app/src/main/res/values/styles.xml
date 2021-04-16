@@ -187,7 +187,6 @@
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
         <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
         <item name="colorControlHighlight">#99000000</item>
-
     </style>
 
     <style name="yourstyle" parent="@style/Base.TextAppearance.AppCompat.Title">
@@ -589,7 +588,6 @@
         <item name="android:textSize">@dimen/twelve_sp</item>
     </style>
 
-
     <!--ORDER-->
     <style name="OrderCustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">12sp</item>
@@ -624,14 +622,12 @@
 
     </style>
 
-
     <style name="circle_text_drawer">
         <item name="android:gravity">center</item>
         <item name="android:textColor">?toolbarTextColor</item>
         <item name="android:background">@drawable/black_circle</item>
         <item name="android:textSize">10dp</item>
     </style>
-
 
     <!--ORDER SUMMERY-->
 
@@ -640,7 +636,6 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:lineSpacingExtra">@dimen/eight_sp</item>
     </style>
-
 
     <style name="order_lin">
         <item name="android:padding">@dimen/fifteen_sp</item>
@@ -664,7 +659,6 @@
     <style name="pop_product_image_tint">
         <item name="android:tint">?toolbarViewColor</item>
     </style>
-
 
     <style name="download_radio_btn">
         <item name="android:buttonTint">?toolbarTextColor</item>
@@ -690,12 +684,10 @@
         <item name="android:textColor">?toolbarTextColor</item>
     </style>
 
-
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">?toolbarViewColor</item>
         <item name="boxStrokeWidth">2dp</item>
     </style>
-
 
     <style name="progressBarColor" parent="@style/Theme.AppCompat">
         <item name="colorAccent">?toolbarTextColor</item>
@@ -704,7 +696,6 @@
     <style name="whiteprogressBarColor" parent="@style/Theme.AppCompat">
         <item name="colorAccent">@color/white</item>
     </style>
-
 
     <style name="check_box_radio">
         <item name="android:textColor">?toolbarTextColor</item>
@@ -731,7 +722,6 @@
     <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/white</item>
     </style>
-
 
     <style name="progressDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@color/white</item>

@@ -153,8 +153,7 @@
                 android:text="@string/country"
                 android:layout_marginStart="20sp"
                 android:layout_marginEnd="20sp"
-                style="@style/textStyleSignup"
-                />
+                style="@style/textStyleSignup" />
 
             <com.dealermela.utility.SearchableSpinner
                 android:id="@+id/spinnerCountry"

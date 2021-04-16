@@ -12,5 +12,4 @@ public class DmlImageView extends androidx.appcompat.widget.AppCompatImageView {
     public DmlImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
 }

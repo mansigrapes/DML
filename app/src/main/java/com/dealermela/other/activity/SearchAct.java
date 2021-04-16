@@ -2,7 +2,6 @@ package com.dealermela.other.activity;
 
 import android.content.Intent;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +34,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.dealermela.listing_and_detail.activity.FilterAct.filterFlag;
 import static com.dealermela.util.AppConstants.RESPONSE;
 
 public class SearchAct extends DealerMelaBaseActivity implements View.OnClickListener{
